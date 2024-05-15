@@ -1,7 +1,6 @@
-from Flask.models.persona import Persona
-class Docente(Persona): # Hereda de Persona
+from models.persona import Persona
+
+class Docente(Persona):
     def __init__(self):
-        super().__init__(Persona)  # Llama al constructor de la clase base (Persona)
+        super().__init__()
     
-    def __str__(self):
-        return f"Docente:"
