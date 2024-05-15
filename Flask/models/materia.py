@@ -29,22 +29,21 @@ class Materia:
     def _ciclo(self, value):
         self.__ciclo = value
 
+    @property
     def serializable(self):
         return {
-            "id": self.__id,
-            "nombre": self.__nombre,
-            "ciclo": self.__ciclo
+            "id": self._id,
+            "nombre": self._nombre,
+            "ciclo": self._ciclo
         }
     
-    def deserializar (self, data):
+    def deserialize(self, data):
         materia = Materia() 
-        self.__id = data["id"]
-        self.__nombre = data["nombre"]
-        self.__ciclo = data["ciclo"]
+        materia._id = data["id"]
+        materia._nombre = data["nombre"]
+        materia._ciclo = data["ciclo"]
         return materia
 
 
-#def de str con id y nombre
-    def __str__(self):
-        return f"{self.__id} - {self.__nombre}"
+
     

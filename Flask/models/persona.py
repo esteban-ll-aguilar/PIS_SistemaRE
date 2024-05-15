@@ -50,7 +50,25 @@ class Persona:
     def _cedula(self, value):
         self.__cedula = value
         
-    def __str__(self):
-        return f"{self.__nombre} - {self.__apellido}"
+        
+    @property
+    def serializable(self):
+        return {
+            "id": self.__id,
+            "nombre": self.__nombre,
+            "apellido": self.__apellido,
+            "cedula": self.__cedula,
+            "rol": self.__rol
+        }
+    def deserialize(self, data):
+        persona = Persona()
+        persona._id = data["id"]
+        persona._nombre = data["nombre"]
+        persona._apellido = data["apellido"]
+        persona._cedula = data["cedula"]
+        persona._rol = data["rol"]
+        return persona
+    
+    
 
         
