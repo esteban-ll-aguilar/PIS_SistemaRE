@@ -3,7 +3,7 @@ class Materia:
     def __init__(self):
         self.__id = 0
         self.__nombre = ""
-        #self.__ciclo = None
+        self.__ciclo = None
 
     @property
     def _id(self):
@@ -28,6 +28,20 @@ class Materia:
     @_ciclo.setter
     def _ciclo(self, value):
         self.__ciclo = value
+
+    def serializable(self):
+        return {
+            "id": self.__id,
+            "nombre": self.__nombre,
+            "ciclo": self.__ciclo
+        }
+    
+    def deserializar (self, data):
+        materia = Materia() 
+        self.__id = data["id"]
+        self.__nombre = data["nombre"]
+        self.__ciclo = data["ciclo"]
+        return materia
 
 
 #def de str con id y nombre
