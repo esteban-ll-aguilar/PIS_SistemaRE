@@ -1,12 +1,14 @@
-class DocenteControl:
-    def __init__(self):
-        self.__docente = None
+import Flask.controls.personaControl as PersonaControl
+import models.docente as Docente
 
-    def getDocente(self):
-        if self.__docente is None:
-            from models.docente import Docente
-            self.__docente = Docente()
-        return self.__docente
+class DocenteControl(PersonaControl):
+    def __init__(self):
+        super().__init__()
+
+    def getDocente(self) -> Docente:
+        if self._persona is None:
+            self._persona = Docente()
+        return self._persona
     
-    def setDocente(self, value):
-        self.__docente = value
+    def setDocente(self, value: Docente) -> None:
+        self._persona = value

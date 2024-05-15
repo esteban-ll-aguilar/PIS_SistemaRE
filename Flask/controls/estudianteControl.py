@@ -1,12 +1,14 @@
-class estudianControl:
+import Flask.controls.personaControl as PersonaControl
+import models.estudiante as Estudiante
+
+class estudianControl(PersonaControl):
     def __init__(self):
-        self.__estudiante = None
+        super().__init__()
     
-    def getEstudiante(self):
+    def getEstudiante(self) -> Estudiante:
         if self.__estudiante is None:
-            from models.estudiante import Estudiante
             self.__estudiante = Estudiante()
         return self.__estudiante
     
-    def setEstudiante(self, value):
+    def setEstudiante(self, value: Estudiante) -> None:
         self.__estudiante = value
