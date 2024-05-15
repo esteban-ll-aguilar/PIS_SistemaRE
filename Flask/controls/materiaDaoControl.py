@@ -1,4 +1,4 @@
-from controls.DAO.daoAdapter import DaoAdapter
+from controls.dao.daoAdapter import DaoAdapter
 from models.materia import Materia
 
 class MateriaDaoControl(DaoAdapter):
@@ -15,6 +15,7 @@ class MateriaDaoControl(DaoAdapter):
     @_materia.setter
     def _materia(self, value):
         self.__materia = value
+        
     
     @property
     def _lista(self):
@@ -22,6 +23,8 @@ class MateriaDaoControl(DaoAdapter):
     
     @property
     def save(self):
-        self._materia._id = self._lista._length + 1
-        self._save(self._materia)
+        self.__materia._id = self._lista._length + 1
+        print("Guardando Materia")
+        self._save(self.__materia)
+        
         
