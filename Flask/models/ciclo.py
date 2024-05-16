@@ -3,7 +3,7 @@
 class Ciclo:
     def __init__(self):
         self.__id = id
-        self.__nombre = ''
+        self.__ciclo = 0
         self.__paralelo = ''
 
 #                              GETTERS AND SETTERS
@@ -18,12 +18,12 @@ class Ciclo:
         self.__id = value
 
     @property
-    def _nombre(self):
-        return self.__nombre
+    def _ciclo(self):
+        return self.__ciclo
 
-    @_nombre.setter
-    def _nombre(self, value):
-        self.__nombre = value
+    @_ciclo.setter
+    def _ciclo(self, value):
+        self.__ciclo = value
 
     @property
     def _paralelo(self):
@@ -36,15 +36,15 @@ class Ciclo:
     @property 
     def serializable(self):
         return {
-            "id": self._id,
-            "nombre": self._nombre,
-            "paralelo": self._paralelo
+            "id": self.__id,
+            "cicloCu": self.__ciclo,
+            "paralelo": self.__paralelo
         }
     
     def deserialize(self, data):
         ciclo = Ciclo()
         ciclo._id = data["id"]
-        ciclo._nombre = data["nombre"]
+        ciclo._ciclo = data["cicloCu"]
         ciclo._paralelo = data["paralelo"]
         return ciclo
 
