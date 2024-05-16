@@ -49,15 +49,15 @@ class ExelDao:
             #guardar rol
             rol.save
             docente._docente._rol = rol._rol
-            cuenta._cuenta._correo = docentes[3]
+            cuenta._cuenta._correo = docentes[2]
             #guardar cuenta
             cuenta.save
             docente._docente._cuenta = cuenta._cuenta
             #guardar docente
             docente.save
-            materia._materia._nombre = docentes[4]
-            ciclo._ciclo._ciclo = docentes[5]
-            ciclo._ciclo._paralelo = docentes[6]
+            materia._materia._nombre = docentes[3]
+            ciclo._ciclo._ciclo = docentes[4]
+            ciclo._ciclo._paralelo = docentes[5]
             ciclo.save
             materia._materia._ciclo = ciclo._ciclo
             materia.save

@@ -2,7 +2,7 @@ class Cuenta:
     def __init__(self):
         self.__id = 0
         self.__clave = ""
-        self.__estado = bool
+        self.__estado = False
         self.__correo = ""
 
     @property

@@ -39,14 +39,14 @@ class Materia:
         return {
             "id": self.__id,
             "nombre": self.__nombre,
-            "ciclo": self.__ciclo.serializable
+            "ciclo": self._ciclo.serializable
         }
     
     def deserialize(self, data):
         materia = Materia() 
         materia._id = data["id"]
         materia._nombre = data["nombre"]
-        materia._ciclo = self.__ciclo.deserialize(data["ciclo"])
+        materia._ciclo = self._ciclo.deserialize(data["ciclo"])
         return materia
 
 
