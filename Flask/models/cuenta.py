@@ -36,5 +36,22 @@ class Cuenta:
     @_correo.setter
     def _correo(self, value):
         self.correo = value
+        
+    @property
+    def serializable(self):
+        return {
+            "id": self.id,
+            "clave": self.clave,
+            "estado": self.estado,
+            "correo": self.correo
+        }
+    
+    def deserialize(self, data):
+        cuenta = Cuenta()
+        cuenta._id = data["id"]
+        cuenta._clave = data["clave"]
+        cuenta._estado = data["estado"]
+        cuenta._correo = data["correo"]
+        return cuenta
 
     
