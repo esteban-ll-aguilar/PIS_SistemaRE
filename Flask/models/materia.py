@@ -23,6 +23,11 @@ class Materia:
 
     @property
     def _ciclo(self):
+        if self.__ciclo is None:
+            """ from controls.cicloDaoContol import CicloDaoControl
+            self.__ciclo = CicloDaoControl() """
+            from models.ciclo import Ciclo
+            self.__ciclo = Ciclo()
         return self.__ciclo
 
     @_ciclo.setter
@@ -32,16 +37,16 @@ class Materia:
     @property
     def serializable(self):
         return {
-            "id": self._id,
-            "nombre": self._nombre,
-            "ciclo": self._ciclo
+            "id": self.__id,
+            "nombre": self.__nombre,
+            "ciclo": self._ciclo.serializable
         }
     
     def deserialize(self, data):
         materia = Materia() 
         materia._id = data["id"]
         materia._nombre = data["nombre"]
-        materia._ciclo = data["ciclo"]
+        materia._ciclo = self._ciclo.deserialize(data["ciclo"])
         return materia
 
 
