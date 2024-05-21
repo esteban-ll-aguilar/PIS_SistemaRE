@@ -41,10 +41,10 @@ class Cuenta:
     @property
     def serializable(self):
         return {
-            "id": self.__id,
-            "clave": self.__clave,
-            "estado": self.__estado,
-            "correo": self.__correo
+            "id": self._id,
+            "clave": self._clave,
+            "estado": self._estado,
+            "correo": self._correo
         }
     
     def deserialize(self, data):
