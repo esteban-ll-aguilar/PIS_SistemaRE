@@ -1,5 +1,5 @@
 from controls.asignacionDocenteDaoControl import AsignacionDocenteDao
-from funtions.readDocentesExel import ReadDocentesExel
+from functions.readDocentesExel import ReadDocentesExel
 class ExelDao:
     def __init__(self):
         self.__readExel = None

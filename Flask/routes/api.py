@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template
-from funtions.readDocentesExel import ReadDocentesExel
+from functions.readDocentesExel import ReadDocentesExel
 from flask_cors import CORS
 import os
 api = Blueprint('api', __name__)
