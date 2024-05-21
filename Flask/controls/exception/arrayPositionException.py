@@ -1,0 +1,2 @@
+class ArrayPositionException(Exception):
+    pass

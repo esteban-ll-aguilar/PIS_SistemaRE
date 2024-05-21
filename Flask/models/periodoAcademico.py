@@ -1,7 +1,7 @@
-class Rol:
+class PeridoAcademico:
     def __init__(self):
-        self.__id = 0
-        self.__nombre = ""
+        self.__id = id
+        self.__nombre = ''
 
     @property
     def _id(self):
@@ -20,17 +20,16 @@ class Rol:
         self.__nombre = value
         
     @property
-    def serializable(self):
+    def serialize(self):
         return {
             "id": self._id,
             "nombre": self._nombre
         }
-    
+        
     def deserialize(self, data):
-        rol = Rol()
-        rol._id = data["id"]
-        rol._nombre = data["nombre"]
-        return rol
+        periodoAcademico = PeridoAcademico()
+        periodoAcademico._id = data['id']
+        periodoAcademico._nombre = data['nombre']
+        return periodoAcademico
 
         
-    
