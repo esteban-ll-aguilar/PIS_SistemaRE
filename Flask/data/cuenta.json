@@ -1,1 +1,26 @@
-[{"id": 1, "clave": "", "estado": false, "correo": "mecueva@unl.edu.ec"},{"id": 2, "clave": "", "estado": false, "correo": "jose.o.guaman@unl.edu.ec"},{"id": 3, "clave": "", "estado": false, "correo": "vherrera@unl.edu.ec"},{"id": 4, "clave": "", "estado": false, "correo": "vherrera@unl.edu.ec"}]
+[
+    {
+        "id": 1,
+        "clave": "",
+        "estado": false,
+        "correo": "mecueva@unl.edu.ec"
+    },
+    {
+        "id": 2,
+        "clave": "",
+        "estado": false,
+        "correo": "jose.o.guaman@unl.edu.ec"
+    },
+    {
+        "id": 3,
+        "clave": "",
+        "estado": false,
+        "correo": "vherrera@unl.edu.ec"
+    },
+    {
+        "id": 4,
+        "clave": "",
+        "estado": false,
+        "correo": "vherrera@unl.edu.ec"
+    }
+]

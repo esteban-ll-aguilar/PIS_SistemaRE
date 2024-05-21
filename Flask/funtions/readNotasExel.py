@@ -5,7 +5,7 @@ from controls.exception.exelException import CicloNoExisteException
 class ReadNotasExel():
     def __init__(self, archivo=r'C:\Users\esteb\OneDrive\Escritorio\Estudios_Esteban\3-Ciclo\PIS\Formato_Notas_SRE.xlsx', unidad=1):
         self.__archivo = archivo
-        if unidad == 0 or unidad > 3: return 'No existe esa unidad'
+        if unidad < 1 or unidad > 3: return 'No existe esa unidad'
         self.__unidad = unidad -1
 
     @property

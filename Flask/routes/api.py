@@ -18,6 +18,9 @@ def upload_file_docente():
     rd = ReadDocentesExel(archivo=f)
     print(rd.readExel)
     return jsonify({"message": "Archivo subido correctamente"})
-    
+
+@api.route('/')
+def index():
+    return render_template('index.html')
 
 
