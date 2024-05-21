@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, make_response, request
+from flask import Blueprint, request, jsonify, render_template
 from funtions.readDocentesExel import ReadDocentesExel
 from flask_cors import CORS
 import os
