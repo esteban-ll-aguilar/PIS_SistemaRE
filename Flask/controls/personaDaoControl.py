@@ -1,5 +1,5 @@
 from models.persona import Persona
-from controls.dao.daoAdapter import DaoAdapter
+from controls.DAO.daoAdapter import DaoAdapter
 
 class PersonaDaoControl(DaoAdapter):
     def __init__(self):
