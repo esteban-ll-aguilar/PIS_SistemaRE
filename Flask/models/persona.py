@@ -7,6 +7,7 @@ class Persona:
         self.__rolId = 0
         self.__cuentaId = 0
         self.__isActivo = True
+<<<<<<< HEAD
 
 
     @property
@@ -36,6 +37,32 @@ class Persona:
             self.__rolId = Rol() """
         return self.__rolId
 
+=======
+
+
+    @property
+    def _isActivo(self):
+        return self.__isActivo
+
+    @_isActivo.setter
+    def _isActivo(self, value):
+        self.__isActivo = value
+
+    @property
+    def _cuentaId(self):
+        return self.__cuentaId
+
+    @_cuentaId.setter
+    def _cuentaId(self, value):
+        self.__cuentaId = value
+
+
+    @property
+    def _rolId(self):
+
+        return self.__rolId
+
+>>>>>>> main
     @_rolId.setter
     def _rolId(self, value):
         self.__rolId = value

@@ -1,7 +1,7 @@
 class Rol:
     def __init__(self):
         self.__id = 0
-        self.__nombre = ""
+        self.__nombreRol = ""
 
     @property
     def _id(self):
@@ -12,24 +12,24 @@ class Rol:
         self.__id = value
 
     @property
-    def _nombre(self):
-        return self.__nombre
+    def _nombreRol(self):
+        return self.__nombreRol
 
-    @_nombre.setter
-    def _nombre(self, value):
-        self.__nombre = value
+    @_nombreRol.setter
+    def _nombreRol(self, value):
+        self.__nombreRol = value
         
     @property
     def serializable(self):
         return {
             "id": self._id,
-            "nombre": self._nombre
+            "nombreRol": self._nombreRol
         }
     
     def deserialize(self, data):
         rol = Rol()
         rol._id = data["id"]
-        rol._nombre = data["nombre"]
+        rol._nombreRol = data["nombre"]
         return rol
 
         

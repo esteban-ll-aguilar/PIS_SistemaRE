@@ -1,5 +1,5 @@
 from controls.exception.exelException import CicloNoExisteException
-import pandas as pd
+import pandas as pd # type: ignore
 import numpy as np
 import enum
 class ReadDocentesExel:
