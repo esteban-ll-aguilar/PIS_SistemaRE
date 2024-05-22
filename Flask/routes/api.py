@@ -1,5 +1,5 @@
-from flask import Blueprint, request, jsonify, render_template
-from functions.readDocentesExel import ReadDocentesExel
+from flask import Blueprint, jsonify, make_response, request
+from Flask.funtions.readExel import ReadDocentesExel
 from flask_cors import CORS
 import os
 api = Blueprint('api', __name__)
@@ -18,9 +18,6 @@ def upload_file_docente():
     rd = ReadDocentesExel(archivo=f)
     print(rd.readExel)
     return jsonify({"message": "Archivo subido correctamente"})
-
-@api.route('/')
-def index():
-    return render_template('index.html')
+    
 
 
