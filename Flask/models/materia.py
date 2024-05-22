@@ -2,7 +2,7 @@ class Materia:
     #la materia tiene un id y un nombre y una clase ciclo
     def __init__(self):
         self.__id = 0
-        self.__nombre = ""
+        self.__nombreMateria = ""
         self.__cicloId = ''
 
     @property
@@ -14,34 +14,37 @@ class Materia:
         self.__id = value
 
     @property
-    def _nombre(self):
-        return self.__nombre
+    def _nombreMateria(self):
+        return self.__nombreMateria
 
-    @_nombre.setter
-    def _nombre(self, value):
-        self.__nombre = value
+    @_nombreMateria.setter
+    def _nombreMateria(self, value):
+        self.__nombreMateria = value
 
     @property
-    def _ciclo(self):
-        return self.__ciclo
+    def _cicloId(self):
+        return self.__cicloId
 
-    @_ciclo.setter
-    def _ciclo(self, value):
-        self.__ciclo = value
+    @_cicloId.setter
+    def _cicloId(self, value):
+        self.__cicloId = value
+
+
 
     @property
     def serializable(self):
         return {
             "id": self._id,
-            "nombre": self._nombre,
-            "ciclo": self._ciclo
+            "nombre": self._nombreMateria,
+            "cicloId": self._cicloId
+            
         }
     
     def deserialize(self, data):
         materia = Materia() 
         materia._id = data["id"]
-        materia._nombre = data["nombre"]
-        materia._ciclo = data["ciclo"]
+        materia._nombreMateria = data["nombre"]
+        materia._cicloId = data["cicloId"]
         return materia
 
 

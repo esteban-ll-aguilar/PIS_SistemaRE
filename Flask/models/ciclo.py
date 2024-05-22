@@ -37,14 +37,14 @@ class Ciclo:
     def serializable(self):
         return {
             "id": self._id,
-            "cicloCu": self._ciclo,
+            "ciclo": self._ciclo,
             "paralelo": self._paralelo
         }
     
     def deserialize(self, data):
         ciclo = Ciclo()
         ciclo._id = data["id"]
-        ciclo._ciclo = data["cicloCu"]
+        ciclo._ciclo = data["ciclo"]
         ciclo._paralelo = data["paralelo"]
         return ciclo
 
