@@ -1,5 +1,5 @@
 from models.estudiante import Estudiante
-from controls.DAO.daoAdapter import DaoAdapter
+from controls.dao.daoAdapter import DaoAdapter
 
 class EstudianteDaoControl(DaoAdapter):
     def __init__(self):
