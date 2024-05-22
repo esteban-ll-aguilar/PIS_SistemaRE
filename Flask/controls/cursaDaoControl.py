@@ -1,13 +1,21 @@
+<<<<<<< HEAD
+from controls.dao.daoAdapter import DaoAdapter
+=======
 from controls.exception.arrayPositionException import ArrayPositionException
 from controls.exception.linkedListExeption import LinkedEmptyException, ArrayPositionException
 from controls.DAO.daoAdapter import DaoAdapter
+>>>>>>> main
 from models.cursa import Cursa
 
 class CursaDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(Cursa)
         self.__cursa = None
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> main
     @property
     def _cursa(self):
         if self.__cursa is None:
@@ -18,7 +26,10 @@ class CursaDaoControl(DaoAdapter):
     def _cursa(self, value):
         self.__cursa = value
         
+<<<<<<< HEAD
+=======
     
+>>>>>>> main
     @property
     def _lista(self):
         return self._list()

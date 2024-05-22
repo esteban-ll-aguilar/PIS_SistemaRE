@@ -7,6 +7,37 @@ class Persona:
         self.__rolId = 0
         self.__cuentaId = 0
         self.__isActivo = True
+<<<<<<< HEAD
+
+
+    @property
+    def _isActivo(self):
+        return self.__isActivo
+
+    @_isActivo.setter
+    def _isActivo(self, value):
+        self.__isActivo = value
+
+    @property
+    def _cuentaId(self):
+        """ if self.__cuentaId is None:
+            from models.cuenta import Cuenta
+            self.__cuentaId = Cuenta() """
+        return self.__cuentaId
+
+    @_cuentaId.setter
+    def _cuenta(self, value):
+        self.__cuentaId = value
+
+
+    @property
+    def _rolId(self):
+        """ if self.__rolId is None:
+            from models.rol import Rol
+            self.__rolId = Rol() """
+        return self.__rolId
+
+=======
 
 
     @property
@@ -31,6 +62,7 @@ class Persona:
 
         return self.__rolId
 
+>>>>>>> main
     @_rolId.setter
     def _rolId(self, value):
         self.__rolId = value

@@ -36,9 +36,9 @@ class Ciclo:
     @property 
     def serializable(self):
         return {
-            "id": self.__id,
-            "cicloCu": self.__ciclo,
-            "paralelo": self.__paralelo
+            "id": self._id,
+            "cicloCu": self._ciclo,
+            "paralelo": self._paralelo
         }
     
     def deserialize(self, data):
