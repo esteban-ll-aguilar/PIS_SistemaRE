@@ -119,6 +119,7 @@ class Linked_List(object):
     
     
     def detele(self, pos):
+        pos = pos 
         if self.isEmpty:
             raise LinkedEmptyException("List is Empty")
         elif pos < 0 or pos >= self._length:
@@ -126,18 +127,68 @@ class Linked_List(object):
         elif pos == 0:
             self.__head = self.__head._next
             self.__length -= 1
+            
         elif pos == self._length -1:
-            node = self.getNode(pos-1)
-            node._next = None
-            self.__last = node
+            self.__last = self.getNode(pos-1)
+            #restarId
             self.__length -= 1
         else:
             node_preview = self.getNode(pos-1)
             node_last = node_preview._next._next
             node_preview._next = node_last
             self.__length -= 1
+            
+        for i in range(pos, self._length):
+            self.getNode(i)._data._id = i+1
 
+
+
+
+
+
+    def _filter(self, data):
+        out = []
+        if self.isEmpty:
+            out = "List is Empty"
+        else:
+            node = self.__head
+            for i in range(0, self._length):
+                
+                if hasattr(node._data, '_clienteId') and node._data._clienteId == data:
+                    out.append(node._data.serialize)
+                if hasattr(node._data, '_cedula') and node._data._cedula == data:
+                    out.append(node._data.serialize)
+                elif hasattr(node._data, '_NComprobante') and node._data._NComprobante == data:
+                    out.append(node._data.serialize)
+                node = node._next
+        return out
     
+    
+    
+    
+    def __exist__(self, data, paralelo=None):
+        node = self.__head
+        for i in range(0, self._length):
+            if hasattr(node._data, '_cedula') and node._data._cedula == data:
+                print('Ya existe un nodo con este dato (cedula)')
+                return True, node._data._id
+            elif hasattr(node._data, '_ciclo') and node._data._ciclo == data and  hasattr(node._data, '_paralelo') and node._data._paralelo == paralelo:
+                return True, node._data._id
+            elif hasattr(node._data, '_correo') and node._data._correo == data:
+                print('Ya existe un nodo con este dato (unidadId)')
+                return True, node._data._id
+            elif hasattr(node._data, '_nombreRol') and node._data._nombreRol == data:
+                print('Ya existe un nodo con este dato (unidadId)')
+                return True, node._data._id
+            elif hasattr(node._data, '_nombrePeriodoAcademico') and node._data._nombrePeriodoAcademico == data:
+                print('Ya existe un nodo con este dato (unidadId)')
+                return True, node._data._id
+            elif hasattr(node._data, '_nombreMateria') and node._data._nombreMateria == data:
+                print('Ya existe un nodo con este dato (unidadId)')
+                return True, node._data._id
+            
+            node = node._next
+        return False, None
 
         
     
