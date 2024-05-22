@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, make_response, request
+from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 
 from flask_cors import CORS
@@ -8,13 +8,10 @@ api = Blueprint('api', __name__)
 #get para presentar los datos
 #post para enviar los datos, modificar y iniciar sesion
 
-ALLOWED_EXTENSIONS = {'xlsx'}
- 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
-
+@api.route('/')
+def home():
+    return render_template('login.html')
 
 @api.route('/exel_docente', methods=['POST'])
 def upload_file_docente():
