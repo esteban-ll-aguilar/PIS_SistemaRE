@@ -166,18 +166,30 @@ class Linked_List(object):
     
     
     
-    def __exist__(self, data):
+    def __exist__(self, data, paralelo=None):
         node = self.__head
         for i in range(0, self._length):
-            print(node._data)
-            if hasattr(node._data, '_dni') and node._data._dni == data:
-                print('Ya existe un nodo con este dato (_dni)')
-                return True
-            elif hasattr(node._data, '_NComprobante') and node._data._NComprobante == data:
-                print('Ya existe un nodo con este dato (_NComprobante)')
-                return True
+            if hasattr(node._data, '_cedula') and node._data._cedula == data:
+                print('Ya existe un nodo con este dato (cedula)')
+                return True, node._data._id
+            elif hasattr(node._data, '_ciclo') and node._data._ciclo == data and  hasattr(node._data, '_paralelo') and node._data._paralelo == paralelo:
+                print('Ya existe un nodo con este dato (ciclo y paralelo)')
+                return True, node._data._id
+            elif hasattr(node._data, '_correo') and node._data._correo == data:
+                print('Ya existe un nodo con este dato (correo)')
+                return True, node._data._id
+            elif hasattr(node._data, '_nombreRol') and node._data._nombreRol == data:
+                print('Ya existe un nodo con este dato (rol)')
+                return True, node._data._id
+            elif hasattr(node._data, '_nombrePeriodoAcademico') and node._data._nombrePeriodoAcademico == data:
+                print('Ya existe un nodo con este dato (peroodoAcademico)')
+                return True, node._data._id
+            elif hasattr(node._data, '_nombreMateria') and node._data._nombreMateria == data:
+                print('Ya existe un nodo con este dato (maretia)')
+                return True, node._data._id
+            
             node = node._next
-        return False
+        return False, None
 
         
     

@@ -17,11 +17,12 @@ class PeriodoAcademicoDaoControl(DaoAdapter):
         self.__periodoAcademico = value
         
     
-        @property
-        def _lista(self):
-            return self._list()
+    @property
+    def _lista(self):
+        return self._list()
         
-        def save(self):
-            self.__periodoAcademico._id = self._lista._length + 1
-            print("Guardando PeriodoAcademico")
-            self._save(self.__periodoAcademico)
+    @property    
+    def save(self):
+        self.__periodoAcademico._id = self._lista._length + 1
+        print("Guardando PeriodoAcademico")
+        self._save(self.__periodoAcademico)

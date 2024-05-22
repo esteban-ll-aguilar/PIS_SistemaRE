@@ -47,12 +47,14 @@ class Cuenta:
             "correo": self._correo
         }
     
+    
     def deserialize(self, data):
         cuenta = Cuenta()
         cuenta._id = data["id"]
         cuenta._clave = data["clave"]
         cuenta._estado = data["estado"]
         cuenta._correo = data["correo"]
-        return cuenta
+
+        return cuenta 
 
     

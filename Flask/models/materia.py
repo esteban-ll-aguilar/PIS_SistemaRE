@@ -5,6 +5,7 @@ class Materia:
         self.__nombreMateria = ""
         self.__cicloId = ''
 
+    
     @property
     def _id(self):
         return self.__id
@@ -46,7 +47,6 @@ class Materia:
         materia._nombreMateria = data["nombre"]
         materia._cicloId = data["cicloId"]
         return materia
-
 
 
     

@@ -1,7 +1,17 @@
 class PeridoAcademico:
     def __init__(self):
         self.__id = id
-        self.__nombre = ''
+        self.__nombrePeriodoAcademico = ''
+
+    @property
+    def _nombrePeriodoAcademico(self):
+        return self.__nombrePeriodoAcademico
+
+    @_nombrePeriodoAcademico.setter
+    def _nombrePeriodoAcademico(self, value):
+        self.__nombrePeriodoAcademico = value
+
+        
 
     @property
     def _id(self):
@@ -11,25 +21,18 @@ class PeridoAcademico:
     def _id(self, value):
         self.__id = value
 
-    @property
-    def _nombre(self):
-        return self.__nombre
-
-    @_nombre.setter
-    def _nombre(self, value):
-        self.__nombre = value
         
     @property
-    def serialize(self):
+    def serializable(self):
         return {
             "id": self._id,
-            "nombre": self._nombre
+            "nombrePeriodoAcademico": self._nombrePeriodoAcademico
         }
         
     def deserialize(self, data):
         periodoAcademico = PeridoAcademico()
         periodoAcademico._id = data['id']
-        periodoAcademico._nombre = data['nombre']
+        periodoAcademico._nombrePeriodoAcademico = data['nombrePeriodoAcademico']
         return periodoAcademico
 
         

@@ -37,6 +37,7 @@ class Unidad:
             "rubricaCalificacionId": self._rubricaCalificacionId
         }
     
+    
     def deserialize(self, data):
         unidad = Unidad()
         unidad._id = data["id"]

@@ -1,12 +1,12 @@
 from controls.asignacionDocenteDaoControl import AsignacionDocenteDaoControl
-from controls.funtions.exelDaoAdapter import ExelDaoAdapter
+from controls.functions.exelDaoAdapter import ExelDaoAdapter
 from controls.materiaDaoControl import MateriaDaoControl
 from controls.docenteDaoControl import DocenteDaoControl
 from controls.cuentaControlDao import CuentaDaoControl
 from controls.cicloDaoContol import CicloDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
 
-class ExelDocentes(ExelDaoAdapter):
+class ExelDocentesAsignate(ExelDaoAdapter):
     def __init__(self, file_path: str):
         super().__init__(AsignacionDocenteDaoControl, file_path)
         self.__asignacionDocente = None

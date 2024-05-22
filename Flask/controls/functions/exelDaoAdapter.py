@@ -13,6 +13,8 @@ class ExelDaoAdapter(Generic[T]):
         self.atype = atype
         self.file = atype.__name__.lower() + ".json"
         self.URL = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "/data/"
+        print('Url: '+self.URL)
+        print('Clase: '+self.file)
     
 
 

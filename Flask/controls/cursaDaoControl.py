@@ -5,7 +5,6 @@ class CursaDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(Cursa)
         self.__cursa = None
-        
     @property
     def _cursa(self):
         if self.__cursa is None:
@@ -16,6 +15,7 @@ class CursaDaoControl(DaoAdapter):
     def _cursa(self, value):
         self.__cursa = value
         
+    
     @property
     def _lista(self):
         return self._list()
