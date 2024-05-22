@@ -1,1 +1,18 @@
-[{"id": 1, "nombre": "Docente"},{"id": 2, "nombre": "Docente"},{"id": 3, "nombre": "Docente"},{"id": 4, "nombre": "Docente"}]
+[
+    {
+        "id": 1,
+        "nombre": "Docente"
+    },
+    {
+        "id": 2,
+        "nombre": "Docente"
+    },
+    {
+        "id": 3,
+        "nombre": "Docente"
+    },
+    {
+        "id": 4,
+        "nombre": "Docente"
+    }
+]
