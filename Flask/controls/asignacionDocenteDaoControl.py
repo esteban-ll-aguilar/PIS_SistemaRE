@@ -1,6 +1,6 @@
-from controls.DAO.daoAdapter import DaoAdapter
+from controls.dao.daoAdapter import DaoAdapter
 from models.asignacionDocente import AsignacionDocente
-class AsignacionDocenteDao(DaoAdapter):
+class AsignacionDocenteDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(AsignacionDocente)
         self.__asignacionDocente = None
