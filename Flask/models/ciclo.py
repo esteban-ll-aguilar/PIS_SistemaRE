@@ -1,11 +1,10 @@
 # esta clase presenta una relacion con la clase materia
 
 class Ciclo:
-        
-    def __init__(self, id, nombre, paralelo):
+    def __init__(self):
         self.__id = id
-        self.__nombre = nombre
-        self.__paralelo = paralelo
+        self.__ciclo = 0
+        self.__paralelo = ''
 
 #                              GETTERS AND SETTERS
 #/////////////////////////////////////////////////////////////////////////////
@@ -19,12 +18,12 @@ class Ciclo:
         self.__id = value
 
     @property
-    def _nombre(self):
-        return self.__nombre
+    def _ciclo(self):
+        return self.__ciclo
 
-    @_nombre.setter
-    def _nombre(self, value):
-        self.__nombre = value
+    @_ciclo.setter
+    def _ciclo(self, value):
+        self.__ciclo = value
 
     @property
     def _paralelo(self):
@@ -33,6 +32,21 @@ class Ciclo:
     @_paralelo.setter
     def _paralelo(self, value):
         self.__paralelo = value
+        
+    @property 
+    def serializable(self):
+        return {
+            "id": self.__id,
+            "cicloCu": self.__ciclo,
+            "paralelo": self.__paralelo
+        }
+    
+    def deserialize(self, data):
+        ciclo = Ciclo()
+        ciclo._id = data["id"]
+        ciclo._ciclo = data["cicloCu"]
+        ciclo._paralelo = data["paralelo"]
+        return ciclo
 
 #////////////////////////////////////////////////////////////////////////////
 

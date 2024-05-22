@@ -1,0 +1,2 @@
+class CicloNoExisteException(Exception):
+    pass

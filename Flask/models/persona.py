@@ -5,6 +5,19 @@ class Persona:
         self.__apellido = ""
         self.__cedula = ""
         self.__rol = None
+        self.__cuenta = None
+
+    @property
+    def _cuenta(self):
+        if self.__cuenta is None:
+            from models.cuenta import Cuenta
+            self.__cuenta = Cuenta()
+        return self.__cuenta
+
+    @_cuenta.setter
+    def _cuenta(self, value):
+        self.__cuenta = value
+
 
     @property
     def _rol(self):
@@ -50,7 +63,27 @@ class Persona:
     def _cedula(self, value):
         self.__cedula = value
         
-    def __str__(self):
-        return f"{self.__nombre} - {self.__apellido}"
+        
+    @property
+    def serializable(self):
+        return {
+            "id": self._id,
+            "nombre": self._nombre,
+            "apellido": self._apellido,
+            "cedula": self._cedula,
+            "rol": self._rol.serializable,
+            "cuenta": self.__cuenta.serializable
+        }
+    def deserialize(self, data):
+        persona = Persona()
+        persona._id = data["id"]
+        persona._nombre = data["nombre"]
+        persona._apellido = data["apellido"]
+        persona._cedula = data["cedula"]
+        persona._rol = self._rol.deserialize(data["rol"])
+        persona._cuenta = self._cuenta.deserialize(data["cuenta"])
+        return persona
+    
+    
 
         
