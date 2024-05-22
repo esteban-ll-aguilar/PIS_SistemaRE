@@ -4,7 +4,6 @@ class AsignacionDocente:
         self.__cedulaId = 0
         self.__periodoAcademicoId = 0
         self.__unidadId = 0
-<<<<<<< HEAD
         self.__materiaId = 0
 
     @property
@@ -15,9 +14,6 @@ class AsignacionDocente:
     def _materiaId(self, value):
         self.__materiaId = value
 
-=======
-        self.__materia = 0
->>>>>>> main
 
     @property
     def _id(self):
@@ -34,7 +30,6 @@ class AsignacionDocente:
     @_cedulaId.setter
     def _cedulaId(self, value):
         self.__cedulaId = value
-<<<<<<< HEAD
 
     @property
     def _periodoAcademicoId(self):
@@ -51,33 +46,6 @@ class AsignacionDocente:
     @_unidadId.setter
     def _unidadId(self, value):
         self.__unidadId = value
-=======
-
-    @property
-    def _periodoAcademicoId(self):
-        return self.__periodoAcademicoId
-
-    @_periodoAcademicoId.setter
-    def _periodoAcademicoId(self, value):
-        self.__periodoAcademicoId = value
-
-    @property
-    def _unidadId(self):
-        return self.__unidadId
-
-    @_unidadId.setter
-    def _unidadId(self, value):
-        self.__unidadId = value
-
-    @property
-    def _materia(self):
-        return self.__materia
-
-    @_materia.setter
-    def _materia(self, value):
-        self.__materia = value
-
->>>>>>> main
 
     
     @property
@@ -87,11 +55,7 @@ class AsignacionDocente:
             "cedulaId": self._cedulaId,
             "periodoAcademicoId": self._periodoAcademicoId,
             "unidadId": self._unidadId,
-<<<<<<< HEAD
             "materiaId": self._materiaId
-=======
-            "materia": self._materia
->>>>>>> main
         }
     
     def deserialize(self, data):
@@ -100,10 +64,6 @@ class AsignacionDocente:
         docente._cedulaId = data["cedulaId"]
         docente._periodoAcademicoId = data["periodoAcademicoId"]
         docente._unidadId = data["unidadId"]
-<<<<<<< HEAD
         docente._materiaId = data["materiaId"]
-=======
-        docente._materia = data["materia"]
->>>>>>> main
         return docente
     

@@ -19,10 +19,22 @@ function App() {
     const data = await response.json();
     console.log(data);
   }
-return (
-    <div className="App">
-      <input type="file" accept='.xlsx' onChange={handleFileChange} />
-      <button onClick={handleSubmit}>Submit</button>
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-full max-w-md">
+        <input 
+          type="file" 
+          accept='.xlsx' 
+          onChange={handleFileChange} 
+          className="mb-4 border rounded-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+        <button 
+          onClick={handleSubmit} 
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Enviar
+        </button>
+      </div>
     </div>
   );
 

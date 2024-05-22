@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, make_response, request
-from Flask.funtions.readExel import ReadDocentesExel
+from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
+
 from flask_cors import CORS
 import os
 api = Blueprint('api', __name__)
@@ -19,8 +20,13 @@ def allowed_file(filename):
 def upload_file_docente():
     
     f = request.files['file'] 
-    rd = ReadDocentesExel(archivo=f)
-    print(rd.readExel)
+    EDA = ExelDocentesAsignate(f)
+    try:
+        EDA.saveExel
+        EDA.asignarDocente
+    except Exception as e:
+        print('Error: '+str(e))
+        return jsonify({"message": "Error al subir el archivo"})
     return jsonify({"message": "Archivo subido correctamente"})
     
 
