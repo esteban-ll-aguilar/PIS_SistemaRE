@@ -7,7 +7,7 @@ class Cursa:
         self.__id = ''
         self.__estudiante = None
         self.__asignacionDocente = None
-        self.__periodoAcademico = '12-20-24'
+        self.__periodoAcademicoId = 0
 
     @property
     def _id(self):
@@ -19,8 +19,6 @@ class Cursa:
 
     @property
     def _estudiante(self):
-        if self.__estudiante is None:
-            self.__estudiante = Estudiante()
         return self.__estudiante
 
     @_estudiante.setter
@@ -29,8 +27,6 @@ class Cursa:
 
     @property
     def _asignacionDocente(self):
-        if self.__asignacionDocente is None:
-            self.__asignacionDocente = AsignacionDocente()
         return self.__asignacionDocente
 
     @_asignacionDocente.setter
@@ -38,22 +34,23 @@ class Cursa:
         self.__asignacionDocente = value
 
     @property
-    def _periodoAcademico(self):
-        if self.__periodoAcademico is None:
-            self.__periodoAcademico = '12-20-24'
-        return self.__periodoAcademico
+    def _periodoAcademicoId(self):
+        return self.__periodoAcademicoId
 
-    @_periodoAcademico.setter
-    def _periodoAcademico(self, value):
-        self.__periodoAcademico = value
+    @_periodoAcademicoId.setter
+    def _periodoAcademicoId(self, value):
+        self.__periodoAcademicoId = value
+
+
+    
         
     @property
     def serialize(self):
         return {
-            'id': self._id,
-            'estudiante': self._estudiante,
-            'asignacionDocente': self._asignacionDocente,
-            'periodoAcademico': self._periodoAcademico
+            "id": self._id,
+            "estudiante": self._estudiante,
+            "asignacionDocente": self._asignacionDocente,
+            "periodoAcademico": self._periodoAcademicoId   
         }
         
     def deserialize(self, data):
@@ -61,7 +58,7 @@ class Cursa:
         cursa._id = data['id']
         cursa._estudiante = data['estudiante']
         cursa._asignacionDocente = data['asignacionDocente']
-        cursa._periodoAcademico = data['periodoAcademico']
+        cursa._periodoAcademicoId = data['periodoAcademico']
         return cursa
 
         

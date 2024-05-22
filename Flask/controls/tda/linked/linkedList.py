@@ -166,6 +166,7 @@ class Linked_List(object):
     
     
     
+<<<<<<< HEAD
     def __exist__(self, data, paralelo=None):
         node = self.__head
         for i in range(0, self._length):
@@ -189,6 +190,20 @@ class Linked_List(object):
             
             node = node._next
         return False, None
+=======
+    def __exist__(self, data):
+        node = self.__head
+        for i in range(0, self._length):
+            print(node._data)
+            if hasattr(node._data, '_dni') and node._data._dni == data:
+                print('Ya existe un nodo con este dato (_dni)')
+                return True
+            elif hasattr(node._data, '_NComprobante') and node._data._NComprobante == data:
+                print('Ya existe un nodo con este dato (_NComprobante)')
+                return True
+            node = node._next
+        return False
+>>>>>>> main
 
         
     

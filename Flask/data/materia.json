@@ -1,1 +1,38 @@
-[{"id": 1, "nombre": "SISTEMAS OPERATIVOS - REDES", "ciclo": {"id": 1, "cicloCu": 12, "paralelo": "A"}},{"id": 2, "nombre": "PROGRAMACION WEB Y MOVIL", "ciclo": {"id": 2, "cicloCu": 12, "paralelo": "A"}},{"id": 3, "nombre": "METODOLOGIA DE LA INVESTIGACION", "ciclo": {"id": 3, "cicloCu": 12, "paralelo": "A"}},{"id": 4, "nombre": "EX\u00c1MEN COMPLEXIVO", "ciclo": {"id": 4, "cicloCu": 12, "paralelo": "A"}}]
+[
+    {
+        "id": 1,
+        "nombre": "SISTEMAS OPERATIVOS - REDES",
+        "ciclo": {
+            "id": 1,
+            "cicloCu": 12,
+            "paralelo": "A"
+        }
+    },
+    {
+        "id": 2,
+        "nombre": "PROGRAMACION WEB Y MOVIL",
+        "ciclo": {
+            "id": 2,
+            "cicloCu": 12,
+            "paralelo": "A"
+        }
+    },
+    {
+        "id": 3,
+        "nombre": "METODOLOGIA DE LA INVESTIGACION",
+        "ciclo": {
+            "id": 3,
+            "cicloCu": 12,
+            "paralelo": "A"
+        }
+    },
+    {
+        "id": 4,
+        "nombre": "EX\u00c1MEN COMPLEXIVO",
+        "ciclo": {
+            "id": 4,
+            "cicloCu": 12,
+            "paralelo": "A"
+        }
+    }
+]
