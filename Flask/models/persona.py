@@ -4,31 +4,36 @@ class Persona:
         self.__nombre = ""
         self.__apellido = ""
         self.__cedula = ""
-        self.__rol = None
-        self.__cuenta = None
-
-    @property
-    def _cuenta(self):
-        if self.__cuenta is None:
-            from models.cuenta import Cuenta
-            self.__cuenta = Cuenta()
-        return self.__cuenta
-
-    @_cuenta.setter
-    def _cuenta(self, value):
-        self.__cuenta = value
+        self.__rolId = 0
+        self.__cuentaId = 0
+        self.__isActivo = True
 
 
     @property
-    def _rol(self):
-        if self.__rol is None:
-            from models.rol import Rol
-            self.__rol = Rol()
-        return self.__rol
+    def _isActivo(self):
+        return self.__isActivo
 
-    @_rol.setter
-    def _rol(self, value):
-        self.__rol = value
+    @_isActivo.setter
+    def _isActivo(self, value):
+        self.__isActivo = value
+
+    @property
+    def _cuentaId(self):
+        return self.__cuentaId
+
+    @_cuentaId.setter
+    def _cuentaId(self, value):
+        self.__cuentaId = value
+
+
+    @property
+    def _rolId(self):
+
+        return self.__rolId
+
+    @_rolId.setter
+    def _rolId(self, value):
+        self.__rolId = value
 
 
     @property
@@ -71,8 +76,9 @@ class Persona:
             "nombre": self._nombre,
             "apellido": self._apellido,
             "cedula": self._cedula,
-            "rol": self._rol.serializable,
-            "cuenta": self.__cuenta.serializable
+            "rol": self._rolId,
+            "cuenta": self.__cuentaId,
+            "isActivo": self._isActivo
         }
     def deserialize(self, data):
         persona = Persona()
@@ -80,8 +86,9 @@ class Persona:
         persona._nombre = data["nombre"]
         persona._apellido = data["apellido"]
         persona._cedula = data["cedula"]
-        persona._rol = self._rol.deserialize(data["rol"])
-        persona._cuenta = self._cuenta.deserialize(data["cuenta"])
+        persona._rolId = data["rol"]
+        persona._cuentaId = data["cuenta"]
+        persona._isActivo = data["isActivo"]
         return persona
     
     
