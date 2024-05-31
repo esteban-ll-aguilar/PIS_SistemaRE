@@ -45,7 +45,7 @@ class Cursa:
     
         
     @property
-    def serialize(self):
+    def serializable(self):
         return {
             "id": self._id,
             "estudiante": self._estudiante,

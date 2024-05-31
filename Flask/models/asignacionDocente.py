@@ -4,7 +4,16 @@ class AsignacionDocente:
         self.__cedulaId = 0
         self.__periodoAcademicoId = 0
         self.__unidadId = 0
-        self.__materia = 0
+        self.__materiaId = 0
+
+    @property
+    def _materiaId(self):
+        return self.__materiaId
+
+    @_materiaId.setter
+    def _materiaId(self, value):
+        self.__materiaId = value
+
 
     @property
     def _id(self):
@@ -38,15 +47,6 @@ class AsignacionDocente:
     def _unidadId(self, value):
         self.__unidadId = value
 
-    @property
-    def _materia(self):
-        return self.__materia
-
-    @_materia.setter
-    def _materia(self, value):
-        self.__materia = value
-
-
     
     @property
     def serializable(self):
@@ -55,7 +55,7 @@ class AsignacionDocente:
             "cedulaId": self._cedulaId,
             "periodoAcademicoId": self._periodoAcademicoId,
             "unidadId": self._unidadId,
-            "materia": self._materia
+            "materiaId": self._materiaId
         }
     
     def deserialize(self, data):
@@ -64,6 +64,6 @@ class AsignacionDocente:
         docente._cedulaId = data["cedulaId"]
         docente._periodoAcademicoId = data["periodoAcademicoId"]
         docente._unidadId = data["unidadId"]
-        docente._materia = data["materia"]
+        docente._materiaId = data["materiaId"]
         return docente
     

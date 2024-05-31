@@ -1,21 +1,3 @@
-/* import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-//import Home from './components/Home';
-import DocenteExcel from './components/DocenteExcel';
-
-//<Route exact path="/" component={Home} />
-function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route path="/" component={DocenteExcel} />
-        <Route component={NotFound} />
-      </Switch>
-    </Router>
-  );
-}
-
-export default App; */
 import React, { useState } from 'react';
 import './App.css';
 function DocenteExcel() {

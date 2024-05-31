@@ -1,5 +1,5 @@
 from models.administrador import Administrador
-from controls.DAO.daoAdapter import DaoAdapter
+from controls.dao.daoAdapter import DaoAdapter
 
 
 class AdministradorDaoControl(DaoAdapter):
