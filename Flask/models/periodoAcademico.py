@@ -1,6 +1,6 @@
 class PeridoAcademico:
     def __init__(self):
-        self.__id = 0
+        self.__id = id
         self.__nombrePeriodoAcademico = ''
 
     @property
@@ -11,6 +11,7 @@ class PeridoAcademico:
     def _nombrePeriodoAcademico(self, value):
         self.__nombrePeriodoAcademico = value
 
+        
 
     @property
     def _id(self):

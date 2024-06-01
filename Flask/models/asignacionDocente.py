@@ -1,8 +1,19 @@
 class AsignacionDocente:
-    def __init__(self) -> None:
+    def __init__(self):
         self.__id = ''
-        self.__docente = None
-        self.__materia = None
+        self.__cedulaId = 0
+        self.__periodoAcademicoId = 0
+        self.__unidadId = 0
+        self.__materiaId = 0
+
+    @property
+    def _materiaId(self):
+        return self.__materiaId
+
+    @_materiaId.setter
+    def _materiaId(self, value):
+        self.__materiaId = value
+
 
     @property
     def _id(self):
@@ -13,39 +24,46 @@ class AsignacionDocente:
         self.__id = value
 
     @property
-    def _docente(self):
-        if self.__docente is None:
-            from models.docente import Docente
-            self.__docente = Docente()
-        return self.__docente
+    def _cedulaId(self):
+        return self.__cedulaId
 
-    @_docente.setter
-    def _docente(self, value):
-        self.__docente = value
+    @_cedulaId.setter
+    def _cedulaId(self, value):
+        self.__cedulaId = value
 
     @property
-    def _materia(self):
-        if self.__materia is None:
-            from models.materia import Materia
-            self.__materia = Materia()
-        return self.__materia
+    def _periodoAcademicoId(self):
+        return self.__periodoAcademicoId
 
-    @_materia.setter
-    def _materia(self, value):
-        self.__materia = value
-        
+    @_periodoAcademicoId.setter
+    def _periodoAcademicoId(self, value):
+        self.__periodoAcademicoId = value
+
+    @property
+    def _unidadId(self):
+        return self.__unidadId
+
+    @_unidadId.setter
+    def _unidadId(self, value):
+        self.__unidadId = value
+
+    
     @property
     def serializable(self):
         return {
-            'id': self._id,
-            'docente': self._docente.serializable,
-            'materia': self._materia.serializable
+            "id": self._id,
+            "cedulaId": self._cedulaId,
+            "periodoAcademicoId": self._periodoAcademicoId,
+            "unidadId": self._unidadId,
+            "materiaId": self._materiaId
         }
     
     def deserialize(self, data):
         docente = AsignacionDocente()
-        docente._id = data['id']
-        docente._docente = self._docente.deserialize(data['docente'])
-        docente._materia = self._materia.deserialize(data['materia'])
+        docente._id = data["id"]
+        docente._cedulaId = data["cedulaId"]
+        docente._periodoAcademicoId = data["periodoAcademicoId"]
+        docente._unidadId = data["unidadId"]
+        docente._materiaId = data["materiaId"]
         return docente
     

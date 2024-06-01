@@ -1,13 +1,10 @@
-from controls.exception.arrayPositionException import ArrayPositionException
-from controls.exception.linkedListExeption import LinkedEmptyException, ArrayPositionException
-from controls.DAO.daoAdapter import DaoAdapter
+from controls.dao.daoAdapter import DaoAdapter
 from models.cursa import Cursa
 
 class CursaDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(Cursa)
         self.__cursa = None
-
     @property
     def _cursa(self):
         if self.__cursa is None:

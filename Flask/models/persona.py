@@ -28,7 +28,7 @@ class Persona:
 
     @property
     def _rolId(self):
-
+    
         return self.__rolId
 
     @_rolId.setter
@@ -77,9 +77,11 @@ class Persona:
             "apellido": self._apellido,
             "cedula": self._cedula,
             "rol": self._rolId,
-            "cuenta": self.__cuentaId,
+            "cuentaId": self._cuentaId,
             "isActivo": self._isActivo
         }
+        
+        
     def deserialize(self, data):
         persona = Persona()
         persona._id = data["id"]
@@ -87,7 +89,7 @@ class Persona:
         persona._apellido = data["apellido"]
         persona._cedula = data["cedula"]
         persona._rolId = data["rol"]
-        persona._cuentaId = data["cuenta"]
+        persona._cuentaId = data["cuentaId"]
         persona._isActivo = data["isActivo"]
         return persona
     
