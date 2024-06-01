@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
 import { Link } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
+
 import './style.css'; // Incluimos los estilos adicionales
 import { useFormik } from 'formik';
 
@@ -15,7 +16,7 @@ const Iniciosesion = () => {
     const errors = {};
   
     if (!values.email) {
-      errors.email = 'Required';
+      errors.email = 'Campo Obligatorio';
     } else if (!/^[A-Z0-9._%+-]+@unl\.edu\.ec$/i.test(values.email)) {
       errors.email = 'Correo invalido el dominio debe ser con @unl.edu.ec';
     }
@@ -63,31 +64,37 @@ const Iniciosesion = () => {
     },
   });
 
+  const isEmailValid = formik.touched.email && !formik.errors.email && formik.values.email;
+
   return (
     <div className="container" id="container">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></link>
       <div className="form-container sign-up">
         <form>
-          <h1>Activar cuenta</h1>
+          <h1 className='font-bold'>Activar cuenta</h1>
           <div className="social-icons">
             <a href="#" className="icon"><i className="fa-brands fa-google-plus-g"></i></a>
             <a href="#" className="icon"><i className="fa-brands fa-facebook-f"></i></a>
             <a href="#" className="icon"><i className="fa-brands fa-github"></i></a>
             <a href="#" className="icon"><i className="fa-brands fa-linkedin-in"></i></a>
           </div>
-          <span>Te enviaremos una clave de activación a tu correo</span>
+          <span>Te enviaremos un enlace de activación a tu correo </span>
           <input type="email" placeholder="correo@unl.edu.ec" required name="email" id="email"
             onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email}/>
           {formik.touched.email && formik.errors.email ? (
             <span style={{ color: 'red' }}>{formik.errors.email}</span>
           ) : null}
 
-          <button type="submit">Validar</button>
+          <button 
+           type="submit" id="validate-button"
+           disabled={!isEmailValid}
+           className={isEmailValid ? 'button-enabled' : 'button-disabled'}
+           >Activar correo</button>
         </form>
       </div>
       <div className="form-container sign-in">
         <form>
-          <h1>Inicia sesión</h1>
+          <h1 className='font-bold'>Inicia sesión</h1>
           <div className="social-icons">
             <a href="https://www.instagram.com/foranix/" className="icon"><i className="fa-brands fa-google-plus-g"></i></a>
             <a href="#" className="icon"><i className="fa-brands fa-facebook-f"></i></a>
@@ -102,24 +109,28 @@ const Iniciosesion = () => {
           ) : null}
 
 
-          <input type="password" placeholder="contraseña" required />
+          <input type="password" placeholder="contraseña" required name="password" id="password"
+            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
+          <button type="submit" id="validate-button"
+           disabled={!isEmailValid}
+           className={isEmailValid ? 'button-enabled' : 'button-disabled'}
+          >Iniciar sesión</button>
           <a href="#">¿Olvidaste tu contraseña?</a>
-          <button type="submit">Iniciar sesión</button>
         </form>
       </div>
 
       <div className="toggle-container">
         <div className="toggle">
-          <div className="toggle-panel toggle-left">
-            <h1>FORANIX</h1>
+          <div id='hidden' className="toggle-panel toggle-left">
+            <h1 className='font-bold'>FORANIX</h1>
             <p>Si ya realizaste correctamente tu validación, ya eres parte de nuestro sistema !Bienvenido¡</p>
             <button id="login">Ingresa aquí</button>
           </div>
 
-          <div className="toggle-panel toggle-right">
-            <h1>FORANIX</h1>
+          <div id='hidden' className="toggle-panel toggle-right">
+            <h1 className='font-bold'>FORANIX</h1>
             <p>Si eres nuevo por aquí, debes realizar la activación de tu correo
-              y cambiar la contraseña temporal que te fue asignada.
+              electronico para que puedas ser uso de nuestro sistema.
             </p>
             <button id="register">Activar</button>
           </div>

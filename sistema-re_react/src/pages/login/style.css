@@ -60,7 +60,26 @@ body{
     cursor: pointer;
 }
 
-.container button.hidden{
+#validate-button {
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #2DA64B; /* Color cuando el botón está habilitado */
+    color: white;
+}
+
+#validate-button:disabled {
+    background-color: #A9A9A9; /* Color cuando el botón está deshabilitado */
+    cursor: not-allowed;
+}
+
+#hidden-button{
     background-color: transparent;
     border-color: #fff;
 }
