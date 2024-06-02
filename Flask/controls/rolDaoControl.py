@@ -1,4 +1,4 @@
-from controls.dao.daoAdapter import DaoAdapter
+from controls.DAO.daoAdapter import DaoAdapter
 from models.rol import Rol
 
 class RolDaoControl(DaoAdapter):
