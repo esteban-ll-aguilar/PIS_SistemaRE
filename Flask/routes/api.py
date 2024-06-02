@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, make_response, request
-from Flask.funtions.readExel import ReadDocentesExel
+from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for
+from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
+
 from flask_cors import CORS
 import os
 api = Blueprint('api', __name__)
@@ -7,20 +8,22 @@ api = Blueprint('api', __name__)
 #get para presentar los datos
 #post para enviar los datos, modificar y iniciar sesion
 
-ALLOWED_EXTENSIONS = {'xlsx'}
- 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
-
+@api.route('/')
+def home():
+    return render_template('login.html')
 
 @api.route('/exel_docente', methods=['POST'])
 def upload_file_docente():
     
     f = request.files['file'] 
-    rd = ReadDocentesExel(archivo=f)
-    print(rd.readExel)
+    EDA = ExelDocentesAsignate(f)
+    try:
+        EDA.saveExel
+        EDA.asignarDocente
+    except Exception as e:
+        print('Error: '+str(e))
+        return jsonify({"message": "Error al subir el archivo"})
     return jsonify({"message": "Archivo subido correctamente"})
     
 

@@ -1,26 +1,13 @@
+
 import sys
 sys.path.append('../')
-from controls.materiaDaoControl import MateriaDaoControl
-from funtions.readDocentesExel import ReadDocentesExel
-from funtions.exelDao import ExelDao
-from controls.cursaDaoControl import CursaDaoControl
-#mcd = MateriaDaoControl()
-#rd = ReadDocentesExel()
-ed = ExelDao()
-try:
-    """ mcd._materia._nombre = "Matematicas"
-    mcd.save """
-    
-    rxl = ReadDocentesExel()
-    #print(rxl.filterCiclo(12))
-   
+from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 
-    #print(rd.filterCiclo(12))
-    
-    ed.asignarDocentes
-    
-    
+rxl = ExelDocentesAsignate(r"C:\Users\esteb\OneDrive\Escritorio\Estudios_Esteban\3-Ciclo\PIS\Docentes_AbrilAgosto2024.xlsx")
+
+try:
+    rxl.saveExel
+    rxl.asignarDocente
     
 except Exception as e:
-    print(e)
-
+    print('Error: '+str(e))

@@ -10,13 +10,11 @@ class DaoAdapter(Generic[T]):
         self.lista = Linked_List()
         self.file = atype.__name__.lower() + ".json"
         self.URL = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  + "/data/"
-        print('Url: '+self.URL)
-        print('Clase: '+self.atype.__name__)
+        """ print('Url: '+self.URL)
+        print('Clase: '+self.atype.__name__) """
     
     
     def _list(self) -> T:
-        print("Listando")
-        
         if os.path.isfile(self.URL + self.file):
             f = open(self.URL + self.file, "r")
             

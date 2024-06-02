@@ -1,4 +1,4 @@
-from controls.DAO.daoAdapter import DaoAdapter
+from controls.dao.daoAdapter import DaoAdapter
 from models.materia import Materia
 
 class MateriaDaoControl(DaoAdapter):

@@ -7,37 +7,6 @@ class Persona:
         self.__rolId = 0
         self.__cuentaId = 0
         self.__isActivo = True
-<<<<<<< HEAD
-
-
-    @property
-    def _isActivo(self):
-        return self.__isActivo
-
-    @_isActivo.setter
-    def _isActivo(self, value):
-        self.__isActivo = value
-
-    @property
-    def _cuentaId(self):
-        """ if self.__cuentaId is None:
-            from models.cuenta import Cuenta
-            self.__cuentaId = Cuenta() """
-        return self.__cuentaId
-
-    @_cuentaId.setter
-    def _cuenta(self, value):
-        self.__cuentaId = value
-
-
-    @property
-    def _rolId(self):
-        """ if self.__rolId is None:
-            from models.rol import Rol
-            self.__rolId = Rol() """
-        return self.__rolId
-
-=======
 
 
     @property
@@ -59,10 +28,9 @@ class Persona:
 
     @property
     def _rolId(self):
-
+    
         return self.__rolId
 
->>>>>>> main
     @_rolId.setter
     def _rolId(self, value):
         self.__rolId = value
@@ -109,9 +77,11 @@ class Persona:
             "apellido": self._apellido,
             "cedula": self._cedula,
             "rol": self._rolId,
-            "cuenta": self.__cuentaId,
+            "cuentaId": self._cuentaId,
             "isActivo": self._isActivo
         }
+        
+        
     def deserialize(self, data):
         persona = Persona()
         persona._id = data["id"]
@@ -119,7 +89,7 @@ class Persona:
         persona._apellido = data["apellido"]
         persona._cedula = data["cedula"]
         persona._rolId = data["rol"]
-        persona._cuentaId = data["cuenta"]
+        persona._cuentaId = data["cuentaId"]
         persona._isActivo = data["isActivo"]
         return persona
     
