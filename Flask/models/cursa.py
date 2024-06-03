@@ -1,12 +1,8 @@
-from models.estudiante import Estudiante
-from models.asignacionDocente import AsignacionDocente
-
-
 class Cursa:
     def __init__(self):
         self.__id = ''
         self.__estudianteId = 0
-        self.__asignacionDocente = 0
+        self.__asignacionDocenteId = 0
         self.__periodoAcademicoId = 0
         self.__numeroMatricula = 1
 
@@ -37,12 +33,12 @@ class Cursa:
         self.__estudianteId = value
 
     @property
-    def _asignacionDocente(self):
-        return self.__asignacionDocente
+    def _asignacionDocenteId(self):
+        return self.__asignacionDocenteId
 
-    @_asignacionDocente.setter
-    def _asignacionDocente(self, value):
-        self.__asignacionDocente = value
+    @_asignacionDocenteId.setter
+    def _asignacionDocenteId(self, value):
+        self.__asignacionDocenteId = value
 
     @property
     def _periodoAcademicoId(self):
@@ -61,7 +57,7 @@ class Cursa:
             "id": self._id,
             "estudianteId": self._estudianteId,
             "numeroMatricula": self._numeroMatricula,
-            "asignacionDocente": self._asignacionDocente,
+            "asignacionDocenteId": self._asignacionDocenteId,
             "periodoAcademico": self._periodoAcademicoId   
         }
         
@@ -70,7 +66,7 @@ class Cursa:
         cursa._id = data['id']
         cursa._estudianteId = data['estudianteId']
         cursa._numeroMatricula = data['numeroMatricula']
-        cursa._asignacionDocente = data['asignacionDocente']
+        cursa._asignacionDocenteId = data['asignacionDocenteId']
         cursa._periodoAcademicoId = data['periodoAcademico']
         return cursa
 

@@ -1,1 +1,277 @@
-[{"id": 1, "nombre": "Requisitos de Software", "cicloId": 1},{"id": 2, "nombre": "Procesos de Software", "cicloId": 2},{"id": 3, "nombre": "Software Quality", "cicloId": 3},{"id": 4, "nombre": "Human-Computer Interaction", "cicloId": 4},{"id": 5, "nombre": "Human Perception in Computer Vision", "cicloId": 3},{"id": 6, "nombre": "Software Engineering Management", "cicloId": 4},{"id": 7, "nombre": "Software Engineering Models", "cicloId": 4},{"id": 8, "nombre": "Teor\u00eda de la Programaci\u00f3n", "cicloId": 5},{"id": 9, "nombre": "Programaci\u00f3n Orientada a Objetos", "cicloId": 6},{"id": 10, "nombre": "Fundamentos de Redes de Comunicaciones", "cicloId": 7},{"id": 11, "nombre": "Gesti\u00f3n de Redes y Comunicaciones", "cicloId": 2},{"id": 12, "nombre": "SISTEMAS OPERATIVOS - REDES", "cicloId": 8},{"id": 13, "nombre": "Arquitectura de Ordenadores", "cicloId": 1},{"id": 14, "nombre": "Data Mining", "cicloId": 4},{"id": 15, "nombre": "Composici\u00f3n de Textos Cient\u00edficos en Ingenier\u00eda", "cicloId": 9},{"id": 16, "nombre": "Teor\u00eda de Aut\u00f3matas y Computabilidad Avanzada", "cicloId": 2},{"id": 17, "nombre": "Sistemas Distribuidos", "cicloId": 2},{"id": 18, "nombre": "Algoritmos, An\u00e1lisis y Programaci\u00f3n Paralela", "cicloId": 4},{"id": 19, "nombre": "Estructura de Datos", "cicloId": 1},{"id": 20, "nombre": "Desarrollo Basado en Plataformas", "cicloId": 7},{"id": 21, "nombre": "PROGRAMACION WEB Y MOVIL", "cicloId": 8},{"id": 22, "nombre": "Matem\u00e1ticas Discretas", "cicloId": 5},{"id": 23, "nombre": "METODOLOGIA DE LA INVESTIGACION", "cicloId": 8},{"id": 24, "nombre": "EX\u00c1MEN COMPLEXIVO", "cicloId": 8},{"id": 25, "nombre": "Electricidad", "cicloId": 5},{"id": 26, "nombre": "Dise\u00f1o de Circuitos", "cicloId": 6},{"id": 27, "nombre": "Sistemas Digitales", "cicloId": 7},{"id": 28, "nombre": "Internet of Things", "cicloId": 4},{"id": 29, "nombre": "Comunicaci\u00f3n y Redacci\u00f3n T\u00e9cnica", "cicloId": 5},{"id": 30, "nombre": "\u00c9tica Profesional", "cicloId": 3},{"id": 31, "nombre": "Computaci\u00f3n en la Nube", "cicloId": 2},{"id": 32, "nombre": "Virtual Systems and Services", "cicloId": 4},{"id": 33, "nombre": "Software Security", "cicloId": 3},{"id": 34, "nombre": "\u00c1lgebra L\u00edneal", "cicloId": 5},{"id": 35, "nombre": "An\u00e1lisis Num\u00e9rico", "cicloId": 7},{"id": 36, "nombre": "Simulaci\u00f3n", "cicloId": 7},{"id": 37, "nombre": "Laborales 1", "cicloId": 2},{"id": 38, "nombre": "Laborales 2", "cicloId": 9},{"id": 39, "nombre": "Proyectos Tecnol\u00f3gicos 2", "cicloId": 3},{"id": 40, "nombre": "Estad\u00edstica Anal\u00edtica", "cicloId": 1},{"id": 41, "nombre": "Dise\u00f1o de Software", "cicloId": 10},{"id": 42, "nombre": "Trabajo de Integraci\u00f3n Curricular", "cicloId": 9},{"id": 43, "nombre": "An\u00e1lisis Matem\u00e1tico", "cicloId": 6},{"id": 44, "nombre": "Teor\u00eda de la Distribuci\u00f3n y Probabilidad", "cicloId": 6},{"id": 45, "nombre": "Ecuaciones Diferenciales", "cicloId": 10},{"id": 46, "nombre": "Complejidad Computacional", "cicloId": 10},{"id": 47, "nombre": "Metodolog\u00eda de la Investigaci\u00f3n en Computaci\u00f3n", "cicloId": 10},{"id": 48, "nombre": "Machine Learning", "cicloId": 3},{"id": 49, "nombre": "Sistemas Operativos", "cicloId": 10},{"id": 50, "nombre": "Emprendimiento e Innovaci\u00f3n Tecnol\u00f3gica", "cicloId": 6},{"id": 51, "nombre": "Base de Datos", "cicloId": 1},{"id": 52, "nombre": "Proyectos Tecnol\u00f3gicos 1", "cicloId": 4},{"id": 53, "nombre": "Seguridad de la Informaci\u00f3n", "cicloId": 4},{"id": 54, "nombre": "Servicio Comunitario 1", "cicloId": 3},{"id": 55, "nombre": "Servicio Comunitario 2", "cicloId": 9}]
+[
+    {
+        "id": 1,
+        "nombre": "Requisitos de Software",
+        "cicloId": 1
+    },
+    {
+        "id": 2,
+        "nombre": "Procesos de Software",
+        "cicloId": 2
+    },
+    {
+        "id": 3,
+        "nombre": "Software Quality",
+        "cicloId": 3
+    },
+    {
+        "id": 4,
+        "nombre": "Human-Computer Interaction",
+        "cicloId": 4
+    },
+    {
+        "id": 5,
+        "nombre": "Human Perception in Computer Vision",
+        "cicloId": 3
+    },
+    {
+        "id": 6,
+        "nombre": "Software Engineering Management",
+        "cicloId": 4
+    },
+    {
+        "id": 7,
+        "nombre": "Software Engineering Models",
+        "cicloId": 4
+    },
+    {
+        "id": 8,
+        "nombre": "Teor\u00eda de la Programaci\u00f3n",
+        "cicloId": 5
+    },
+    {
+        "id": 9,
+        "nombre": "Programaci\u00f3n Orientada a Objetos",
+        "cicloId": 6
+    },
+    {
+        "id": 10,
+        "nombre": "Fundamentos de Redes de Comunicaciones",
+        "cicloId": 7
+    },
+    {
+        "id": 11,
+        "nombre": "Gesti\u00f3n de Redes y Comunicaciones",
+        "cicloId": 2
+    },
+    {
+        "id": 12,
+        "nombre": "SISTEMAS OPERATIVOS - REDES",
+        "cicloId": 8
+    },
+    {
+        "id": 13,
+        "nombre": "Arquitectura de Ordenadores",
+        "cicloId": 1
+    },
+    {
+        "id": 14,
+        "nombre": "Data Mining",
+        "cicloId": 4
+    },
+    {
+        "id": 15,
+        "nombre": "Composici\u00f3n de Textos Cient\u00edficos en Ingenier\u00eda",
+        "cicloId": 9
+    },
+    {
+        "id": 16,
+        "nombre": "Teor\u00eda de Aut\u00f3matas y Computabilidad Avanzada",
+        "cicloId": 2
+    },
+    {
+        "id": 17,
+        "nombre": "Sistemas Distribuidos",
+        "cicloId": 2
+    },
+    {
+        "id": 18,
+        "nombre": "Algoritmos, An\u00e1lisis y Programaci\u00f3n Paralela",
+        "cicloId": 4
+    },
+    {
+        "id": 19,
+        "nombre": "Estructura de Datos",
+        "cicloId": 1
+    },
+    {
+        "id": 20,
+        "nombre": "Desarrollo Basado en Plataformas",
+        "cicloId": 7
+    },
+    {
+        "id": 21,
+        "nombre": "PROGRAMACION WEB Y MOVIL",
+        "cicloId": 8
+    },
+    {
+        "id": 22,
+        "nombre": "Matem\u00e1ticas Discretas",
+        "cicloId": 5
+    },
+    {
+        "id": 23,
+        "nombre": "METODOLOGIA DE LA INVESTIGACION",
+        "cicloId": 8
+    },
+    {
+        "id": 24,
+        "nombre": "EX\u00c1MEN COMPLEXIVO",
+        "cicloId": 8
+    },
+    {
+        "id": 25,
+        "nombre": "Electricidad",
+        "cicloId": 5
+    },
+    {
+        "id": 26,
+        "nombre": "Dise\u00f1o de Circuitos",
+        "cicloId": 6
+    },
+    {
+        "id": 27,
+        "nombre": "Sistemas Digitales",
+        "cicloId": 7
+    },
+    {
+        "id": 28,
+        "nombre": "Internet of Things",
+        "cicloId": 4
+    },
+    {
+        "id": 29,
+        "nombre": "Comunicaci\u00f3n y Redacci\u00f3n T\u00e9cnica",
+        "cicloId": 5
+    },
+    {
+        "id": 30,
+        "nombre": "\u00c9tica Profesional",
+        "cicloId": 3
+    },
+    {
+        "id": 31,
+        "nombre": "Computaci\u00f3n en la Nube",
+        "cicloId": 2
+    },
+    {
+        "id": 32,
+        "nombre": "Virtual Systems and Services",
+        "cicloId": 4
+    },
+    {
+        "id": 33,
+        "nombre": "Software Security",
+        "cicloId": 3
+    },
+    {
+        "id": 34,
+        "nombre": "\u00c1lgebra L\u00edneal",
+        "cicloId": 5
+    },
+    {
+        "id": 35,
+        "nombre": "An\u00e1lisis Num\u00e9rico",
+        "cicloId": 7
+    },
+    {
+        "id": 36,
+        "nombre": "Simulaci\u00f3n",
+        "cicloId": 7
+    },
+    {
+        "id": 37,
+        "nombre": "Laborales 1",
+        "cicloId": 2
+    },
+    {
+        "id": 38,
+        "nombre": "Laborales 2",
+        "cicloId": 9
+    },
+    {
+        "id": 39,
+        "nombre": "Proyectos Tecnol\u00f3gicos 2",
+        "cicloId": 3
+    },
+    {
+        "id": 40,
+        "nombre": "Estad\u00edstica Anal\u00edtica",
+        "cicloId": 1
+    },
+    {
+        "id": 41,
+        "nombre": "Dise\u00f1o de Software",
+        "cicloId": 10
+    },
+    {
+        "id": 42,
+        "nombre": "Trabajo de Integraci\u00f3n Curricular",
+        "cicloId": 9
+    },
+    {
+        "id": 43,
+        "nombre": "An\u00e1lisis Matem\u00e1tico",
+        "cicloId": 6
+    },
+    {
+        "id": 44,
+        "nombre": "Teor\u00eda de la Distribuci\u00f3n y Probabilidad",
+        "cicloId": 6
+    },
+    {
+        "id": 45,
+        "nombre": "Ecuaciones Diferenciales",
+        "cicloId": 10
+    },
+    {
+        "id": 46,
+        "nombre": "Complejidad Computacional",
+        "cicloId": 10
+    },
+    {
+        "id": 47,
+        "nombre": "Metodolog\u00eda de la Investigaci\u00f3n en Computaci\u00f3n",
+        "cicloId": 10
+    },
+    {
+        "id": 48,
+        "nombre": "Machine Learning",
+        "cicloId": 3
+    },
+    {
+        "id": 49,
+        "nombre": "Sistemas Operativos",
+        "cicloId": 10
+    },
+    {
+        "id": 50,
+        "nombre": "Emprendimiento e Innovaci\u00f3n Tecnol\u00f3gica",
+        "cicloId": 6
+    },
+    {
+        "id": 51,
+        "nombre": "Base de Datos",
+        "cicloId": 1
+    },
+    {
+        "id": 52,
+        "nombre": "Proyectos Tecnol\u00f3gicos 1",
+        "cicloId": 4
+    },
+    {
+        "id": 53,
+        "nombre": "Seguridad de la Informaci\u00f3n",
+        "cicloId": 4
+    },
+    {
+        "id": 54,
+        "nombre": "Servicio Comunitario 1",
+        "cicloId": 3
+    },
+    {
+        "id": 55,
+        "nombre": "Servicio Comunitario 2",
+        "cicloId": 9
+    }
+]

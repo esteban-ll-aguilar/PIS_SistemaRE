@@ -171,21 +171,45 @@ class Linked_List(object):
         for i in range(0, self._length):
             if hasattr(node._data, '_cedula') and node._data._cedula == data:
                 print('Ya existe un nodo con este dato (cedula)')
-                return True, node._data._id
+                return True, node._data._id, node._data._cedula
             elif hasattr(node._data, '_ciclo') and node._data._ciclo == data and  hasattr(node._data, '_paralelo') and node._data._paralelo == paralelo:
                 print('Ya existe un nodo con este dato (ciclo y paralelo)')
-                return True, node._data._id
+                return True, node._data._id, node._data._ciclo
             elif hasattr(node._data, '_correo') and node._data._correo == data:
                 print('Ya existe un nodo con este dato (correo)')
-                return True, node._data._id
+                return True, node._data._id, node._data._correo
             elif hasattr(node._data, '_nombre') and node._data._nombre == data:
                 print('Ya existe un nodo con este dato (nombre)')
-                return True, node._data._id
+                return True, node._data._id, node._data._nombre
             
             
             node = node._next
-        return False, None
+        return False, None, None
 
+
+
+    
+    def __obtenerMateriaDeCiclo__(self, cicloId):
+        node = self.__head
+        materias = []
+        for i in range(0, self._length):
+            if node._data._cicloId == cicloId:
+                materias.append(node._data._id)
+            node = node._next
+                
+        print(materias)
+        return materias
+    
+    
+    def __obtenerAsignacionDeMateria__(self, arrymateriaId):
+        node = self.__head
+        asignaciones = []
+        for i in range(0, self._length):
+            if node._data._materiaId in arrymateriaId:
+                asignaciones.append(node._data._id)
+            node = node._next
+        print(asignaciones)
+        return asignaciones
         
     
     def __str__(self) -> str:
