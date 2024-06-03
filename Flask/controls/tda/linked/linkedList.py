@@ -150,18 +150,21 @@ class Linked_List(object):
         out = []
         if self.isEmpty:
             out = "List is Empty"
+            json = ''
         else:
             node = self.__head
             for i in range(0, self._length):
                 
                 if hasattr(node._data, '_clienteId') and node._data._clienteId == data:
-                    out.append(node._data.serialize)
+                    out.append(node._data.serializable)
                 if hasattr(node._data, '_cedula') and node._data._cedula == data:
-                    out.append(node._data.serialize)
+                    out.append(node._data.serializable)
                 elif hasattr(node._data, '_NComprobante') and node._data._NComprobante == data:
-                    out.append(node._data.serialize)
+                    out.append(node._data.serializable)
+                elif hasattr(node._data, '_asignacionDocenteId') and node._data._asignacionDocenteId == data:
+                    json = node._data.serializable
                 node = node._next
-        return out
+        return out, json
     
     
     
