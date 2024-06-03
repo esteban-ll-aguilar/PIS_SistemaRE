@@ -26,6 +26,10 @@ class PersonaDaoControl(DaoAdapter):
         print("Guardando Persona")
         self._save(self.__persona)
         
+        
+    def merge(self, pos):
+        self._merge(self.__persona,pos)
+        
     
         
 

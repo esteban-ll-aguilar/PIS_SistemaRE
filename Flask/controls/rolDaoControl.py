@@ -26,3 +26,6 @@ class RolDaoControl(DaoAdapter):
         print("Guardando Rol")
         self._save(self.__rol)
         
+    def merge(self, pos):
+        self._merge(self.__rol,pos)
+        

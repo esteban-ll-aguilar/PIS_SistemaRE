@@ -27,5 +27,9 @@ class AdministradorDaoControl(DaoAdapter):
         print("Guardando Administrador")
         self._save(self.__administrador)
         
+        
+    def merge(self, pos):
+        self._merge(self.__administrador,pos)
+        
     
         
