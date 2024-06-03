@@ -4,9 +4,9 @@ class Persona:
         self.__nombre = ""
         self.__apellido = ""
         self.__cedula = ""
+        self.__isActivo = True
         self.__rolId = 0
         self.__cuentaId = 0
-        self.__isActivo = True
 
 
     @property
@@ -69,30 +69,5 @@ class Persona:
         self.__cedula = value
         
         
-    @property
-    def serializable(self):
-        return {
-            "id": self._id,
-            "nombre": self._nombre,
-            "apellido": self._apellido,
-            "cedula": self._cedula,
-            "rol": self._rolId,
-            "cuentaId": self._cuentaId,
-            "isActivo": self._isActivo
-        }
-        
-        
-    def deserialize(self, data):
-        persona = Persona()
-        persona._id = data["id"]
-        persona._nombre = data["nombre"]
-        persona._apellido = data["apellido"]
-        persona._cedula = data["cedula"]
-        persona._rolId = data["rol"]
-        persona._cuentaId = data["cuentaId"]
-        persona._isActivo = data["isActivo"]
-        return persona
-    
-    
 
         

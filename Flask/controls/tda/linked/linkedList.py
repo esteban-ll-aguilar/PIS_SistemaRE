@@ -178,15 +178,10 @@ class Linked_List(object):
             elif hasattr(node._data, '_correo') and node._data._correo == data:
                 print('Ya existe un nodo con este dato (correo)')
                 return True, node._data._id
-            elif hasattr(node._data, '_nombreRol') and node._data._nombreRol == data:
-                print('Ya existe un nodo con este dato (rol)')
+            elif hasattr(node._data, '_nombre') and node._data._nombre == data:
+                print('Ya existe un nodo con este dato (nombre)')
                 return True, node._data._id
-            elif hasattr(node._data, '_nombrePeriodoAcademico') and node._data._nombrePeriodoAcademico == data:
-                print('Ya existe un nodo con este dato (peroodoAcademico)')
-                return True, node._data._id
-            elif hasattr(node._data, '_nombreMateria') and node._data._nombreMateria == data:
-                print('Ya existe un nodo con este dato (maretia)')
-                return True, node._data._id
+            
             
             node = node._next
         return False, None

@@ -2,9 +2,11 @@ from controls.asignacionDocenteDaoControl import AsignacionDocenteDaoControl
 from controls.functions.exelDaoAdapter import ExelDaoAdapter
 from controls.materiaDaoControl import MateriaDaoControl
 from controls.docenteDaoControl import DocenteDaoControl
-from controls.cuentaControlDao import CuentaDaoControl
+from Flask.controls.cuentaDaoControl import CuentaDaoControl
 from controls.cicloDaoContol import CicloDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
+from controls.rolDaoControl import RolDaoControl
+from controls.functions.createmodel import CreateModel
 
 class ExelDocentesAsignate(ExelDaoAdapter):
     def __init__(self, file_path: str):
@@ -15,6 +17,17 @@ class ExelDocentesAsignate(ExelDaoAdapter):
         self.__cuentaDaoControl = None
         self.__cicloDaoControl = None
         self.__periodoAc = None    
+        self.__rolDaoControl = None
+
+    @property
+    def _rolDaoControl(self):
+        if self.__rolDaoControl is None:
+            self.__rolDaoControl = RolDaoControl()
+        return self.__rolDaoControl
+
+    @_rolDaoControl.setter
+    def _rolDaoControl(self, value):
+        self.__rolDaoControl = value
 
 
     @property
@@ -88,58 +101,23 @@ class ExelDocentesAsignate(ExelDaoAdapter):
         return self._readExel
     
     
-    
-    def createMateria(self, data, idCiclo):
-        self._materiaDaoControl._materia._nombreMateria = data['Materia']
-        self._materiaDaoControl._materia._cicloId = idCiclo
-        self._materiaDaoControl.save
-        return self._materiaDaoControl._materia._id
-    
-    def createCiclo(self, data):
-        self._cicloDaoControl._ciclo._ciclo = data['Ciclo']
-        self._cicloDaoControl._ciclo._paralelo = data['Paralelo']
-        self._cicloDaoControl.save
-        return self._cicloDaoControl._ciclo._id
-    
-    def createDocente(self, data, idCuenta):
-        self._docenteDaoControl._docente._nombre = data['Nombre']
-        self._docenteDaoControl._docente._apellido = data['Apellido']
-        self._docenteDaoControl._docente._cedula = data['Cedula']
-        self._docenteDaoControl._docente._cuentaId = idCuenta
-        self._docenteDaoControl.save
-        return self._docenteDaoControl._docente._cedula
-    
-    def createCuenta(self, data):
-        self._cuentaDaoControl._cuenta._correo = data['Correo']
-        self._cuentaDaoControl._cuenta._clave = data['Clave']
-        self._cuentaDaoControl.save
-        return self._cuentaDaoControl._cuenta._id
-    
-    
-    def createPeriodoAcademico(self, data):
-        print(data['PeriodoAcademico'])
-        self._periodoAc._periodoAcademico._nombrePeriodoAcademico = data['PeriodoAcademico']
-        self._periodoAc.save
-        return self._periodoAc._periodoAcademico._id
-    
     @property
     def asignarDocente(self):
         datos = self._readExel
         for data in datos:
-            print(data['PeriodoAcademico'])
+            existRol, idRol = self._rolDaoControl._lista.__exist__('DOCENTE')
             existCiclo, idCiclo = self._cicloDaoControl._lista.__exist__(data['Ciclo'], data['Paralelo'])
             existMateria, idMateria = self._materiaDaoControl._lista.__exist__(data['Materia'])
             existCuenta, idCuenta = self._cuentaDaoControl._lista.__exist__(data['Correo'])
             existDocente, idDocente = self._docenteDaoControl._lista.__exist__(data['Cedula'])
             existPeriodoAc, idPeriodoAc = self._periodoAc._lista.__exist__(data['PeriodoAcademico'])
-            print(existPeriodoAc, idPeriodoAc)
             
-            
-            if not existCiclo: idCiclo = self.createCiclo(data)
-            if not existPeriodoAc: idPeriodoAc = self.createPeriodoAcademico(data)
-            if not existMateria: idMateria = self.createMateria(data, idCiclo)
-            if not existCuenta: idCuenta = self.createCuenta(data)
-            if not existDocente: idDocente = self.createDocente(data, idCuenta)
+            if not existRol: idRol = CreateModel.createRol('DOCENTE')
+            if not existCiclo: idCiclo = CreateModel.createCiclo(data)
+            if not existPeriodoAc: idPeriodoAc = CreateModel.createPeriodoAcademico(data)
+            if not existMateria: idMateria = CreateModel.createMateria(data, idCiclo)
+            if not existCuenta: idCuenta = CreateModel.createCuenta(data)
+            if not existDocente: idDocente = CreateModel.createDocente(data, idCuenta, idRol)
             
             self._asignacionDocente._asignacionDocente._cedulaId = idDocente
             self._asignacionDocente._asignacionDocente._materiaId = idMateria

@@ -1,0 +1,128 @@
+[
+    {
+        "id": 1,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "fjalvarez@unl.edu.ec"
+    },
+    {
+        "id": 2,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "lachamba@unl.edu.ec"
+    },
+    {
+        "id": 3,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "wpchamba@unl.edu.ec"
+    },
+    {
+        "id": 4,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "edisoncor@unl.edu.ec"
+    },
+    {
+        "id": 5,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "mecueva@unl.edu.ec"
+    },
+    {
+        "id": 6,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "oscar.cumbicus@unl.edu.ec"
+    },
+    {
+        "id": 7,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "roberth.figueroa@unl.edu.ec"
+    },
+    {
+        "id": 8,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "rguaman@unl.edu.ec"
+    },
+    {
+        "id": 9,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "jose.o.guaman@unl.edu.ec"
+    },
+    {
+        "id": 10,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "vherrera@unl.edu.ec"
+    },
+    {
+        "id": 11,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "cesar.f.iniguez@unl.edu.ec"
+    },
+    {
+        "id": 12,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "ximena.naranjo@unl.edu.ec"
+    },
+    {
+        "id": 13,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "cristian.narvaez@unl.edu.ec"
+    },
+    {
+        "id": 14,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "andres.navas@unl.edu.ec"
+    },
+    {
+        "id": 15,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "pfordonez@unl.edu.ec"
+    },
+    {
+        "id": 16,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "angel.k.orellana@unl.edu.ec"
+    },
+    {
+        "id": 17,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "maria.ruilova.s@unl.edu.ec"
+    },
+    {
+        "id": 18,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "franco.salcedo@unl.edu.ec"
+    },
+    {
+        "id": 19,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "genoveva.suing@unl.edu.ec"
+    },
+    {
+        "id": 20,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "hltorres@unl.edu.ec"
+    },
+    {
+        "id": 21,
+        "clave": "x123x",
+        "estado": false,
+        "correo": "mario.a.zambrano@unl.edu.ec"
+    }
+]

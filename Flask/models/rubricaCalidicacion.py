@@ -1,11 +1,9 @@
 class RubriaCalificacion:
     def __init__(self):
         self.__id = 0
-        self.__unidadId = 0
-        self.__isCreate = False
         self.__lecciones = 0.0
         self.__contactoD = 0.0
-        self.__actuvidadA = 0.0
+        self.__actividadA = 0.0
         self.__examenU = 0.0
         self.__promedioU = 0.0
 
@@ -50,12 +48,12 @@ class RubriaCalificacion:
         self.__contactoD = value
 
     @property
-    def _actuvidadA(self):
-        return self.__actuvidadA
+    def _actividadA(self):
+        return self.__actividadA
 
-    @_actuvidadA.setter
-    def _actuvidadA(self, value):
-        self.__actuvidadA = value
+    @_actividadA.setter
+    def _actividadA(self, value):
+        self.__actividadA = value
 
     @property
     def _examenU(self):
@@ -81,7 +79,7 @@ class RubriaCalificacion:
             "isCreate": self._isCreate,
             "lecciones": self._lecciones,
             "contactoD": self._contactoD,
-            "actuvidadA": self._actuvidadA,
+            "actividadA": self._actividadA,
             "examenU": self._examenU,
             "promedioU": self._promedioU
         }
@@ -93,7 +91,7 @@ class RubriaCalificacion:
         rubricaCalificacion._isCreate = data["isCreate"]
         rubricaCalificacion._lecciones = data["lecciones"]
         rubricaCalificacion._contactoD = data["contactoD"]
-        rubricaCalificacion._actuvidadA = data["actuvidadA"]
+        rubricaCalificacion._actividadA = data["actividadA"]
         rubricaCalificacion._examenU = data["examenU"]
         rubricaCalificacion._promedioU = data["promedioU"]
         return rubricaCalificacion
