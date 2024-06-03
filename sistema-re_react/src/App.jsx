@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import { Iniciosesion } from './pages/login/iniciosesion';
+import Iniciosesion from './pages/login/iniciosesion'; // Aquí corregimos la importación
+
 import { Graficas } from './pages/graphics/graficas';
 import { Informe } from './pages/interfaces/informe/informe';
 import { Interfaz } from './pages/interfaces/interfaz';
