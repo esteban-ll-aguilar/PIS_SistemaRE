@@ -150,18 +150,21 @@ class Linked_List(object):
         out = []
         if self.isEmpty:
             out = "List is Empty"
+            json = ''
         else:
             node = self.__head
             for i in range(0, self._length):
                 
                 if hasattr(node._data, '_clienteId') and node._data._clienteId == data:
-                    out.append(node._data.serialize)
+                    out.append(node._data.serializable)
                 if hasattr(node._data, '_cedula') and node._data._cedula == data:
-                    out.append(node._data.serialize)
+                    out.append(node._data.serializable)
                 elif hasattr(node._data, '_NComprobante') and node._data._NComprobante == data:
-                    out.append(node._data.serialize)
+                    out.append(node._data.serializable)
+                elif hasattr(node._data, '_asignacionDocenteId') and node._data._asignacionDocenteId == data:
+                    json = node._data.serializable
                 node = node._next
-        return out
+        return out, json
     
     
     
@@ -171,26 +174,45 @@ class Linked_List(object):
         for i in range(0, self._length):
             if hasattr(node._data, '_cedula') and node._data._cedula == data:
                 print('Ya existe un nodo con este dato (cedula)')
-                return True, node._data._id
+                return True, node._data._id, node._data._cedula
             elif hasattr(node._data, '_ciclo') and node._data._ciclo == data and  hasattr(node._data, '_paralelo') and node._data._paralelo == paralelo:
                 print('Ya existe un nodo con este dato (ciclo y paralelo)')
-                return True, node._data._id
+                return True, node._data._id, node._data._ciclo
             elif hasattr(node._data, '_correo') and node._data._correo == data:
                 print('Ya existe un nodo con este dato (correo)')
-                return True, node._data._id
-            elif hasattr(node._data, '_nombreRol') and node._data._nombreRol == data:
-                print('Ya existe un nodo con este dato (rol)')
-                return True, node._data._id
-            elif hasattr(node._data, '_nombrePeriodoAcademico') and node._data._nombrePeriodoAcademico == data:
-                print('Ya existe un nodo con este dato (peroodoAcademico)')
-                return True, node._data._id
-            elif hasattr(node._data, '_nombreMateria') and node._data._nombreMateria == data:
-                print('Ya existe un nodo con este dato (maretia)')
-                return True, node._data._id
+                return True, node._data._id, node._data._correo
+            elif hasattr(node._data, '_nombre') and node._data._nombre == data:
+                print('Ya existe un nodo con este dato (nombre)')
+                return True, node._data._id, node._data._nombre
+            
             
             node = node._next
-        return False, None
+        return False, None, None
 
+
+
+    
+    def __obtenerMateriaDeCiclo__(self, cicloId):
+        node = self.__head
+        materias = []
+        for i in range(0, self._length):
+            if node._data._cicloId == cicloId:
+                materias.append(node._data._id)
+            node = node._next
+                
+        print(materias)
+        return materias
+    
+    
+    def __obtenerAsignacionDeMateria__(self, arrymateriaId):
+        node = self.__head
+        asignaciones = []
+        for i in range(0, self._length):
+            if node._data._materiaId in arrymateriaId:
+                asignaciones.append(node._data._id)
+            node = node._next
+        print(asignaciones)
+        return asignaciones
         
     
     def __str__(self) -> str:

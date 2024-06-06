@@ -1,13 +1,20 @@
-from models.estudiante import Estudiante
-from models.asignacionDocente import AsignacionDocente
-
-
 class Cursa:
-    def __init__(self) -> None:
+    def __init__(self):
         self.__id = ''
-        self.__estudiante = None
-        self.__asignacionDocente = None
+        self.__estudianteId = 0
+        self.__asignacionDocenteId = 0
         self.__periodoAcademicoId = 0
+        self.__numeroMatricula = 1
+
+    @property
+    def _numeroMatricula(self):
+        return self.__numeroMatricula
+
+    @_numeroMatricula.setter
+    def _numeroMatricula(self, value):
+        if value < 0 or value == 0 or value >3:
+            raise ValueError("El numero de matricula no puede ser negativo")
+        self.__numeroMatricula = value
 
     @property
     def _id(self):
@@ -18,20 +25,20 @@ class Cursa:
         self.__id = value
 
     @property
-    def _estudiante(self):
-        return self.__estudiante
+    def _estudianteId(self):
+        return self.__estudianteId
 
-    @_estudiante.setter
-    def _estudiante(self, value):
-        self.__estudiante = value
+    @_estudianteId.setter
+    def _estudianteId(self, value):
+        self.__estudianteId = value
 
     @property
-    def _asignacionDocente(self):
-        return self.__asignacionDocente
+    def _asignacionDocenteId(self):
+        return self.__asignacionDocenteId
 
-    @_asignacionDocente.setter
-    def _asignacionDocente(self, value):
-        self.__asignacionDocente = value
+    @_asignacionDocenteId.setter
+    def _asignacionDocenteId(self, value):
+        self.__asignacionDocenteId = value
 
     @property
     def _periodoAcademicoId(self):
@@ -48,16 +55,18 @@ class Cursa:
     def serializable(self):
         return {
             "id": self._id,
-            "estudiante": self._estudiante,
-            "asignacionDocente": self._asignacionDocente,
+            "estudianteId": self._estudianteId,
+            "numeroMatricula": self._numeroMatricula,
+            "asignacionDocenteId": self._asignacionDocenteId,
             "periodoAcademico": self._periodoAcademicoId   
         }
         
     def deserialize(self, data):
         cursa = Cursa()
         cursa._id = data['id']
-        cursa._estudiante = data['estudiante']
-        cursa._asignacionDocente = data['asignacionDocente']
+        cursa._estudianteId = data['estudianteId']
+        cursa._numeroMatricula = data['numeroMatricula']
+        cursa._asignacionDocenteId = data['asignacionDocenteId']
         cursa._periodoAcademicoId = data['periodoAcademico']
         return cursa
 

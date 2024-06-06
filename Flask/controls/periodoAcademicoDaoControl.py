@@ -26,3 +26,6 @@ class PeriodoAcademicoDaoControl(DaoAdapter):
         self.__periodoAcademico._id = self._lista._length + 1
         print("Guardando PeriodoAcademico")
         self._save(self.__periodoAcademico)
+        
+    def merge(self, pos):
+        self._merge(self.__periodoAcademico,pos)
