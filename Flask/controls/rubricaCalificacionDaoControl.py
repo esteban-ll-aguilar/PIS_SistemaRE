@@ -8,6 +8,8 @@ class RubricaCalificacionDaoControl(DaoAdapter):
 
     @property
     def _rubricaCalificacion(self):
+        if self.__rubricaCalificacion is None:
+            self.__rubricaCalificacion = RubriaCalificacion()
         return self.__rubricaCalificacion
 
     @_rubricaCalificacion.setter
@@ -23,3 +25,6 @@ class RubricaCalificacionDaoControl(DaoAdapter):
         self.__rubricaCalificacion._id = self._lista._length + 1
         print("Guardando RubricaCalificacion")
         self._save(self.__rubricaCalificacion)
+        
+    def merge(self, pos):
+        self._merge(self.__rubricaCalificacion,pos)

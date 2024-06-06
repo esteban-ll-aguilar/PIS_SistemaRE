@@ -28,4 +28,7 @@ class CuentaDaoControl(DaoAdapter):
         self._save(self.__cuenta)
         
         
+    def merge(self, pos):
+        self._merge(self.__cuenta,pos)
+        
     

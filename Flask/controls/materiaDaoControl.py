@@ -15,7 +15,16 @@ class MateriaDaoControl(DaoAdapter):
     @_materia.setter
     def _materia(self, value):
         self.__materia = value
-        
+        """ 
+    def __exist__(self, nombre):
+        for data in self._lista:
+            if data._nombre == nombre:
+                return True, data._id, data._nombre
+        return False, None, None """
+    
+    def obtenerMateriaDeCiclo(self, cicloId):
+        return self._lista.__obtenerMateriaDeCiclo__(cicloId)
+    
     
     @property
     def _lista(self):
@@ -26,5 +35,8 @@ class MateriaDaoControl(DaoAdapter):
         self.__materia._id = self._lista._length + 1
         print("Guardando Materia")
         self._save(self.__materia)
+        
+    def merge(self, pos):
+        self._merge(self.__materia,pos)
         
         

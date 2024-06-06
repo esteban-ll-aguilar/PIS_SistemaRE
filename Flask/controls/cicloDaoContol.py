@@ -26,3 +26,7 @@ class CicloDaoControl(DaoAdapter):
         self.__ciclo._id = self._lista._length + 1
         print("Guardando Ciclo")
         self._save(self.__ciclo)
+        
+        
+    def merge(self, pos):
+        self._merge(self.__ciclo,pos)

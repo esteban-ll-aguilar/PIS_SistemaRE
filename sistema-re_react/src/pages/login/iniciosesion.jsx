@@ -10,7 +10,7 @@ import { useFormik } from 'formik';
 
 
 
-const Iniciosesion = () => {
+export const Iniciosesion = () => {
 
   const validate = (values) => {
     const errors = {};
