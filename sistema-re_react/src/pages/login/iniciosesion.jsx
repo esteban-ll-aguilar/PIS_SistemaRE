@@ -73,10 +73,10 @@ export const Iniciosesion = () => {
         <form>
           <h1 className='font-bold'>Activar cuenta</h1>
           <div className="social-icons">
-            <a href="#" className="icon"><i className="fa-brands fa-google-plus-g"></i></a>
-            <a href="#" className="icon"><i className="fa-brands fa-facebook-f"></i></a>
-            <a href="#" className="icon"><i className="fa-brands fa-github"></i></a>
-            <a href="#" className="icon"><i className="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://github.com/esteban-ll-aguilar/PIS_SistemaRE.git" className="icon"><i className="fa-brands fa-github"></i></a>
+            <a href="https://www.unl.edu.ec/" className="icon"><i className="fa-solid fa-school"></i></a>
+            <a href="mailto:foranix2023@gmail.com" className="icon"><i className="fa-solid fa-envelope"></i></a>
+            <a href="https://www.instagram.com/foranix/" className="icon"><i className="fa-brands fa-square-instagram"></i></a>
           </div>
           <span>Te enviaremos un enlace de activación a tu correo </span>
           <input type="email" placeholder="correo@unl.edu.ec" required name="email" id="email"
@@ -96,10 +96,10 @@ export const Iniciosesion = () => {
         <form>
           <h1 className='font-bold'>Inicia sesión</h1>
           <div className="social-icons">
-            <a href="https://www.instagram.com/foranix/" className="icon"><i className="fa-brands fa-google-plus-g"></i></a>
-            <a href="#" className="icon"><i className="fa-brands fa-facebook-f"></i></a>
-            <a href="#" className="icon"><i className="fa-brands fa-github"></i></a>
-            <a href="https://www.unl.edu.ec/" className="icon"><i className="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://github.com/esteban-ll-aguilar/PIS_SistemaRE.git" className="icon"><i className="fa-brands fa-github"></i></a>
+            <a href="https://www.unl.edu.ec/" className="icon"><i className="fa-solid fa-school"></i></a>
+            <a href="mailto:foranix2023@gmail.com" className="icon"><i className="fa-solid fa-envelope"></i></a>
+            <a href="https://www.instagram.com/foranix/" className="icon"><i className="fa-brands fa-square-instagram"></i></a>
           </div>
           <span>Ingresa tus credenciales institucionales | UNL</span>
           <input type="email" placeholder="correo@unl.edu.ec" required name="email" id="email"
