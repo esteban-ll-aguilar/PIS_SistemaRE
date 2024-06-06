@@ -1,11 +1,14 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import { Iniciosesion } from './pages/login/iniciosesion';
+import './App.css'
+import {Iniciosesion} from './pages/login/iniciosesion'; // Aquí corregimos la importación
 import { Graficas } from './pages/graphics/graficas';
 import { Informe } from './pages/interfaces/informe/informe';
 import { Interfaz } from './pages/interfaces/interfaz';
 import { Home } from './pages/home';
-import './App.css'
+// examples no topar, agregrar sus rutas arriba de esta linea
+import ListaEstudiantes  from './pages/examples/lista_estudiantes';
+
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
     <Route path='/graficas' element={<Graficas  />} />
     <Route path='/informe' element={<Informe  />} />
     <Route path='/interfaz' element={<Interfaz  />} />
+    <Route path='/lista_estudiantes' element={<ListaEstudiantes  />} />
+    
+
    </Routes>
    </BrowserRouter>
   )

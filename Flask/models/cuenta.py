@@ -5,7 +5,7 @@ class Cuenta:
         self.__estado = False
         self.__correo = ""
 
-    @property
+    @property 
     def _id(self):
         return self.__id
 

@@ -19,8 +19,17 @@ class AsignacionDocenteDaoControl(DaoAdapter):
     def _lista(self):
         return self._list()
     
+    def obtenerAsignacionDeMateria(self, asignacionDocenteId):
+        return self._lista.__obtenerAsignacionDeMateria__(asignacionDocenteId)
+        
+    
+    
     @property
     def save(self):
         self.__asignacionDocente._id = self._lista._length + 1
         print("Guardando Asignacion Docente")
         self._save(self.__asignacionDocente)
+        
+        
+    def merge(self, pos):
+        self._merge(self.__asignacionDocente,pos)
