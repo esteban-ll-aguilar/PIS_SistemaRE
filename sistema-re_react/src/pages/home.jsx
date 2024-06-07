@@ -32,6 +32,12 @@ export const Home = () => {
           >
             Bradley
           </Link>
+          <Link
+            to='/ciclos'
+            className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 flex items-center justify-center text-center"
+          >
+            Esteban
+          </Link>
         </div>
       </div>
     </div>

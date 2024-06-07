@@ -32,7 +32,35 @@ def upload_file_docente():
     return jsonify({"message": "Archivo subido correctamente"})
 
 
-@api.route('/lista_estudiantes', methods=['GET'])
+@api.route('/ciclos', methods=['GET'])
+def lista_estudiantes_filter():
+    ciclo1 = CicloDaoControl()
+    ciclo1._lista.sort_models('_ciclo', 1)
+    
+    return ciclo1.__transform__()
+
+
+#<int:cicloId> se pasa como parametro en la url
+@api.route('/ciclos/materias/<int:cicloId>', methods=['GET'])
+def marerias_ciclo(cicloId):
+    materias = MateriaDaoControl()
+    #en sortmodels se para el 1 para ordenarlo de manera acendente, sino sera desendente
+    materias._lista.sort_models('_cicloId', 1)
+    return materias._lista._filter(cicloId)
+
+
+def estudiantes(cicloId):
+    materias = MateriaDaoControl()
+    #en sortmodels se para el 1 para ordenarlo de manera acendente, sino sera desendente
+    materias._lista.sort_models('_cicloId', 1)
+    return materias._lista._filter(cicloId)
+
+
+
+
+
+
+""" @api.route('/lista_estudiantes', methods=['GET'])
 def lista_estudiantes_filter():
     data = request.form
     _, idCiclo, _ = CicloDaoControl()._lista.__exist__(1, 'A')
@@ -46,7 +74,7 @@ def lista_estudiantes_filter():
     print(a)
     
     return jsonify(a)
-
+ """
 
     
 
