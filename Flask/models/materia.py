@@ -35,7 +35,7 @@ class Materia:
     @property
     def serializable(self):
         return {
-            "id": self._id,
+            "idMateria": self._id,
             "nombre": self._nombre,
             "cicloId": self._cicloId
             
@@ -43,9 +43,9 @@ class Materia:
     
     def deserialize(self, data):
         materia = Materia() 
-        materia._id = data["id"]
+        materia._id = data["idMateria"]
         materia._nombre = data["nombre"]
-        materia._cicloId = data["cicloId"]
+        materia._cicloId = data["ciclo"]
         return materia
 
 

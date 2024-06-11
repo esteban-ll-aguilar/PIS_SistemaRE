@@ -1,4 +1,4 @@
-from models.persona import Persona
+from Flask.models.usuario import Persona
 
 class Administrador(Persona):
     def __init__(self):

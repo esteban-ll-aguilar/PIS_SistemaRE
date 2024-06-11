@@ -60,21 +60,6 @@ def estudiantes(cicloId):
 
 
 
-""" @api.route('/lista_estudiantes', methods=['GET'])
-def lista_estudiantes_filter():
-    data = request.form
-    _, idCiclo, _ = CicloDaoControl()._lista.__exist__(1, 'A')
-    materiasId = MateriaDaoControl().obtenerMateriaDeCiclo(idCiclo)
-    asignacionesId = AsignacionDocenteDaoControl().obtenerAsignacionDeMateria(materiasId)
-    a = []
-    for i in range(len(asignacionesId)):
-        arr, jso = CursaDaoControl()._lista._filter(asignacionesId[i])
-        print(jso)
-        a.append(jso)
-    print(a)
-    
-    return jsonify(a)
- """
 
     
 
