@@ -3,9 +3,8 @@ class Materia:
     def __init__(self):
         self.__id = 0
         self.__nombre = ""
-        self.__cicloId = ''
+        self.__ciclo = 0
 
-    
     @property
     def _id(self):
         return self.__id
@@ -23,12 +22,15 @@ class Materia:
         self.__nombre = value
 
     @property
-    def _cicloId(self):
-        return self.__cicloId
+    def _ciclo(self):
+        return self.__ciclo
 
-    @_cicloId.setter
-    def _cicloId(self, value):
-        self.__cicloId = value
+    @_ciclo.setter
+    def _ciclo(self, value):
+        self.__ciclo = value
+
+
+    
 
 
 
@@ -37,7 +39,7 @@ class Materia:
         return {
             "idMateria": self._id,
             "nombre": self._nombre,
-            "cicloId": self._cicloId
+            "ciclo": self._ciclo
             
         }
     
@@ -45,7 +47,7 @@ class Materia:
         materia = Materia() 
         materia._id = data["idMateria"]
         materia._nombre = data["nombre"]
-        materia._cicloId = data["ciclo"]
+        materia._ciclo = data["ciclo"]
         return materia
 
 

@@ -1,15 +1,15 @@
 from controls.dao.daoAdapter import DaoAdapter
-from models.rol import Rol
+from models.funcionDocente import FuncionDocente
 
-class RolDaoControl(DaoAdapter):
+class FuncionDocenteDaoControl(DaoAdapter):
     def __init__(self):
-        super().__init__(Rol)
+        super().__init__(FuncionDocente)
         self.__rol = None
         
     @property
     def _rol(self):
         if self.__rol is None:
-            self.__rol = Rol()
+            self.__rol = FuncionDocente()
         return self.__rol
     
     @_rol.setter

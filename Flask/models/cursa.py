@@ -1,20 +1,14 @@
 class Cursa:
     def __init__(self):
-        self.__id = ''
-        self.__estudianteId = 0
-        self.__asignacionDocenteId = 0
+        self.__id = 0
+        self.__estudianteCedula = 0
+        self.__materiaId = 0
+        self.__paralelo = 0
+        self.__docenteedula = 0
+        self.__numeroMMatricula = 1
         self.__periodoAcademicoId = 0
-        self.__numeroMatricula = 1
-
-    @property
-    def _numeroMatricula(self):
-        return self.__numeroMatricula
-
-    @_numeroMatricula.setter
-    def _numeroMatricula(self, value):
-        if value < 0 or value == 0 or value >3:
-            raise ValueError("El numero de matricula no puede ser negativo")
-        self.__numeroMatricula = value
+        self.__docenteId = 0
+        self.__estudianteId = 0
 
     @property
     def _id(self):
@@ -25,20 +19,44 @@ class Cursa:
         self.__id = value
 
     @property
-    def _estudianteId(self):
-        return self.__estudianteId
+    def _estudianteCedula(self):
+        return self.__estudianteCedula
 
-    @_estudianteId.setter
-    def _estudianteId(self, value):
-        self.__estudianteId = value
+    @_estudianteCedula.setter
+    def _estudianteCedula(self, value):
+        self.__estudianteCedula = value
 
     @property
-    def _asignacionDocenteId(self):
-        return self.__asignacionDocenteId
+    def _materiaId(self):
+        return self.__materiaId
 
-    @_asignacionDocenteId.setter
-    def _asignacionDocenteId(self, value):
-        self.__asignacionDocenteId = value
+    @_materiaId.setter
+    def _materiaId(self, value):
+        self.__materiaId = value
+
+    @property
+    def _paralelo(self):
+        return self.__paralelo
+
+    @_paralelo.setter
+    def _paralelo(self, value):
+        self.__paralelo = value
+
+    @property
+    def _docenteedula(self):
+        return self.__docenteedula
+
+    @_docenteedula.setter
+    def _docenteedula(self, value):
+        self.__docenteedula = value
+
+    @property
+    def _numeroMMatricula(self):
+        return self.__numeroMMatricula
+
+    @_numeroMMatricula.setter
+    def _numeroMMatricula(self, value):
+        self.__numeroMMatricula = value
 
     @property
     def _periodoAcademicoId(self):
@@ -48,26 +66,59 @@ class Cursa:
     def _periodoAcademicoId(self, value):
         self.__periodoAcademicoId = value
 
+    @property
+    def _docenteId(self):
+        return self.__docenteId
+
+    @_docenteId.setter
+    def _docenteId(self, value):
+        self.__docenteId = value
+
+    @property
+    def _estudianteId(self):
+        return self.__estudianteId
+
+    @_estudianteId.setter
+    def _estudianteId(self, value):
+        self.__estudianteId = value
+
+        
+        
+        
+
+    
+
+    
+
 
     
         
     @property
     def serializable(self):
         return {
-            "id": self._id,
-            "estudianteId": self._estudianteId,
-            "numeroMatricula": self._numeroMatricula,
-            "asignacionDocenteId": self._asignacionDocenteId,
-            "periodoAcademico": self._periodoAcademicoId   
+            "idCursa": self._id,
+            "estudiante_user_cedula": self._estudianteCedula,
+            "materia_idMateria": self._materiaId,   
+            "paralelo": self._paralelo,
+            "docente_user_cedula": self._docenteedula,
+            "numeroMMatricula": self._numeroMMatricula,
+            "periodoAcademico_idPAC": self._periodoAcademicoId,
+            "docente_user_idUser": self._docenteId,
+            "estudiante_user_idUser": self._estudianteId
+            
         }
         
     def deserialize(self, data):
         cursa = Cursa()
-        cursa._id = data['id']
-        cursa._estudianteId = data['estudianteId']
-        cursa._numeroMatricula = data['numeroMatricula']
-        cursa._asignacionDocenteId = data['asignacionDocenteId']
-        cursa._periodoAcademicoId = data['periodoAcademico']
+        cursa._id = data['idCursa']
+        cursa._estudianteCedula = data['estudiante_user_cedula']
+        cursa._materiaId = data['materia_idMateria']
+        cursa._paralelo = data['paralelo']
+        cursa._docenteedula = data['docente_user_cedula']
+        cursa._numeroMMatricula = data['numeroMMatricula']
+        cursa._periodoAcademicoId = data['periodoAcademico_idPAC']
+        cursa._docenteId = data['docente_user_idUser']
+        cursa._estudianteId = data['estudiante_user_idUser']
         return cursa
 
         

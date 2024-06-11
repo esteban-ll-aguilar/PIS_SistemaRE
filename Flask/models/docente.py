@@ -1,6 +1,6 @@
-from Flask.models.usuario import Persona
+from models.usuario import Usuario
 
-class Docente(Persona): 
+class Docente(Usuario): 
     def __init__(self):
         super().__init__()
         self.__cubiculo = ''
@@ -17,27 +17,34 @@ class Docente(Persona):
     @property
     def serializable(self):
         return {
-            "id": self._id,
-            "nombre": self._nombre,
-            "apellido": self._apellido,
-            "cedula": self._cedula,
-            "isActivo": self._isActivo,
-            "rolId": self._rolId,
-            "cuentaId": self._cuentaId,
-            "cubiculo": self._cubiculo
+            "user_IdUser": self._id,
+            "user_Cedula": self._cedula,
+            'user_Nombres': self._nombres,
+            'user_Apellidos': self._apellidos,
+            'user_Correo': self._correo,
+            'user_Contrasena': self._contrasena,
+            'user_Estado': self._estado,
+            'user_UrlImagen': self._urlImagen,
+            'user_NombreUser': self._nombreUsuario,
+            'cubiculo': self._cubiculo
+            
         }
-    
+
     def deserialize(self, data):
         docente = Docente()
-        docente._id = data['id']
-        docente._nombre = data['nombre']
-        docente._apellido = data['apellido']
-        docente._cedula = data['cedula']
-        docente._isActivo = data['isActivo']
-        docente._rolId = data['rolId']
-        docente._cuentaId = data['cuentaId']
+        docente._id = data['user_IdUser']
+        docente._cedula = data['user_Cedula']
+        docente._nombres = data['user_Nombres']
+        docente._apellidos = data['user_Apellidos']
+        docente._correo = data['user_Correo']
+        docente._contrasena = data['user_Contrasena']
+        docente._estado = data['user_Estado']
+        docente._urlImagen = data['user_UrlImagen']
+        docente._nombreUsuario = data['user_NombreUser']
         docente._cubiculo = data['cubiculo']
+        
         return docente
+
         
         
     

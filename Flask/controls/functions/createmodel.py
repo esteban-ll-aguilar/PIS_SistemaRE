@@ -1,9 +1,7 @@
 from controls.materiaDaoControl import MateriaDaoControl
-from controls.cicloDaoContol import CicloDaoControl
 from controls.docenteDaoControl import DocenteDaoControl
-from controls.cuentaDaoControl import CuentaDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
-from controls.rolDaoControl import RolDaoControl
+from controls.funcionDocenteDaoControl import FuncionDocente
 from controls.estudianteDaoControl import EstudianteDaoControl
 
 class CreateModel:
@@ -15,12 +13,7 @@ class CreateModel:
         materia.save
         return materia._materia._id
     
-    def createCiclo(data):
-        ciclo = CicloDaoControl()
-        ciclo._ciclo._ciclo = data['Ciclo']
-        ciclo._ciclo._paralelo = data['Paralelo']
-        ciclo.save
-        return ciclo._ciclo._id
+
         
     def createDocente(data, idCuenta, idRol):
         docente = DocenteDaoControl()
@@ -33,12 +26,7 @@ class CreateModel:
         docente.save
         return docente._docente._cedula
     
-    def createCuenta(data):
-        cuenta = CuentaDaoControl()
-        cuenta._cuenta._correo = data['Correo']
-        cuenta._cuenta._clave = data['Clave']
-        cuenta.save
-        return cuenta._cuenta._id
+
     
     def createPeriodoAcademico(data):
         periodoAc = PeriodoAcademicoDaoControl()
@@ -47,7 +35,7 @@ class CreateModel:
         return periodoAc._periodoAcademico._id
     
     def createRol(rolname):
-        rol = RolDaoControl()
+        rol = FuncionDocente()
         rol._rol._nombre = rolname
         rol.save
         return rol._rol._id
