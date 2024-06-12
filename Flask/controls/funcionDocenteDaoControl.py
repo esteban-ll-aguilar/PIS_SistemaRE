@@ -4,17 +4,17 @@ from models.funcionDocente import FuncionDocente
 class FuncionDocenteDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(FuncionDocente)
-        self.__rol = None
+        self.__funcionDocente = None
         
     @property
-    def _rol(self):
-        if self.__rol is None:
-            self.__rol = FuncionDocente()
-        return self.__rol
+    def _funcionDocente(self):
+        if self.__funcionDocente is None:
+            self.__funcionDocente = FuncionDocente()
+        return self.__funcionDocente
     
-    @_rol.setter
-    def _rol(self, value):
-        self.__rol = value
+    @_funcionDocente.setter
+    def _funcionDocente(self, value):
+        self.__funcionDocente = value
         
     @property
     def _lista(self):
@@ -22,10 +22,10 @@ class FuncionDocenteDaoControl(DaoAdapter):
     
     @property
     def save(self):
-        self.__rol._id = self._lista._length + 1
+        self.__funcionDocente._id = self._lista._length + 1
         print("Guardando Rol")
-        self._save(self.__rol)
+        self._save(self.__funcionDocente)
         
     def merge(self, pos):
-        self._merge(self.__rol,pos)
+        self._merge(self.__funcionDocente,pos)
         

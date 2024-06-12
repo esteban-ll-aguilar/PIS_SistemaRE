@@ -8,29 +8,28 @@ class Estudiante(Usuario):
     @property
     def serializable(self):
         return {
-            "user_IdUser": self._id,
-            "user_Cedula": self._cedula,
-            'user_Nombres': self._nombres,
-            'user_Apellidos': self._apellidos,
-            'user_Correo': self._correo,
-            'user_Contrasena': self._contrasena,
-            'user_Estado': self._estado,
-            'user_UrlImagen': self._urlImagen,
-            'user_NombreUser': self._nombreUsuario
-            
+            "user_iduser": self._id,
+            "user_cedula": self._cedula,
+            'user_nombres': self._nombres,
+            'user_apellidos': self._apellidos,
+            'user_correo': self._correo,
+            'user_contrasena': self._contrasena,
+            'user_estado': self._estado,
+            'user_urlimagen': self._urlImagen,
+            'user_nombreuser': self._nombreUsuario
         }
 
     def deserialize(self, data):
         estudiante = Estudiante()
-        estudiante._id = data['user_IdUser']
-        estudiante._cedula = data['user_Cedula']
-        estudiante._nombres = data['user_Nombres']
-        estudiante._apellidos = data['user_Apellidos']
-        estudiante._correo = data['user_Correo']
-        estudiante._contrasena = data['user_Contrasena']
-        estudiante._estado = data['user_Estado']
-        estudiante._urlImagen = data['user_UrlImagen']
-        estudiante._nombreUsuario = data['user_NombreUser']
+        estudiante._id = data['user_iduser']
+        estudiante._cedula = data['user_cedula']
+        estudiante._nombres = data['user_nombres']
+        estudiante._apellidos = data['user_apellidos']
+        estudiante._correo = data['user_correo']
+        estudiante._contrasena = data['user_contrasena']
+        estudiante._estado = data['user_estado']
+        estudiante._urlImagen = data['user_urlimagen']
+        estudiante._nombreUsuario = data['user_nombreuser']
         
         return estudiante
 

@@ -34,17 +34,17 @@ class Unidad:
     @property
     def serializable(self):
         return {
-            "idUnidad": self._id,
+            "idunidad": self._id,
             "nombre": self._nombre,
-            "nUnidad": self._nUnidad
+            "nunidad": self._nUnidad
         }
     
     
     def deserialize(self, data):
         unidad = Unidad()
-        unidad._id = data["idUnidad"]
+        unidad._id = data["idunidad"]
         unidad._nombre = data["nombre"]
-        unidad._nUnidad = data["nUnidad"]
+        unidad._nUnidad = data["nunidad"]
         return unidad
 
     

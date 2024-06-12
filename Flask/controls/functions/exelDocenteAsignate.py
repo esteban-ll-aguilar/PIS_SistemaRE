@@ -1,4 +1,4 @@
-from controls.functions.exelDaoAdapter import ExelDaoAdapter
+from controls.dao.exelDaoAdapter import ExelDaoAdapter
 from controls.materiaDaoControl import MateriaDaoControl
 from controls.docenteDaoControl import DocenteDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl

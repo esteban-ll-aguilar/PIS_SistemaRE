@@ -43,18 +43,18 @@ class FuncionDocente:
     @property
     def serializable(self):
         return {
-            "idFuncionDocente": self._id,
+            "idfunciondocente": self._id,
             "descripcion": self._descripcion,
-            "docente_User_Cedula": self._docenteUserCedula,
-            "docente_User_IdUser": self._docenteUserId
+            "docente_user_cedula": self._docenteUserCedula,
+            "docente_user_iduser": self._docenteUserId
         }
     
     def deserialize(self, data):
         duncionDocente = FuncionDocente()
-        duncionDocente._id = data["idFuncionDocente"]
+        duncionDocente._id = data["idfunciondocente"]
         duncionDocente._descripcion = data["descripcion"]
-        duncionDocente._docenteUserCedula = data["docente_User_Cedula"]
-        duncionDocente._docenteUserId = data["docente_User_IdUser"]
+        duncionDocente._docenteUserCedula = data["docente_user_cedula"]
+        duncionDocente._docenteUserId = data["docente_user_iduser"]
         return duncionDocente
 
         

@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import enum
 from typing import Type, TypeVar, Generic
-
+from controls.tda.linked.linkedList import Linked_List
 T = TypeVar("T")
 class ExelDaoAdapter(Generic[T]):
     atype: T
@@ -13,15 +13,14 @@ class ExelDaoAdapter(Generic[T]):
         self.atype = atype
         self.file = atype.__name__.lower() + ".json"
         self.URL = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "/data/"
-        print('Url: '+self.URL)
-        print('Clase: '+self.file)
     
 
-
-
+    
+    
+    
     
 
-    @property
+    @property   
     def _saveExel(self):
         self.__dF = pd.read_excel(self.archivo)#usecols=lambda x:x != 'Estudiante')
         self.__dF['Cedula'] = self.__dF['Cedula'].astype(str)

@@ -132,21 +132,22 @@ class Linked_List(object):
             print(out)
         return out
 
-    def __exist__(self, data, paralelo=None):
+    def __exist__(self, data, ciclo=None):
             node = self.__head
             for i in range(0, self._length):
+                print('data',node._data)
                 if hasattr(node._data, '_cedula') and node._data._cedula == data:
                     print('Ya existe un nodo con este dato (cedula)')
                     return True, node._data._id, node._data._cedula
-                elif hasattr(node._data, '_ciclo') and node._data._ciclo == data and  hasattr(node._data, '_paralelo') and node._data._paralelo == paralelo:
+                elif hasattr(node._data, '_ciclo') and node._data._ciclo == ciclo and  hasattr(node._data, '_nombre') and node._data._nombre == data:
                     print('Ya existe un nodo con este dato (ciclo y paralelo)')
                     return True, node._data._id, node._data._ciclo
                 elif hasattr(node._data, '_correo') and node._data._correo == data:
                     print('Ya existe un nodo con este dato (correo)')
                     return True, node._data._id, node._data._correo
-                elif hasattr(node._data, '_nombre') and node._data._nombre == data:
+                elif hasattr(node._data, '_nombres') and node._data._nombres == data:
                     print('Ya existe un nodo con este dato (nombre)')
-                    return True, node._data._id, node._data._nombre
+                    return True, node._data._id, node._data._nombres
                 node = node._next
             return False, None, None
 
@@ -200,6 +201,7 @@ class Linked_List(object):
         node = self.__head
         data = ''
         while node != None:
+            print('ffffffffffff',node._data)
             data += str(node._data._id) + '    '
             node = node._next
         print(data)

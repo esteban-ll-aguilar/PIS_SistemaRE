@@ -52,26 +52,4 @@ class QuickSort:
             else:
                 array = bigger + equal + lower
             return array
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-    
-    
+        

@@ -23,12 +23,12 @@ class RubriaCaCF:
     @property
     def serializable(self):
         return {
-            "idRCal": self._id,
+            "idrcal": self._id,
             "descripcion": self._descripcion
         }
         
     def deserialize(self, data):
-        rubricaCalificacion = RubriaCalificacion()
-        rubricaCalificacion._id = data["idRCal"]
+        rubricaCalificacion = RubriaCaCF()
+        rubricaCalificacion._id = data["idrcal"]
         rubricaCalificacion._descripcion = data["descripcion"]
         return rubricaCalificacion

@@ -4,6 +4,15 @@ class Materia:
         self.__id = 0
         self.__nombre = ""
         self.__ciclo = 0
+        self.__cedulaDocente = 0
+
+    @property
+    def _cedulaDocente(self):
+        return self.__cedulaDocente
+
+    @_cedulaDocente.setter
+    def _cedulaDocente(self, value):
+        self.__cedulaDocente = value
 
     @property
     def _id(self):
@@ -37,15 +46,14 @@ class Materia:
     @property
     def serializable(self):
         return {
-            "idMateria": self._id,
+            "idmateria": self._id,
             "nombre": self._nombre,
-            "ciclo": self._ciclo
-            
+            "ciclo": self._ciclo,
         }
     
     def deserialize(self, data):
         materia = Materia() 
-        materia._id = data["idMateria"]
+        materia._id = data["idmateria"]
         materia._nombre = data["nombre"]
         materia._ciclo = data["ciclo"]
         return materia

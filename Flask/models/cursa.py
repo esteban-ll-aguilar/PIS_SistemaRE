@@ -96,29 +96,29 @@ class Cursa:
     @property
     def serializable(self):
         return {
-            "idCursa": self._id,
+            "idcursa": self._id,
             "estudiante_user_cedula": self._estudianteCedula,
-            "materia_idMateria": self._materiaId,   
+            "materia_idmateria": self._materiaId,   
             "paralelo": self._paralelo,
             "docente_user_cedula": self._docenteedula,
-            "numeroMMatricula": self._numeroMMatricula,
-            "periodoAcademico_idPAC": self._periodoAcademicoId,
-            "docente_user_idUser": self._docenteId,
-            "estudiante_user_idUser": self._estudianteId
+            "numerommatricula": self._numeroMMatricula,
+            "periodoacademico_idpac": self._periodoAcademicoId,
+            "docente_user_iduser": self._docenteId,
+            "estudiante_user_iduser": self._estudianteId
             
         }
         
     def deserialize(self, data):
         cursa = Cursa()
-        cursa._id = data['idCursa']
+        cursa._id = data['idcursa']
         cursa._estudianteCedula = data['estudiante_user_cedula']
-        cursa._materiaId = data['materia_idMateria']
+        cursa._materiaId = data['materia_idmateria']
         cursa._paralelo = data['paralelo']
         cursa._docenteedula = data['docente_user_cedula']
-        cursa._numeroMMatricula = data['numeroMMatricula']
-        cursa._periodoAcademicoId = data['periodoAcademico_idPAC']
-        cursa._docenteId = data['docente_user_idUser']
-        cursa._estudianteId = data['estudiante_user_idUser']
+        cursa._numeroMMatricula = data['numerommatricula']
+        cursa._periodoAcademicoId = data['periodoAcademico_idpac']
+        cursa._docenteId = data['docente_user_iduser']
+        cursa._estudianteId = data['estudiante_user_iduser']
         return cursa
 
         

@@ -1,53 +1,61 @@
 from controls.materiaDaoControl import MateriaDaoControl
 from controls.docenteDaoControl import DocenteDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
-from controls.funcionDocenteDaoControl import FuncionDocente
+from controls.funcionDocenteDaoControl import FuncionDocenteDaoControl
 from controls.estudianteDaoControl import EstudianteDaoControl
-
+from controls.calificacionDaoControl import CalificacionDaoControl
 class CreateModel:
     
-    def createMateria(data, idCiclo):
+    def createMateria(data):
         materia = MateriaDaoControl()
         materia._materia._nombre = data['Materia']
-        materia._materia._cicloId = idCiclo
+        materia._materia._ciclo = data['Ciclo']
+        materia._materia._cedulaDocente = data['Cedula']
         materia.save
         return materia._materia._id
     
 
         
-    def createDocente(data, idCuenta, idRol):
+    def createDocente(data):
         docente = DocenteDaoControl()
-        docente._docente._rolId = idRol
-        docente._docente._nombre = data['Nombre']
-        docente._docente._apellido = data['Apellido']
         docente._docente._cedula = data['Cedula']
+        docente._docente._nombres = data['Nombre']
+        docente._docente._apellidos = data['Apellido']
+        docente._docente._correo = data['Correo']
+        docente._docente._contrasena = data['Cedula']
+        docente._docente._estado = 0
         docente._docente._cubiculo = data['Cubiculo']
-        docente._docente._cuentaId = idCuenta
         docente.save
         return docente._docente._cedula
     
 
     
-    def createPeriodoAcademico(data):
-        periodoAc = PeriodoAcademicoDaoControl()
-        periodoAc._periodoAcademico._nombre = data['PeriodoAcademico']
-        periodoAc.save
-        return periodoAc._periodoAcademico._id
-    
-    def createRol(rolname):
-        rol = FuncionDocente()
-        rol._rol._nombre = rolname
-        rol.save
-        return rol._rol._id
     
     
-    def createEstudiante(data, idCuenta, idRol):
+    def createFuncionDocente(userCedula, userId):
+        funcionD = FuncionDocenteDaoControl()
+        funcionD._funcionDocente._descripcion = "DOCENTE"
+        funcionD._funcionDocente._docenteUserCedula = userCedula
+        funcionD._funcionDocente._docenteUserId = userId
+        funcionD.save
+    
+    
+    def createEstudiante(data):
         estudiante = EstudianteDaoControl()
-        estudiante._estudiante._rolId = idRol
-        estudiante._estudiante._nombre = data['Nombre']
-        estudiante._estudiante._apellido = data['Apellido']
         estudiante._estudiante._cedula = data['Cedula']
-        estudiante._estudiante._cuentaId = idCuenta
-        estudiante._estudiante._matricula = data['Matricula']
+        estudiante._estudiante._nombres = data['Nombre']
+        estudiante._estudiante._apellidos = data['Apellido']
+        estudiante._estudiante._correo = data['Correo']
+        estudiante._estudiante._contrasena = data['Cedula']
+        estudiante._estudiante._estado = 1
         estudiante.save
         return estudiante._estudiante._id
+    
+    def createCalificacion(idCursa):
+        calificacion = CalificacionDaoControl()
+        calificacion._calificacion._cursaId = idCursa
+        calificacion._calificacion._valor = 0
+        calificacion._calificacion._rubricaCalificacionId = 0
+        calificacion._calificacion._unidadId = 0
+        calificacion.save
+        return calificacion._calificacion._id

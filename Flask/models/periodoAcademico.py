@@ -1,4 +1,4 @@
-class PeridoAcademico:
+class PeriodoAcademico:
     def __init__(self):
         self.__id = 0
         self.__nombre = ''
@@ -44,18 +44,18 @@ class PeridoAcademico:
     @property
     def serializable(self):
         return {
-            "idPAc": self._id,
+            "idpac": self._id,
             "nombre": self._nombre,
-            "fecha_Inicio": self._fechaInicio,
-            "fecha_Fin": self._fechaFin
+            "fecha_inicio": self._fechaInicio,
+            "fecha_fin": self._fechaFin
         }
         
     def deserialize(self, data):
-        periodoAcademico = PeridoAcademico()
-        periodoAcademico._id = data['idPAc']
+        periodoAcademico = PeriodoAcademico()
+        periodoAcademico._id = data['idpac']
         periodoAcademico._nombre = data['nombre']
-        periodoAcademico._fechaInicio = data['fechaInicio']
-        periodoAcademico._fechaFin = data['fechaFin']
+        periodoAcademico._fechaInicio = data['fecha_inicio']
+        periodoAcademico._fechaFin = data['fecha_fin']
         return periodoAcademico
 
         

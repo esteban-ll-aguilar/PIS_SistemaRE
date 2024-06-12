@@ -7,8 +7,8 @@ class Usuario:
         self.__correo = ""
         self.__contrasena = ""
         self.__estado = True
-        self.__urlImagen = ""
-        self.__nombreUsuario = ""
+        self.__urlImagen = 'NULL'
+        self.__nombreUsuario = 'NULL'
 
     @property
     def _id(self):

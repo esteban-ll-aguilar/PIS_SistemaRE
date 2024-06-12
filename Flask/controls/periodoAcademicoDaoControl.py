@@ -1,15 +1,15 @@
-from models.periodoAcademico import PeridoAcademico
+from models.periodoAcademico import PeriodoAcademico
 from controls.dao.daoAdapter import DaoAdapter
 class PeriodoAcademicoDaoControl(DaoAdapter):
     def __init__(self):
-        super().__init__(PeridoAcademico)
+        super().__init__(PeriodoAcademico)
         self.__periodoAcademico = None
 
 
     @property
     def _periodoAcademico(self):
         if self.__periodoAcademico is None:
-            self.__periodoAcademico = PeridoAcademico()
+            self.__periodoAcademico = PeriodoAcademico()
         return self.__periodoAcademico
 
     @_periodoAcademico.setter

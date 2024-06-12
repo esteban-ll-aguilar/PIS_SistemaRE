@@ -50,9 +50,18 @@ class Calificacion:
     @property
     def serializable(self):
         return {
-            "idCalificacion": self._id,
+            "idcalificacion": self._id,
             "valor": self._valor,
-            "rubricaCF_idRCal": self._rubricaCalificacionId,
-            "unidad_idUnidad": self._unidadId,
-            "cursa_idCursa": self._cursaId
+            "rubricacf_idrcal": self._rubricaCalificacionId,
+            "unidad_idunidad": self._unidadId,
+            "cursa_idcursa": self._cursaId
         }
+        
+    def deserialize(self, data):
+        calificacion = Calificacion()
+        calificacion._id = data["idcalificacion"]
+        calificacion._valor = data["valor"]
+        calificacion._rubricaCalificacionId = data["rubricacf_idrcal"]
+        calificacion._unidadId = data["unidad_idunidad"]
+        calificacion._cursaId = data["cursa_idcursa"]
+        return calificacion
