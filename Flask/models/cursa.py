@@ -4,7 +4,7 @@ class Cursa:
         self.__estudianteCedula = 0
         self.__materiaId = 0
         self.__paralelo = 0
-        self.__docenteedula = 0
+        self.__docenteCedula = 0
         self.__numeroMMatricula = 1
         self.__periodoAcademicoId = 0
         self.__docenteId = 0
@@ -43,12 +43,12 @@ class Cursa:
         self.__paralelo = value
 
     @property
-    def _docenteedula(self):
-        return self.__docenteedula
+    def _docenteCedula(self):
+        return self.__docenteCedula
 
-    @_docenteedula.setter
-    def _docenteedula(self, value):
-        self.__docenteedula = value
+    @_docenteCedula.setter
+    def _docenteCedula(self, value):
+        self.__docenteCedula = value
 
     @property
     def _numeroMMatricula(self):
@@ -100,8 +100,8 @@ class Cursa:
             "estudiante_user_cedula": self._estudianteCedula,
             "materia_idmateria": self._materiaId,   
             "paralelo": self._paralelo,
-            "docente_user_cedula": self._docenteedula,
-            "numerommatricula": self._numeroMMatricula,
+            "docente_user_cedula": self._docenteCedula,
+            "numerommateria": self._numeroMMatricula,
             "periodoacademico_idpac": self._periodoAcademicoId,
             "docente_user_iduser": self._docenteId,
             "estudiante_user_iduser": self._estudianteId
@@ -114,9 +114,9 @@ class Cursa:
         cursa._estudianteCedula = data['estudiante_user_cedula']
         cursa._materiaId = data['materia_idmateria']
         cursa._paralelo = data['paralelo']
-        cursa._docenteedula = data['docente_user_cedula']
-        cursa._numeroMMatricula = data['numerommatricula']
-        cursa._periodoAcademicoId = data['periodoAcademico_idpac']
+        cursa._docenteCedula = data['docente_user_cedula']
+        cursa._numeroMMatricula = data['numerommateria']
+        cursa._periodoAcademicoId = data['periodoacademico_idpac']
         cursa._docenteId = data['docente_user_iduser']
         cursa._estudianteId = data['estudiante_user_iduser']
         return cursa

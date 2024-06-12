@@ -3,6 +3,7 @@ from controls.exception.linkedListExeption import LinkedEmptyException, ArrayPos
 import sys
 from numbers import Number
 from controls.tda.ordenation_methods.quickSort import QuickSort
+from controls.tda.search_methods.sequiential_binary_search import SequentialBinarySearch
 class Linked_List(object):
     def __init__(self):
         self.__head = None
@@ -122,6 +123,8 @@ class Linked_List(object):
                     out.append(node._data.serializable)
                 elif hasattr(node._data, '_cedula') and node._data._cedula == data:
                     out.append(node._data.serializable)
+                elif hasattr(node._data, '_docenteUserCedula') and node._data._docenteUserCedula == data and hasattr(node._data, '_docenteUserId') and node._data._docenteUserId == data:
+                    out.append(node._data.serializable)
                 elif hasattr(node._data, '_NComprobante') and node._data._NComprobante == data:
                     out.append(node._data.serializable)
                 elif hasattr(node._data, '_asignacionDocenteId') and node._data._asignacionDocenteId == data:
@@ -132,19 +135,21 @@ class Linked_List(object):
             print(out)
         return out
 
-    def __exist__(self, data, ciclo=None):
+    def __exist__(self, data, ciclo_id=None, cedula=None):
             node = self.__head
             for i in range(0, self._length):
-                print('data',node._data)
                 if hasattr(node._data, '_cedula') and node._data._cedula == data:
                     print('Ya existe un nodo con este dato (cedula)')
                     return True, node._data._id, node._data._cedula
-                elif hasattr(node._data, '_ciclo') and node._data._ciclo == ciclo and  hasattr(node._data, '_nombre') and node._data._nombre == data:
+                elif hasattr(node._data, '_ciclo') and node._data._ciclo == ciclo_id and  hasattr(node._data, '_nombre') and node._data._nombre == data and hasattr(node._data, '_cedulaDocente') and node._data._cedulaDocente == cedula:
                     print('Ya existe un nodo con este dato (ciclo y paralelo)')
                     return True, node._data._id, node._data._ciclo
                 elif hasattr(node._data, '_correo') and node._data._correo == data:
                     print('Ya existe un nodo con este dato (correo)')
                     return True, node._data._id, node._data._correo
+                elif hasattr(node._data, '_docenteUserCedula') and node._data._docenteUserCedula == cedula and hasattr(node._data, '_docenteUserId') and node._data._docenteUserId == ciclo_id and hasattr(node._data, '_descripcion') and node._data._descripcion == data:
+                    print('Ya existe un nodo con este dato (docente)')
+                    return True, node._data._id, node._data._docenteUserCedula
                 elif hasattr(node._data, '_nombres') and node._data._nombres == data:
                     print('Ya existe un nodo con este dato (nombre)')
                     return True, node._data._id, node._data._nombres
@@ -237,9 +242,21 @@ class Linked_List(object):
                 else:
                     array = quick.quick_sort_models(array, attribute, False)
             self.toList(array)
-        return self
+        return array
     
+    def search_models(self, data, attribute):
+        if self.isEmpty:
+            raise LinkedEmptyException("List empty")
+        else:
+            search = SequentialBinarySearch()
+            array = self.toArray
+            array =self.sort_models(attribute)
+            array = search.binary_search_sequential_models(array, data, attribute)
+            return array
+            
         
+    
+    
     def search_number_equals(self, data):
         lista = Linked_List()
         if self.isEmpty:

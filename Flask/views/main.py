@@ -15,7 +15,7 @@ try:
     """ pacd = PeriodoAcademicoDaoControl()
     pacd._list()
     print(pacd.to_dict()) """
-    eca.crearCursa('Abril-Agosto 2024')
+    eca.crearCursa(1)
     
     
     

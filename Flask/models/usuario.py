@@ -5,7 +5,7 @@ class Usuario:
         self.__nombres = ""
         self.__apellidos = ""
         self.__correo = ""
-        self.__contrasena = ""
+        self.__contrasena = 'NULL'
         self.__estado = True
         self.__urlImagen = 'NULL'
         self.__nombreUsuario = 'NULL'

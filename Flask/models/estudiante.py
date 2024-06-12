@@ -15,7 +15,7 @@ class Estudiante(Usuario):
             'user_correo': self._correo,
             'user_contrasena': self._contrasena,
             'user_estado': self._estado,
-            'user_urlimagen': self._urlImagen,
+            'user_urlimage': self._urlImagen,
             'user_nombreuser': self._nombreUsuario
         }
 
@@ -28,7 +28,7 @@ class Estudiante(Usuario):
         estudiante._correo = data['user_correo']
         estudiante._contrasena = data['user_contrasena']
         estudiante._estado = data['user_estado']
-        estudiante._urlImagen = data['user_urlimagen']
+        estudiante._urlImagen = data['user_urlimage']
         estudiante._nombreUsuario = data['user_nombreuser']
         
         return estudiante
