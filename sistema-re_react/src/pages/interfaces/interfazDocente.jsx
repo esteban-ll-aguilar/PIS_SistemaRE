@@ -1,13 +1,13 @@
 import React from 'react'
-import Sidebar from '../../components/Sidebar';
+import SidebarDocente from '../../components/SidebarDocente';
 import Dashboardview from '../../components/Dashboardview';
 import { Outlet } from 'react-router-dom';
 
-export const Interfaz = () => {
+export const InterfazDocente = () => {
   return (
       <div className="min-h-screen flex">
         <div className="basis-[12%] h-[100vh]">
-          <Sidebar />
+          <SidebarDocente />
       </div>
 
       <div className="basis-[88%] border overflow-scroll h-[100vh]">

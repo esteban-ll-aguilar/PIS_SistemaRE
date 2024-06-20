@@ -5,6 +5,7 @@ import {Iniciosesion} from './pages/login/iniciosesion'; // Aquí corregimos la 
 import { Graficas } from './pages/graphics/graficas';
 import { Informe } from './pages/interfaces/informe/informe';
 import { Interfaz } from './pages/interfaces/interfaz';
+import { InterfazDocente } from './pages/interfaces/interfazDocente';
 import { Home } from './pages/home';
 
 // examples no topar, agregrar sus rutas arriba de esta linea
@@ -22,7 +23,7 @@ function App() {
     <Route path='/interfaz' element={<Interfaz  />} />
     <Route path='/ciclos' element={<ListaCiclos  />} />  
     <Route path='/ciclos/materias/:id' element={<Materias  />} />
-
+    <Route path='/interfazDocente' element={<InterfazDocente  />} />
 
     
 
