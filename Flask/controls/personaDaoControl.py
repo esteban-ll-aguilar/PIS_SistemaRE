@@ -1,4 +1,4 @@
-from models.persona import Persona
+from Flask.models.usuario import Persona
 from controls.dao.daoAdapter import DaoAdapter
 
 class PersonaDaoControl(DaoAdapter):

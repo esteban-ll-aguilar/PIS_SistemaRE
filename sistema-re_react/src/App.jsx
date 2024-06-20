@@ -6,9 +6,10 @@ import { Graficas } from './pages/graphics/graficas';
 import { Informe } from './pages/interfaces/informe/informe';
 import { Interfaz } from './pages/interfaces/interfaz';
 import { Home } from './pages/home';
-// examples no topar, agregrar sus rutas arriba de esta linea
-import ListaEstudiantes  from './pages/examples/lista_estudiantes';
 
+// examples no topar, agregrar sus rutas arriba de esta linea
+import ListaCiclos  from './pages/examples/ciclos';
+import Materias from './pages/examples/materiasCiclos';
 
 function App() {
   return (
@@ -19,7 +20,10 @@ function App() {
     <Route path='/graficas' element={<Graficas  />} />
     <Route path='/informe' element={<Informe  />} />
     <Route path='/interfaz' element={<Interfaz  />} />
-    <Route path='/lista_estudiantes' element={<ListaEstudiantes  />} />
+    <Route path='/ciclos' element={<ListaCiclos  />} />  
+    <Route path='/ciclos/materias/:id' element={<Materias  />} />
+
+
     
 
    </Routes>

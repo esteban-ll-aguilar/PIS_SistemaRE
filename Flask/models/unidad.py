@@ -2,12 +2,12 @@ class Unidad:
     def __init__(self):
         self.__id = 0
         self.__nombre = ""
-        self.__rubricaCalificacionId = ""
+        self.__nUnidad = 0
+
 
     @property
     def _id(self):
         return self.__id
-
 
     @_id.setter
     def _id(self, value):
@@ -22,28 +22,29 @@ class Unidad:
         self.__nombre = value
 
     @property
-    def _rubricaCalificacionId(self):
-        return self.__rubricaCalificacionId
+    def _nUnidad(self):
+        return self.__nUnidad
 
-    @_rubricaCalificacionId.setter
-    def _rubricaCalificacionId(self, value):
-        self.__rubricaCalificacionId = value
-        
+    @_nUnidad.setter
+    def _nUnidad(self, value):
+        self.__nUnidad = value
+
+    
     
     @property
     def serializable(self):
         return {
-            "id": self._id,
+            "idunidad": self._id,
             "nombre": self._nombre,
-            "rubricaCalificacionId": self._rubricaCalificacionId
+            "nunidad": self._nUnidad
         }
     
     
     def deserialize(self, data):
         unidad = Unidad()
-        unidad._id = data["id"]
+        unidad._id = data["idunidad"]
         unidad._nombre = data["nombre"]
-        unidad._rubricaCalificacionId = data["rubricaCalificacionId"]
+        unidad._nUnidad = data["nunidad"]
         return unidad
 
     
