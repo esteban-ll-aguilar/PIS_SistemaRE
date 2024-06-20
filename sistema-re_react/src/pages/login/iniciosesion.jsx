@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
 import { Link } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
-
 import './style.css'; // Incluimos los estilos adicionales
 import { useFormik } from 'formik';
 
