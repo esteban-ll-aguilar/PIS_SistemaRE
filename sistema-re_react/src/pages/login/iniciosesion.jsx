@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './style.css'; // Incluimos los estilos adicionales
 import { useFormik } from 'formik';
-
-
-
-
 
 export const Iniciosesion = () => {
 
@@ -20,8 +16,8 @@ export const Iniciosesion = () => {
       errors.email = 'Correo invalido el dominio debe ser con @unl.edu.ec';
     }
   
-    return errors
-  }
+    return errors;
+  };
 
   useEffect(() => {
     const container = document.getElementById('container');
@@ -38,7 +34,6 @@ export const Iniciosesion = () => {
       });
     }
 
-    // Clean up event listeners on component unmount
     return () => {
       if (registerBtn && loginBtn) {
         registerBtn.removeEventListener('click', () => {
@@ -62,6 +57,15 @@ export const Iniciosesion = () => {
       alert(JSON.stringify(values, null, 2));
     },
   });
+
+  const navigate = useNavigate();
+  
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    if (formik.touched.email && !formik.errors.email && formik.values.email && formik.values.password) {
+      navigate('/interfaz');
+    }
+  };
 
   const isEmailValid = formik.touched.email && !formik.errors.email && formik.values.email;
 
@@ -107,13 +111,17 @@ export const Iniciosesion = () => {
             <span style={{ color: 'red' }}>{formik.errors.email}</span>
           ) : null}
 
-
           <input type="password" placeholder="contraseña" required name="password" id="password"
             onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
-          <button type="submit" id="validate-button"
-           disabled={!isEmailValid}
-           className={isEmailValid ? 'button-enabled' : 'button-disabled'}
-          >Iniciar sesión</button>
+          <button 
+            type="submit" 
+            id="validate-button"
+            disabled={!isEmailValid || !formik.values.password}
+            className={isEmailValid ? 'button-enabled' : 'button-disabled'}
+            onClick={handleLoginClick}
+          >
+            Iniciar sesión
+          </button>
           <a href="#">¿Olvidaste tu contraseña?</a>
         </form>
       </div>
