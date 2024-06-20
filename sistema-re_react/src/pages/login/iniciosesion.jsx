@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
 import { Link } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
-
 import './style.css'; // Incluimos los estilos adicionales
 import { useFormik } from 'formik';
 
@@ -10,7 +9,7 @@ import { useFormik } from 'formik';
 
 
 
-const Iniciosesion = () => {
+export const Iniciosesion = () => {
 
   const validate = (values) => {
     const errors = {};

@@ -1,12 +1,11 @@
-from models.estudiante import Estudiante
-from models.asignacionDocente import AsignacionDocente
-
-
 class Cursa:
-    def __init__(self) -> None:
-        self.__id = ''
-        self.__estudiante = None
-        self.__asignacionDocente = None
+    def __init__(self):
+        self.__id = 0
+        self.__estudianteCedula = 0
+        self.__materiaId = 0
+        self.__paralelo = 0
+        self.__docenteCedula = 0
+        self.__numeroMMatricula = 1
         self.__periodoAcademicoId = 0
 
     @property
@@ -18,20 +17,44 @@ class Cursa:
         self.__id = value
 
     @property
-    def _estudiante(self):
-        return self.__estudiante
+    def _estudianteCedula(self):
+        return self.__estudianteCedula
 
-    @_estudiante.setter
-    def _estudiante(self, value):
-        self.__estudiante = value
+    @_estudianteCedula.setter
+    def _estudianteCedula(self, value):
+        self.__estudianteCedula = value
 
     @property
-    def _asignacionDocente(self):
-        return self.__asignacionDocente
+    def _materiaId(self):
+        return self.__materiaId
 
-    @_asignacionDocente.setter
-    def _asignacionDocente(self, value):
-        self.__asignacionDocente = value
+    @_materiaId.setter
+    def _materiaId(self, value):
+        self.__materiaId = value
+
+    @property
+    def _paralelo(self):
+        return self.__paralelo
+
+    @_paralelo.setter
+    def _paralelo(self, value):
+        self.__paralelo = value
+
+    @property
+    def _docenteCedula(self):
+        return self.__docenteCedula
+
+    @_docenteCedula.setter
+    def _docenteCedula(self, value):
+        self.__docenteCedula = value
+
+    @property
+    def _numeroMMatricula(self):
+        return self.__numeroMMatricula
+
+    @_numeroMMatricula.setter
+    def _numeroMMatricula(self, value):
+        self.__numeroMMatricula = value
 
     @property
     def _periodoAcademicoId(self):
@@ -40,25 +63,29 @@ class Cursa:
     @_periodoAcademicoId.setter
     def _periodoAcademicoId(self, value):
         self.__periodoAcademicoId = value
-
-
-    
         
     @property
     def serializable(self):
         return {
-            "id": self._id,
-            "estudiante": self._estudiante,
-            "asignacionDocente": self._asignacionDocente,
-            "periodoAcademico": self._periodoAcademicoId   
+            "idcursa": self._id,
+            "estudiante_user_cedula": self._estudianteCedula,
+            "materia_idmateria": self._materiaId,   
+            "paralelo": self._paralelo,
+            "docente_user_cedula": self._docenteCedula,
+            "numerommateria": self._numeroMMatricula,
+            "periodoacademico_idpac": self._periodoAcademicoId,
+            
         }
         
     def deserialize(self, data):
         cursa = Cursa()
-        cursa._id = data['id']
-        cursa._estudiante = data['estudiante']
-        cursa._asignacionDocente = data['asignacionDocente']
-        cursa._periodoAcademicoId = data['periodoAcademico']
+        cursa._id = data['idcursa']
+        cursa._estudianteCedula = data['estudiante_user_cedula']
+        cursa._materiaId = data['materia_idmateria']
+        cursa._paralelo = data['paralelo']
+        cursa._docenteCedula = data['docente_user_cedula']
+        cursa._numeroMMatricula = data['numerommateria']
+        cursa._periodoAcademicoId = data['periodoacademico_idpac']
         return cursa
 
         

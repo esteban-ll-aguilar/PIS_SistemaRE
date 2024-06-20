@@ -1,12 +1,15 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import Iniciosesion from './pages/login/iniciosesion'; // Aquí corregimos la importación
-
+import './App.css'
+import {Iniciosesion} from './pages/login/iniciosesion'; // Aquí corregimos la importación
 import { Graficas } from './pages/graphics/graficas';
 import { Informe } from './pages/interfaces/informe/informe';
 import { Interfaz } from './pages/interfaces/interfaz';
 import { Home } from './pages/home';
-import './App.css'
+
+// examples no topar, agregrar sus rutas arriba de esta linea
+import ListaCiclos  from './pages/examples/ciclos';
+import Materias from './pages/examples/materiasCiclos';
 
 function App() {
   return (
@@ -17,6 +20,12 @@ function App() {
     <Route path='/graficas' element={<Graficas  />} />
     <Route path='/informe' element={<Informe  />} />
     <Route path='/interfaz' element={<Interfaz  />} />
+    <Route path='/ciclos' element={<ListaCiclos  />} />  
+    <Route path='/ciclos/materias/:id' element={<Materias  />} />
+
+
+    
+
    </Routes>
    </BrowserRouter>
   )

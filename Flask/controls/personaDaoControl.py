@@ -1,4 +1,4 @@
-from models.persona import Persona
+from Flask.models.usuario import Persona
 from controls.dao.daoAdapter import DaoAdapter
 
 class PersonaDaoControl(DaoAdapter):
@@ -25,6 +25,10 @@ class PersonaDaoControl(DaoAdapter):
         self.__persona._id = self._lista._length + 1
         print("Guardando Persona")
         self._save(self.__persona)
+        
+        
+    def merge(self, pos):
+        self._merge(self.__persona,pos)
         
     
         
