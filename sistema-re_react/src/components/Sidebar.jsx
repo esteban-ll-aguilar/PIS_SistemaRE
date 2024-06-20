@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaTachometerAlt, FaRegSun, FaWrench, FaStickyNote, FaRegChartBar, FaRegCalendarAlt, FaChevronRight, FaChevronLeft, FaBolt,  } from "react-icons/fa"
 import { HiAcademicCap, HiOutlineDocumentDuplicate, HiUserGroup, HiViewBoards } from "react-icons/hi"
+import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
     return (
@@ -16,7 +17,7 @@ const Sidebar = () => {
                 <p className='text-[10px] font-extrabold leading-[16px] text-white/[0.4]'> Administar</p>
                 <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
                     <div className='flex items-center gap-[10px]'>
-                        <HiViewBoards color='white' /> <p className='text-[14px] leading-[20px] font-normal text-white'>Cursos</p>
+                        <HiViewBoards color='white' /> <Link className='text-[14px] leading-[20px] font-normal text-white' to='/ciclos'>Cursos</Link>
                     </div>
                     <FaChevronRight color='white' />
                 </div>
@@ -37,18 +38,20 @@ const Sidebar = () => {
                 <p className='text-[10px] font-extrabold leading-[16px] text-white/[0.4]'> Acciones</p>
                 <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
                     <div className='flex items-center gap-[10px]'>
-                        <HiOutlineDocumentDuplicate color='white' /> <p className='text-[14px] leading-[20px] font-normal text-white'>Informe</p>
+                        <HiOutlineDocumentDuplicate color='white' /> <Link className='text-[14px] leading-[20px] font-normal text-white' to='/informe'>Informe</Link>
                     </div>
                     <FaChevronRight color='white' />
                 </div>
-                <div className='flex items-center gap-[10px] py-[15px]  cursor-pointer'>
-                    <FaRegChartBar color='white' /> <p className='text-[14px] leading-[20px] font-normal text-white'>Gráficas</p>
-                </div>
+                <Link className='flex items-center gap-[10px] py-[15px]  cursor-pointer' to='/graficas'>              
+                    <FaRegChartBar color='white' /> <p className='text-[14px] leading-[20px] font-normal text-white' >Gráficas</p>                   
+                </Link>                
             </div>
             <div className='pt-[15px]'>
                 <div className='flex items-center justify-center'>
                     <div className='h-[40px] w-[40px] bg-[#3C5EC1] rounded-full flex items-center justify-center cursor-pointer'>
-                        <FaChevronLeft color='white' />
+                    <Link to='/'>
+                     <FaChevronLeft color='white' />
+                      </Link>
                     </div>
                 </div>
             </div>
