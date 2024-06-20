@@ -1,17 +1,17 @@
-from controls.functions.exelDaoAdapter import ExelDaoAdapter
+from controls.dao.exelDaoAdapter import ExelDaoAdapter
+from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from controls.cursaDaoControl import CursaDaoControl
-from controls.rolDaoControl import RolDaoControl
-from controls.cuentaDaoControl import CuentaDaoControl
+from controls.funcionDocenteDaoControl import FuncionDocenteDaoControl
 from controls.estudianteDaoControl import EstudianteDaoControl
+from controls.docenteDaoControl import DocenteDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
-from controls.cicloDaoContol import CicloDaoControl
 from controls.materiaDaoControl import MateriaDaoControl
-from controls.asignacionDocenteDaoControl import AsignacionDocenteDaoControl
 from controls.functions.createmodel import CreateModel
+from controls.tda.linked.ordenation_methods.quickSort import QuickSort
 
 class ExelCursaAsignate(ExelDaoAdapter):
     def __init__(self, file_path: str):
-        super().__init__(CursaDaoControl, file_path)
+        super().__init__(ExelCursaAsignate,file_path)
         
     @property
     def saveExel(self):
@@ -24,35 +24,47 @@ class ExelCursaAsignate(ExelDaoAdapter):
     @property
     def asignarEstudiante(self):
         datos = self._readExel
-        for data in datos:
-            existRol, idRol, _ = RolDaoControl()._lista.__exist__('ESTUDIANTE')
-            existCuenta, idCuenta, _ = CuentaDaoControl()._lista.__exist__(data['Correo'])
-            _, _, CedulaEstudiante = EstudianteDaoControl()._lista.__exist__(data['Cedula'])
-            print(data['PeriodoAcademico'])
-            _, idPeriodoAc, _ = PeriodoAcademicoDaoControl()._lista.__exist__(data['PeriodoAcademico'])
-            _, idCiclo, _ = CicloDaoControl()._lista.__exist__(data['Ciclo'], data['Paralelo'])
-            print(idCiclo)
-            materiasId = MateriaDaoControl().obtenerMateriaDeCiclo(idCiclo)
-            asignacionesId = AsignacionDocenteDaoControl().obtenerAsignacionDeMateria(materiasId)
-            
-            
-            
-            
-            if not existRol: idRol = CreateModel.createRol('ESTUDIANTE')
-            if not existCuenta: idCuenta = CreateModel.createCuenta(data)
-            if not CedulaEstudiante: CedulaEstudiante = CreateModel.createEstudiante(data, idCuenta, idRol)
-            
-            for i in range(len(asignacionesId)):
-                asignateEstudiante = CursaDaoControl()
-                asignateEstudiante._cursa._estudianteId = CedulaEstudiante
-                asignateEstudiante._cursa._asignacionDocenteId = asignacionesId[i]
-                asignateEstudiante._cursa._periodoAcademicoId = idPeriodoAc
-                asignateEstudiante.save
-            
-            
+        
             
         return 'Estudiantes asignados'
 
+    
+    def crearCursa(self, periodoAcademico):
+        datosEstudiantes = self.readExel
+        datosDocentes = ExelDocentesAsignate(None).readExel
+        createModel = CreateModel()
+        for docente in datosDocentes:
+            existDocente, idDocente, cedulaDocente = DocenteDaoControl()._lista.__exist__(docente['Cedula'])
+            existFuncionDocente, idFuncionDocente,_ = FuncionDocenteDaoControl()._lista.__exist__(data="DOCENTE", cedula=cedulaDocente)
+            existMateria, idMateria, _ = MateriaDaoControl()._lista.__exist__(docente['Materia'], docente['Ciclo'], docente['Cedula'])
+            if not existDocente: idDocente, cedulaDocente = createModel.createDocente(docente)
+            if not existMateria: idMateria = createModel.createMateria(docente)
+            if not existFuncionDocente: idFuncionDocente = createModel.createFuncionDocente("DOCENTE", cedulaDocente)
+        
+        mdc = MateriaDaoControl()
+        lista = mdc._lista.sort_models('_ciclo')
+    
+        
+        
+        for estudiante in datosEstudiantes:
+            existEstudiante, idEstudiante, cedulaEstudiante = EstudianteDaoControl()._lista.__exist__(estudiante['Cedula'])
+            if not existEstudiante: idEstudiante, cedulaEstudiante = createModel.createEstudiante(estudiante)
+            listaciclos = mdc._lista.search_model(estudiante['Ciclo'], '_ciclo', 0)
+            for materia in listaciclos:
+                    cursa = CursaDaoControl()
+                    cursa._cursa._estudianteCedula = cedulaEstudiante
+                    cursa._cursa._materiaId = materia._id
+                    cursa._cursa._paralelo = estudiante['Paralelo']
+                    cursa._cursa._docenteCedula = materia._cedulaDocente
+                    cursa._cursa._periodoAcademicoId = periodoAcademico
+                    cursa.save
+                    
+            
+        
+        
+        
+        
+        
         
         
     

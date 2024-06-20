@@ -1,41 +1,52 @@
-from models.persona import Persona
+from models.usuario import Usuario
 
-class Estudiante(Persona):
+class Estudiante(Usuario):
     def __init__(self):
         super().__init__()
-        self.__matricula = ''
+        self.__id = 0
+        self.__becaEconomica = "NULL"
+        self.__fechaNacimiento = "" 
 
     @property
-    def _matricula(self):
-        return self.__matricula
+    def _id(self):
+        return self.__id
 
-    @_matricula.setter
-    def _matricula(self, value):
-        self.__matricula = value
-        
+    @_id.setter
+    def _id(self, value):
+        self.__id = value
+
+    @property
+    def _becaEconomica(self):
+        return self.__becaEconomica
+
+    @_becaEconomica.setter
+    def _becaEconomica(self, value):
+        self.__becaEconomica = value
+
+    @property
+    def _fechaNacimiento(self):
+        return self.__fechaNacimiento
+
+    @_fechaNacimiento.setter
+    def _fechaNacimiento(self, value):
+        self.__fechaNacimiento = value
+       
+    
     @property
     def serializable(self):
         return {
-            "id": self._id,
-            "nombre": self._nombre,
-            "apellido": self._apellido,
-            "cedula": self._cedula,
-            "isActivo": self._isActivo,
-            "rolId": self._rolId,
-            "cuentaId": self._cuentaId,
-            "matricula": self._matricula
+            "idestudiante": self._id,
+            "user_cedula": self._cedula,
+            "beca_economica": self._becaEconomica,
+            "fecha_nacimiento": self._fechaNacimiento,
         }
 
     def deserialize(self, data):
         estudiante = Estudiante()
-        estudiante._id = data['id']
-        estudiante._nombre = data['nombre']
-        estudiante._apellido = data['apellido']
-        estudiante._cedula = data['cedula']
-        estudiante._isActivo = data['isActivo']
-        estudiante._rolId = data['rolId']
-        estudiante._cuentaId = data['cuentaId']
-        estudiante._matricula = data['matricula']
+        estudiante._id = data['idestudiante']
+        estudiante._cedula = data['user_cedula']
+        estudiante._becaEconomica = data['beca_economica']
+        estudiante._fechaNacimiento = data['fecha_nacimiento']
         return estudiante
 
         
