@@ -7,8 +7,6 @@ class Cursa:
         self.__docenteCedula = 0
         self.__numeroMMatricula = 1
         self.__periodoAcademicoId = 0
-        self.__docenteId = 0
-        self.__estudianteId = 0
 
     @property
     def _id(self):
@@ -65,33 +63,6 @@ class Cursa:
     @_periodoAcademicoId.setter
     def _periodoAcademicoId(self, value):
         self.__periodoAcademicoId = value
-
-    @property
-    def _docenteId(self):
-        return self.__docenteId
-
-    @_docenteId.setter
-    def _docenteId(self, value):
-        self.__docenteId = value
-
-    @property
-    def _estudianteId(self):
-        return self.__estudianteId
-
-    @_estudianteId.setter
-    def _estudianteId(self, value):
-        self.__estudianteId = value
-
-        
-        
-        
-
-    
-
-    
-
-
-    
         
     @property
     def serializable(self):
@@ -103,8 +74,6 @@ class Cursa:
             "docente_user_cedula": self._docenteCedula,
             "numerommateria": self._numeroMMatricula,
             "periodoacademico_idpac": self._periodoAcademicoId,
-            "docente_user_iduser": self._docenteId,
-            "estudiante_user_iduser": self._estudianteId
             
         }
         
@@ -117,8 +86,6 @@ class Cursa:
         cursa._docenteCedula = data['docente_user_cedula']
         cursa._numeroMMatricula = data['numerommateria']
         cursa._periodoAcademicoId = data['periodoacademico_idpac']
-        cursa._docenteId = data['docente_user_iduser']
-        cursa._estudianteId = data['estudiante_user_iduser']
         return cursa
 
         

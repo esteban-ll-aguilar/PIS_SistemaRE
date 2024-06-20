@@ -1,7 +1,7 @@
 from typing import TypeVar, Generic, Type
 from config.DBConfig import DBConnection
 from controls.tda.linked.linkedList import Linked_List
-import datetime
+from datetime import datetime
 import os, json
 import oracledb
 T = TypeVar("T")
@@ -19,10 +19,10 @@ class DaoAdapter(Generic[T]):
     def _list(self) -> T:
         self.lista.clear
         columns, rows = self.obtainColumsRows()
+        #print(rows)
         
         for i in rows:
             self.lista.__addLast__(self.atype().deserialize(i))
-        
         return self.lista
     
     
@@ -51,7 +51,15 @@ class DaoAdapter(Generic[T]):
         for i in range(0, self.lista._length):
             aux.append(self.lista.get(i).serializable)
         return aux
-
+    
+    def date_valid(self,fecha_str, formato):
+        try:
+            datetime.strptime(fecha_str, formato)
+            return True
+        except ValueError:
+            return False
+        
+        
     def _save(self, data: T) -> T:
         self._list()
         self.lista.add(data, self.lista._length)
@@ -63,9 +71,10 @@ class DaoAdapter(Generic[T]):
         dataclass = ''
         for cont in datos:
             if isinstance(datos[cont], str):
-                dataclass += "'"+str(datos[cont])+"'"+','
-            elif isinstance(datos[cont], datetime.datetime):
-                dataclass += datos[cont].strftime('%d-%m-%Y')+','
+                if self.date_valid(datos[cont], '%d-%m-%Y'):
+                    dataclass += "TO_DATE('"+datos[cont]+"', 'DD-MM-YYYY')"+','
+                else:
+                    dataclass += "'"+str(datos[cont])+"'"+','
             else:
                 dataclass += str(datos[cont])+','
         dataclass = dataclass[:-1]
@@ -78,6 +87,11 @@ class DaoAdapter(Generic[T]):
         self.__connection.cursor().execute(sql)
         self.__connection.commit()
         print("Guardado")
+
+
+
+
+
 
     def _merge(self, data: T, pos) -> T:
         print("Guardando")

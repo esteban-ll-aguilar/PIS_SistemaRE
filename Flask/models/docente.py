@@ -3,7 +3,27 @@ from models.usuario import Usuario
 class Docente(Usuario): 
     def __init__(self):
         super().__init__()
+        self.__id = 0
         self.__cubiculo = ''
+        self.__experiencia = ''
+        
+        
+    @property
+    def _id(self):
+        return self.__id
+
+    @_id.setter
+    def _id(self, value):
+        self.__id = value
+
+    @property
+    def _experiencia(self):
+        return self.__experiencia
+
+    @_experiencia.setter
+    def _experiencia(self, value):
+        self.__experiencia = value
+
 
     @property
     def _cubiculo(self):
@@ -17,31 +37,18 @@ class Docente(Usuario):
     @property
     def serializable(self):
         return {
-            "user_iduser": self._id,
+            "iddocente": self._id,
             "user_cedula": self._cedula,
-            'user_nombres': self._nombres,
-            'user_apellidos': self._apellidos,
-            'user_correo': self._correo,
-            'user_contrasena': self._contrasena,
-            'user_estado': self._estado,
-            'user_urlimage': self._urlImagen,
-            'user_nombreuser': self._nombreUsuario,
-            'cubiculo': self._cubiculo
+            "cubiculo": self._cubiculo,
+            "experiencia": self._experiencia,
         }
 
     def deserialize(self, data):
         docente = Docente()
-        docente._id = data['user_iduser']
+        docente._id = data['iddocente']
         docente._cedula = data['user_cedula']
-        docente._nombres = data['user_nombres']
-        docente._apellidos = data['user_apellidos']
-        docente._correo = data['user_correo']
-        docente._contrasena = data['user_contrasena']
-        docente._estado = data['user_estado']
-        docente._urlImagen = data['user_urlimage']
-        docente._nombreUsuario = data['user_nombreuser']
         docente._cubiculo = data['cubiculo']
-        
+        docente._experiencia = data['experiencia']
         return docente
 
         

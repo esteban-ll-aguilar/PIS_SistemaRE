@@ -1,6 +1,6 @@
 class SequentialSearch:
     
-    def sequiential_search(self, array, data):
+    def search(self, array, data):
         if len(array) == 0:
             return Exception('Array is empty')
         else:
@@ -10,7 +10,7 @@ class SequentialSearch:
                     arr.append(i)
             return arr
     
-    def sequiential_search_models(self, array, attribute, data):
+    def search_models(self, array, attribute, data):
         if len(array) == 0:
             return Exception('Array is empty')
         else:

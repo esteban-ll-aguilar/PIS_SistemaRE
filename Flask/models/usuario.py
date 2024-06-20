@@ -84,6 +84,35 @@ class Usuario:
 
 
 
+    @property
+    def serializable(self):
+        return {
+            "user_iduser": self._id,
+            "user_cedula": self._cedula,
+            "user_nombres": self._nombres,
+            "user_apellidos": self._apellidos,
+            "user_correo": self._correo,
+            "user_contrasena": self._contrasena,
+            "user_estado": self._estado,
+            "user_urlimage": self._urlImagen,
+            "user_nombreuser": self._nombreUsuario
+        }
+        
+    def deserialize(self, data):
+        usuario = Usuario()
+        usuario._id = data['user_iduser']
+        usuario._cedula = data['user_cedula']
+        usuario._nombres = data['user_nombres']
+        usuario._apellidos = data['user_apellidos']
+        usuario._correo = data['user_correo']
+        usuario._contrasena = data['user_contrasena']
+        usuario._estado = data['user_estado']
+        usuario._urlImagen = data['user_urlimage']
+        usuario._nombreUsuario = data['user_nombreuser']
+        return usuario
+        
+
+
     
         
 

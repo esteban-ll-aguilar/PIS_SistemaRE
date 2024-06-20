@@ -5,16 +5,6 @@ class Materia:
         self.__nombre = ""
         self.__ciclo = 0
         self.__cedulaDocente = ''
-        self.__docenteId = 0
-
-    @property
-    def _docenteId(self):
-        return self.__docenteId
-
-    @_docenteId.setter
-    def _docenteId(self, value):
-        self.__docenteId = value
-
 
     @property
     def _cedulaDocente(self):
@@ -60,7 +50,6 @@ class Materia:
             "nombre": self._nombre,
             "ciclo": self._ciclo,
             "docente_user_cedula": self._cedulaDocente,
-            "docente_user_iduser": self._docenteId
             
         }
     
@@ -70,7 +59,6 @@ class Materia:
         materia._nombre = data["nombre"]
         materia._ciclo = data["ciclo"]
         materia._cedulaDocente = data["docente_user_cedula"]
-        materia._docenteId = data["docente_user_iduser"]
         return materia
 
 

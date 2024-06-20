@@ -1,7 +1,7 @@
 class Selection:
     
     
-    def selection_sort_asendent(self, array):
+    def sort_asendent(self, array):
         for i in range(len(array)):
             k = i
             t = array[i]
@@ -13,7 +13,7 @@ class Selection:
             array[i] = t
         return array
     
-    def selection_sort_descendent(self, array):
+    def sort_descendent(self, array):
         for i in range(len(array)):
             k = i
             t = array[i]
@@ -26,7 +26,7 @@ class Selection:
         return array
     
     
-    def selection_sort_models_acendent(self, array, attribute):
+    def sort_models_acendent(self, array, attribute):
         for i in range(len(array)):
             k = i
             t = array[i]
@@ -39,7 +39,7 @@ class Selection:
         return array
     
     
-    def selection_sort_models_desendent(self, array, attribute):
+    def sort_models_desendent(self, array, attribute):
         for i in range(len(array)):
             k = i
             t = array[i]

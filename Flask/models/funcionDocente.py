@@ -3,7 +3,6 @@ class FuncionDocente:
         self.__id = 0
         self.__descripcion = ""
         self.__docenteUserCedula = ""
-        self.__docenteUserId = ""
 
     @property
     def _id(self):
@@ -46,7 +45,6 @@ class FuncionDocente:
             "idfunciondocente": self._id,
             "descripcion": self._descripcion,
             "docente_user_cedula": self._docenteUserCedula,
-            "docente_user_iduser": self._docenteUserId
         }
     
     def deserialize(self, data):
@@ -54,7 +52,6 @@ class FuncionDocente:
         duncionDocente._id = data["idfunciondocente"]
         duncionDocente._descripcion = data["descripcion"]
         duncionDocente._docenteUserCedula = data["docente_user_cedula"]
-        duncionDocente._docenteUserId = data["docente_user_iduser"]
         return duncionDocente
 
         
