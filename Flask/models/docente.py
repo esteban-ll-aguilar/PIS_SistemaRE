@@ -1,9 +1,29 @@
-from models.persona import Persona
+from models.usuario import Usuario
 
-class Docente(Persona): 
+class Docente(Usuario): 
     def __init__(self):
         super().__init__()
+        self.__id = 0
         self.__cubiculo = ''
+        self.__experiencia = ''
+        
+        
+    @property
+    def _id(self):
+        return self.__id
+
+    @_id.setter
+    def _id(self, value):
+        self.__id = value
+
+    @property
+    def _experiencia(self):
+        return self.__experiencia
+
+    @_experiencia.setter
+    def _experiencia(self, value):
+        self.__experiencia = value
+
 
     @property
     def _cubiculo(self):
@@ -17,27 +37,20 @@ class Docente(Persona):
     @property
     def serializable(self):
         return {
-            "id": self._id,
-            "nombre": self._nombre,
-            "apellido": self._apellido,
-            "cedula": self._cedula,
-            "isActivo": self._isActivo,
-            "rolId": self._rolId,
-            "cuentaId": self._cuentaId,
-            "cubiculo": self._cubiculo
+            "iddocente": self._id,
+            "user_cedula": self._cedula,
+            "cubiculo": self._cubiculo,
+            "experiencia": self._experiencia,
         }
-    
+
     def deserialize(self, data):
         docente = Docente()
-        docente._id = data['id']
-        docente._nombre = data['nombre']
-        docente._apellido = data['apellido']
-        docente._cedula = data['cedula']
-        docente._isActivo = data['isActivo']
-        docente._rolId = data['rolId']
-        docente._cuentaId = data['cuentaId']
+        docente._id = data['iddocente']
+        docente._cedula = data['user_cedula']
         docente._cubiculo = data['cubiculo']
+        docente._experiencia = data['experiencia']
         return docente
+
         
         
     
