@@ -10,7 +10,7 @@ export const InterfazDocente = () => {
           <SidebarDocente />
       </div>
 
-      <div className="basis-[88%] border overflow-scroll h-[100vh]">
+      <div className="basis-[88%] border h-[100vh]">
           <Dashboardview />
           <div>
             <Outlet></Outlet>
