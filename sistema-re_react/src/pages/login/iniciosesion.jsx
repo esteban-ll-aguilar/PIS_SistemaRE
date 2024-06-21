@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
 import { useNavigate } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import './style.css'; // Incluimos los estilos adicionales
+import './inicioSesion.css'; // Incluimos los estilos adicionales
 import { useFormik } from 'formik';
 
 export const Iniciosesion = () => {

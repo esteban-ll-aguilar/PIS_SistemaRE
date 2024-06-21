@@ -18,14 +18,14 @@ class BinarySearch:
                     inicio = medio + 1
         
 
-    def search_models(self, array, attribute, data):
+    def search_models(self, array,data, attribute ):
         inicio = 0
         fin = len(array) - 1
         aux = []
         
-        if (data.replace('.', '', 1).isdigit() or data.isdigit()) and  len(data) < 10:
+        """ if (data.replace('.', '', 1).isdigit() or data.isdigit()) and  len(data) < 10:
             data = float(data)
-        
+         """
         while inicio <= fin:
             medio = (inicio + fin) // 2
             if getattr(array[medio], attribute) == data:
