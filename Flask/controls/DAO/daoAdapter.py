@@ -28,7 +28,12 @@ class DaoAdapter(Generic[T]):
     
     def obtainColumsRows(self):
         cur = self.__connection.cursor()
-        cur.execute("SELECT * FROM "+ self.__name)
+        if self.__name == 'ESTUDIANTE':
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = estudiante.user_cedula")
+        elif self.__name == 'DOCENTE':
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = docente.user_cedula")
+        else:
+            cur.execute("SELECT * FROM "+ self.__name)
         columns = [col[0].lower() for col in cur.description]
         rows = [dict(zip(columns, row)) for row in cur.fetchall()]
         cur.close()
@@ -51,7 +56,14 @@ class DaoAdapter(Generic[T]):
         for i in range(0, self.lista._length):
             aux.append(self.lista.get(i).serializable)
         return aux
-    
+
+    def to_dict_list(self):
+        array = []
+        lista = self.lista.toArray
+        for i in range(0, self.lista._length):
+            array.append(lista[i].serializable)
+        return array
+            
     def date_valid(self,fecha_str, formato):
         try:
             datetime.strptime(fecha_str, formato)
