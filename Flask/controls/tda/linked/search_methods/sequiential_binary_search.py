@@ -29,7 +29,7 @@ class SequentialBinarySearch:
         inicio = 0
         fin = len(array) - 1
         arr = []
-        
+            
         
         
         while inicio <= fin:

@@ -249,14 +249,20 @@ class Linked_List(object):
             self.toList(array)
         return array
     
-    def search_model(self, data, attribute, type=1):
-        search = SequentialBinarySearch()
+    def search_model(self, data, attribute, type=0, method = 1):
         if self.isEmpty:
             raise LinkedEmptyException("List empty")
         else:
-            array = self.sort_models(attribute, type)
-            array = search.search_models(array, data, attribute)
-            return array
+            if method == 1:
+                search = SequentialBinarySearch()
+                array = self.sort_models(attribute, type)
+                array = search.search_models(array, data, attribute)
+            else:
+                search = BinarySearch()
+                array = self.sort_models(attribute, type)
+                array = search.search_models(array, data, attribute)
+        self.toList(array)
+        return array
             
         
     

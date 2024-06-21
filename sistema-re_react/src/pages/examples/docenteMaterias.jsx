@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-const Materias = () => {
+const DocenteMaterias = () => {
   const { id } = useParams(); // Obtén el ID del ciclo desde los parámetros de la URL
   const [materias, setMaterias] = useState([]);
   const [error, setError] = useState(null);
@@ -9,7 +9,7 @@ const Materias = () => {
   useEffect(() => {
     const fetchMaterias = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/ciclos/materias/${id}`, {
+        const response = await fetch(`http://127.0.0.1:5000/docente/materias/${id}`, {
           method: 'GET',
         });
 
@@ -18,7 +18,7 @@ const Materias = () => {
         }
 
         const data = await response.json();
-        setMaterias(data); // Actualiza el estado con la lista de materias
+        setMaterias(data.materias); // Actualiza el estado con la lista de materias
         console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -53,4 +53,4 @@ const Materias = () => {
   );
 };
 
-export default Materias;
+export default DocenteMaterias;
