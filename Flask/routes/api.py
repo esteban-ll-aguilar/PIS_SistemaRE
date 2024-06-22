@@ -6,6 +6,7 @@ from controls.materiaDaoControl import MateriaDaoControl
 from controls.estudianteDaoControl import EstudianteDaoControl
 from controls.cursaDaoControl import CursaDaoControl
 from controls.usuarioDaoControl import UsuarioDaoControl
+from controls.funcionDocenteDaoControl import FuncionDocenteDaoControl
 
 api = Blueprint('api', __name__)
 
@@ -13,9 +14,43 @@ api = Blueprint('api', __name__)
 #post para enviar los datos, modificar y iniciar sesion
 
 
-@api.route('/')
-def home():
-    return render_template('login.html')
+
+
+
+
+@api.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    print(data)
+    user = UsuarioDaoControl()
+    dodente = user._lista.search_model(data['email'], '_correo')
+    if dodente[0]._correo == data['email'] and dodente[0]._contrasena == data['password']:
+        funcion = FuncionDocenteDaoControl()
+        funcion._lista.search_model(dodente[0]._cedula, '_docenteUserCedula')
+        
+        return make_response(jsonify({"message": "Usuario encontrado", "docente": user.to_dict_list(), "funcion": funcion.to_dict_list()}))
+    else:
+        return make_response(jsonify({"message": "Usuario no encontrado"}))
+    
+    
+    
+@api.route('/usuario/<string:cedula>')
+def usuario(cedula):
+        user = UsuarioDaoControl()
+        user._lista.search_model(cedula, '_cedula')
+        return make_response(jsonify({"usuario": user.to_dict_list()}))
+        
+#/estudiantes/eliminar/cursa/estudiante/${estudiante.user_cedula}/materia/${materia.idmateria}
+@api.route('/estudiantes/eliminar/cursa/estudiante/<string:estudiante>/materia/<int:materia>', methods=['DELETE'])
+def eliminar_cursa(estudiante, materia):
+    cursa = CursaDaoControl()
+    cursa._lista.search_model(estudiante, '_estudianteCedula')
+    cursa.lista.search_model(materia, '_materiaId', type=0)
+    print(cursa.to_dict_list())
+    cursa = cursa.to_dict_list()
+    print(cursa[0]['idcursa'])
+    return jsonify({"message": "Eliminado correctamente",})
+
 
 @api.route('/exel_docente', methods=['POST'])
 def upload_file_docente():
@@ -31,13 +66,7 @@ def upload_file_docente():
     return jsonify({"message": "Archivo subido correctamente"})
 
 
-""" @api.route('/ciclos', methods=['GET'])
-def lista_estudiantes_filter():
-    ciclo1 = CicloDaoControl()
-    ciclo1._lista.sort_models('_ciclo', 1)
-    
-    return ciclo1.__transform__()
- """
+
 
 #<int:cicloId> se pasa como parametro en la url
 @api.route('/ciclos/materias/<int:ciclo>', methods=['GET'])
@@ -68,7 +97,7 @@ def estudiantes_materia(materia):
 @api.route('/docente/materias/<string:docente>', methods=['GET'])
 def materias_docente(docente):
     cursa = CursaDaoControl()
-    array = cursa._lista.search_model(1, '_periodoAcademicoId')
+    cursa._lista.search_model(1, '_periodoAcademicoId')
     array = cursa.lista.search_model(docente, '_docenteCedula',type=0)
     m = MateriaDaoControl()
     
