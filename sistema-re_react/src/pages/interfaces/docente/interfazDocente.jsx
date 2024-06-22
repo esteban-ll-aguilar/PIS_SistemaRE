@@ -7,6 +7,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import { HiAcademicCap, HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi"
 import { FaTachometerAlt } from "react-icons/fa"
 import html2canvas from 'html2canvas';
+import Graficas from '../../graphics/graficas';
 
 const InterfazDocente = () => {
     const { id } = useParams();
@@ -52,7 +53,7 @@ const InterfazDocente = () => {
             icono: <HiViewBoards color='white' />,
             texto: 'Materias',
             ruta: '/materias'
-        },
+        }
       // Añadir elementos de la misma forma que en 'acciones'
     ];
     const acciones = [
@@ -60,7 +61,14 @@ const InterfazDocente = () => {
             icono: <HiOutlineDocumentDuplicate color='white' />,
             texto: 'Informe',
             ruta: '/informe'
-        }
+
+        },
+        {
+          icono: <HiOutlineDocumentDuplicate color='white' />,
+          texto: 'Graficas',
+          ruta: '/graficas'
+          
+      }
       // Agregar más elementos según sea necesario
     ];
   
@@ -92,6 +100,9 @@ const InterfazDocente = () => {
         )}
         {selectComponent === '/informe' && (
             <Informe />
+        )}
+        {selectComponent === '/graficas' && (
+            <Graficas />
         )}
         </section>
 
