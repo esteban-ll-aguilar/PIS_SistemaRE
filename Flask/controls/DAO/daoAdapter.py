@@ -25,13 +25,17 @@ class DaoAdapter(Generic[T]):
             self.lista.__addLast__(self.atype().deserialize(i))
         return self.lista
     
-    
+    # usuario.user_iduser,funciondocente.idfunciondocente, usuario.user_nombres, usuario.user_apellidos, \
+                    #      usuario.user_correo,funciondocente.descripcion
     def obtainColumsRows(self):
         cur = self.__connection.cursor()
         if self.__name == 'ESTUDIANTE':
             cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = estudiante.user_cedula")
         elif self.__name == 'DOCENTE':
             cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = docente.user_cedula")
+             
+        elif self.__name == 'FUNCIONDOCENTE':
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = funciondocente.docente_user_cedula")
         else:
             cur.execute("SELECT * FROM "+ self.__name)
         columns = [col[0].lower() for col in cur.description]

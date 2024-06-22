@@ -32,7 +32,7 @@ const Materias = () => {
   return (
     <div className="App min-h-screen bg-gray-100 p-4">
       <header className="App-header text-center mb-4">
-        <h1 className="text-3xl font-bold mb-2">Materias del Ciclo {id}</h1>
+        <h1 className="text-3xl font-bold mb-2">Cursos que imparte</h1>
         {error && <p className="text-red-500">Error: {error}</p>}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {materias.length > 0 ? (
