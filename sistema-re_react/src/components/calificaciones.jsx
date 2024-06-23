@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import FormCalificaciones from '../pages/interfaces/docente/formCalificaciones';
 const Calificaciones = () => {
   const { idMateria, idUnidad } = useParams();
   const [unidad, setUnidad] = useState({});
@@ -36,7 +36,11 @@ const Calificaciones = () => {
         <p className="text-lg">{unidad.nombre}</p>
         {error && <p className="text-red-500 mt-2">Error: {error}</p>}
       </header>
-
+      {1>0 ? (
+        <FormCalificaciones idMateria={idMateria} idUnidad={idUnidad} nUnidad={unidad.nunidad}/>
+      ) : (
+        <div className="text-center p-4 bg-white rounded-lg shadow-md w-full max-w-md">No hay calificaciones disponibles.</div>
+      )}
       {estudiantes.length > 0 ? (
         <div className="w-full overflow-x-auto">
           <table className="min-w-full bg-white shadow-md rounded-lg text-sm">

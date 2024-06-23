@@ -9,6 +9,7 @@ from controls.usuarioDaoControl import UsuarioDaoControl
 from controls.funcionDocenteDaoControl import FuncionDocenteDaoControl
 from controls.unidadDaoControl import UnidadDaoControl
 from controls.functions.createmodel import CreateModel
+from controls.functions.readNotasExel import ReadNotasExel
 api = Blueprint('api', __name__)
 
 #get para presentar los datos
@@ -92,6 +93,17 @@ def materias_unidad(materiaId,unidadId):
     return jsonify({"unidad": unidad.to_dict_list(), "estudiantes": estudiantes.to_dict_list()})
 
 
+@api.route('/asignar/calificaciones/materia/<int:materiaId>/unidad/<int:unidadId>/nunidad/<int:nunidad>', methods=['POST'])
+def asignar_calificacion(materiaId,unidadId, nunidad):
+    data = request.files
+    #Leer excel 
+    print(data['file'].filename)
+    rdexel = ReadNotasExel(data['file'], nunidad)
+    rdexel.readExel
+    
+    
+    
+    return jsonify({"message": "Calificacion asignada correctamente"})
 
 
 

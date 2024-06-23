@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-const Form = ({ campos, names, link, redirect }) => {
+import axios from 'axios';
+
+const Form = ({ campos, names, link, redirect, title }) => {
     const [formValues, setFormValues] = useState(() => {
         const initialFormValues = {};
         names.forEach((name) => {
@@ -8,46 +10,50 @@ const Form = ({ campos, names, link, redirect }) => {
         return initialFormValues;
     });
     const [errors, setErrors] = useState({});
+    const [file, setFile] = useState(null);
 
-    const handleSubmit  = async (event) => {
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (validateForm()) {
-            const data = await fetch(link, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formValues),
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Agregar otros campos al FormData
+            names.forEach((name) => {
+                formData.append(name, formValues[name]);
             });
-            console.log(data); 
+
             try {
-                    if (data.status === 200) {
-                        alert("Elemento creado exitosamente");
-                        window.location.href = redirect
+                const response = await axios.post(link, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
 
-
-                    }
-                    else {
-                        alert("Error al enviar el formulario o el Elemento ya existe");
-                    }
-                    
-                } 
-            catch (error) {
-                alert(error);
+                if (response.status === 200) {
+                    alert("Elemento creado exitosamente");
+                    window.location.href = redirect;
+                } else {
+                    alert("Error al enviar el formulario o el Elemento ya existe");
                 }
+            } catch (error) {
+                alert(error);
+            }
         }
     };
 
     const handleChange = (event, name) => {
         let newValue = event.target.value;
-        // Convertir a número si el campo es de tipo 'number'
         if (campos[name] === 'number') {
             newValue = parseInt(newValue, 10); // o parseFloat según tus necesidades
         }
         setFormValues((prevValues) => ({
             ...prevValues,
             [name]: newValue,
-            
         }));
     };
 
@@ -77,7 +83,6 @@ const Form = ({ campos, names, link, redirect }) => {
                     }
                     break;
                 case 'date':
-                    //dd--mm--yyyy
                     const datePattern = /^\d{2}-\d{2}-\d{4}$/;
                     if (!datePattern.test(value)) {
                         newErrors[names[index]] = `El campo ${nombreCampo} debe tener el formato DD-M-AA`;
@@ -85,10 +90,8 @@ const Form = ({ campos, names, link, redirect }) => {
                     }
                     break;
                 case 'file':
-                    //solo exel
-                    const filePattern = /.*\.xlsx?$/;
-                    if (!filePattern.test(value)) {
-                        newErrors[names[index]] = `El campo ${nombreCampo} debe ser un archivo de Excel`;
+                    if (!file) {
+                        newErrors[names[index]] = `Debe seleccionar un archivo`;
                         isValid = false;
                     }
                     break;
@@ -103,13 +106,19 @@ const Form = ({ campos, names, link, redirect }) => {
     return (
         <section className="p-4 mx-auto flex justify-center items-center h-full ">
             <div className="text-center border border-gray-300 rounded-lg p-6 m-7">
-                <h2 className="text-2xl font-bold mb-4">Formulario</h2>
+                <h2 className="text-2xl font-bold mb-4">{title}</h2>
                 <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 ">
                     {Object.entries(campos).map(([nombreCampo, tipoCampo], index) => (
                         <div key={index} className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">
                                 {nombreCampo}
-                                {tipoCampo === 'number' ? (
+                                {tipoCampo === 'file' ? (
+                                    <input
+                                        type="file"
+                                        onChange={handleFileChange}
+                                        className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                    />
+                                ) : tipoCampo === 'number' ? (
                                     <input
                                         type="number"
                                         value={formValues[names[index]]}

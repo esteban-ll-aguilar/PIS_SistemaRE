@@ -19,6 +19,7 @@ const FormUnidad = () => {
                     "Numero de Unidad": "number",
                 }}
                 names={["Unidad", "nUnidad"]}
+                title={"Crear Unidad"}
                 id={id}
                 link={`http://127.0.0.1:5000/materia/crear/unidad/`+ id}
                 redirect={"/estudiantes/materia/" + id}
