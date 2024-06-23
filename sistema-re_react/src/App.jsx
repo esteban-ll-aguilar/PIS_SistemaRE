@@ -30,7 +30,7 @@ function App() {
     <Route path='/ciclos/materias/:id' element={<Materias  />} />
     <Route path='/estudiantes/materia/:id' element={<EstudianteCursa  />} />
     <Route path='/docente/materias/:id' element={<DocenteMaterias  />} />
-    <Route path='/materia/crear/unidad/:id' element={<FormUnidad  />} />
+    <Route path='/materia/crear/unidad/:id' element={<FormUnidad />} />
     <Route path='/estudiantes/calificaciones/materia/:idMateria/unidad/:idUnidad' element={<Calificaciones  />} />
     
 
