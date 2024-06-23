@@ -26,6 +26,8 @@ class UnidadDaoControl(DaoAdapter):
         print("Guardando Unidad")
         self._save(self.__unidad)
         
-    
+    def delete(self, pos):
+        self._delete(pos)  
+        
     def merge(self, pos):
         self._merge(self.__unidad,pos)

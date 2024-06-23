@@ -43,6 +43,13 @@ class DaoAdapter(Generic[T]):
         cur.close()
         return columns, rows
     
+    def obtainColums(self):
+        cur = self.__connection.cursor()
+        cur.execute("SELECT * FROM "+ self.__name)
+        columns = [col[0].lower() for col in cur.description]
+        cur.close()
+        return columns
+    
     def __transform__(self):
         print(self.lista._length)
         aux = '['
@@ -82,7 +89,7 @@ class DaoAdapter(Generic[T]):
         
         datos = data.serializable
         print(datos)
-        columns, _ = self.obtainColumsRows()
+        columns = self.obtainColums()
         columns = tuple(columns).__str__().replace("'", "")
         dataclass = ''
         for cont in datos:
@@ -106,7 +113,28 @@ class DaoAdapter(Generic[T]):
 
 
 
-
+    def _delete(self, data: T) -> T:
+    
+        dataclass = ''
+        columns= self.obtainColums()
+        i = 0
+        for cont in (data):
+            if isinstance(data[cont], str):
+                if self.date_valid(data[cont], '%d-%m-%Y'):
+                    dataclass += columns[i]+ "= TO_DATE('"+data[cont]+"', 'DD-MM-YYYY')"+' AND '
+                else:
+                    dataclass += columns[i]+"= '"+str(data[cont])+"'"+' AND '
+            else:
+                dataclass += columns[i] + "= " + str(data[cont])+' AND '
+            i += 1
+            
+        dataclass = dataclass[:-5]
+        sql = "DELETE FROM "+self.__name+" WHERE " + dataclass
+        print(sql)
+        
+        self.__connection.cursor().execute(sql)
+        self.__connection.commit()
+        print("Eliminado")
 
 
     def _merge(self, data: T, pos) -> T:

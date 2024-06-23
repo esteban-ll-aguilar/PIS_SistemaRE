@@ -4,6 +4,7 @@ from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
 from controls.funcionDocenteDaoControl import FuncionDocenteDaoControl
 from controls.estudianteDaoControl import EstudianteDaoControl
 from controls.usuarioDaoControl import UsuarioDaoControl
+from controls.unidadDaoControl import UnidadDaoControl
 import datetime
 import pandas as pd
 from controls.calificacionDaoControl import CalificacionDaoControl
@@ -81,3 +82,11 @@ class CreateModel:
         calificacion._calificacion._unidadId = 0
         calificacion.save
         return calificacion._calificacion._id
+    
+    def createUnidad(self,data, materiaId):
+        unidad = UnidadDaoControl()
+        unidad._unidad._nombre = data['Unidad']
+        unidad._unidad._nUnidad = data['nUnidad']
+        unidad._unidad._materiaId = materiaId
+        unidad.save
+        
