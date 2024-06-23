@@ -58,7 +58,7 @@ export const Iniciosesion = () => {
     validate,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post('http://127.0.0.1:5000/login', {
+        /* const response = await axios.post('http://127.0.0.1:5000/login', {
           email: values.email,
           password: values.password,
         });
@@ -72,7 +72,8 @@ export const Iniciosesion = () => {
           }else{
             navigate('/interfaz/docente/'+docente[0].user_cedula);
           }
-        }
+        } */
+        navigate('/interfaz/docente/6115396905');
       } catch (error) {
         // Maneja los errores aquí
         console.error('Error al enviar la solicitud:', error);

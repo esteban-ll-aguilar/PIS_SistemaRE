@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
-import Materias from '../materias';
+import Materias from '../../../components/materias';
 import Informe from '../informe/informe';
 import { Outlet, useParams } from 'react-router-dom';
-import { HiAcademicCap, HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi"
+import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi"
 import { FaTachometerAlt } from "react-icons/fa"
-import html2canvas from 'html2canvas';
-
 const InterfazDocente = () => {
     const { id } = useParams();
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
@@ -88,11 +86,12 @@ const InterfazDocente = () => {
             </div>
         )}
         {selectComponent === '/materias' && (
-            <Materias baseUrl="http://127.0.0.1:5000/docente" endpoint="materias" docente={id}/>
+            <Materias baseUrl="http://127.0.0.1:5000/docente" endpoint="materias" parameter={id} title={"Materias"}/>
         )}
         {selectComponent === '/informe' && (
             <Informe />
         )}
+        
         </section>
 
       </section>
