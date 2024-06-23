@@ -26,5 +26,8 @@ class CursaDaoControl(DaoAdapter):
         print("Guardando Cursa")
         self._save(self.__cursa)
         
+    def delete(self, pos):
+        self._delete(pos)    
+    
     def merge(self, pos):
         self._merge(self.__cursa,pos)

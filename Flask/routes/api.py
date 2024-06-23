@@ -7,7 +7,8 @@ from controls.estudianteDaoControl import EstudianteDaoControl
 from controls.cursaDaoControl import CursaDaoControl
 from controls.usuarioDaoControl import UsuarioDaoControl
 from controls.funcionDocenteDaoControl import FuncionDocenteDaoControl
-
+from controls.unidadDaoControl import UnidadDaoControl
+from controls.functions.createmodel import CreateModel
 api = Blueprint('api', __name__)
 
 #get para presentar los datos
@@ -46,9 +47,9 @@ def eliminar_cursa(estudiante, materia):
     cursa = CursaDaoControl()
     cursa._lista.search_model(estudiante, '_estudianteCedula')
     cursa.lista.search_model(materia, '_materiaId', type=0)
-    print(cursa.to_dict_list())
-    cursa = cursa.to_dict_list()
-    print(cursa[0]['idcursa'])
+    data = cursa.to_dict_list()
+    cursa.delete(data[0])
+    
     return jsonify({"message": "Eliminado correctamente",})
 
 
@@ -64,6 +65,34 @@ def upload_file_docente():
         print('Error: '+str(e))
         return jsonify({"message": "Error al subir el archivo"})
     return jsonify({"message": "Archivo subido correctamente"})
+
+
+
+#[docente, administrador]
+#para el arraty en donde contenga un dodente y administrador retorne a una pagina, 
+@api.route('/estudiantes/calificaciones/materia/<int:materiaId>/unidad/<int:unidadId>', methods=['GET'])
+def materias_unidad(materiaId,unidadId):
+    unidad = UnidadDaoControl()
+    cursa = CursaDaoControl()
+    estudiantes = UsuarioDaoControl()
+    m = MateriaDaoControl()
+    
+    unidad._lista.search_model(unidadId, '_id')
+    m = m._lista.search_model(materiaId, '_id')
+    array = cursa._lista.search_model(1, '_periodoAcademicoId')
+    array = cursa.lista.search_model(materiaId, '_materiaId',type=0, method=1)
+    cursa = cursa.lista.sort_models('_id', 0)
+    aux = []
+    for i in range(0, len(array)):
+        x = estudiantes._lista.search_model(array[i]._estudianteCedula, '_cedula')
+        aux.append(x[0])
+    
+    estudiantes._lista.toList(aux)
+    estudiantes.lista.sort_models('_apellidos', 0)
+    return jsonify({"unidad": unidad.to_dict_list(), "estudiantes": estudiantes.to_dict_list()})
+
+
+
 
 
 
@@ -90,8 +119,35 @@ def estudiantes_materia(materia):
         x = estudiantes._lista.search_model(array[i]._estudianteCedula, '_cedula')
         aux.append(x[0])
     estudiantes._lista.toList(aux)
-    estudiantes.lista.sort_models('_nombres', 0)
+    estudiantes.lista.sort_models('_apellidos', 0)
     return make_response(jsonify({"cursa": array[0].serializable, "estudiante": estudiantes.to_dict_list(), "materia": m[0].serializable})) 
+
+
+@api.route('/materia/crear/unidad/<int:materiaId>', methods=['POST'])
+def crear_unidad(materiaId):
+    data = request.json
+    unidad = UnidadDaoControl()
+    if unidad._lista.isEmpty:
+        CreateModel().createUnidad(data, materiaId=materiaId)
+        return make_response(jsonify({"message": "Unidad creada correctamente"}))
+    
+    unidad._lista.search_model(materiaId, '_materiaId')
+    existeUnidad, _,_ =unidad.lista.__exist__(data['Unidad'], id=materiaId, nunidad=int(data['nUnidad']))
+    if not existeUnidad:
+        CreateModel().createUnidad(data, materiaId=materiaId)
+        return make_response(jsonify({"message": "Unidad creada correctamente"}))
+    return make_response(jsonify({"message": "Unidad ya existe"}), 400)
+    
+
+@api.route('/materia/unidad/<int:materiaId>', methods=['GET'])
+def ver_unidades(materiaId):
+    unidad = UnidadDaoControl()
+    unidad._lista.search_model(materiaId, '_materiaId')
+    return make_response(jsonify({"unidades": unidad.to_dict_list()}))
+    
+    
+
+
 
 
 @api.route('/docente/materias/<string:docente>', methods=['GET'])
