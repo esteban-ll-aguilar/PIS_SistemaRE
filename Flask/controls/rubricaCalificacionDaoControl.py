@@ -1,13 +1,15 @@
 from controls.dao.daoAdapter import DaoAdapter
-from models.rubricaCalidicacion import RubriaCalificacion
+from Flask.models.rubricaCalificacion import RubriaCaCF
 class RubricaCalificacionDaoControl(DaoAdapter):
     def __init__(self):
-        super().__init__(RubriaCalificacion)
+        super().__init__(RubriaCaCF)
         self.__rubricaCalificacion = None
 
 
     @property
     def _rubricaCalificacion(self):
+        if self.__rubricaCalificacion is None:
+            self.__rubricaCalificacion = RubriaCaCF()
         return self.__rubricaCalificacion
 
     @_rubricaCalificacion.setter
@@ -23,3 +25,9 @@ class RubricaCalificacionDaoControl(DaoAdapter):
         self.__rubricaCalificacion._id = self._lista._length + 1
         print("Guardando RubricaCalificacion")
         self._save(self.__rubricaCalificacion)
+        
+    def delete(self, pos):
+        self._delete(pos)  
+        
+    def merge(self, pos):
+        self._merge(self.__rubricaCalificacion,pos)

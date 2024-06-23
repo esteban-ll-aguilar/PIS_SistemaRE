@@ -1,5 +1,10 @@
 from controls.tda.linked.node import Node
 from controls.exception.linkedListExeption import LinkedEmptyException, ArrayPositionException
+import sys
+from numbers import Number
+from controls.tda.linked.ordenation_methods.quickSort import QuickSort
+from controls.tda.linked.search_methods.sequiential_binary_search import SequentialBinarySearch
+from controls.tda.linked.search_methods.binary_search import BinarySearch
 class Linked_List(object):
     def __init__(self):
         self.__head = None
@@ -40,10 +45,6 @@ class Linked_List(object):
                 self.__last._next = node
                 self.__last = node
                 self.__length += 1
-
-    """ def __addIntermed__(self, data, pos):
-            self.getNode(pos-1)._next = Node(data, self.getNode(pos))
-            self.__length += 1 """
 
                 
     def edit(self, data, pos=0):
@@ -103,21 +104,67 @@ class Linked_List(object):
         else:
             node = self.__head
             while node!= None:
-                out.append(node._data.__name)
+                out.append(node._data)#.__name
                 node = node._next
 
         return out
     
-
-    
-
-
-
     
     
+    def _filter(self, data):
+        out = []
+        if self.isEmpty:
+            out = "List is Empty"
+        else:
+            node = self.__head
+            #ordenar
+            quicksort = QuickSort
+            for i in range(0, self._length):
+                if hasattr(node._data, '_cedula'):
+                    out.append(node._data.serializable)
+                elif hasattr(node._data, '_docenteUserCedula') and node._data._docenteUserCedula == data and hasattr(node._data, '_docenteUserId') and node._data._docenteUserId == data:
+                    out.append(node._data.serializable)
+                elif hasattr(node._data, '_cicloId') and node._data._cicloId == data:
+                    out.append(node._data.serializable)
+                node = node._next
+            print(out)
+        return out
+
+    def __exist__(self, data, id=None, cedula=None,  nunidad=None):
+            node = self.__head
+            for i in range(0, self._length):
+                if hasattr(node._data, '_cedula'):
+                    return self.model_exist('_cedula', data, type=0)
+                elif hasattr(node._data, '_ciclo') and node._data._ciclo == id and  hasattr(node._data, '_nombre') and node._data._nombre == data and hasattr(node._data, '_cedulaDocente') and node._data._cedulaDocente == cedula:
+                    print('Ya existe materia')
+                    return True, node._data._id, node._data._ciclo
+                elif hasattr(node._data, '_correo'):
+                    return self.model_exist('_correo', data)
+                elif hasattr(node._data, '_docenteUserCedula') and node._data._docenteUserCedula == cedula and hasattr(node._data, '_descripcion') and node._data._descripcion == data:
+                    print('Ya existe funcion docente)')
+                    return True, node._data._id, node._data._docenteUserCedula
+                elif hasattr(node._data, '_materiaId') and  hasattr(node._data, '_nombre') and hasattr(node._data, '_nUnidad'):
+                    if node._data._nombre == data and node._data._materiaId == id and node._data._nUnidad == nunidad:
+                        print('Ya existe unidad')
+                        return True, node._data._id, node._data._materiaId
+                elif hasattr(node._data, '_nombres'):
+                    return self.model_exist('_nombres', data)
+                node = node._next
+            return False, None, None
+
+    def model_exist(self, attr, data, type=1):
+        array = self.search_model(data, attr, type)
+        print('array', array)
+        if array == None or len(array) == 0:
+            return False, None, None
+        print('Ya existe usuario')
+        return True, array[0]._id, getattr(array[0], attr)
         
-    
-    
+        
+        
+        
+        
+        
     def detele(self, pos):
         pos = pos 
         if self.isEmpty:
@@ -138,48 +185,11 @@ class Linked_List(object):
             node_preview._next = node_last
             self.__length -= 1
             
-        for i in range(pos, self._length):
-            self.getNode(i)._data._id = i+1
-
-
-
-
-
-
-    def _filter(self, data):
-        out = []
-        if self.isEmpty:
-            out = "List is Empty"
-        else:
-            node = self.__head
-            for i in range(0, self._length):
-                
-                if hasattr(node._data, '_clienteId') and node._data._clienteId == data:
-                    out.append(node._data.serialize)
-                if hasattr(node._data, '_cedula') and node._data._cedula == data:
-                    out.append(node._data.serialize)
-                elif hasattr(node._data, '_NComprobante') and node._data._NComprobante == data:
-                    out.append(node._data.serialize)
-                node = node._next
-        return out
+        """ for i in range(pos, self._length):
+            self.getNode(i)._data._id = i+1 """
     
-    
-    
-    
-    def __exist__(self, data):
-        node = self.__head
-        for i in range(0, self._length):
-            print(node._data)
-            if hasattr(node._data, '_dni') and node._data._dni == data:
-                print('Ya existe un nodo con este dato (_dni)')
-                return True
-            elif hasattr(node._data, '_NComprobante') and node._data._NComprobante == data:
-                print('Ya existe un nodo con este dato (_NComprobante)')
-                return True
-            node = node._next
-        return False
 
-        
+    
     
     def __str__(self) -> str:
         out = ""
@@ -190,16 +200,89 @@ class Linked_List(object):
             while node!= None:
                 out += str(node._data) +'\t'
                 node = node._next
-            
-
         return out
+
+    @property
+    def __sizeList__(self):
+        size = sys.getsizeof(self.__head) + sys.getsizeof(self.__last) + sys.getsizeof(self.__length)
+        node_size = sys.getsizeof(Node)
+        size += node_size * self.__length
+        return size
     
     @property
     def print(self):
-       node = self.__head
-       data = ''
-
-       while node != None:
-            data += str(node._data)+ '    '
+        node = self.__head
+        data = ''
+        while node != None:
+            print('ffffffffffff',node._data)
+            data += str(node._data._id) + '    '
             node = node._next
-       print(data) 
+        print(data)
+        
+    def toList(self, array):
+        self.clear
+        for i in range(0, len(array)):
+            self.__addLast__(array[i])
+        
+    def sort(self, type = 1):
+        if self.isEmpty:
+            raise LinkedEmptyException("List empty")
+        else:
+            array = self.toArray
+            if isinstance(array[0], Number) or isinstance(array[0], str):
+                quick = QuickSort()
+                if type == 1:
+                    array = quick.sort_acendent(array)
+                else:
+                    array = quick.sort_descendent(array, False)
+            
+            self.toList(array)
+    
+    def sort_models(self, attribute,type = 1):
+        if self.isEmpty:
+            raise LinkedEmptyException("List empty")
+        else:
+            array = self.toArray
+            if isinstance(array[0], object):
+                quick = QuickSort()
+                if type == 1:
+                    array = quick.sort_models_acendent(array, attribute)
+                else:
+                    array = quick.sort_models_descendent(array, attribute)
+            self.toList(array)
+        return array
+    
+    def search_model(self, data, attribute, type=0, method = 1):
+        if self.isEmpty:
+            raise LinkedEmptyException("List empty")
+        else:
+            if method == 1:
+                search = SequentialBinarySearch()
+                array = self.sort_models(attribute, type)
+                array = search.search_models(array, data, attribute)
+            else:
+                search = BinarySearch()
+                array = self.sort_models(attribute, type)
+                array = search.search_models(array, data, attribute)
+        self.toList(array)
+        return array
+            
+        
+    
+    
+    def search_number_equals(self, data):
+        lista = Linked_List()
+        if self.isEmpty:
+            raise LinkedEmptyException("List empty")
+        else:
+            array = self.toArray
+            for i in range(0, len(array)):
+                if (array[i].lower().startswith(data.lower())):
+                    lista.add(array[i], lista._length)
+
+        return lista
+       
+       
+    
+    
+    

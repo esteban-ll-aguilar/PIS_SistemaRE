@@ -1,21 +1,9 @@
-class PeridoAcademico:
+class PeriodoAcademico:
     def __init__(self):
-<<<<<<< HEAD
-        self.__id = id
-        self.__nombre = ''
-=======
         self.__id = 0
-        self.__nombrePeriodoAcademico = ''
-
-    @property
-    def _nombrePeriodoAcademico(self):
-        return self.__nombrePeriodoAcademico
-
-    @_nombrePeriodoAcademico.setter
-    def _nombrePeriodoAcademico(self, value):
-        self.__nombrePeriodoAcademico = value
-
->>>>>>> main
+        self.__nombre = ''
+        self.__fechaInicio = ''
+        self.__fechaFin = ''
 
     @property
     def _id(self):
@@ -25,7 +13,6 @@ class PeridoAcademico:
     def _id(self, value):
         self.__id = value
 
-<<<<<<< HEAD
     @property
     def _nombre(self):
         return self.__nombre
@@ -33,30 +20,42 @@ class PeridoAcademico:
     @_nombre.setter
     def _nombre(self, value):
         self.__nombre = value
-        
+
     @property
-    def serialize(self):
-        return {
-            "id": self._id,
-            "nombre": self._nombre
-=======
+    def _fechaInicio(self):
+        return self.__fechaInicio
+
+    @_fechaInicio.setter
+    def _fechaInicio(self, value):
+        self.__fechaInicio = value
+
+    @property
+    def _fechaFin(self):
+        return self.__fechaFin
+
+    @_fechaFin.setter
+    def _fechaFin(self, value):
+        self.__fechaFin = value
+
+
+    
+
         
     @property
     def serializable(self):
         return {
-            "id": self._id,
-            "nombrePeriodoAcademico": self._nombrePeriodoAcademico
->>>>>>> main
+            "idpac": self._id,
+            "nombre": self._nombre,
+            "fecha_inicio": self._fechaInicio,
+            "fecha_fin": self._fechaFin
         }
         
     def deserialize(self, data):
-        periodoAcademico = PeridoAcademico()
-        periodoAcademico._id = data['id']
-<<<<<<< HEAD
+        periodoAcademico = PeriodoAcademico()
+        periodoAcademico._id = data['idpac']
         periodoAcademico._nombre = data['nombre']
-=======
-        periodoAcademico._nombrePeriodoAcademico = data['nombrePeriodoAcademico']
->>>>>>> main
+        periodoAcademico._fechaInicio = data['fecha_inicio']
+        periodoAcademico._fechaFin = data['fecha_fin']
         return periodoAcademico
 
         

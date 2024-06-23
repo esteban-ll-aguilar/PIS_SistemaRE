@@ -1,0 +1,7 @@
+pip install oracledb 
+pip install pandas
+pip install python-dotenv
+pip install Flask
+pip install flask_cors
+pip install numpy
+pip install openpyxl

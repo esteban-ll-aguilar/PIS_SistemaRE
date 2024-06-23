@@ -1,5 +1,5 @@
 from models.docente import Docente
-from controls.DAO.daoAdapter import DaoAdapter
+from controls.dao.daoAdapter import DaoAdapter
 
 class DocenteDaoControl(DaoAdapter):
     def __init__(self):
@@ -25,3 +25,9 @@ class DocenteDaoControl(DaoAdapter):
         self.__docente._id = self._lista._length + 1
         print("Guardando Docente")
         self._save(self.__docente)
+        
+    def delete(self, pos):
+        self._delete(pos)  
+        
+    def merge(self, pos):
+        self._merge(self.__docente,pos)

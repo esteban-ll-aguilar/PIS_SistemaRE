@@ -1,26 +1,31 @@
+
 import sys
 sys.path.append('../')
-from controls.materiaDaoControl import MateriaDaoControl
-from funtions.readDocentesExel import ReadDocentesExel
-from funtions.exelDao import ExelDao
-from controls.cursaDaoControl import CursaDaoControl
-#mcd = MateriaDaoControl()
-#rd = ReadDocentesExel()
-ed = ExelDao()
+from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
+from controls.functions.exelCursaAsignate import ExelCursaAsignate
+from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
+#Esteban
+#eda = ExelDocentesAsignate(r"C:\Users\esteb\OneDrive\Escritorio\Estudios_Esteban\3-Ciclo\PIS\Docentes_AbrilAgosto2024.xlsx")
+#eca = ExelCursaAsignate(r"C:\Users\esteb\OneDrive\Escritorio\Estudios_Esteban\3-Ciclo\PIS\Estudiantes_AbrilAgosto2024.xlsx")
+#Christian
+eda = ExelDocentesAsignate(r"C:\Users\Asus\Downloads\Docentes_AbrilAgosto2024.xlsx")
+eca = ExelCursaAsignate(r"C:\Users\Asus\Downloads\Estudiantes_AbrilAgosto2024.xlsx")
 try:
-    """ mcd._materia._nombre = "Matematicas"
-    mcd.save """
+    eda.saveExel
+    eca.saveExel
+    eca.asignarEstudiante
     
-    rxl = ReadDocentesExel()
-    #print(rxl.filterCiclo(12))
-   
+    eca.crearCursa(1)
+    
+    
+    
+    
+    """ pacd = PeriodoAcademicoDaoControl()
+    pacd._periodoAcademico._nombre = 'Enero 2024'
+    pacd._periodoAcademico._fechaInicio = '01-01-2024'
+    pacd._periodoAcademico._fechaFin = '31-05-2024'
+    pacd.save  """
 
-    #print(rd.filterCiclo(12))
-    
-    ed.asignarDocentes
-    
-    
     
 except Exception as e:
-    print(e)
-
+    print('Error: '+str(e))
