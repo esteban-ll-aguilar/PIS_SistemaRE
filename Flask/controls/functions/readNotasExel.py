@@ -17,7 +17,8 @@ class ReadNotasExel():
             self.__dF['Cedula'] = self.__dF['Cedula'].astype(str)
             print(self.__dF)
             dict = self.__dF.to_dict('records')
-            print(dict)
+            #print(dict)
+            
         except Exception as e:
             print(f"Error al leer el archivo Excel: {e}")
     
