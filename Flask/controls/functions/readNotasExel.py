@@ -15,9 +15,10 @@ class ReadNotasExel():
         try:
             self.__dF = pd.read_excel(self.__archivo, sheet_name=self.__unidad, usecols=lambda x:x not in ['Estudiante', 'Prom'], engine='openpyxl')
             self.__dF['Cedula'] = self.__dF['Cedula'].astype(str)
-            print(self.__dF)
             dict = self.__dF.to_dict('records')
-            print(dict)
+            print(self.__dF)
+            return dict, self.__dF.columns[1:]
+            
         except Exception as e:
             print(f"Error al leer el archivo Excel: {e}")
     

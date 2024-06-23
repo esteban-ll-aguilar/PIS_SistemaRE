@@ -147,6 +147,8 @@ class Linked_List(object):
                     if node._data._nombre == data and node._data._materiaId == id and node._data._nUnidad == nunidad:
                         print('Ya existe unidad')
                         return True, node._data._id, node._data._materiaId
+                elif hasattr(node._data, '_descripcion') and node._data._descripcion == data:
+                    return True, node._data._id, node._data._descripcion
                 elif hasattr(node._data, '_nombres'):
                     return self.model_exist('_nombres', data)
                 node = node._next

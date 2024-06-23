@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Form = ({ campos, names, link, redirect, title }) => {
+const Form = ({ campos, names, link, redirect, title, contentType }) => {
     const [formValues, setFormValues] = useState(() => {
         const initialFormValues = {};
         names.forEach((name) => {
@@ -30,7 +30,7 @@ const Form = ({ campos, names, link, redirect, title }) => {
             try {
                 const response = await axios.post(link, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
+                        'Content-Type': {contentType},
                     },
                 });
 

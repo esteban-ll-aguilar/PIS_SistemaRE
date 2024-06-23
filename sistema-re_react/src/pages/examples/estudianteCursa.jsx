@@ -13,6 +13,7 @@ const EstudianteCursa = ({ viewBotonStudent=true, viewBottonForm=true}) => {
 
   useEffect(() => {
     const fetchCursa = async () => {
+      
       try {
         const response = await fetch(`http://127.0.0.1:5000/estudiantes/materia/${id}`, {
           method: 'GET',
@@ -23,10 +24,12 @@ const EstudianteCursa = ({ viewBotonStudent=true, viewBottonForm=true}) => {
         }
 
         const responseData = await response.json();
+        console.log(responseData);
+
         setEstudiante(responseData.estudiante);
+        console.log(responseData.estudiante);
         setData(responseData.cursa); // Actualiza data con la respuesta de la API
         setMateria(responseData.materia); // Actualiza materia con la respuesta de la API
-        console.log(responseData);
       } catch (error) {
         alert('Error fetching data:', error);
         setError(error.message);

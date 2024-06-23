@@ -1,15 +1,15 @@
 from controls.dao.daoAdapter import DaoAdapter
-from Flask.models.rubricaCalificacion import RubriaCaCF
+from models.rubricaCalificacion import RubricaCF
 class RubricaCalificacionDaoControl(DaoAdapter):
     def __init__(self):
-        super().__init__(RubriaCaCF)
+        super().__init__(RubricaCF)
         self.__rubricaCalificacion = None
 
 
     @property
     def _rubricaCalificacion(self):
         if self.__rubricaCalificacion is None:
-            self.__rubricaCalificacion = RubriaCaCF()
+            self.__rubricaCalificacion = RubricaCF()
         return self.__rubricaCalificacion
 
     @_rubricaCalificacion.setter
