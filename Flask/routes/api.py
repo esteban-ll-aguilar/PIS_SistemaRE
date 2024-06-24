@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, make_response, request, render_template, r
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from flask_cors import CORS
 import os
+import numpy as np
 from controls.materiaDaoControl import MateriaDaoControl
 from controls.estudianteDaoControl import EstudianteDaoControl
 from controls.cursaDaoControl import CursaDaoControl
@@ -10,6 +11,8 @@ from controls.funcionDocenteDaoControl import FuncionDocenteDaoControl
 from controls.unidadDaoControl import UnidadDaoControl
 from controls.functions.createmodel import CreateModel
 from controls.functions.readNotasExel import ReadNotasExel
+from controls.rubricaCalificacionDaoControl import RubricaCalificacionDaoControl
+from controls.calificacionDaoControl import CalificacionDaoControl
 api = Blueprint('api', __name__)
 
 #get para presentar los datos
@@ -76,31 +79,113 @@ def materias_unidad(materiaId,unidadId):
     unidad = UnidadDaoControl()
     cursa = CursaDaoControl()
     estudiantes = UsuarioDaoControl()
+    calificacion = CalificacionDaoControl()
+    rubrica = RubricaCalificacionDaoControl()
     m = MateriaDaoControl()
-    
+    #buscamos la unidad y la materia
     unidad._lista.search_model(unidadId, '_id')
     m = m._lista.search_model(materiaId, '_id')
-    array = cursa._lista.search_model(1, '_periodoAcademicoId')
-    array = cursa.lista.search_model(materiaId, '_materiaId',type=0, method=1)
-    cursa = cursa.lista.sort_models('_id', 0)
-    aux = []
-    for i in range(0, len(array)):
-        x = estudiantes._lista.search_model(array[i]._estudianteCedula, '_cedula')
-        aux.append(x[0])
-    
-    estudiantes._lista.toList(aux)
-    estudiantes.lista.sort_models('_apellidos', 0)
-    return jsonify({"unidad": unidad.to_dict_list(), "estudiantes": estudiantes.to_dict_list()})
+    #buscamos los estudiantes que estan en la materia
+    try:
+        listcursa = cursa._lista.search_model(1, '_periodoAcademicoId')
+        #obtenenos una lista de los estudiantes que estan en la materia
+        listcursa = cursa.lista.search_model(materiaId, '_materiaId',type=0, method=1)
+        #buscamos las calificaciones de la unidad
+        calificacion._lista.search_model(unidadId, '_unidadId', type=0)
+        calificacion.lista.sort_models('_cursaId', 0)
+        #obtener los estudiantes de la materia
+        listEstudiante = []
+        for i in range(0, len(listcursa)):
+            estudiante = estudiantes._lista.search_model(listcursa[i]._estudianteCedula, '_cedula')
+            listEstudiante.append(estudiante[0])
+        
+        estudiantes._lista.toList(listEstudiante)
+        estudiantes.lista.sort_models('_apellidos', 0)
+        cursa.lista.toList(listcursa)
+        cursa.lista.sort_models('_id', 0)
+        #convertit la lista ordenada en un array
+        listEstudiante = estudiantes.lista.toArray
+        dict = cursa.to_dict_list()
+        
+        #obtener lo id de los cursa en de los estudiantes
+        auxcursaid = []
+        for i in range(0,len(listEstudiante)):
+            for j in range(0, len(dict)):
+                if listEstudiante[i]._cedula == dict[j]['estudiante_user_cedula']:
+                    auxcursaid.append(dict[j]['idcursa'])
+                    
+        #obtener las calificaciones de los estudiantes
+        listCalificacion = []
+        for i in range(0, len(auxcursaid)):
+            calif = calificacion._lista.search_model(auxcursaid[i], '_cursaId')
+            listCalificacion.append(calif)
+            
+        rubricaLista = rubrica._lista.toArray
+        aux = []
+        for i in range(0, len(listCalificacion)):
+            arr = []
+            for j in range(0, len(listCalificacion[i])):
+                if listCalificacion[i][j]._unidadId == unidadId:
+                    arr.append(listCalificacion[i][j])
+            aux.append(arr)
+            
+        listCalificacion = aux
+        for i in range(0, len(listCalificacion)):
+            for j in range(0, len(listCalificacion[i])):
+                for k in range(0, len(rubricaLista)):
+                    if listCalificacion[i][j]._rubricaCalificacionId == rubricaLista[k]._id:
+                        listCalificacion[i][j]._rubricaCalificacionId = rubricaLista[k]._descripcion
+                        break
+        
+        #print(listCalificacion)
+        for i in range(0, len(listCalificacion)):
+            for j in range(0, len(listCalificacion[i])):
+                listCalificacion[i][j] = listCalificacion[i][j].serializable
+        
+        return jsonify({"unidad": unidad.to_dict_list(), "estudiantes": estudiantes.to_dict_list(), "calificaciones": listCalificacion, "rubrica": rubrica.to_dict_list()})
+    except Exception as e:
+        print('Error: '+str(e))
+        return jsonify({"unidad": unidad.to_dict_list(), "estudiantes": estudiantes.to_dict_list(), "calificaciones": [], "rubrica": rubrica.to_dict_list()})
+
+
 
 
 @api.route('/asignar/calificaciones/materia/<int:materiaId>/unidad/<int:unidadId>/nunidad/<int:nunidad>', methods=['POST'])
 def asignar_calificacion(materiaId,unidadId, nunidad):
     data = request.files
     #Leer excel 
-    print(data['file'].filename)
-    rdexel = ReadNotasExel(data['file'], nunidad)
-    rdexel.readExel
+    print(data)
+    rdexel = ReadNotasExel(data['file'], 
+                           unidad=nunidad)
+    notes, columnsNotes = rdexel.readExel
     
+    #para asignar las notas, llamamos al cursa
+    cursa = CursaDaoControl()
+    cursa._lista.search_model(1, '_periodoAcademicoId')
+    cursa.lista.search_model(materiaId, '_materiaId', type=0, method=1)
+    cursa.lista.sort_models('_id', 0)
+    cursa = cursa.lista.toArray
+    print(cursa)
+    if len(cursa) != len(notes):
+        return jsonify({"message": "Error al asignar las calificaciones, no coinciden las notas con los estudiantes"})
+    
+    #1- Crear rubrica de calificacion en caso de que no exista, de paso almacenamos su identificador
+    identificatorRub = []
+    for i in range(0, len(columnsNotes)):
+        if RubricaCalificacionDaoControl()._lista.isEmpty:
+            CreateModel().createRubricaCalificacion(columnsNotes[i])
+        existeRubrica, idrub, _ = RubricaCalificacionDaoControl()._lista.__exist__(columnsNotes[i])
+        if not existeRubrica:
+            CreateModel().createRubricaCalificacion(columnsNotes[i])
+        else:
+            identificatorRub.append(idrub)
+    
+    #si las cedulas coninciden, es porque encontramos a nuestro estudiante por tanto asignamos la calificacion
+    for i in range(0, len(cursa)):
+        if cursa[i]._estudianteCedula == notes[i]['Cedula']:
+            for j in range(0, len(columnsNotes)):
+                nota = notes[i][columnsNotes[j]]
+                CreateModel().createCalificacion(cursa[i]._id, identificatorRub[j], unidadId, "{:.2f}".format(nota))
     
     
     return jsonify({"message": "Calificacion asignada correctamente"})
@@ -138,6 +223,7 @@ def estudiantes_materia(materia):
 @api.route('/materia/crear/unidad/<int:materiaId>', methods=['POST'])
 def crear_unidad(materiaId):
     data = request.json
+    print(data)
     unidad = UnidadDaoControl()
     if unidad._lista.isEmpty:
         CreateModel().createUnidad(data, materiaId=materiaId)

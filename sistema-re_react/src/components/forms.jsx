@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Form = ({ campos, names, link, redirect, title }) => {
+const Form = ({ campos, names, link, redirect, title, contentType }) => {
     const [formValues, setFormValues] = useState(() => {
         const initialFormValues = {};
         names.forEach((name) => {
@@ -30,7 +30,7 @@ const Form = ({ campos, names, link, redirect, title }) => {
             try {
                 const response = await axios.post(link, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
+                        'Content-Type': {contentType},
                     },
                 });
 
@@ -104,47 +104,52 @@ const Form = ({ campos, names, link, redirect, title }) => {
     };
 
     return (
-        <section className="p-4 mx-auto flex justify-center items-center h-full ">
-            <div className="text-center border border-gray-300 rounded-lg p-6 m-7">
-                <h2 className="text-2xl font-bold mb-4">{title}</h2>
-                <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 ">
-                    {Object.entries(campos).map(([nombreCampo, tipoCampo], index) => (
-                        <div key={index} className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">
-                                {nombreCampo}
-                                {tipoCampo === 'file' ? (
-                                    <input
-                                        type="file"
-                                        onChange={handleFileChange}
-                                        className="mt-1 p-2 border border-gray-300 rounded w-full"
-                                    />
-                                ) : tipoCampo === 'number' ? (
-                                    <input
-                                        type="number"
-                                        value={formValues[names[index]]}
-                                        onChange={(e) => handleChange(e, names[index])}
-                                        min={0}
-                                        className="mt-1 p-2 border border-gray-300 rounded w-full"
-                                    />
-                                ) : (
-                                    <input
-                                        type={tipoCampo}
-                                        value={formValues[names[index]]}
-                                        onChange={(e) => handleChange(e, names[index])}
-                                        className="mt-1 p-2 border border-gray-300 rounded w-full"
-                                    />
-                                )}
-                            </label>
-                            {errors[names[index]] && <div className="text-red-500 text-xs">{errors[names[index]]}</div>}
-                        </div>
-                    ))}
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Enviar
-                    </button>
-                </form>
-            </div>
+        <section className="p-6 mx-auto flex justify-center items-center ">
+          <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
+            <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">{title}</h2>
+            <form onSubmit={handleSubmit}>
+              {Object.entries(campos).map(([nombreCampo, tipoCampo], index) => (
+                <div key={index} className="mb-5">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    {nombreCampo}
+                    {tipoCampo === 'file' ? (
+                      <input
+                        type="file"
+                        onChange={handleFileChange}
+                        className="mt-1 p-2 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    ) : tipoCampo === 'number' ? (
+                      <input
+                        type="number"
+                        value={formValues[names[index]]}
+                        onChange={(e) => handleChange(e, names[index])}
+                        min={0}
+                        className="mt-1 p-2 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    ) : (
+                      <input
+                        type={tipoCampo}
+                        value={formValues[names[index]]}
+                        onChange={(e) => handleChange(e, names[index])}
+                        className="mt-1 p-2 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    )}
+                  </label>
+                  {errors[names[index]] && (
+                    <div className="text-red-500 text-sm mt-1">{errors[names[index]]}</div>
+                  )}
+                </div>
+              ))}
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300"
+              >
+                Enviar
+              </button>
+            </form>
+          </div>
         </section>
-    );
-};
+      );
+    };
 
 export default Form;

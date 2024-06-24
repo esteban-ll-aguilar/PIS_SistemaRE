@@ -8,7 +8,7 @@ import InterfazAdmin  from './pages/interfaces/admin/interfazAdmin';
 import InterfazDocente  from './pages/interfaces/docente/interfazDocente';
 import InterfazResponsable  from './pages/interfaces/responsable/interfazResponsable';
 import Home  from './pages/home';
-import Calificaciones from './components/calificaciones';
+import Calificaciones from './pages/interfaces/docente/calificaciones';
 
 import ListaCiclos  from './pages/examples/ciclos';
 import Materias from './pages/examples/materiasCiclos';

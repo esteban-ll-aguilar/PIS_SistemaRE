@@ -10,7 +10,8 @@ const FormCalificaciones = ({idMateria, idUnidad, nUnidad}) => {
                     "Archivo de Calificaciones": "file",
                 }}
                 title={"Calificaciones Unidad " + idUnidad}
-                names={["file", ""]}
+                names={["file"]}
+                contentType="multipart/form-data"
                 link={`http://127.0.0.1:5000/asignar/calificaciones/materia/${idMateria}/unidad/${idUnidad}/nunidad/${nUnidad}`}
                 redirect={"/estudiantes/calificaciones/materia/" + idMateria + "/unidad/" + idUnidad}
             />
