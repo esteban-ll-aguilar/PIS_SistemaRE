@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './inicioSesion.css';
 import { useFormik } from 'formik';
-import axios from 'axios';
+//import axios from 'axios';
 
 export const Iniciosesion = () => {
 
@@ -84,10 +84,10 @@ export const Iniciosesion = () => {
   const isEmailValid = formik.touched.email && !formik.errors.email && formik.values.email;
 
   return (
-    <div className="supremo" id="container">
-      <div className='container'>
+    <div className="supremo dark:bg-slate-700" id="container">
+      <div className='container '>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></link>
-        <div className="form-container sign-up">
+        <div className="form-container sign-up ">
           <form onSubmit={formik.handleSubmit}>
             <h1 className='font-bold'>Activar cuenta</h1>
             <div className="social-icons">

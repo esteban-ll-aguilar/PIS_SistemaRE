@@ -8,7 +8,7 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
         setSelectedComponent(ruta);
     };
     return (
-        <div className={`bg-[#4E73DF] px-[25px] h-screen transition-transform duration-300 ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed`}>
+        <div className={`bg-[#4E73DF] px-[28px] h-screen transition-transform duration-300 ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed shadow-2xl dark:bg-blue-900`}>
             <div className='px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]'>
                 <h1 className='text-white text-[20px] leading-[24px] font-extrabold cursor-pointer'>Panel de {role}</h1>
             </div>
@@ -25,7 +25,7 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
 
             </div>
             <div className='pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]'>
-                <p className='text-[10px] font-extrabold leading-[16px] text-white/[0.4]'>Administar</p>
+                <p className='text-[10px] font-extrabold leading-[16px] text-white/[0.4]'>Administrar</p>
                 {administrar.map((item, index) => (
                     <div key={index} className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer' onClick={() => handleClick(item.ruta)}>
                         <div className='flex items-center gap-[10px]'>
@@ -38,6 +38,7 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
             </div>
             <div className='pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]'>
                 <p className='text-[10px] font-extrabold leading-[16px] text-white/[0.4]'>Acciones</p>
+
                 {acciones.map((accion, index) => (
                     <div key={index} className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer' onClick={() => handleClick(accion.ruta)}>
                         <div className='flex items-center gap-[10px]'>
@@ -47,10 +48,11 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
                         <FaChevronRight color='white' />
                     </div>
                 ))}
+                
             </div>
             <div className='pt-[15px]'>
                 <div className='flex items-center justify-center'>
-                    <div className='h-[40px] w-[40px] bg-[#4E73DF] flex items-center justify-center cursor-pointer rounded-[5px]' onClick={toggleSidebar}>
+                    <div className='h-[40px] w-[40px] bg-[#4E73DF] flex items-center justify-center cursor-pointer rounded-[5px] dark:bg-sky-700' onClick={toggleSidebar}>
                         <FaChevronLeft color='white' />
                     </div>
                 </div>
