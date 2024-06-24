@@ -1,4 +1,4 @@
-class RubriaCaCF:
+class RubricaCF:
     def __init__(self):
         self.__id = 0
         self.__descripcion = ""
@@ -28,7 +28,7 @@ class RubriaCaCF:
         }
         
     def deserialize(self, data):
-        rubricaCalificacion = RubriaCaCF()
+        rubricaCalificacion = RubricaCF()
         rubricaCalificacion._id = data["idrcal"]
         rubricaCalificacion._descripcion = data["descripcion"]
         return rubricaCalificacion

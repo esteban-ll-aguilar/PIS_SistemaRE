@@ -26,6 +26,9 @@ class FuncionDocenteDaoControl(DaoAdapter):
         print("Guardando Rol")
         self._save(self.__funcionDocente)
         
+    def delete(self, pos):
+        self._delete(pos)  
+        
     def merge(self, pos):
         self._merge(self.__funcionDocente,pos)
         

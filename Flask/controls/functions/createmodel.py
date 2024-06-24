@@ -4,6 +4,8 @@ from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
 from controls.funcionDocenteDaoControl import FuncionDocenteDaoControl
 from controls.estudianteDaoControl import EstudianteDaoControl
 from controls.usuarioDaoControl import UsuarioDaoControl
+from controls.unidadDaoControl import UnidadDaoControl
+from controls.rubricaCalificacionDaoControl import RubricaCalificacionDaoControl
 import datetime
 import pandas as pd
 from controls.calificacionDaoControl import CalificacionDaoControl
@@ -73,11 +75,24 @@ class CreateModel:
         return funcionD._funcionDocente._id
     
     
-    def createCalificacion(self, idCursa):
+    def createCalificacion(self, idCursa, idRubrica, idUnidad, valor):
         calificacion = CalificacionDaoControl()
         calificacion._calificacion._cursaId = idCursa
-        calificacion._calificacion._valor = 0
-        calificacion._calificacion._rubricaCalificacionId = 0
-        calificacion._calificacion._unidadId = 0
+        calificacion._calificacion._valor = valor
+        calificacion._calificacion._rubricaCalificacionId = idRubrica
+        calificacion._calificacion._unidadId = idUnidad
         calificacion.save
-        return calificacion._calificacion._id
+        
+    
+    def createUnidad(self,data, materiaId):
+        unidad = UnidadDaoControl()
+        unidad._unidad._nombre = data['Unidad']
+        unidad._unidad._nUnidad = data['nUnidad']
+        unidad._unidad._materiaId = materiaId
+        unidad.save
+        
+    def createRubricaCalificacion(self,descripcion):
+        rubrica = RubricaCalificacionDaoControl()
+        rubrica._rubricaCalificacion._descripcion = descripcion
+        rubrica.save
+        

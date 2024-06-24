@@ -1,59 +1,53 @@
 import React, { useState } from 'react'
-import { FaSearch, FaEnvelope, FaRegBell } from "react-icons/fa"
+import { FaSearch, FaEnvelope, FaRegBell, FaBars } from "react-icons/fa"
 import profile from "../assets/profile.png"
 import { Link } from 'react-router-dom'
 
-
-const Dashboardview = () => {
+const Dashboardview = ({ role, toggleSidebar }) => {
     const [open, setOpen] = useState(false)
 
     const showProfile = () => {
-        // alert("helloo")
         setOpen(!open)
     }
 
     return (
-        <div className=''>
-            <div className='flex items-center justify-between h-[70px] shadow-lg px-[25px] '>
-                <div className='flex items-center rounded-[5px]'>
-                    <input type="text" className=' bg-[#F8F9FC] h-[40px] outline-none pl-[13px] w-[350px] rounded-[5px] placeholder:text-[14px] leading-[20px] font-normal' placeholder='Search for...' />
-                    <div className='bg-[#4E73DF] h-[40px] px-[14px] flex items-center justify-center cursor-pointer rounded-tr-[5px] rounded-br-[5px]'>
-                        <FaSearch color='white' />
-                    </div>
-
-                </div>
-                <div className='flex items-center gap-[20px]'>
-                    <div className='flex items-center gap-[25px] border-r-[1px] pr-[25px]'>
-                        <FaRegBell />
-                        <FaEnvelope />
-                    </div>
-                    <div className='flex items-center gap-[15px] relative' onClick={showProfile} >
-                        
-                        <p className="invisible">---------------------------------------------------------</p>
-                        <p>DOCENTE</p>
-                        <div className='h-[50px] w-[50px] rounded-full bg-[#4E73DF] cursor-pointer flex items-center justify-center relative z-40' >
-                            <img src={profile} alt="" />
-
-                        </div>
-
-                        {
-                            open &&
-                            <div className='bg-white border h-[120px] w-[150px] absolute bottom-[-135px] z-20 right-0 pt-[15px] pl-[15px] space-y-[10px]'>
-                                <p className='cursor-pointer hover:text-[blue] font-semibold'>Perfil</p>
-                                <p className='cursor-pointer hover:text-[blue] font-semibold'>Configuración</p>
-                                <p className='cursor-pointer hover:text-[blue] font-semibold'>
-                                    <Link className='cursor-pointer hover:text-[blue] font-semibold' to='/'>Log out</Link>
-                                    </p>
-                            </div>
-
-                        }
-
-
-
-                    </div>
+        <header className='flex items-center justify-between px-6 py-4 border-b border-gray-300 bg-[#32465B] shadow-sm'>
+            <div className='flex items-center gap-4'>
+                <button onClick={toggleSidebar} className='p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300'>
+                    <FaBars />
+                </button>
+                <div className='flex items-center bg-gray-100 rounded-md overflow-hidden'>
+                    <input 
+                        type="text" 
+                        className='bg-gray-100 h-10 outline-none pl-4 w-72 text-sm' 
+                        placeholder='Buscar...' 
+                    />
+                    <button className='bg-blue-600 h-10 px-4 flex items-center justify-center text-white'>
+                        <FaSearch />
+                    </button>
                 </div>
             </div>
-        </div>
+            <div className='flex items-center gap-6'>
+                <div className='flex items-center gap-5 border-r pr-6 text-white'>
+                    <FaRegBell className='hover:text-blue-600 transition-colors duration-300 cursor-pointer' />
+                    <FaEnvelope className='hover:text-blue-600 transition-colors duration-300 cursor-pointer' />
+                </div>
+                <div className='relative flex items-center gap-3 cursor-pointer text-white' onClick={showProfile}>
+                    <p className='font-medium'>{role}</p>
+                    <div className='h-12 w-12 rounded-full bg-blue-600 overflow-hidden'>
+                        <img src={profile} alt="Profile" className='h-full w-full object-cover' />
+                    </div>
+                    {open && (
+                        <div className='bg-white border border-gray-300 shadow-lg absolute top-14 right-0 w-40 rounded-md p-3 space-y-2'>
+                            <p className='cursor-pointer hover:text-blue-600 font-semibold'>Perfil</p>
+                            <p className='cursor-pointer hover:text-blue-600 font-semibold'>Configuración</p>
+                            <p className='cursor-pointer hover:text-blue-600 font-semibold'>Cerrar sesión</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </header>
+
     )
 }
 

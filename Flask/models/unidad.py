@@ -3,7 +3,18 @@ class Unidad:
         self.__id = 0
         self.__nombre = ""
         self.__nUnidad = 0
+        self.__materiaId = 0
 
+    @property
+    def _materiaId(self):
+        return self.__materiaId
+
+    @_materiaId.setter
+    def _materiaId(self, value):
+        self.__materiaId = value
+
+
+    
 
     @property
     def _id(self):
@@ -36,7 +47,8 @@ class Unidad:
         return {
             "idunidad": self._id,
             "nombre": self._nombre,
-            "nunidad": self._nUnidad
+            "nunidad": self._nUnidad,
+            "materia_idmateria": self._materiaId
         }
     
     
@@ -45,6 +57,7 @@ class Unidad:
         unidad._id = data["idunidad"]
         unidad._nombre = data["nombre"]
         unidad._nUnidad = data["nunidad"]
+        unidad._materiaId = data["materia_idmateria"]
         return unidad
 
     
