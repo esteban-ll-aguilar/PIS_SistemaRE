@@ -1,5 +1,6 @@
 npm install bootstrap-icons formik
 npm install react-icons
 npm install @react-pdf/renderer --save
+npm install axios
 
-
+npm install tailwindcss recharts

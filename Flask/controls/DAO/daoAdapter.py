@@ -25,14 +25,30 @@ class DaoAdapter(Generic[T]):
             self.lista.__addLast__(self.atype().deserialize(i))
         return self.lista
     
-    
+    # usuario.user_iduser,funciondocente.idfunciondocente, usuario.user_nombres, usuario.user_apellidos, \
+                    #      usuario.user_correo,funciondocente.descripcion
     def obtainColumsRows(self):
         cur = self.__connection.cursor()
-        cur.execute("SELECT * FROM "+ self.__name)
+        if self.__name == 'ESTUDIANTE':
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = estudiante.user_cedula")
+        elif self.__name == 'DOCENTE':
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = docente.user_cedula")
+             
+        elif self.__name == 'FUNCIONDOCENTE':
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = funciondocente.docente_user_cedula")
+        else:
+            cur.execute("SELECT * FROM "+ self.__name)
         columns = [col[0].lower() for col in cur.description]
         rows = [dict(zip(columns, row)) for row in cur.fetchall()]
         cur.close()
         return columns, rows
+    
+    def obtainColums(self):
+        cur = self.__connection.cursor()
+        cur.execute("SELECT * FROM "+ self.__name)
+        columns = [col[0].lower() for col in cur.description]
+        cur.close()
+        return columns
     
     def __transform__(self):
         print(self.lista._length)
@@ -51,7 +67,14 @@ class DaoAdapter(Generic[T]):
         for i in range(0, self.lista._length):
             aux.append(self.lista.get(i).serializable)
         return aux
-    
+
+    def to_dict_list(self):
+        array = []
+        lista = self.lista.toArray
+        for i in range(0, self.lista._length):
+            array.append(lista[i].serializable)
+        return array
+            
     def date_valid(self,fecha_str, formato):
         try:
             datetime.strptime(fecha_str, formato)
@@ -66,7 +89,7 @@ class DaoAdapter(Generic[T]):
         
         datos = data.serializable
         print(datos)
-        columns, _ = self.obtainColumsRows()
+        columns = self.obtainColums()
         columns = tuple(columns).__str__().replace("'", "")
         dataclass = ''
         for cont in datos:
@@ -90,7 +113,28 @@ class DaoAdapter(Generic[T]):
 
 
 
-
+    def _delete(self, data: T) -> T:
+    
+        dataclass = ''
+        columns= self.obtainColums()
+        i = 0
+        for cont in (data):
+            if isinstance(data[cont], str):
+                if self.date_valid(data[cont], '%d-%m-%Y'):
+                    dataclass += columns[i]+ "= TO_DATE('"+data[cont]+"', 'DD-MM-YYYY')"+' AND '
+                else:
+                    dataclass += columns[i]+"= '"+str(data[cont])+"'"+' AND '
+            else:
+                dataclass += columns[i] + "= " + str(data[cont])+' AND '
+            i += 1
+            
+        dataclass = dataclass[:-5]
+        sql = "DELETE FROM "+self.__name+" WHERE " + dataclass
+        print(sql)
+        
+        self.__connection.cursor().execute(sql)
+        self.__connection.commit()
+        print("Eliminado")
 
 
     def _merge(self, data: T, pos) -> T:
