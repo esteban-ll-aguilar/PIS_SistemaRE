@@ -137,7 +137,7 @@ def materias_unidad(materiaId,unidadId):
                         listCalificacion[i][j]._rubricaCalificacionId = rubricaLista[k]._descripcion
                         break
         
-        print(listCalificacion)
+        #print(listCalificacion)
         for i in range(0, len(listCalificacion)):
             for j in range(0, len(listCalificacion[i])):
                 listCalificacion[i][j] = listCalificacion[i][j].serializable
