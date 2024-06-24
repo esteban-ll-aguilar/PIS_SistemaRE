@@ -31,7 +31,7 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
   }, [baseUrl, endpoint, parameter]);
 
   return (
-    <div className="App p-4 bg-gray-50 min-h-screen">
+    <div className="App p-4 bg-gray-50 min-h-screen dark:bg-slate-700">
       <header className="App-header text-center mb-4">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">{title}</h1>
         {error && <p className="text-red-500 mb-4">Error: {error}</p>}

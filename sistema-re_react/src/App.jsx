@@ -1,4 +1,4 @@
-import React from 'react'
+import {React, useEffect, useState} from 'react'
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
 import './App.css'
 import {Iniciosesion} from './pages/login/iniciosesion'; // Aquí corregimos la importación
@@ -16,8 +16,34 @@ import EstudianteCursa from './pages/examples/estudianteCursa';
 import DocenteMaterias from './components/materias';
 import FormUnidad from './pages/interfaces/docente/formUnidad';
 function App() {
+
+  const [modoNoche, setModoNoche] = useState(() => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  })
+
+  useEffect(() => {
+    if (modoNoche === 'dark') {
+      document.querySelector('html').classList.add('dark');
+  } else {
+    document.querySelector('html').classList.remove('dark');
+  }
+  } , [modoNoche]);
+
+  const toggleModoNoche = () => {
+    setModoNoche((modoNoche) => modoNoche === 'light' ? 'dark' : 'light');
+  }
+   
+
+
+
   return (
    <BrowserRouter>
+   <button onClick={toggleModoNoche} className="fixed bottom-4 right-4 bg-[#6D6E81] text-white rounded-full w-12 h-12 flex items-center justify-center">
+                {modoNoche ? '🌞' : '🌙'}
+              </button>
    <Routes>
     <Route path='/' element={<Home  />} />
     <Route path='/iniciosesion' element={<Iniciosesion  />} />
