@@ -40,18 +40,18 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
       };
 
     return (
-        <header className='flex items-center justify-between px-6 py-4 border-b border-gray-300 bg-[#32465B] shadow-sm'>
+        <header className='flex items-center justify-between px-6 py-5 border-b border-gray-300 bg-[#4E73DF] shadow-sm dark:bg-blue-900'>
             <div className='flex items-center gap-4'>
-                <button onClick={toggleSidebar} className='p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300'>
+                <button onClick={toggleSidebar} className='p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700  dark:bg-sky-700'>
                     <FaBars />
                 </button>
-                <div className='flex items-center bg-gray-100 rounded-md overflow-hidden'>
+                <div className='flex items-center bg-gray-100 rounded-md overflow-hidden '>
                     <input 
                         type="text" 
-                        className='bg-gray-100 h-10 outline-none pl-4 w-72 text-sm' 
+                        className='bg-gray-100 h-10 outline-none pl-4 w-72 text-sm ' 
                         placeholder='Buscar...' 
                     />
-                    <button className='bg-blue-600 h-10 px-4 flex items-center justify-center text-white'>
+                    <button className='bg-blue-600 h-10 px-4 flex items-center justify-center text-white dark:bg-sky-700'>
                         <FaSearch />
                     </button>
                     
@@ -79,8 +79,8 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                 </div>
                 <div className='relative flex items-center gap-3 cursor-pointer text-white' onClick={showProfile}>
                     <p className='font-medium'>{role}</p>
-                    <div className='h-12 w-12 rounded-full bg-blue-600 overflow-hidden'>
-                        <img src={profile} alt="Profile" className='h-full w-full object-cover' />
+                    <div className='h-12 w-12 rounded-full bg-transparent overflow-hidden'>
+                        <img src={profile} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />
                     </div>
                     {open && (
 
