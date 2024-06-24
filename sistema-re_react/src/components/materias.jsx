@@ -28,21 +28,25 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
     };
 
     fetchMaterias();
-  }, [baseUrl, endpoint, id]);
+  }, [baseUrl, endpoint, parameter]);
 
   return (
-    <div className="App p-4">
+    <div className="App p-4 bg-gray-50 min-h-screen">
       <header className="App-header text-center mb-4">
-        <h1 className="text-3xl font-bold mb-2">{title}</h1>
-        {error && <p className="text-red-500">Error: {error}</p>}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">{title}</h1>
+        {error && <p className="text-red-500 mb-4">Error: {error}</p>}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {materias.length > 0 ? (
             materias.map((materia, index) => (
-              <div key={index} className="p-8 bg-gray-100 rounded-lg shadow-md mt-8 flex flex-col justify-between w-80 h-60">
-                <p className="text-xl font-semibold">{materia.nombre}</p>
-                <Link to={`/estudiantes/materia/${materia.idmateria}`} className="bg-blue-500 text-white px-4 py-2 rounded mt-auto self-center">
-                    Ver Estudiantes
-                </Link>              </div>
+              <div key={index} className="relative p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <p className="text-xl font-semibold text-gray-700 mb-4">{materia.nombre}</p>
+                <Link
+                  to={`/estudiantes/materia/${materia.idmateria}`}
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full text-center block mt-auto hover:from-blue-600 hover:to-purple-600 transition-colors duration-300"
+                >
+                  Ver Estudiantes
+                </Link>
+              </div>
             ))
           ) : (
             <div className="col-span-full text-center p-4 bg-white rounded-lg shadow-md">
