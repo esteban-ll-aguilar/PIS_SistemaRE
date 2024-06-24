@@ -7,6 +7,7 @@ export const Interfaz = () => {
   return (
       <div className="min-h-screen flex">
         <div className="basis-[12%] h-[100vh]">
+          
           <Sidebar />
       </div>
 
