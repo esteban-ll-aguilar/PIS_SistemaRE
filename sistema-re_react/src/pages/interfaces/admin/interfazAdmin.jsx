@@ -1,55 +1,112 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
-import { Outlet } from 'react-router-dom';
+import Materias from '../../../components/materias';
+import Informe from '../informe/informe';
+import { Outlet, useParams } from 'react-router-dom';
+import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi"
+import { FaTachometerAlt } from "react-icons/fa"
+import html2canvas from 'html2canvas';
+import Graficas from '../../graphics/graficas';
+import Ciclos from './ciclos';
 
 const InterfazAdmin = () => {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true)
+    const { id } = useParams();
+    const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+    const [selectComponent, setSelectComponent] = useState('Principal');
+    const [data, setData] = useState([]);
 
-  const toggleSidebar = () => {
-      setIsSidebarVisible(!isSidebarVisible)
-  }
-  // const administrar = [
-{/* <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
-                    <div className='flex items-center gap-[10px]'>
-                        <HiViewBoards color='white' /> <Link className='text-[14px] leading-[20px] font-normal text-white' to='/ciclos'>Cursos</Link>
-                    </div>
-                    <FaChevronRight color='white' />
-                </div>
-                <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
-                    <div className='flex items-center gap-[10px]'>
-                        <HiUserGroup color='white' /> <p className='text-[14px] leading-[20px] font-normal text-white'>Docentes</p>
-                    </div>
-                    <FaChevronRight color='white' />
-                </div>
-                <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
-                    <div className='flex items-center gap-[10px]'>
-                        <HiAcademicCap color='white' /> <p className='text-[14px] leading-[20px] font-normal text-white'>Estudiantes</p>
-                    </div>
-                    <FaChevronRight color='white' />
-                </div> */}
-    // ];
-    // const acciones = [
-    {/* <div className='flex items-center justify-between gap-[10px] py-[15px] cursor-pointer'>
-                    <div className='flex items-center gap-[10px]'>
-                        <HiOutlineDocumentDuplicate color='white' /> <Link className='text-[14px] leading-[20px] font-normal text-white' to='/informe'>Informe</Link>
-                    </div>
-                    <FaChevronRight color='white' />
-                </div>
-                <Link className='flex items-center gap-[10px] py-[15px] cursor-pointer' to='/graficas'>              
-                    <FaRegChartBar color='white' /> <p className='text-[14px] leading-[20px] font-normal text-white'>Gráficas</p>                   
-                </Link>  */}
-    // ];
-  return (
-      <section className='flex'>
-          <Sidebar isVisible={isSidebarVisible} toggleSidebar={toggleSidebar} role="Administrador" />
-          <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'}`}>
-              <Dashboardview role='Administrador' toggleSidebar={toggleSidebar} />
-              <Outlet />
-          </section>
-      </section>
-      
-  )
-}
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/usuario/${id}`, {
+                    method: 'GET',
+                });
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setData(data.usuario[0]);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
+    }, [id]);
 
-export default InterfazAdmin
+    const toggleSidebar = () => {
+        setIsSidebarVisible(!isSidebarVisible);
+    };
+
+    const principal = [
+        {
+            icono: <FaTachometerAlt color='white' />,
+            texto: 'Principal',
+            ruta: 'Principal'
+        },
+        // Añadir elementos de la misma forma que en 'administrar'
+    ];
+    const administrar = [
+        {
+            icono: <HiViewBoards color='white' />,
+            texto: 'Ciclos',
+            ruta: '/ciclos'
+        }
+        // Añadir elementos de la misma forma que en 'acciones'
+    ];
+    const acciones = [
+        {
+            icono: <HiOutlineDocumentDuplicate color='white' />,
+            texto: 'Informe',
+            ruta: '/informe'
+        },
+        {
+            icono: <HiOutlineDocumentDuplicate color='white' />,
+            texto: 'Graficas',
+            ruta: '/graficas'
+        }
+        // Agregar más elementos según sea necesario
+    ];
+
+    return (
+        <div className='dark:bg-slate-700'>
+            <section className='flex '>
+                <Sidebar
+                    isVisible={isSidebarVisible}
+                    toggleSidebar={toggleSidebar}
+                    panel='Panel'
+                    role='Administrador'
+                    principal={principal}
+                    administrar={administrar}
+                    acciones={acciones}
+                    setSelectedComponent={setSelectComponent} // [2]
+                />
+                <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'} `}>
+                    <Dashboardview role={data.user_nombres} toggleSidebar={toggleSidebar} />
+                    <Outlet />
+                    <p className="mt-8"></p>
+
+                    {selectComponent === 'Principal' && (
+                        <div className='flex flex-col items-center justify-center h-full'>
+                            <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
+                            <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
+                        </div>
+                    )}
+                    {selectComponent === '/ciclos' && (
+                        <Ciclos />
+                    )}
+                    {selectComponent === '/informe' && (
+                        <Informe />
+                    )}
+                    {selectComponent === '/graficas' && (
+                        <Graficas />
+                    )}
+                </section>
+            </section>
+        </div>
+    );
+};
+
+export default InterfazAdmin;
+
+  

@@ -31,15 +31,15 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
   }, [baseUrl, endpoint, parameter]);
 
   return (
-    <div className="App p-4 bg-gray-50 min-h-screen">
+    <div className="App p-4 bg-blue-200 min-h-screen dark:bg-slate-700">
       <header className="App-header text-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">{title}</h1>
-        {error && <p className="text-red-500 mb-4">Error: {error}</p>}
+        <h1 className="text-3xl font-bold text-gray-800 mb-2 dark:text-white">{title}</h1>
+        {error && <p className="text-red-500 mb-4 dark:text-red-400">Error: {error}</p>}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {materias.length > 0 ? (
             materias.map((materia, index) => (
-              <div key={index} className="relative p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
-                <p className="text-xl font-semibold text-gray-700 mb-4">{materia.nombre}</p>
+              <div key={index} className="relative p-6 bg-white dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                <p className="text-xl font-semibold text-gray-700 dark:text-white mb-4">{materia.nombre}</p>
                 <Link
                   to={`/estudiantes/materia/${materia.idmateria}`}
                   className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full text-center block mt-auto hover:from-blue-600 hover:to-purple-600 transition-colors duration-300"
@@ -49,8 +49,8 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
               </div>
             ))
           ) : (
-            <div className="col-span-full text-center p-4 bg-white rounded-lg shadow-md">
-              No hay {title.toUpperCase()}
+            <div className="col-span-full text-center p-4 bg-white dark:bg-gray-500 rounded-lg shadow-md">
+              <p className="text-gray-700 dark:text-white">No hay {title.toUpperCase()}</p>
             </div>
           )}
         </div>
