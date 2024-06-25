@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import {React, useEffect, useState} from 'react'
 import { FaSearch, FaEnvelope, FaRegBell, FaBars, FaChevronRight } from "react-icons/fa"
 import profile from "../assets/profile.png"
 import { Link } from 'react-router-dom'
@@ -16,6 +16,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
     const handleClick = (ruta) => {
         setSelectedComponent(ruta);
     };
+
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,9 +40,28 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
         setIsProfileModalOpen(false);
       };
 
+      const [modoNoche, setModoNoche] = useState(() => {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'light';
+        }
+        return 'dark';
+      })
+    
+      useEffect(() => {
+        if (modoNoche === 'dark') {
+          document.querySelector('html').classList.add('dark');
+      } else {
+        document.querySelector('html').classList.remove('dark');
+      }
+      } , [modoNoche]);
+    
+      const toggleModoNoche = () => {
+        setModoNoche((modoNoche) => modoNoche === 'light' ? 'dark' : 'light');
+      }
+
     return (
-        <header className='flex items-center justify-between px-6 py-5 border-b border-gray-300 bg-[#4E73DF] shadow-sm dark:bg-blue-900'>
-            <div className='flex items-center gap-4'>
+        <header className='flex items-center justify-between px-6 py-5 border-b border-gray-300 bg-[#4E73DF] shadow-sm dark:bg-blue-950'>
+            <div className='flex items-center gap-4 '>
                 <button onClick={toggleSidebar} className='p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700  dark:bg-sky-700'>
                     <FaBars />
                 </button>
@@ -67,7 +87,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     <FaEnvelope className='hover:text-blue-600 text-blue-600 transition-colors duration-300 cursor-pointer' onClick={openModal} />
                     {isModalOpen && (
                         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
-                        <div className="relative bg-blue p-5 rounded-lg shadow-md">
+                        <div className="relative bg-write p-5 rounded-lg shadow-md">
                             <SendEmail onClose={closeModal} />
                         </div>
                         </div>
@@ -84,14 +104,14 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     </div>
                     {open && (
 
-                        <div className='bg-white border border-gray-300 shadow-lg absolute top-14 right-0 w-40 rounded-md p-3 space-y-2'>
+                        <div className='bg-white border border-gray-300 shadow-lg absolute top-14 right-0 w-40 rounded-md p-3 space-y-2 dark:bg-blue-900'>
                         
-                        <p className="cursor-pointer text-blue-600 font-semibold" onClick={openProfileModal}>     Perfil       </p>
+                        <p className="cursor-pointer text-blue-600 font-semibold dark:text-zinc-100" onClick={openProfileModal}>     Perfil       </p>
                             
                         
-                            <p className='cursor-pointer text-blue-600 font-semibold'>Modo Oscuro</p>
+                            <p onClick={toggleModoNoche} className='cursor-pointer text-blue-600 font-semibold dark:text-zinc-100'>Modo Oscuro</p>
                             
-                            <p className='cursor-pointer text-blue-600 font-semibold'>Cerrar sesión</p>
+                            <Link to='/' className='cursor-pointer text-blue-600 font-semibold  dark:text-zinc-100'>Cerrar sesión</Link>
 
                         </div>
                     )}

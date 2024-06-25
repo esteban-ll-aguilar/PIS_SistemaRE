@@ -29,52 +29,52 @@ const SendEmail = ({ onClose }) => {
   };
 
   return (
-    <div className="bg-white p-5 rounded-lg max-w-lg w-full relative w-96">
+    <div className="bg-white p-6 rounded-lg max-w-lg w-full relative dark:bg-gray-600 dark:text-white">
       <button
         onClick={onClose}
-        className="absolute top-0 right-0 mt-2 mr-2 text-gray-700 hover:text-red-600 text-2xl"
+        className="absolute top-0 right-0 mt-4 mr-4 text-gray-700 hover:text-red-600 text-2xl"
       >
         &times;
       </button>
-      <h2 className="text-2xl font-bold mb-6 text-center text-black">Enviar Correo</h2>
+      <h2 className="text-2xl font-bold text-center text-black mb-4 dark:text-white">Enviar Correo</h2>
       <form onSubmit={sendEmail}>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">De:</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-white">De:</label>
           <input
             type="email"
             value={fromEmail}
             onChange={(e) => setFromEmail(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:bg-gray-100 dark:text-black"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Para:</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-white">Para:</label>
           <input
             type="email"
             value={toEmail}
             onChange={(e) => setToEmail(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:bg-gray-100 dark:text-black "
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Asunto:</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-white">Asunto:</label>
           <input
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:bg-gray-100 dark:text-black"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Mensaje:</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-white">Mensaje:</label>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:bg-gray-100 dark:text-black"
             rows="5"
           ></textarea>
         </div>

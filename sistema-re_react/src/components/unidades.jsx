@@ -31,37 +31,38 @@ const Unidades = ({ baseUrl, endpoint, idMateria, title }) => {
   }, [baseUrl, endpoint, id]);
 
   return (
-    <div className="p-5 ">
-      <header className="text-center mb-4">
-        <h1 className="text-4xl font-bold text-gray-800 mb-6">{title}</h1>
-        {error && <p className="text-red-500">Error: {error}</p>}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {unidades.length > 0 ? (
-            unidades.map((unidad, index) => (
-              <div
-                key={index}
-                className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-full"
-              >
-                <div>
-                  <p className="text-2xl font-semibold text-gray-700 mb-4">Unidad: {unidad.nunidad}</p>
-                  <p className="text-lg text-gray-600 mb-4">{unidad.nombre}</p>
-                </div>
-                <Link
-                  to={`/estudiantes/calificaciones/materia/${idMateria}/unidad/${unidad.idunidad}`}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-full text-center mt-4 hover:bg-blue-700 transition-colors duration-300"
-                >
-                  Ver Calificaciones
-                </Link>
-              </div>
-            ))
-          ) : (
-            <div className="col-span-full text-center p-4 bg-white rounded-lg shadow-md">
-              No hay {title.toUpperCase()}
+    <div className="p-5">
+  <header className="text-center mb-4">
+    <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-6">{title}</h1>
+    {error && <p className="text-red-500 dark:text-red-400">Error: {error}</p>}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {unidades.length > 0 ? (
+        unidades.map((unidad, index) => (
+          <div
+            key={index}
+            className="p-6 bg-white dark:bg-gray-700 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 flex flex-col justify-between h-full"
+          >
+            <div>
+              <p className="text-2xl font-semibold text-gray-700 dark:text-white mb-4">Unidad: {unidad.nunidad}</p>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">{unidad.nunidad}</p>
             </div>
-          )}
+            <Link
+              to={`/estudiantes/calificaciones/materia/${idMateria}/unidad/${unidad.idunidad}`}
+              className="bg-blue-600 text-white px-4 py-2 rounded-full text-center mt-4 hover:bg-blue-700 transition-colors duration-300"
+            >
+              Ver Calificaciones
+            </Link>
+          </div>
+        ))
+      ) : (
+        <div className="col-span-full text-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
+          <p className="text-gray-700 dark:text-white">No hay {title.toUpperCase()}</p>
         </div>
-      </header>
+      )}
     </div>
+  </header>
+</div>
+
   );
 };
 

@@ -97,15 +97,15 @@ export const Informe = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-10">
       <div ref={chartRef} className="mb-5 w-full md:w-3/4 lg:w-1/2 mx-auto">
         <GraficasCiclo />
       </div>
       <button
         onClick={generateDocument}
-        className="block px-4 py-2 mx-auto bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300"
+        className="block px-4 py-2 mx-auto bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300 dark:bg-blue-950"
       >
-        Generar Documento Word
+        Generar Informe
       </button>
     </div>
   );
