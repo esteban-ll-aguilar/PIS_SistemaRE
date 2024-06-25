@@ -74,7 +74,7 @@ const InterfazDocente = () => {
   
   
     return (
-      <div className='dark:bg-slate-700'>
+      <div className='dark:bg-slate-700 '>
       <section className='flex '>
         <Sidebar
           isVisible={isSidebarVisible}
@@ -85,13 +85,13 @@ const InterfazDocente = () => {
           acciones={acciones}
           setSelectedComponent={setSelectComponent} // [2]
         />
-        <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'} `}>
+        <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'}  dark:bg-slate-700`}>
           <Dashboardview role={data.user_nombres} toggleSidebar={toggleSidebar} />
           <Outlet />
           <p className="mt-8"></p>
           
         {selectComponent === 'Principal' && (
-          <div className='flex flex-col items-center justify-center h-full'>
+          <div className='flex flex-col items-center justify-center h-full dark:bg-slate-700'>
             <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
             <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
             </div>

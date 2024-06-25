@@ -8,7 +8,7 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
         setSelectedComponent(ruta);
     };
     return (
-        <div className={`bg-[#4E73DF] px-[28px] h-screen transition-transform duration-300 ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed shadow-2xl dark:bg-blue-900`}>
+        <div className={`bg-[#4E73DF] px-[28px] h-screen transition-transform duration-300 ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed shadow-2xl dark:bg-blue-950`}>
             <div className='px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]'>
                 <h1 className='text-white text-[20px] leading-[24px] font-extrabold cursor-pointer'>Panel de {role}</h1>
             </div>
