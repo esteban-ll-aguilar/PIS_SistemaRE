@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-
+import Dashboardview from '../../components/Dashboardview';
 const Materias = () => {
   const { id } = useParams(); // Obtén el ID del ciclo desde los parámetros de la URL
   const [materias, setMaterias] = useState([]);
@@ -29,6 +29,8 @@ const Materias = () => {
   }, [id]);
 
   return (
+    <>
+    <Dashboardview />
     <div className="min-h-screen bg-gray-100 dark:bg-slate-700 p-4">
       <header className="text-center mb-4">
         <h1 className="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Materias</h1>
@@ -52,6 +54,7 @@ const Materias = () => {
         </div>
       </header>
     </div>
+    </>
   );
 };
 
