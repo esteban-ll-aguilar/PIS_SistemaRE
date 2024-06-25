@@ -62,7 +62,7 @@ const InterfazAdmin = () => {
         },
         {
             icono: <HiUserGroup color='white' />,
-            texto: 'Funciones de docentes',
+            texto: 'Funciones Docentes',
             ruta: '/funcionDocente'
         }
         
@@ -71,7 +71,7 @@ const InterfazAdmin = () => {
     const acciones = [
         {
             icono: <HiOutlineRefresh color='white' />,
-            texto: 'Actualizar datos',
+            texto: 'Actualizar Datos',
             ruta: '/actualizarDatos'
         },        
         {
