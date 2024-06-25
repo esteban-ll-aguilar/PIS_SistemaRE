@@ -31,9 +31,9 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
   }, [baseUrl, endpoint, parameter]);
 
   return (
-    <div className="App p-4 bg-gray-50 min-h-screen dark:bg-slate-700">
+    <div className="App p-4 bg-blue-200 min-h-screen dark:bg-slate-700">
       <header className="App-header text-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">{title}</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2 dark:text-white">{title}</h1>
         {error && <p className="text-red-500 mb-4">Error: {error}</p>}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {materias.length > 0 ? (
@@ -49,7 +49,7 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
               </div>
             ))
           ) : (
-            <div className="col-span-full text-center p-4 bg-white rounded-lg shadow-md">
+            <div className="col-span-full text-center p-4 bg-white rounded-lg shadow-md dark:bg-cyan-900 dark:text-white">
               No hay {title.toUpperCase()}
             </div>
           )}

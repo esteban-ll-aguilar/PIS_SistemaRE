@@ -9,7 +9,6 @@
 
 body{
     background-color: #c9d6ff;
-    background: linear-gradient(to right, #fff, #c9d6ff);
     align-items: center;
     justify-content: center;
     flex-direction: column;
