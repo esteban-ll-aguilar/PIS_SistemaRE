@@ -187,7 +187,6 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
                 nota = notes[i][columnsNotes[j]]
                 CreateModel().createCalificacion(cursa[i]._id, identificatorRub[j], unidadId, "{:.2f}".format(nota))
     
-    
     return jsonify({"message": "Calificacion asignada correctamente"})
 
 
@@ -207,6 +206,9 @@ def marerias_ciclo(ciclo):
 def estudiantes_materia(materia):
     cursa = CursaDaoControl()
     estudiantes = UsuarioDaoControl()
+    unidades = UnidadDaoControl()
+    unidades._lista.search_model(materia, '_materiaId')
+    
     m = MateriaDaoControl()
     m = m._lista.search_model(materia, '_id')
     array = cursa._lista.search_model(1, '_periodoAcademicoId')
@@ -217,7 +219,7 @@ def estudiantes_materia(materia):
         aux.append(x[0])
     estudiantes._lista.toList(aux)
     estudiantes.lista.sort_models('_apellidos', 0)
-    return make_response(jsonify({"cursa": array[0].serializable, "estudiante": estudiantes.to_dict_list(), "materia": m[0].serializable})) 
+    return make_response(jsonify({"cursa": array[0].serializable, "estudiante": estudiantes.to_dict_list(), "materia": m[0].serializable, "unidades": unidades.to_dict_list()})) 
 
 
 @api.route('/materia/crear/unidad/<int:materiaId>', methods=['POST'])

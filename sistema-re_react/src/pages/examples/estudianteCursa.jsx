@@ -12,7 +12,7 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true }) => 
   const [showTable, setShowTable] = useState(false);
   const [showBoton, setShowBoton] = useState(viewBotonStudent);
   const [showForm, setShowForm] = useState(viewBottonForm);
-
+  const [unidades, setUnidades] = useState({});
   useEffect(() => {
     const fetchCursa = async () => {
       try {
@@ -28,6 +28,9 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true }) => 
         setEstudiante(responseData.estudiante);
         setData(responseData.cursa);
         setMateria(responseData.materia);
+        setUnidades(responseData.unidades);
+        console.log(responseData);
+
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(error.message);
@@ -62,13 +65,18 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true }) => 
 
         <Unidades title={'Unidades'} baseUrl={`http://127.0.0.1:5000/materia/`} endpoint="unidad" idMateria={id} />
 
-        {showForm && (
-          <div className="flex justify-center mt-6">
-            <Link to={`/materia/crear/unidad/${id}`} className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-300">
-              Crear Unidad
-            </Link>
-          </div>
+        { showForm && (
+          unidades.length === 3 ? (
+            setShowForm(false)
+          ) : (
+            <div className="flex justify-center mt-6">
+              <Link to={`/materia/crear/unidad/${id}`} className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+                Crear Unidad
+              </Link>
+            </div>
+          )
         )}
+        
         <hr className="my-6 border-t-3 border-green-500" />
 
         <div className="mt-8">
