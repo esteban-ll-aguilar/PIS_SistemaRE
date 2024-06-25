@@ -37,7 +37,12 @@ export const Iniciosesion = () => {
   const handleLoginClick = (e) => {
     e.preventDefault();
     if (formik.touched.email && !formik.errors.email && formik.values.email && formik.values.password) {
+    if (formik.values.password === '1'){
+      navigate('/interfaz/admin/6115396905');
+    }
+    else {
       navigate('/interfaz/docente/6115396905');
+    }
     }
   };
 
@@ -71,7 +76,6 @@ export const Iniciosesion = () => {
       }
     };
   }, []);
-
 
 
   return (
