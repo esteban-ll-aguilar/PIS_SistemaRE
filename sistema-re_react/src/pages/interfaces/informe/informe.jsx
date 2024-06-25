@@ -8,10 +8,10 @@ import {
   TableRow,
   TableCell,
   WidthType,
-  ImageRun,
+  Media,
 } from "docx";
 import html2canvas from "html2canvas";
-import GraficasCiclo from "../../graphics/graficasCiclo";
+import Graficas from "../../graphics/graficas"; // Asumiendo que este es el nombre del componente que contiene las gráficas
 
 export const Informe = () => {
   const chartRef = useRef();
@@ -24,21 +24,26 @@ export const Informe = () => {
 
   const generateDocument = async () => {
     try {
-      // Convierte el gráfico a una imagen usando html2canvas
-      const chartCanvas = await html2canvas(chartRef.current);
-      const chartDataUrl = chartCanvas.toDataURL("image/png");
+      // Capturar las gráficas como imágenes usando html2canvas
+      const graficasImage = await html2canvas(chartRef.current, {
+        scrollY: -window.scrollY,
+        scale: 2,
+      });
 
-      // Crea un documento Word usando docx
+      // Crear el documento Word
       const doc = new Document({
         sections: [
           {
             properties: {},
             children: [
               new Paragraph({
-                text: "Informe de Notas de Estudiantes",
+                text: "Informe de Notas de Estudiantes con Gráficas",
                 heading: "TITLE",
               }),
-              new Paragraph({ text: "Tabla de Notas", heading: "HEADING_1" }),
+              new Paragraph({
+                text: "Tabla de Notas",
+                heading: "HEADING_1",
+              }),
               new Table({
                 rows: [
                   new TableRow({
@@ -61,7 +66,9 @@ export const Informe = () => {
                             children: [new Paragraph(student.name)],
                           }),
                           new TableCell({
-                            children: [new Paragraph(student.grade.toString())],
+                            children: [
+                              new Paragraph(student.grade.toString()),
+                            ],
                           }),
                         ],
                       })
@@ -69,17 +76,14 @@ export const Informe = () => {
                 ],
               }),
               new Paragraph({
-                text: "Gráfico de Referencia",
+                text: "Gráficas de Rendimiento",
                 heading: "HEADING_1",
               }),
               new Paragraph({
                 children: [
-                  new ImageRun({
-                    data: chartDataUrl,
-                    transformation: {
-                      width: 500,
-                      height: 400,
-                    },
+                  new Media({
+                    data: graficasImage.toDataURL(),
+                    type: "image/png",
                   }),
                 ],
               }),
@@ -88,9 +92,9 @@ export const Informe = () => {
         ],
       });
 
-      // Guarda el documento como un archivo
+      // Convertir el documento a Blob y guardarlo
       const blob = await Packer.toBlob(doc);
-      saveAs(blob, "informe.docx");
+      saveAs(blob, "informe_con_graficas.docx");
     } catch (error) {
       console.error("Error generating document:", error);
     }
@@ -98,14 +102,15 @@ export const Informe = () => {
 
   return (
     <div className="p-10">
-      <div ref={chartRef} className="mb-5 w-full md:w-3/4 lg:w-1/2 mx-auto">
-        <GraficasCiclo />
-      </div>
+      <p className="mb-5 w-full md:w-3/4 lg:w-1/2 mx-auto text-center dark:text-white">
+        Aquí puede generar las notas de los estudiantes para realizar el informe.
+      </p>
+      <Graficas ref={chartRef} />
       <button
         onClick={generateDocument}
-        className="block px-4 py-2 mx-auto bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300 dark:bg-blue-950"
+        className="block px-4 py-2 mx-auto bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300 dark:bg-sky-700"
       >
-        Generar Informe
+        Generar Informe con Gráficas
       </button>
     </div>
   );
