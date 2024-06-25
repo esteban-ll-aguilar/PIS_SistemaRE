@@ -4,11 +4,13 @@ import Dashboardview from '../../../components/Dashboardview';
 import Materias from '../../../components/materias';
 import Informe from '../informe/informe';
 import { Outlet, useParams } from 'react-router-dom';
-import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi"
-import { FaTachometerAlt } from "react-icons/fa"
+import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiOutlineRefresh } from "react-icons/hi"
+import { FaBook } from "react-icons/fa"
+import { FaTachometerAlt, FaUserGraduate } from "react-icons/fa"
 import html2canvas from 'html2canvas';
 import Graficas from '../../graphics/graficas';
 import Ciclos from './ciclos';
+import FuncionDocente from './funcionDocente';
 
 const InterfazAdmin = () => {
     const { id } = useParams();
@@ -47,16 +49,33 @@ const InterfazAdmin = () => {
         // Añadir elementos de la misma forma que en 'administrar'
     ];
     const administrar = [
+        
         {
             icono: <HiViewBoards color='white' />,
             texto: 'Ciclos',
             ruta: '/ciclos'
+        },
+        {
+            icono: <FaBook color='white' />,
+            texto: 'Periodo Academico',
+            ruta: '/periodoAcademico'
+        },
+        {
+            icono: <HiUserGroup color='white' />,
+            texto: 'Funciones de docentes',
+            ruta: '/funcionDocente'
         }
+        
         // Añadir elementos de la misma forma que en 'acciones'
     ];
     const acciones = [
         {
-            icono: <HiOutlineDocumentDuplicate color='white' />,
+            icono: <HiOutlineRefresh color='white' />,
+            texto: 'Actualizar datos',
+            ruta: '/actualizarDatos'
+        },        
+        {
+            icono: <FaUserGraduate color='white' />,
             texto: 'Informe',
             ruta: '/informe'
         },
@@ -95,12 +114,34 @@ const InterfazAdmin = () => {
                     {selectComponent === '/ciclos' && (
                         <Ciclos />
                     )}
+                    {selectComponent === '/periodoAcademico' && (
+                        <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
+                            <h1 className='text-3xl font-bold dark:text-white'>Periodo Academico</h1>
+                            <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
+                        </div>
+                    )}
+                    { selectComponent === '/funcionDocente' && (
+                        <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
+                            {/* //<FuncionDocente /> */}
+                            
+                            <h1 className='text-3xl font-bold dark:text-white'>Funciones de docentes</h1>
+                            <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
+                        </div>
+                    )}
+                    {selectComponent === '/actualizarDatos' && (
+                        <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
+                            <h1 className='text-3xl font-bold dark:text-white'>Actualizar Datos</h1>
+                            <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
+                        </div>
+                    )}
                     {selectComponent === '/informe' && (
                         <Informe />
                     )}
+
                     {selectComponent === '/graficas' && (
                         <Graficas />
                     )}
+                    
                 </section>
             </section>
         </div>

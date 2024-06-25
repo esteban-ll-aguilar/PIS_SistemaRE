@@ -9,6 +9,7 @@
 
 body{
     background-color: #c9d6ff;
+    
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -18,6 +19,7 @@ body{
 .supremo{
     width: 100%;
     display: flex;
+    background-color: #c9d6ff;
     align-items: center;
     justify-content: center;
     height: 100vh;
