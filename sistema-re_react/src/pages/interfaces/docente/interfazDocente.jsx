@@ -91,7 +91,7 @@ const InterfazDocente = () => {
           <p className="mt-8"></p>
           
         {selectComponent === 'Principal' && (
-          <div className='flex flex-col items-center justify-center h-full dark:bg-slate-700'>
+          <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
             <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
             <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
             </div>
