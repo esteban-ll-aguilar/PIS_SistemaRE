@@ -289,7 +289,24 @@ def materias_docente(docente):
 
 
 
-
+@api.route('/funcion_docente', methods=['GET'])
+def funcion_docente():
+    funcion = FuncionDocenteDaoControl()
+    usuarios = UsuarioDaoControl()
+    funcion = funcion._lista.toArray
+    aux = "["
+    for i in range(0, len(funcion)):
+        x = usuarios._lista.search_model(funcion[i]._docenteUserCedula, '_cedula')
+        for j in range(0, len(x)):
+            aux += '{"cedula": "'+x[j]._cedula+'", "nombres": "'+x[j]._nombres+'", "apellidos": "'+x[j]._apellidos+'", "funcion": "'+funcion[i]._funcion+'"}'
+            if j < len(x)-1:
+                aux += ","
+    usuarios.lista.toList(aux)
+    print(len(usuarios.lista.toArray))
+        
+    
+    
+    return make_response(jsonify({"docentes": usuarios.to_dict_list()}))
 
 
 
