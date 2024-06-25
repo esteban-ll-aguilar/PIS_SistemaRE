@@ -79,7 +79,7 @@ const InterfazDocente = () => {
         <Sidebar
           isVisible={isSidebarVisible}
           toggleSidebar={toggleSidebar}
-          role='Docente'
+          role='Panel Docente'
           principal={principal}
           administrar={administrar}
           acciones={acciones}

@@ -191,7 +191,17 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
 
 
 
-
+@api.route('/ciclos')
+def ciclos():
+    materias = MateriaDaoControl()
+    aux = materias._lista.sort_models('_ciclo', 0)
+    ciclos = []
+    for i in range(1, len(aux)):
+        if aux[i-1]._ciclo != aux[i]._ciclo:
+            ciclos.append(aux[i-1]._ciclo)
+        
+    print(ciclos)
+    return jsonify({"ciclos": ciclos})
 
 #<int:cicloId> se pasa como parametro en la url
 @api.route('/ciclos/materias/<int:ciclo>', methods=['GET'])
@@ -207,8 +217,14 @@ def estudiantes_materia(materia):
     cursa = CursaDaoControl()
     estudiantes = UsuarioDaoControl()
     unidades = UnidadDaoControl()
-    unidades._lista.search_model(materia, '_materiaId')
-    
+    try:
+        unidades._lista.search_model(materia, '_materiaId')
+        unidades = unidades.to_dict_list()
+    except Exception as e:
+        print('Error: '+str(e))
+        unidades = []
+        
+        
     m = MateriaDaoControl()
     m = m._lista.search_model(materia, '_id')
     array = cursa._lista.search_model(1, '_periodoAcademicoId')
@@ -219,7 +235,7 @@ def estudiantes_materia(materia):
         aux.append(x[0])
     estudiantes._lista.toList(aux)
     estudiantes.lista.sort_models('_apellidos', 0)
-    return make_response(jsonify({"cursa": array[0].serializable, "estudiante": estudiantes.to_dict_list(), "materia": m[0].serializable, "unidades": unidades.to_dict_list()})) 
+    return make_response(jsonify({"cursa": array[0].serializable, "estudiante": estudiantes.to_dict_list(), "materia": m[0].serializable, "unidades": unidades})) 
 
 
 @api.route('/materia/crear/unidad/<int:materiaId>', methods=['POST'])

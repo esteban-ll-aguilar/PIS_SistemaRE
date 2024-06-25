@@ -73,7 +73,11 @@ export const Iniciosesion = () => {
             navigate('/interfaz/docente/'+docente[0].user_cedula);
           }
         } */
+       if (values.password === '1'){
         navigate('/interfaz/docente/6115396905');
+       }else{
+        navigate('/interfaz/admin/6115396905');
+       }
       } catch (error) {
         // Maneja los errores aquí
         console.error('Error al enviar la solicitud:', error);

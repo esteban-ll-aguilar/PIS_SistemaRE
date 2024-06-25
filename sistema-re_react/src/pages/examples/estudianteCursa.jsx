@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Unidades from '../../components/unidades';
 import { FaExclamationTriangle } from 'react-icons/fa'; // Importa el icono de advertencia
 
-const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true }) => {
+const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowDelete = true}) => {
   const { id } = useParams();
   const [Estudiante, setEstudiante] = useState([]);
   const [error, setError] = useState(null);
@@ -12,7 +12,9 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true }) => 
   const [showTable, setShowTable] = useState(false);
   const [showBoton, setShowBoton] = useState(viewBotonStudent);
   const [showForm, setShowForm] = useState(viewBottonForm);
+  const [showDelete, setshowDelete] = useState(ShowDelete);
   const [unidades, setUnidades] = useState({});
+
   useEffect(() => {
     const fetchCursa = async () => {
       try {
@@ -101,7 +103,11 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true }) => 
                     <th className="py-2 px-4">N°</th>
                     <th className="py-2 px-4">Apellidos</th>
                     <th className="py-2 px-4">Nombres</th>
-                    <th className="py-2 px-4">Eliminar</th>
+                    {
+                      showDelete && (
+                        <th className="py-2 px-4">Eliminar</th>
+                      )
+                    }
                   </tr>
                 </thead>
                 <tbody>
@@ -110,11 +116,15 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true }) => 
                       <td className="py-2 px-4 text-center">{index + 1}</td>
                       <td className="py-2 px-4">{estudiante.user_apellidos}</td>
                       <td className="py-2 px-4">{estudiante.user_nombres}</td>
-                      <td className="py-2 px-4 text-center">
-                        <button onClick={() => eliminarEstudiante(estudiante.user_cedula, materia.idmateria)} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-red-500 transition-colors duration-300">
-                          Eliminar
-                        </button>
-                      </td>
+                      {
+                        showDelete && (
+                          <td className="py-2 px-4 text-center">
+                            <button onClick={() => eliminarEstudiante(estudiante.user_cedula, materia.idmateria)} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-red-500 transition-colors duration-300">
+                              Eliminar
+                            </button>
+                          </td>
+                        )
+                      }
                     </tr>
                   ))}
                 </tbody>
