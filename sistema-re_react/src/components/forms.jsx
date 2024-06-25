@@ -109,51 +109,52 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
     };
 
     return (
-        <section className="p-6 mx-auto flex justify-center items-center">
-          <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
-            <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">{title}</h2>
-            <form onSubmit={handleSubmit}>
-              {Object.entries(campos).map(([nombreCampo, tipoCampo], index) => (
-                <div key={index} className="mb-5">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
-                    {nombreCampo}
-                    {tipoCampo === 'file' ? (
-                      <input
-                        type="file"
-                        onChange={handleFileChange}
-                        className="mt-1 p-2 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                    ) : tipoCampo === 'number' ? (
-                      <input
-                        type="number"
-                        value={formValues[names[index]]}
-                        onChange={(e) => handleChange(e, names[index])}
-                        min={0}
-                        className="mt-1 p-2 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                    ) : (
-                      <input
-                        type={tipoCampo}
-                        value={formValues[names[index]]}
-                        onChange={(e) => handleChange(e, names[index])}
-                        className="mt-1 p-2 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
+        <section className="App min-h-screen p-6 mx-auto flex justify-center items-center dark:bg-gray-800 text-white">
+            <div className="w-full max-w-lg dark:bg-gray-900 bg-white shadow-lg rounded-lg p-8">
+                <h2 className="text-3xl font-semibold mb-6 text-center dark:text-white text-black">{title}</h2>
+                <form onSubmit={handleSubmit}>
+                {Object.entries(campos).map(([nombreCampo, tipoCampo], index) => (
+                    <div key={index} className="mb-5">
+                    <label className="block dark:text-gray-300 text-black text-sm font-bold mb-2">
+                        {nombreCampo}
+                        {tipoCampo === 'file' ? (
+                        <input
+                            type="file"
+                            onChange={handleFileChange}
+                            className="mt-1 p-2 border border-gray-600 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        ) : tipoCampo === 'number' ? (
+                        <input
+                            type="number"
+                            value={formValues[names[index]]}
+                            onChange={(e) => handleChange(e, names[index])}
+                            min={0}
+                            className="mt-1 p-2 border border-gray-600 rounded dark:text-black w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        ) : (
+                        <input
+                            type={tipoCampo}
+                            value={formValues[names[index]]}
+                            onChange={(e) => handleChange(e, names[index])}
+                            className="mt-1 p-2 border border-gray-600 dark:text-black rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        )}
+                    </label>
+                    {errors[names[index]] && (
+                        <div className="text-red-500 text-sm mt-1">{errors[names[index]]}</div>
                     )}
-                  </label>
-                  {errors[names[index]] && (
-                    <div className="text-red-500 text-sm mt-1">{errors[names[index]]}</div>
-                  )}
-                </div>
-              ))}
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300"
-              >
-                Enviar
-              </button>
-            </form>
-          </div>
+                    </div>
+                ))}
+                <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300"
+                >
+                    Enviar
+                </button>
+                </form>
+            </div>
         </section>
+
     );
 };
 

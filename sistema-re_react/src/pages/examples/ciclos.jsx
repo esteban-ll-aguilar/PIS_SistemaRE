@@ -33,7 +33,7 @@ const ListaCiclos = () => {
   }, []); // El arreglo vacío indica que este efecto no tiene dependencias y se ejecutará solo una vez
 
   return (
-    <div className="App min-h-screen bg-gray-100 p-4">
+    <div className="App min-h-screen bg-gray-100 p-4 dark:bg-slate-700">
     <header className="App-header text-center mb-4">
       <h1 className="text-3xl font-bold mb-2">Cilos actuales</h1>
       {error && <p className="text-red-500">Error: {error}</p>}
