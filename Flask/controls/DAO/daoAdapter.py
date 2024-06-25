@@ -29,6 +29,7 @@ class DaoAdapter(Generic[T]):
                     #      usuario.user_correo,funciondocente.descripcion
     def obtainColumsRows(self):
         cur = self.__connection.cursor()
+        print(self.__name)
         if self.__name == 'ESTUDIANTE':
             cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = estudiante.user_cedula")
         elif self.__name == 'DOCENTE':
