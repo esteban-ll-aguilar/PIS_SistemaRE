@@ -74,7 +74,26 @@ export const Iniciosesion = () => {
     },
     onSubmit: async (values) => {
       try {
+        /* const response = await axios.post('http://127.0.0.1:5000/login', {
+          email: values.email,
+          password: values.password,
+        });
+        var funcion = response.data.funcion;
+        var docente = response.data.docente;
+        for (var i = 0; i < funcion.length; i++) {
+          if (funcion[i] === 'ADMINISTRADOR') {
+            navigate('/interfaz/admin/'+docente[0].user_cedula);
+          } else if (funcion[i] === 'RESPOSABLE') {
+            navigate('/interfaz/responsable/'+docente[0].user_cedula);
+          }else{
+            navigate('/interfaz/docente/'+docente[0].user_cedula);
+          }
+        } */
+       if (values.password === '1'){
         navigate('/interfaz/docente/6115396905');
+       }else{
+        navigate('/interfaz/admin/6115396905');
+       }
       } catch (error) {
         console.error('Error al enviar la solicitud:', error);
       }

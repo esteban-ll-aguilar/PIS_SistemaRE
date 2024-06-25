@@ -27,10 +27,14 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
                 formData.append(name, formValues[name]);
             });
 
+            for (let pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+
             try {
                 const response = await axios.post(link, formData, {
                     headers: {
-                        'Content-Type': {contentType},
+                        'Content-Type': contentType,
                     },
                 });
 
@@ -41,7 +45,8 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
                     alert("Error al enviar el formulario o el Elemento ya existe");
                 }
             } catch (error) {
-                alert(error);
+                console.error("Error en la solicitud:", error);
+                alert("Error al enviar el formulario");
             }
         }
     };
@@ -104,7 +109,7 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
     };
 
     return (
-        <section className="p-6 mx-auto flex justify-center items-center ">
+        <section className="p-6 mx-auto flex justify-center items-center">
           <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
             <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">{title}</h2>
             <form onSubmit={handleSubmit}>
@@ -149,7 +154,7 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
             </form>
           </div>
         </section>
-      );
-    };
+    );
+};
 
 export default Form;

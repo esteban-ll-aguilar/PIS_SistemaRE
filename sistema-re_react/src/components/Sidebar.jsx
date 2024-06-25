@@ -2,15 +2,18 @@ import React, { useState } from 'react'
 import { FaTachometerAlt, FaChevronLeft, FaChevronRight, FaRegChartBar } from "react-icons/fa"
 import { Link } from 'react-router-dom'
 
-const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, acciones, setSelectedComponent }) => {
+const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, acciones, setSelectedComponent, panel='' }) => {
     const handleClick = (ruta) => {
         // Aquí se puede agregar lógica adicional, como cargar datos necesarios para el componente seleccionado
         setSelectedComponent(ruta);
     };
     return (
-        <div className={`bg-[#4E73DF] px-[28px] h-screen transition-transform duration-300 ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed shadow-2xl dark:bg-blue-950`}>
+        <div className={`bg-[#4E73DF] px-[45px] py-[29px] h-screen transition-transform duration-300  ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed shadow-2xl dark:bg-blue-900`}>
+            <div className='px-[15px] py-[30px] flex items-center justify-center '>
+                <h1 className='text-white text-[20px] leading-[20px] font-extrabold cursor-pointer'>{panel}</h1>
+            </div>
             <div className='px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]'>
-                <h1 className='text-white text-[20px] leading-[24px] font-extrabold cursor-pointer'>Panel de {role}</h1>
+                <h1 className='text-white text-[20px] leading-[0px] font-extrabold cursor-pointer'>{role}</h1>
             </div>
             <div className='pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]'>
                 {principal.map((item, index) => (
