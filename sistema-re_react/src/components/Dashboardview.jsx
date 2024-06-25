@@ -6,6 +6,7 @@ import SendEmail from '../pages/examples/envioCorreo';
 import Profile from '../pages/examples/gestionPerfil';
 
 
+
 const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, principal }) => {
     const [open, setOpen] = useState(false)
 
@@ -83,11 +84,12 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     
                     <FaRegBell className='hover:text-blue-600 transition-colors duration-300 cursor-pointer' />
                  
-
-                    <FaEnvelope className='hover:text-blue-600 text-blue-600 transition-colors duration-300 cursor-pointer' onClick={openModal} />
+                    
+                  
+                   <FaEnvelope className='hover:text-white text-white transition-colors duration-300 cursor-pointer' onClick={openModal} />
                     {isModalOpen && (
                         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
-                        <div className="relative bg-write p-5 rounded-lg shadow-md">
+                        <div className="w-96 bg-write p-2 rounded-lg shadow-md">
                             <SendEmail onClose={closeModal} />
                         </div>
                         </div>
@@ -101,17 +103,18 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     <p className='font-medium'>{role}</p>
                     <div className='h-12 w-12 rounded-full bg-transparent overflow-hidden'>
                         <img src={profile} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />
+                        
                     </div>
                     {open && (
 
-                        <div className='bg-white border border-gray-300 shadow-lg absolute top-14 right-0 w-40 rounded-md p-3 space-y-2 dark:bg-blue-900'>
+                        <div className='bg-white border border-gray-300 shadow-lg absolute top-14 right-0 w-40 rounded-md p-5 space-y-2 dark:bg-blue-900'>
                         
                         <p className="cursor-pointer text-blue-600 font-semibold dark:text-zinc-100" onClick={openProfileModal}>     Perfil       </p>
                             
                         
-                            <p onClick={toggleModoNoche} className='cursor-pointer text-blue-600 font-semibold dark:text-zinc-100'>Modo Oscuro</p>
+                            <p onClick={toggleModoNoche} className='cursor-pointer text-blue-600 font-semibold dark:text-zinc-100 '>Modo Oscuro</p>
                             
-                            <Link to='/' className='cursor-pointer text-blue-600 font-semibold  dark:text-zinc-100'>Cerrar sesión</Link>
+                            <p><Link to='/' className='cursor-pointer text-blue-600 font-semibold  dark:text-zinc-100'>Cerrar sesión</Link></p>
 
                         </div>
                     )}
