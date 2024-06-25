@@ -39,7 +39,7 @@ const Profile = ({ onClose }) => {
       >
         &times;
       </button>
-      <h2 className="text-2xl font-bold mb-6 text-center text-black">Editar Perfil</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center text-black dark:text-white">Editar Perfil</h2>
       <div className="flex justify-center mb-4">
         <div className="relative">
           <img
@@ -60,7 +60,7 @@ const Profile = ({ onClose }) => {
           type="text"
           value={name}
           onChange={handleNameChange}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:bg-gray-300"
         />
       </div>
       <div className="mb-4">
@@ -69,7 +69,7 @@ const Profile = ({ onClose }) => {
           type="email"
           value={email}
           onChange={handleEmailChange}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:bg-gray-300"
         />
       </div>
       <div className="mb-4">
@@ -78,12 +78,12 @@ const Profile = ({ onClose }) => {
           type="text"
           value={cycle}
           onChange={handleCycleChange}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black dark:bg-gray-300"
         />
       </div>
       <button
         onClick={saveChanges}
-        className="w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        className="w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-sky-700"
       >
         Guardar Cambios
       </button>
