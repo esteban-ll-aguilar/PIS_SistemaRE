@@ -39,6 +39,8 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
                     </div>
                 ))}
             </div>
+        
+            
             <div className='pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]'>
                 <p className='text-[10px] font-extrabold leading-[16px] text-white/[0.4]'>Acciones</p>
 
