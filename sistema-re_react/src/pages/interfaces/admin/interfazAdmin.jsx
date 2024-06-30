@@ -9,6 +9,7 @@ import { FaTachometerAlt, FaUserGraduate } from "react-icons/fa";
 import Graficas from '../../graphics/graficas';
 import Ciclos from './ciclos';
 import FormEstudianteDocente from './formEstudianteDocente';
+import EstudientTarget from '../../../components/EstudientTarget';
 
 const InterfazAdmin = () => {
     const { id } = useParams();
