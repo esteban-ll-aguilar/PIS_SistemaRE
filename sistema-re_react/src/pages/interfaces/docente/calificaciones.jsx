@@ -68,8 +68,8 @@ const Calificaciones = () => {
             return (
               <tr key={index} className={`border-t dark:border-gray-700  dark:text-gray-300`}>
                 <td className="py-2 px-4">{index + 1}</td>
-                <td className="py-2 px-4">{estudiante.user_apellidos}</td>
-                <td className="py-2 px-4">{estudiante.user_nombres}</td>
+                <td className="py-2 px-4">{estudiante.user_primer_nombre} {estudiante.user_segundo_apellido}</td>
+                <td className="py-2 px-4">{estudiante.user_primer_apellido} {estudiante.user_segundo_apellido}</td>
                 {rubrica.map((item, indexRubrica) => {
                   return (
                     <td key={indexRubrica} className=" border-t dark:border-gray-700 py-2 px-4 text-center">
