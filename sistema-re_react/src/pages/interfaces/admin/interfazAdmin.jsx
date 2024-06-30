@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
-import Materias from '../../../components/materias';
 import Informe from '../informe/informe';
 import { Outlet, useParams } from 'react-router-dom';
-import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiOutlineRefresh } from "react-icons/hi"
-import { FaBook } from "react-icons/fa"
-import { FaTachometerAlt, FaUserGraduate } from "react-icons/fa"
-import html2canvas from 'html2canvas';
+import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiOutlineRefresh } from "react-icons/hi";
+import { FaBook } from "react-icons/fa";
+import { FaTachometerAlt, FaUserGraduate } from "react-icons/fa";
 import Graficas from '../../graphics/graficas';
 import Ciclos from './ciclos';
 import FormEstudianteDocente from './formEstudianteDocente';
@@ -88,7 +86,7 @@ const InterfazAdmin = () => {
     ];
 
     return (
-        <div className='dark:bg-slate-700'>
+        <div className='dark:bg-slate-700 h-[100%]'>
             <section className='flex '>
                 <Sidebar
                     isVisible={isSidebarVisible}
@@ -139,13 +137,14 @@ const InterfazAdmin = () => {
                     {selectComponent === '/graficas' && (
                         <Graficas />
                     )}
-                    
+                    {selectComponent === '/estudiantes' && (
+                        <EstudientTarget />
+                    )} {/* aqui se deberían mostrar las tarjetas, sobre el estudiante. */}
                 </section>
             </section>
         </div>
+        
     );
 };
 
 export default InterfazAdmin;
-
-  
