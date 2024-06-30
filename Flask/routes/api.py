@@ -13,6 +13,9 @@ from controls.functions.createmodel import CreateModel
 from controls.functions.readNotasExel import ReadNotasExel
 from controls.rubricaCalificacionDaoControl import RubricaCalificacionDaoControl
 from controls.calificacionDaoControl import CalificacionDaoControl
+from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
+from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
+from controls.functions.exelCursaAsignate import ExelCursaAsignate
 api = Blueprint('api', __name__)
 
 #get para presentar los datos
@@ -304,11 +307,34 @@ def funcion_docente():
     usuarios.lista.toList(aux)
     print(len(usuarios.lista.toArray))
         
-    
-    
     return make_response(jsonify({"docentes": usuarios.to_dict_list()}))
 
-
+@api.route('/crear_estudiantes_docentes', methods=['POST'])
+def crear_estudiantes_docentes():
+    files = request.files
+    data = request.form 
+    print(files['docenteFile'])
+    
+    existPeriodo, periodoAcId, _ = PeriodoAcademicoDaoControl()._lista.__exist__(data['nombrePeriodo'])    
+    if PeriodoAcademicoDaoControl()._lista.isEmpty or not existPeriodo:
+        periodoAcId = CreateModel().createPeriodoAcademico(data)
+    #if existPeriodo:
+    #   return make_response(jsonify({"message": "Periodo academico ya existe"}), 400)
+    # crear periodo academico
+    """   eda.saveExel
+    eca.saveExel
+    eca.asignarEstudiante
+    
+    eca.crearCursa(1) """
+    #asignar docentes
+    docentes = ExelDocentesAsignate(files['docenteFile'])  
+    estudianteCursa = ExelCursaAsignate(files['estudianteFile'])
+    docentes.saveExel
+    estudianteCursa.saveExel
+    estudianteCursa.asignarEstudiante
+    estudianteCursa.crearCursa(periodoAcId)
+    return jsonify({"message": "Estudiantes y docentes asignados correctamente"})
+    
 
     
 

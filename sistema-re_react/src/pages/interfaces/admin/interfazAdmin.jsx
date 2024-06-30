@@ -10,7 +10,7 @@ import { FaTachometerAlt, FaUserGraduate } from "react-icons/fa"
 import html2canvas from 'html2canvas';
 import Graficas from '../../graphics/graficas';
 import Ciclos from './ciclos';
-import FuncionDocente from './funcionDocente';
+import FormEstudianteDocente from './formEstudianteDocente';
 
 const InterfazAdmin = () => {
     const { id } = useParams();
@@ -129,10 +129,8 @@ const InterfazAdmin = () => {
                         </div>
                     )}
                     {selectComponent === '/actualizarDatos' && (
-                        <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-                            <h1 className='text-3xl font-bold dark:text-white'>Actualizar Datos</h1>
-                            <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
-                        </div>
+                        <FormEstudianteDocente id={id}/>
+
                     )}
                     {selectComponent === '/informe' && (
                         <Informe />
