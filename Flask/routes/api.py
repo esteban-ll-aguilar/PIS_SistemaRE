@@ -13,6 +13,9 @@ from controls.functions.createmodel import CreateModel
 from controls.functions.readNotasExel import ReadNotasExel
 from controls.rubricaCalificacionDaoControl import RubricaCalificacionDaoControl
 from controls.calificacionDaoControl import CalificacionDaoControl
+from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
+from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
+from controls.functions.exelCursaAsignate import ExelCursaAsignate
 api = Blueprint('api', __name__)
 
 #get para presentar los datos
@@ -43,6 +46,7 @@ def login():
 def usuario(cedula):
         user = UsuarioDaoControl()
         user._lista.search_model(cedula, '_cedula')
+        print(user.to_dict_list())
         return make_response(jsonify({"usuario": user.to_dict_list()}))
         
 #/estudiantes/eliminar/cursa/estudiante/${estudiante.user_cedula}/materia/${materia.idmateria}
@@ -100,7 +104,7 @@ def materias_unidad(materiaId,unidadId):
             listEstudiante.append(estudiante[0])
         
         estudiantes._lista.toList(listEstudiante)
-        estudiantes.lista.sort_models('_apellidos', 0)
+        estudiantes.lista.sort_models('_primerApellido', 0)
         cursa.lista.toList(listcursa)
         cursa.lista.sort_models('_id', 0)
         #convertit la lista ordenada en un array
@@ -157,7 +161,7 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
     print(data)
     rdexel = ReadNotasExel(data['file'], 
                            unidad=nunidad)
-    notes, columnsNotes = rdexel.readExel
+    notas, columnsNotas = rdexel.readExel
     
     #para asignar las notas, llamamos al cursa
     cursa = CursaDaoControl()
@@ -165,26 +169,27 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
     cursa.lista.search_model(materiaId, '_materiaId', type=0, method=1)
     cursa.lista.sort_models('_id', 0)
     cursa = cursa.lista.toArray
-    print(cursa)
-    if len(cursa) != len(notes):
+    if len(cursa) != len(notas):
+        print(len(cursa))
+        print(len(notas))
+        print("ERROR MI AMIGASO")
         return jsonify({"message": "Error al asignar las calificaciones, no coinciden las notas con los estudiantes"})
     
     #1- Crear rubrica de calificacion en caso de que no exista, de paso almacenamos su identificador
     identificatorRub = []
-    for i in range(0, len(columnsNotes)):
+    for i in range(0, len(columnsNotas)):
         if RubricaCalificacionDaoControl()._lista.isEmpty:
-            CreateModel().createRubricaCalificacion(columnsNotes[i])
-        existeRubrica, idrub, _ = RubricaCalificacionDaoControl()._lista.__exist__(columnsNotes[i])
+            CreateModel().createRubricaCalificacion(columnsNotas[i])
+        existeRubrica, idrub, _ = RubricaCalificacionDaoControl()._lista.__exist__(columnsNotas[i])
         if not existeRubrica:
-            CreateModel().createRubricaCalificacion(columnsNotes[i])
+            CreateModel().createRubricaCalificacion(columnsNotas[i])
         else:
             identificatorRub.append(idrub)
-    
     #si las cedulas coninciden, es porque encontramos a nuestro estudiante por tanto asignamos la calificacion
     for i in range(0, len(cursa)):
-        if cursa[i]._estudianteCedula == notes[i]['Cedula']:
-            for j in range(0, len(columnsNotes)):
-                nota = notes[i][columnsNotes[j]]
+        if cursa[i]._estudianteCedula == notas[i]['Cedula']:
+            for j in range(0, len(columnsNotas)):
+                nota = notas[i][columnsNotas[j]]
                 CreateModel().createCalificacion(cursa[i]._id, identificatorRub[j], unidadId, "{:.2f}".format(nota))
     
     return jsonify({"message": "Calificacion asignada correctamente"})
@@ -217,6 +222,8 @@ def estudiantes_materia(materia):
     cursa = CursaDaoControl()
     estudiantes = UsuarioDaoControl()
     unidades = UnidadDaoControl()
+    periodo = PeriodoAcademicoDaoControl()._list().toArray
+    idultimoperiodo = periodo[len(periodo)-1]._id
     try:
         unidades._lista.search_model(materia, '_materiaId')
         unidades = unidades.to_dict_list()
@@ -227,14 +234,15 @@ def estudiantes_materia(materia):
         
     m = MateriaDaoControl()
     m = m._lista.search_model(materia, '_id')
-    array = cursa._lista.search_model(1, '_periodoAcademicoId')
+    array = cursa._lista.search_model(idultimoperiodo, '_periodoAcademicoId')
     array = cursa.lista.search_model(materia, '_materiaId',type=0, method=1)
     aux = []
     for i in range(0, len(array)):
         x = estudiantes._lista.search_model(array[i]._estudianteCedula, '_cedula')
         aux.append(x[0])
     estudiantes._lista.toList(aux)
-    estudiantes.lista.sort_models('_apellidos', 0)
+    estudiantes.lista.sort_models('_primerApellido', 0)
+    print(estudiantes.to_dict_list())
     return make_response(jsonify({"cursa": array[0].serializable, "estudiante": estudiantes.to_dict_list(), "materia": m[0].serializable, "unidades": unidades})) 
 
 
@@ -304,11 +312,34 @@ def funcion_docente():
     usuarios.lista.toList(aux)
     print(len(usuarios.lista.toArray))
         
-    
-    
     return make_response(jsonify({"docentes": usuarios.to_dict_list()}))
 
-
+@api.route('/crear_estudiantes_docentes', methods=['POST'])
+def crear_estudiantes_docentes():
+    files = request.files
+    data = request.form 
+    print(files['docenteFile'])
+    
+    existPeriodo, periodoAcId, _ = PeriodoAcademicoDaoControl()._lista.__exist__(data['nombrePeriodo'])    
+    if PeriodoAcademicoDaoControl()._lista.isEmpty or not existPeriodo:
+        periodoAcId = CreateModel().createPeriodoAcademico(data)
+    #if existPeriodo:
+    #   return make_response(jsonify({"message": "Periodo academico ya existe"}), 400)
+    # crear periodo academico
+    """   eda.saveExel
+    eca.saveExel
+    eca.asignarEstudiante
+    
+    eca.crearCursa(1) """
+    #asignar docentes
+    docentes = ExelDocentesAsignate(files['docenteFile'])  
+    estudianteCursa = ExelCursaAsignate(files['estudianteFile'])
+    docentes.saveExel
+    estudianteCursa.saveExel
+    estudianteCursa.asignarEstudiante
+    estudianteCursa.crearCursa(periodoAcId)
+    return jsonify({"message": "Estudiantes y docentes asignados correctamente"})
+    
 
     
 

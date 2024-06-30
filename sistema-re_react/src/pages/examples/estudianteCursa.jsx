@@ -114,8 +114,8 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
             {Estudiante.map((estudiante, index) => (
               <tr key={index} className="border-t dark:border-gray-700">
                 <td className="py-2 px-4 text-center dark:text-gray-300">{index + 1}</td>
-                <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_apellidos}</td>
-                <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_nombres}</td>
+                <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_primer_apellido} {estudiante.user_segundo_apellido}</td>
+                <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_primer_nombre} {estudiante.user_segundo_nombre}</td>
                 {showDelete && (
                   <td className="py-2 px-4 text-center">
                     <button onClick={() => eliminarEstudiante(estudiante.user_cedula, materia.idmateria)} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-red-500 transition-colors duration-300">

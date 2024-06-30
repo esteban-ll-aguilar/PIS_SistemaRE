@@ -8,7 +8,7 @@ import { FaBook } from "react-icons/fa";
 import { FaTachometerAlt, FaUserGraduate } from "react-icons/fa";
 import Graficas from '../../graphics/graficas';
 import Ciclos from './ciclos';
-import EstudientTarget from '../../../components/EstudientTarget'; // Corregir la importación
+import FormEstudianteDocente from './formEstudianteDocente';
 
 const InterfazAdmin = () => {
     const { id } = useParams();
@@ -105,7 +105,7 @@ const InterfazAdmin = () => {
 
                     {selectComponent === 'Principal' && (
                         <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-                            <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
+                            <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_primer_nombre} {data.user_user_primer_apellido}</h1>
                             <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
                         </div>
                     )}
@@ -127,10 +127,8 @@ const InterfazAdmin = () => {
                         </div>
                     )}
                     {selectComponent === '/actualizarDatos' && (
-                        <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-                            <h1 className='text-3xl font-bold dark:text-white'>Actualizar Datos</h1>
-                            <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
-                        </div>
+                        <FormEstudianteDocente id={id}/>
+
                     )}
                     {selectComponent === '/informe' && (
                         <Informe />
