@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria }) => {
+const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria, materiasAdmin=false }) => {
   const [materias, setMaterias] = useState([]);
   const [error, setError] = useState(null);
 
@@ -16,7 +16,12 @@ const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria }) => {
         }
 
         const data = await response.json();
-        setMaterias(data.materias);
+        if (materiasAdmin) {
+          setMaterias(data);
+          
+        } else {
+          setMaterias(data.materias);
+        }
         console.log(data);
       } catch (error) {
         console.error('Error con la base de datos:', error);

@@ -48,7 +48,7 @@ const Unidades = ({ baseUrl, endpoint, idMateria, title }) => {
             </div>
             <Link
               to={`/estudiantes/calificaciones/materia/${idMateria}/unidad/${unidad.idunidad}`}
-              className="bg-blue-600 text-white px-4 py-2 rounded-full text-center mt-4 hover:bg-blue-700 transition-colors duration-300"
+              className="bg-[#529914] text-white px-4 py-2 rounded-full text-center mt-4 hover:bg-[#3C6E10] transition-colors duration-300"
             >
               Ver Calificaciones
             </Link>

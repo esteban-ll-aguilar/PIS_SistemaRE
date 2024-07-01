@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
-const Ciclos = () => {
+const Ciclos = ({ onSelectCiclo }) => {
   const [ciclos, setCiclos] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCiclos = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/ciclos`, {
+        const response = await fetch('http://127.0.0.1:5000/ciclos', {
           method: 'GET',
         });
 
@@ -40,12 +39,12 @@ const Ciclos = () => {
                 className="relative p-6 bg-white dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1"
               >
                 <p className="text-xl font-semibold text-gray-500 dark:text-white mb-4">Ciclo {ciclo}</p>
-                <Link
-                  to={`/admin/ciclos/materias/${ciclo}`}
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full text-center block mt-auto hover:from-blue-600 hover:to-purple-600 transition-colors duration-300"
+                <button
+                  onClick={() => onSelectCiclo(ciclo)}
+                  className="text-white px-4 py-2 rounded-full text-center block mt-auto bg-[#529914] absolute bottom-0 my-4 mx-auto left-0 right-0 w-40"
                 >
-                  Ver Materias
-                </Link>
+                  Ver Materias este ciclo
+                </button>
               </div>
             ))
           ) : (
