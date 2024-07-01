@@ -14,9 +14,8 @@ export const Iniciosesion = () => {
     if (!values.email) {
       errors.email = 'Campo Obligatorio';
     } else if (!/^[A-Z0-9._%+-]+@unl\.edu\.ec$/i.test(values.email)) {
-      errors.email = 'Correo invalido el dominio debe ser con @unl.edu.ec';
+      errors.email = 'Correo inválido el dominio debe ser con @unl.edu.ec';
     }
-  
     return errors;
   };
 

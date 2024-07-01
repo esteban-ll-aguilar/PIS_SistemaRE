@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
-import Materias from '../../../components/materias';
 import Informe from '../informe/informe';
 import { Outlet, useParams } from 'react-router-dom';
-import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiOutlineRefresh } from "react-icons/hi"
-import { FaBook } from "react-icons/fa"
-import { FaTachometerAlt, FaUserGraduate } from "react-icons/fa"
-import html2canvas from 'html2canvas';
+import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiOutlineRefresh } from "react-icons/hi";
+import { FaBook } from "react-icons/fa";
+import { FaTachometerAlt, FaUserGraduate } from "react-icons/fa";
 import Graficas from '../../graphics/graficas';
 import Ciclos from './ciclos';
-import FuncionDocente from './funcionDocente';
+import FormEstudianteDocente from './formEstudianteDocente';
+import EstudientTarget from '../../../components/EstudientTarget';
 
 const InterfazAdmin = () => {
     const { id } = useParams();
@@ -88,7 +87,7 @@ const InterfazAdmin = () => {
     ];
 
     return (
-        <div className='dark:bg-slate-700'>
+        <div className='dark:bg-slate-700 h-[100%]'>
             <section className='flex '>
                 <Sidebar
                     isVisible={isSidebarVisible}
@@ -107,7 +106,7 @@ const InterfazAdmin = () => {
 
                     {selectComponent === 'Principal' && (
                         <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-                            <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
+                            <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_primer_nombre} {data.user_user_primer_apellido}</h1>
                             <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
                         </div>
                     )}
@@ -129,10 +128,8 @@ const InterfazAdmin = () => {
                         </div>
                     )}
                     {selectComponent === '/actualizarDatos' && (
-                        <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-                            <h1 className='text-3xl font-bold dark:text-white'>Actualizar Datos</h1>
-                            <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
-                        </div>
+                        <FormEstudianteDocente id={id}/>
+
                     )}
                     {selectComponent === '/informe' && (
                         <Informe />
@@ -141,13 +138,14 @@ const InterfazAdmin = () => {
                     {selectComponent === '/graficas' && (
                         <Graficas />
                     )}
-                    
+                    {selectComponent === '/estudiantes' && (
+                        <EstudientTarget />
+                    )} {/* aqui se deberían mostrar las tarjetas, sobre el estudiante. */}
                 </section>
             </section>
         </div>
+        
     );
 };
 
 export default InterfazAdmin;
-
-  
