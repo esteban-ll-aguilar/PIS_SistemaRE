@@ -71,7 +71,7 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
       setShowForm(false)
     ) : (
       <div className="flex justify-center mt-6">
-        <Link to={`/materia/crear/unidad/${id}`} className="bg-gray-800 dark:bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+        <Link to={`/materia/crear/unidad/${id}`} className="bg-[#529914] dark:bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-[#3C6E10] transition-colors duration-300">
           Crear Unidad
         </Link>
       </div>
@@ -84,7 +84,7 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
     {error && <p className="text-red-500 text-center dark:text-red-400">Error: {error}</p>}
     {showBoton && (
       <div className="flex justify-center mb-6">
-        <button onClick={() => setShowTable(!showTable)} className="bg-gray-800 dark:bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+        <button onClick={() => setShowTable(!showTable)} className="bg-[#529914] dark:bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-[#3C6E10] transition-colors duration-300">
           Tabla de Estudiantes ({Estudiante.length})
         </button>
       </div>
@@ -117,7 +117,7 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
                 <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_primer_nombre} {estudiante.user_segundo_nombre}</td>
                 {showDelete && (
                   <td className="py-2 px-4 text-center">
-                    <button onClick={() => eliminarEstudiante(estudiante.user_cedula, materia.idmateria)} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-red-500 transition-colors duration-300">
+                    <button onClick={() => eliminarEstudiante(estudiante.user_cedula, materia.idmateria)} className="bg-[#529914] text-white px-4 py-2 rounded-lg hover:bg-red-500 transition-colors duration-300">
                       Eliminar
                     </button>
                   </td>
