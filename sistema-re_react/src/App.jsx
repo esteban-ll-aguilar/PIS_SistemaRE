@@ -10,7 +10,6 @@ import InterfazResponsable  from './pages/interfaces/responsable/interfazRespons
 import Home  from './pages/home';
 import Calificaciones from './pages/interfaces/docente/calificaciones';
 
-import ListaCiclos  from './pages/examples/ciclos';
 import Materias from './pages/examples/materiasCiclos';
 import EstudianteCursa from './pages/examples/estudianteCursa';
 import DocenteMaterias from './components/materias';
@@ -32,7 +31,6 @@ function App() {
     <Route path='/interfaz/admin/:id' element={<InterfazAdmin  />} />
     <Route path='/interfaz/docente/:id' element={<InterfazDocente  />} />
     <Route path='/interfaz/responsable/:id' element={<InterfazResponsable  />} />
-    <Route path='/ciclos' element={<ListaCiclos  />} />  
     <Route path='/ciclos/materias/:id' element={<Materias  />} />
     <Route path='/estudiantes/materia/:id' element={<EstudianteCursa  />} />
     <Route path='/admin/ciclos/materias/:id' element={<Materias  />} />

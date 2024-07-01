@@ -2,13 +2,49 @@ class Usuario:
     def __init__(self):
         self.__id = 0
         self.__cedula = ""
-        self.__nombres = ""
-        self.__apellidos = ""
+        self.__primerNombre = ""
+        self.__segundoNombre = "NULL"
+        self.__primerApellido = ""
+        self.__segundoApellido = "NULL"
         self.__correo = ""
         self.__contrasena = 'NULL'
         self.__estado = True
         self.__urlImagen = 'NULL'
         self.__nombreUsuario = 'NULL'
+        
+
+    @property
+    def _primerNombre(self):
+        return self.__primerNombre
+
+    @_primerNombre.setter
+    def _primerNombre(self, value):
+        self.__primerNombre = value
+
+    @property
+    def _segundoNombre(self):
+        return self.__segundoNombre
+
+    @_segundoNombre.setter
+    def _segundoNombre(self, value):
+        self.__segundoNombre = value
+
+    @property
+    def _primerApellido(self):
+        return self.__primerApellido
+
+    @_primerApellido.setter
+    def _primerApellido(self, value):
+        self.__primerApellido = value
+
+    @property
+    def _segundoApellido(self):
+        return self.__segundoApellido
+
+    @_segundoApellido.setter
+    def _segundoApellido(self, value):
+        self.__segundoApellido = value
+
 
     @property
     def _id(self):
@@ -25,22 +61,6 @@ class Usuario:
     @_cedula.setter
     def _cedula(self, value):
         self.__cedula = value
-
-    @property
-    def _nombres(self):
-        return self.__nombres
-
-    @_nombres.setter
-    def _nombres(self, value):
-        self.__nombres = value
-
-    @property
-    def _apellidos(self):
-        return self.__apellidos
-
-    @_apellidos.setter
-    def _apellidos(self, value):
-        self.__apellidos = value
 
     @property
     def _correo(self):
@@ -89,8 +109,10 @@ class Usuario:
         return {
             "user_iduser": self._id,
             "user_cedula": self._cedula,
-            "user_nombres": self._nombres,
-            "user_apellidos": self._apellidos,
+            "user_primer_nombre": self._primerNombre,
+            "user_segundo_nombre": self._segundoNombre,
+            "user_primer_apellido": self._primerApellido,
+            "user_segundo_apellido": self._segundoApellido,
             "user_correo": self._correo,
             "user_contrasena": self._contrasena,
             "user_estado": self._estado,
@@ -102,8 +124,10 @@ class Usuario:
         usuario = Usuario()
         usuario._id = data['user_iduser']
         usuario._cedula = data['user_cedula']
-        usuario._nombres = data['user_nombres']
-        usuario._apellidos = data['user_apellidos']
+        usuario._primerNombre = data['user_primer_nombre']
+        usuario._segundoNombre = data['user_segundo_nombre']
+        usuario._primerApellido = data['user_primer_apellido']
+        usuario._segundoApellido = data['user_segundo_apellido']
         usuario._correo = data['user_correo']
         usuario._contrasena = data['user_contrasena']
         usuario._estado = data['user_estado']

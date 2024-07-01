@@ -8,12 +8,12 @@ from controls.tda.linked.linkedList import Linked_List
 T = TypeVar("T")
 class ExelDaoAdapter(Generic[T]):
     atype: T
-    def __init__(self, atype: T, file_path: str):
-        self.archivo = file_path
+    def __init__(self, atype: T, archivo):
+        self.archivo = archivo
         self.atype = atype
         self.file = atype.__name__.lower() + ".json"
         self.URL = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "/data/"
-    
+        print(self.URL)
 
     
     
