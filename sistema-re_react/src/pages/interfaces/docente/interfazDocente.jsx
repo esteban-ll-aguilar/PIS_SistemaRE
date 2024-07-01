@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
 import Materias from '../../../components/materias';
-import Informe from '../informe/informe';
+import Informe from '../informe/informeSeguimiento';
 import Graficas from '../../graphics/graficas';
 import { Outlet, useParams } from 'react-router-dom';
 import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi";
@@ -53,11 +53,11 @@ const InterfazDocente = () => {
     ];
 
     const administrar = [
-        {
+        /* {
             icono: <HiViewBoards color='white' />,
             texto: 'Materias',
             ruta: '/materias'
-        }
+        } */
     ];
 
     const acciones = [

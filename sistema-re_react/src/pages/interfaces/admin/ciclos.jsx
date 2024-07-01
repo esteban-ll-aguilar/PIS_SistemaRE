@@ -17,6 +17,7 @@ const Ciclos = ({ onSelectCiclo }) => {
 
         const data = await response.json();
         setCiclos(data.ciclos); // Actualiza el estado con la lista de ciclos
+        console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(error.message); // Maneja el error
@@ -38,12 +39,12 @@ const Ciclos = ({ onSelectCiclo }) => {
                 key={index}
                 className="relative p-6 bg-white dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1"
               >
-                <p className="text-xl font-semibold text-gray-500 dark:text-white mb-4">Ciclo {ciclo}</p>
+                <p className="text-xl font-semibold text-gray-500 dark:text-white mb-6 p-10">Ciclo {ciclo}</p>
                 <button
                   onClick={() => onSelectCiclo(ciclo)}
                   className="text-white px-4 py-2 rounded-full text-center block mt-auto bg-[#529914] absolute bottom-0 my-4 mx-auto left-0 right-0 w-40"
                 >
-                  Ver Materias este ciclo
+                  Ver Materias
                 </button>
               </div>
             ))
