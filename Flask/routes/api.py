@@ -292,6 +292,10 @@ def materias_docente(docente):
     m.lista.toList(materiasId)
     return make_response(jsonify({"materias": m.to_dict_list()}))
 
+def ultimo_periodoId():
+    periodo = PeriodoAcademicoDaoControl()._list().toArray
+    idultimoperiodo = periodo[len(periodo)-1]._id
+    return idultimoperiodo
 
 
 @api.route('/funcion_docente', methods=['GET'])

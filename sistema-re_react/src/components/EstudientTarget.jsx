@@ -1,6 +1,8 @@
 import React from 'react';
 
-const EstudientTarget = () => {
+const EstudientTarget = ({urlimage = "https://nextui.org/images/hero-card-complete.jpeg"}) => {
+
+
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden shadow-md bg-black py-4 w-[285px] m-5">
         <div className="px-4 pb-0 pt-2 flex flex-col items-start">
@@ -8,7 +10,7 @@ const EstudientTarget = () => {
                 <img
                     alt="Card background"
                     className="object-cover rounded-xl border-solid border-[white]"
-                    src="https://nextui.org/images/hero-card-complete.jpeg"
+                    src= {urlimage}
                     width={70}
                     height={100}
                 />

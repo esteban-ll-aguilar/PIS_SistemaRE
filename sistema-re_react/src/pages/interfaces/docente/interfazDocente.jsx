@@ -35,7 +35,7 @@ const InterfazDocente = () => {
     }, [id]);
 
     useEffect(() => {
-        if (selectComponent === '/materias') {
+        if (selectComponent === 'Principal') {
             setSelectedMateriaId(null);
         }
     }, [selectComponent]);
@@ -74,49 +74,54 @@ const InterfazDocente = () => {
     ];
 
     return (
-        <div className='dark:bg-slate-700'>
-            <section className='flex'>
-                <Sidebar
-                    isVisible={isSidebarVisible}
-                    toggleSidebar={toggleSidebar}
-                    role='Panel Docente'
-                    principal={principal}
-                    administrar={administrar}
-                    acciones={acciones}
-                    setSelectedComponent={setSelectComponent}
+      <div className='dark:bg-slate-700 '>
+      <section className='flex '>
+        <Sidebar
+          isVisible={isSidebarVisible}
+          toggleSidebar={toggleSidebar}
+          role='Panel Docente'
+          principal={principal}
+          administrar={administrar}
+          acciones={acciones}
+          setSelectedComponent={setSelectComponent} // [2]
+        />
+        <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'}  dark:bg-slate-700`}>
+          <Dashboardview role={data.user_nombres} toggleSidebar={toggleSidebar} />
+          <Outlet />
+          
+        {selectComponent === 'Principal' && (
+           selectedMateriaId ? (
+            <EstudianteCursa id={selectedMateriaId} />
+            ) : (
+                <Materias
+                    baseUrl="http://127.0.0.1:5000/docente"
+                    endpoint="materias"
+                    parameter={id}
+                    title={"Materias"}
+                    onSelectMateria={(materiaId) => setSelectedMateriaId(materiaId)}
                 />
-                <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'} dark:bg-slate-700`}>
-                    <Dashboardview role={data.user_nombres} toggleSidebar={toggleSidebar} />
-                    <Outlet />
-                    <p className="mt-8"></p>
+            )
+            
+        )}
+        {selectComponent === '/materias' && (
+          <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
+            <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
+          <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
+        </div>
+        )}
+        
+        {selectComponent === '/informe' && (
+            <Informe />
+        )}
+        {selectComponent === '/graficas' && (
+            <Graficas />
+        )}
+        </section>
+      </section>
 
-                    {selectComponent === 'Principal' && (
-                        <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-                            <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
-                            <p className='text-gray-500 dark:text-white'>Selecciona una opción del menú</p>
-                        </div>
-                    )}
-                    {selectComponent === '/materias' && (
-                        selectedMateriaId ? (
-                            <EstudianteCursa id={selectedMateriaId} />
-                        ) : (
-                            <Materias
-                                baseUrl="http://127.0.0.1:5000/docente"
-                                endpoint="materias"
-                                parameter={id}
-                                title={"Materias"}
-                                onSelectMateria={(materiaId) => setSelectedMateriaId(materiaId)}
-                            />
-                        )
-                    )}
-                    {selectComponent === '/informe' && (
-                        <Informe />
-                    )}
-                    {selectComponent === '/graficas' && (
-                        <Graficas />
-                    )}
-                </section>
-            </section>
+
+                  
+            
         </div>
     );
 };
