@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria }) => {
   const [materias, setMaterias] = useState([]);
   const [error, setError] = useState(null);
@@ -39,8 +39,8 @@ const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria }) => {
                 <p className="text-2xl font-semibold text-[#04344c] dark:text-white mb-4">
                   {materia.nombre}
                 </p>
-                <Link
-                  to={`/estudiantes/materia/${materia.idmateria}`}
+                <button
+                  onClick={() => onSelectMateria(materia.idmateria)}
                   className="text-white px-4 py-2 rounded-full text-center block mt-auto bg-[#529914] absolute bottom-0 my-4 mx-auto left-0 right-0 w-40"
                 >
                   Ver Estudiantes

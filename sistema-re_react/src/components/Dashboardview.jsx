@@ -61,6 +61,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
       }
 
     return (
+        <>
         <header className='flex items-center justify-between px-6 py-5 border-b border-gray-300 bg-[#04344c] shadow-sm dark:bg-blue-950'>
             <div className='flex items-center gap-4 '>
 
@@ -115,7 +116,6 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                 )}
             </div>
         </header>
-        
         </>
 
     )
