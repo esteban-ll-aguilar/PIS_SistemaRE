@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
 
-const Materias = ({ baseUrl, endpoint, parameter, title }) => {
-  const { id } = useParams(); // Obtén el ID del ciclo desde los parámetros de la URL
-
+const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria }) => {
   const [materias, setMaterias] = useState([]);
   const [error, setError] = useState(null);
 
@@ -19,11 +16,11 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
         }
 
         const data = await response.json();
-        setMaterias(data.materias); // Actualiza el estado con la lista de materias
+        setMaterias(data.materias);
         console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError(error.message); // Maneja el error
+        setError(error.message);
       }
     };
 
@@ -40,12 +37,12 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
             materias.map((materia, index) => (
               <div key={index} className="relative p-6 bg-white dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
                 <p className="text-xl font-semibold text-gray-700 dark:text-white mb-4">{materia.nombre}</p>
-                <Link
-                  to={`/estudiantes/materia/${materia.idmateria}`}
+                <button
+                  onClick={() => onSelectMateria(materia.idmateria)}
                   className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full text-center block mt-auto hover:from-blue-600 hover:to-purple-600 transition-colors duration-300"
                 >
                   Ver Estudiantes
-                </Link>
+                </button>
               </div>
             ))
           ) : (
