@@ -6,8 +6,8 @@ from controls.funcionDocenteDaoControl import FuncionDocente
 from controls.functions.createmodel import CreateModel
 
 class ExelDocentesAsignate(ExelDaoAdapter):
-    def __init__(self, file_path: str):
-        super().__init__(ExelDocentesAsignate, file_path)
+    def __init__(self, archivo):
+        super().__init__(ExelDocentesAsignate, archivo)
         
 
     @property
