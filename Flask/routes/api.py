@@ -277,24 +277,27 @@ def ver_unidades(materiaId):
 @api.route('/docente/materias/<string:docente>', methods=['GET'])
 def materias_docente(docente):
     cursa = CursaDaoControl()
-    cursa._lista.search_model(1, '_periodoAcademicoId')
+    cursa._lista.search_model(ultimo_periodoId(), '_periodoAcademicoId')
     array = cursa.lista.search_model(docente, '_docenteCedula',type=0)
     m = MateriaDaoControl()
-    
     materiasId = []
-    for i in range(1, len(array)):
-        x = m._lista.search_model(array[i]._materiaId, '_id')
-        if not x[0]._id in materiasId:
-            materiasId.append(x[0]._id)
-    
-    aux = []
-    for i in range(0, len(materiasId)):
-        x = m._lista.search_model(materiasId[i], '_id')
-        aux.append(x[0])
+    auxmateriasID = []
+    for i in range(0, len(array), 5):
+        if not auxmateriasID.__contains__(array[i]._materiaId):
+            auxmateriasID.append(array[i]._materiaId)
+            print(array[i]._materiaId)
+            
+    for i in range(0, len(auxmateriasID)):
+        x = m._lista.search_model(auxmateriasID[i], '_id')
+        materiasId.append(x[0])    
         
-    m.lista.toList(aux)
+    m.lista.toList(materiasId)
     return make_response(jsonify({"materias": m.to_dict_list()}))
 
+def ultimo_periodoId():
+    periodo = PeriodoAcademicoDaoControl()._list().toArray
+    idultimoperiodo = periodo[len(periodo)-1]._id
+    return idultimoperiodo
 
 
 @api.route('/funcion_docente', methods=['GET'])
