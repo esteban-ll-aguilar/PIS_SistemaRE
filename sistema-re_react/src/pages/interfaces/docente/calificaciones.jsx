@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FormCalificaciones from './formCalificaciones';
+
+
 const Calificaciones = () => {
   const { idMateria, idUnidad } = useParams();
   const [unidad, setUnidad] = useState({});
@@ -10,16 +12,16 @@ const Calificaciones = () => {
   const [error, setError] = useState(null);
   const rubricaContain = ["Contacto Docente", "Aprendizaje Experimental", "Aprendizaje Autonomo", "Evaluación Unidad"]
   let totalUnidad = 0;
+
+  
   useEffect(() => {
     const fetchCursa = async () => {
       try {
         const response = await fetch(`http://127.0.0.1:5000/estudiantes/calificaciones/materia/${idMateria}/unidad/${idUnidad}`, {
           method: 'GET',
         });
-
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
+        if (!response.ok) {throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
 
         const responseData = await response.json();
         console.log(responseData);
@@ -37,6 +39,7 @@ const Calificaciones = () => {
   }, [idMateria, idUnidad]);
 
   return (
+    <>
     <div className="min-h-screen p-4 flex flex-col items-center dark:bg-slate-700">
   <header className="mb-6 text-center">
     <h4 className="text-2xl dark:text-white font-bold mb-2">Calificaciones Unidad {unidad.nunidad}</h4>
@@ -68,8 +71,8 @@ const Calificaciones = () => {
             return (
               <tr key={index} className={`border-t dark:border-gray-700  dark:text-gray-300`}>
                 <td className="py-2 px-4">{index + 1}</td>
-                <td className="py-2 px-4">{estudiante.user_apellidos}</td>
-                <td className="py-2 px-4">{estudiante.user_nombres}</td>
+                <td className="py-2 px-4">{estudiante.user_primer_nombre} {estudiante.user_segundo_apellido}</td>
+                <td className="py-2 px-4">{estudiante.user_primer_apellido} {estudiante.user_segundo_apellido}</td>
                 {rubrica.map((item, indexRubrica) => {
                   return (
                     <td key={indexRubrica} className=" border-t dark:border-gray-700 py-2 px-4 text-center">
@@ -92,7 +95,14 @@ const Calificaciones = () => {
   ) : (
     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md w-full max-w-md">No hay calificaciones disponibles.</div>
   )}
+
+  <div>
+    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={() => window.print()}>Volver</button>
+  </div>
 </div>
+
+
+</>
 
 
 
