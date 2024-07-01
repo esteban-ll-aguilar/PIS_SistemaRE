@@ -39,6 +39,7 @@ const Calificaciones = () => {
   }, [idMateria, idUnidad]);
 
   return (
+    <>
     <div className="min-h-screen p-4 flex flex-col items-center dark:bg-slate-700">
   <header className="mb-6 text-center">
     <h4 className="text-2xl dark:text-white font-bold mb-2">Calificaciones Unidad {unidad.nunidad}</h4>
@@ -101,6 +102,7 @@ const Calificaciones = () => {
 </div>
 
 
+</>
 
 
 

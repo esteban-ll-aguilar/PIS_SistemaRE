@@ -222,8 +222,6 @@ def estudiantes_materia(materia):
     cursa = CursaDaoControl()
     estudiantes = UsuarioDaoControl()
     unidades = UnidadDaoControl()
-    periodo = PeriodoAcademicoDaoControl()._list().toArray
-    idultimoperiodo = periodo[len(periodo)-1]._id
     try:
         unidades._lista.search_model(materia, '_materiaId')
         unidades = unidades.to_dict_list()
@@ -234,7 +232,7 @@ def estudiantes_materia(materia):
         
     m = MateriaDaoControl()
     m = m._lista.search_model(materia, '_id')
-    array = cursa._lista.search_model(idultimoperiodo, '_periodoAcademicoId')
+    array = cursa._lista.search_model(ultimo_periodoId(), '_periodoAcademicoId')
     array = cursa.lista.search_model(materia, '_materiaId',type=0, method=1)
     aux = []
     for i in range(0, len(array)):
@@ -282,7 +280,7 @@ def materias_docente(docente):
     m = MateriaDaoControl()
     materiasId = []
     auxmateriasID = []
-    for i in range(0, len(array), 5):
+    for i in range(0, len(array)):
         if not auxmateriasID.__contains__(array[i]._materiaId):
             auxmateriasID.append(array[i]._materiaId)
             print(array[i]._materiaId)
@@ -346,4 +344,7 @@ def crear_estudiantes_docentes():
 
     
 
-
+def ultimo_periodoId():
+    periodo = PeriodoAcademicoDaoControl()._list().toArray
+    idultimoperiodo = periodo[len(periodo)-1]._id
+    return idultimoperiodo

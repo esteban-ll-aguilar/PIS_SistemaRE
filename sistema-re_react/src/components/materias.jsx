@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
 
-const Materias = ({ baseUrl, endpoint, parameter, title }) => {
-  const { id } = useParams(); // Obtén el ID del ciclo desde los parámetros de la URL
-
+const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria }) => {
   const [materias, setMaterias] = useState([]);
   const [error, setError] = useState(null);
 
@@ -19,7 +16,7 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
         }
 
         const data = await response.json();
-        setMaterias(data.materias); // Actualiza el estado con la lista de materias
+        setMaterias(data.materias);
         console.log(data);
       } catch (error) {
         console.error('Error con la base de datos:', error);
@@ -47,7 +44,7 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
                   className="text-white px-4 py-2 rounded-full text-center block mt-auto bg-[#529914] absolute bottom-0 my-4 mx-auto left-0 right-0 w-40"
                 >
                   Ver Estudiantes
-                </Link>
+                </button>
               </div>
             ))
           ) : (

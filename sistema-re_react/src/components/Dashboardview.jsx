@@ -4,7 +4,7 @@ import profile from "../assets/profile.png"
 import { Link } from 'react-router-dom'
 import SendEmail from '../pages/examples/envioCorreo';
 import Profile from '../pages/examples/gestionPerfil';
-
+import Sidebar from './Sidebar';
 
 
 const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, principal }) => {
@@ -109,12 +109,14 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     )}
                 </div>
                 {isProfileModalOpen && (
-  <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
-    <Profile onClose={closeProfileModal} />
-  </div>
-)}
+                <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
+                    <Profile onClose={closeProfileModal} />
+                </div>
+                )}
             </div>
         </header>
+        
+        </>
 
     )
 }

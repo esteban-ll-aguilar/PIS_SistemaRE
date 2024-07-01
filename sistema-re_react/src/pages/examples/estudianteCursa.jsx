@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Unidades from '../../components/unidades';
 import { FaExclamationTriangle } from 'react-icons/fa'; // Importa el icono de advertencia
-
-const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowDelete = true}) => {
-  const { id } = useParams();
+import Dashboardview from '../../components/Dashboardview';
+const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowDelete = true, iddocente, id}) => {
   const [Estudiante, setEstudiante] = useState([]);
   const [error, setError] = useState(null);
   const [data, setData] = useState({});
