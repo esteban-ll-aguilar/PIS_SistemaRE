@@ -1,6 +1,7 @@
 from controls.dao.daoAdapter import DaoAdapter
 from models.materia import Materia
 
+
 class MateriaDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(Materia)

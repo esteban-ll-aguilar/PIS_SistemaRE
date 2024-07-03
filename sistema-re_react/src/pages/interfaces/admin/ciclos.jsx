@@ -28,7 +28,7 @@ const Ciclos = ({ onSelectCiclo }) => {
 
   return (
     <div className="App p-10 grid min-h-screen bg-gray-100 dark:bg-slate-700">
-      <header className="App-header text-center mb-4">
+      <header className="App-header text-center mb-4 contain-content ml-9">
         <h1 className="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Ciclos Existentes</h1>
         {error && <p className="text-red-500 dark:text-red-400">Error: {error}</p>}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -36,15 +36,20 @@ const Ciclos = ({ onSelectCiclo }) => {
             ciclos.map((ciclo, index) => (
               <div
                 key={index}
-                className="relative p-6 bg-white dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1"
+                className="flex-col selection:p-6 h-[200px] p-2 dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 contain-content"
               >
-                <p className="text-xl font-semibold text-gray-500 dark:text-white mb-4">Ciclo {ciclo}</p>
-                <button
-                  onClick={() => onSelectCiclo(ciclo)}
-                  className="text-white px-4 py-2 rounded-full text-center block mt-auto bg-[#529914] absolute bottom-0 my-4 mx-auto left-0 right-0 w-40"
-                >
-                  Ver Materias este ciclo
-                </button>
+                <div className='w-full h-[70%] flex justify-center '>
+                  <p className=" mt-12 text-4xl font-semibold flex  text-gray-500 dark:text-white">Ciclo {ciclo}</p>
+                </div>
+
+                <div className='mb-4'>
+                  <button
+                    onClick={() => onSelectCiclo(ciclo)}
+                    className="text-white rounded-full text-center bg-[#529914]  bottom-0 p-4"
+                  >
+                    Ver Materias este ciclo
+                  </button>
+                </div>
               </div>
             ))
           ) : (
