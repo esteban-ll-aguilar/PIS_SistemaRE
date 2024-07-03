@@ -41,10 +41,10 @@ class ExelCursaAsignate(ExelDaoAdapter):
             if not existMateria: idMateria = createModel.createMateria(docente)
             if not existFuncionDocente: idFuncionDocente = createModel.createFuncionDocente("DOCENTE", cedulaDocente)
         
-            """ if existMateria:
+            if existMateria:
                 if cedulaMateriaDocente != docente['Cedula']:
                     materia = MateriaDaoControl().merge(idMateria)
-         """
+        
         mdc = MateriaDaoControl()
         lista = mdc._lista.sort_models('_ciclo')
     

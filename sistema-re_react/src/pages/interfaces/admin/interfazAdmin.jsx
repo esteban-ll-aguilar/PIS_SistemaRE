@@ -11,6 +11,7 @@ import FormEstudianteDocente from './formEstudianteDocente';
 import EstudientTarget from '../../../components/EstudientTarget';
 import Materias from '../../../components/materias';
 import EstudianteCursa from '../../examples/estudianteCursa';
+import FuncionDocente from './funcionDocente';
 
 const InterfazAdmin = () => {
   const { id } = useParams();
@@ -127,10 +128,7 @@ const InterfazAdmin = () => {
             </div>
           )}
           {selectComponent === '/funcionDocente' && (
-            <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Funciones de docentes</h1>
-              <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
-            </div>
+            <FuncionDocente />
           )}
           {selectComponent === '/actualizarDatos' && (
             <FormEstudianteDocente id={id}/>

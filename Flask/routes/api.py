@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for
+from app import MAIL
+
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from flask_cors import CORS
 import os
@@ -21,7 +23,15 @@ api = Blueprint('api', __name__)
 #get para presentar los datos
 #post para enviar los datos, modificar y iniciar sesion
 
+@api.route('/mail')
+def mail():
+    enviado = MAIL().send_email(subject="dfg", recipient='esteban.leon@unl.edu.ec', body='Hola mundo desde flask')
+    if enviado:
+        return jsonify({"message": "Correo enviado correctamente"})
+    return jsonify({"message": "Error al enviar el correo"})
+    
 
+    
 
 
 
@@ -34,12 +44,31 @@ def login():
     dodente = user._lista.search_model(data['email'], '_correo')
     if dodente[0]._correo == data['email'] and dodente[0]._contrasena == data['password']:
         funcion = FuncionDocenteDaoControl()
-        funcion._lista.search_model(dodente[0]._cedula, '_docenteUserCedula')
+        funcion._lista.search_model(dodente[0]._cedula, '_docenteUserCedula', type=0)
+        print(funcion.to_dict_list())
         
-        return make_response(jsonify({"message": "Usuario encontrado", "docente": user.to_dict_list(), "funcion": funcion.to_dict_list()}))
+        return jsonify({"message": "Usuario encontrado", "docente": user.to_dict_list(), "funcion": funcion.to_dict_list()})
     else:
-        return make_response(jsonify({"message": "Usuario no encontrado"}))
-    
+        return make_response(jsonify({"message": "Usuario no encontrado"}), 400)
+
+@api.route('/activar-cuenta', methods=['POST'])
+def activar_cuenta():
+    data = request.json
+    user = UsuarioDaoControl()
+    user._lista.search_model(data['email'], '_correo')
+    user.lista[0]._estado = 1
+    user.merge(user.lista[0])    
+    exiteDocente,_,_ = FuncionDocenteDaoControl()._lista.__exist__(user.lista[0]._cedula)
+    if not exiteDocente:
+        return jsonify({"message": "El usuario no forma del sistema"})
+    subject = "Activacion de cuenta"
+    body = "Hola "+user.lista[0]._nombres+" "+user.lista[0]._apellidos+" le informamos que su la contrasena de su cuenta\
+        es el numero de su cedula, es decir: "+user.lista[0]._cedula
+        
+    enviado = MAIL().send_email(subject=subject, recipient=data['email'], body=body)
+    if enviado:
+        return jsonify({"message": "Correo enviado correctamente"})
+    return jsonify({"message": "Error al enviar el correo"})
     
     
 @api.route('/usuario/<string:cedula>')
@@ -58,7 +87,8 @@ def eliminar_cursa(estudiante, materia):
     data = cursa.to_dict_list()
     cursa.delete(data[0])
     
-    return jsonify({"message": "Eliminado correctamente",})
+    return jsonify({"message": "Eliminado correctamente"})
+
 
 
 @api.route('/exel_docente', methods=['POST'])
@@ -152,6 +182,8 @@ def materias_unidad(materiaId,unidadId):
         return jsonify({"unidad": unidad.to_dict_list(), "estudiantes": estudiantes.to_dict_list(), "calificaciones": [], "rubrica": rubrica.to_dict_list()})
 
 
+# filtrar materias de primer ciclo, despues con el id de las materias buscar
+#lass mateias en calificaciones, despues separar por unidad
 
 
 @api.route('/asignar/calificaciones/materia/<int:materiaId>/unidad/<int:unidadId>/nunidad/<int:nunidad>', methods=['POST'])
@@ -298,22 +330,6 @@ def ultimo_periodoId():
     return idultimoperiodo
 
 
-@api.route('/funcion_docente', methods=['GET'])
-def funcion_docente():
-    funcion = FuncionDocenteDaoControl()
-    usuarios = UsuarioDaoControl()
-    funcion = funcion._lista.toArray
-    aux = "["
-    for i in range(0, len(funcion)):
-        x = usuarios._lista.search_model(funcion[i]._docenteUserCedula, '_cedula')
-        for j in range(0, len(x)):
-            aux += '{"cedula": "'+x[j]._cedula+'", "nombres": "'+x[j]._nombres+'", "apellidos": "'+x[j]._apellidos+'", "funcion": "'+funcion[i]._funcion+'"}'
-            if j < len(x)-1:
-                aux += ","
-    usuarios.lista.toList(aux)
-    print(len(usuarios.lista.toArray))
-        
-    return make_response(jsonify({"docentes": usuarios.to_dict_list()}))
 
 @api.route('/crear_estudiantes_docentes', methods=['POST'])
 def crear_estudiantes_docentes():
@@ -342,7 +358,59 @@ def crear_estudiantes_docentes():
     return jsonify({"message": "Estudiantes y docentes asignados correctamente"})
     
 
+@api.route('/funcion_docente', methods=['GET'])
+def funcion_docente():
+    funcion = FuncionDocenteDaoControl()
+    usuarios = UsuarioDaoControl()
+    funcion = funcion._lista.toArray
+    arr = []
+    for i in range(0, len(funcion)):
+        x = usuarios._lista.search_model(funcion[i]._docenteUserCedula, '_cedula')
+        dict = {}
+        for j in range(0, len(x)):
+            dict = {"cedula": x[j]._cedula, "nombres": x[j]._primerNombre+" "+x[j]._segundoNombre, "apellidos": x[j]._primerApellido, "funcion": funcion[i]._descripcion}
+        arr.append(dict)
+        
+    return make_response(jsonify({"docentes": arr}))
+
+@api.route('/calificaciones-por-materia/<int:cicloId>', methods=['GET'])
+def calificaciones_por_materia(cicloId):
+    periodoID = ultimo_periodoId()
+    cursa = CursaDaoControl()
+    cursa._lista.search_model(periodoID, '_periodoAcademicoId')
     
+    materias = MateriaDaoControl()
+    materias._lista.search_model(cicloId, '_ciclo')
+    listaMaterias = materias.lista.toArray
+    listaCursa = cursa.lista.toArray
+    cusaMaterias = []
+    for i in range(0, len(listaMaterias)):
+        for j in range(0, len(listaCursa)):
+            if listaMaterias[i]._id == listaCursa[j]._materiaId:
+                cusaMaterias.append(listaCursa[j])
+    cursa.lista.toList(cusaMaterias)
+    
+    
+    unidades = UnidadDaoControl()
+    listaUnidades = unidades._lista.toArray
+    
+    auxListUnidades = []
+    for i in range(0, len(listaMaterias)):
+        unidades.lista.toList(listaUnidades)
+        aux = unidades.lista.search_model(listaMaterias[i]._id, '_materiaId')
+        print(listaMaterias[i]._id)
+        auxListUnidades.append(aux)
+    
+    print(auxListUnidades)
+        
+        
+    
+    
+    return make_response(jsonify({"cursa": cursa.to_dict_list()}))
+
+
+
+
 
 def ultimo_periodoId():
     periodo = PeriodoAcademicoDaoControl()._list().toArray
