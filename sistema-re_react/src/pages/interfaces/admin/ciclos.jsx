@@ -17,6 +17,7 @@ const Ciclos = ({ onSelectCiclo }) => {
 
         const data = await response.json();
         setCiclos(data.ciclos); // Actualiza el estado con la lista de ciclos
+        console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(error.message); // Maneja el error

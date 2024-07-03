@@ -20,7 +20,6 @@ const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria, materi
         const data = await response.json();
         if (materiasAdmin) {
           setMaterias(data);
-          
         } else {
           setMaterias(data.materias);
         }
@@ -32,17 +31,17 @@ const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria, materi
     };
 
     fetchMaterias();
-  }, [baseUrl, endpoint, parameter]);
+  }, [baseUrl, endpoint, parameter, materiasAdmin]);
 
   return (
     <div className="App p-4 bg-white min-h-screen dark:bg-slate-700">
       <header className="App-header text-center mb-4 bg-[#f1f1f1] pb-5 rounded-lg ">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 dark:text-white p-l">{title}</h1>
         {error && <p className="text-red-500 mb-4 dark:text-red-400">Error: {error}</p>}
-        <div className="flex grid-cols-2 gap-4  justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center">
           {materias.length > 0 ? (
             materias.map((materia, index) => (
-              <div key={index} className="relative p-6 bg-white mx-6 dark:bg-gray-500 rounded-lg shadow-lg w-[300px] h-[160px] hover:shadow-2xl  transition-shadow duration-300 ">
+              <div key={index} className="relative p-6 bg-white mx-6 dark:bg-gray-500 rounded-lg shadow-lg w-[300px] h-[160px] hover:shadow-2xl transition-shadow duration-300">
                 <p className="text-2xl font-semibold text-[#04344c] dark:text-white mb-4">
                   {materia.nombre}
                 </p>
