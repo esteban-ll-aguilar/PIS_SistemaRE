@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for
+from app import MAIL
+
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from flask_cors import CORS
 import os
@@ -16,14 +18,23 @@ from controls.calificacionDaoControl import CalificacionDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from controls.functions.exelCursaAsignate import ExelCursaAsignate
+import matplotlib.pyplot as plt # gráfica
+import io # gráfica
+import base64 # gráfica 
 api = Blueprint('api', __name__)
 
 #get para presentar los datos
 #post para enviar los datos, modificar y iniciar sesion
 
+@api.route('/mail')
+def mail():
+    enviado = MAIL().send_email(subject="dfg", recipient='esteban.leon@unl.edu.ec', body='Hola mundo desde flask')
+    if enviado:
+        return jsonify({"message": "Correo enviado correctamente"})
+    return jsonify({"message": "Error al enviar el correo"})
+    
 
-
-
+    
 
 
 @api.route('/login', methods=['POST'])
@@ -34,12 +45,31 @@ def login():
     dodente = user._lista.search_model(data['email'], '_correo')
     if dodente[0]._correo == data['email'] and dodente[0]._contrasena == data['password']:
         funcion = FuncionDocenteDaoControl()
-        funcion._lista.search_model(dodente[0]._cedula, '_docenteUserCedula')
+        funcion._lista.search_model(dodente[0]._cedula, '_docenteUserCedula', type=0)
+        print(funcion.to_dict_list())
         
-        return make_response(jsonify({"message": "Usuario encontrado", "docente": user.to_dict_list(), "funcion": funcion.to_dict_list()}))
+        return jsonify({"message": "Usuario encontrado", "docente": user.to_dict_list(), "funcion": funcion.to_dict_list()})
     else:
-        return make_response(jsonify({"message": "Usuario no encontrado"}))
-    
+        return make_response(jsonify({"message": "Usuario no encontrado"}), 400)
+
+@api.route('/activar-cuenta', methods=['POST'])
+def activar_cuenta():
+    data = request.json
+    user = UsuarioDaoControl()
+    user._lista.search_model(data['email'], '_correo')
+    user.lista[0]._estado = 1
+    user.merge(user.lista[0])    
+    exiteDocente,_,_ = FuncionDocenteDaoControl()._lista.__exist__(user.lista[0]._cedula)
+    if not exiteDocente:
+        return jsonify({"message": "El usuario no forma del sistema"})
+    subject = "Activacion de cuenta"
+    body = "Hola "+user.lista[0]._nombres+" "+user.lista[0]._apellidos+" le informamos que su la contrasena de su cuenta\
+        es el numero de su cedula, es decir: "+user.lista[0]._cedula
+        
+    enviado = MAIL().send_email(subject=subject, recipient=data['email'], body=body)
+    if enviado:
+        return jsonify({"message": "Correo enviado correctamente"})
+    return jsonify({"message": "Error al enviar el correo"})
     
     
 @api.route('/usuario/<string:cedula>')
@@ -49,7 +79,9 @@ def usuario(cedula):
         print(user.to_dict_list())
         return make_response(jsonify({"usuario": user.to_dict_list()}))
         
-#/estudiantes/eliminar/cursa/estudiante/${estudiante.user_cedula}/materia/${materia.idmateria}
+
+
+
 @api.route('/estudiantes/eliminar/cursa/estudiante/<string:estudiante>/materia/<int:materia>', methods=['DELETE'])
 def eliminar_cursa(estudiante, materia):
     cursa = CursaDaoControl()
@@ -58,12 +90,12 @@ def eliminar_cursa(estudiante, materia):
     data = cursa.to_dict_list()
     cursa.delete(data[0])
     
-    return jsonify({"message": "Eliminado correctamente",})
+    return jsonify({"message": "Eliminado correctamente"})
+
 
 
 @api.route('/exel_docente', methods=['POST'])
 def upload_file_docente():
-    
     f = request.files['file'] 
     EDA = ExelDocentesAsignate(f)
     try:
@@ -87,7 +119,7 @@ def materias_unidad(materiaId,unidadId):
     rubrica = RubricaCalificacionDaoControl()
     m = MateriaDaoControl()
     #buscamos la unidad y la materia
-    unidad._lista.search_model(unidadId, '_id')
+    unidad._lista.search_model(unidadId, '_id')  #<-- Utilizando métodos de búsqueda para encontrar las unidades y materias.
     m = m._lista.search_model(materiaId, '_id')
     #buscamos los estudiantes que estan en la materia
     try:
@@ -101,8 +133,7 @@ def materias_unidad(materiaId,unidadId):
         listEstudiante = []
         for i in range(0, len(listcursa)):
             estudiante = estudiantes._lista.search_model(listcursa[i]._estudianteCedula, '_cedula')
-            listEstudiante.append(estudiante[0])
-        
+            listEstudiante.append(estudiante[0])  
         estudiantes._lista.toList(listEstudiante)
         estudiantes.lista.sort_models('_primerApellido', 0)
         cursa.lista.toList(listcursa)
@@ -110,20 +141,17 @@ def materias_unidad(materiaId,unidadId):
         #convertit la lista ordenada en un array
         listEstudiante = estudiantes.lista.toArray
         dict = cursa.to_dict_list()
-        
         #obtener lo id de los cursa en de los estudiantes
         auxcursaid = []
         for i in range(0,len(listEstudiante)):
             for j in range(0, len(dict)):
                 if listEstudiante[i]._cedula == dict[j]['estudiante_user_cedula']:
-                    auxcursaid.append(dict[j]['idcursa'])
-                    
+                    auxcursaid.append(dict[j]['idcursa'])        
         #obtener las calificaciones de los estudiantes
         listCalificacion = []
         for i in range(0, len(auxcursaid)):
             calif = calificacion._lista.search_model(auxcursaid[i], '_cursaId')
             listCalificacion.append(calif)
-            
         rubricaLista = rubrica._lista.toArray
         aux = []
         for i in range(0, len(listCalificacion)):
@@ -132,7 +160,6 @@ def materias_unidad(materiaId,unidadId):
                 if listCalificacion[i][j]._unidadId == unidadId:
                     arr.append(listCalificacion[i][j])
             aux.append(arr)
-            
         listCalificacion = aux
         for i in range(0, len(listCalificacion)):
             for j in range(0, len(listCalificacion[i])):
@@ -140,7 +167,6 @@ def materias_unidad(materiaId,unidadId):
                     if listCalificacion[i][j]._rubricaCalificacionId == rubricaLista[k]._id:
                         listCalificacion[i][j]._rubricaCalificacionId = rubricaLista[k]._descripcion
                         break
-        
         #print(listCalificacion)
         for i in range(0, len(listCalificacion)):
             for j in range(0, len(listCalificacion[i])):
@@ -152,6 +178,8 @@ def materias_unidad(materiaId,unidadId):
         return jsonify({"unidad": unidad.to_dict_list(), "estudiantes": estudiantes.to_dict_list(), "calificaciones": [], "rubrica": rubrica.to_dict_list()})
 
 
+# filtrar materias de primer ciclo, despues con el id de las materias buscar
+#lass mateias en calificaciones, despues separar por unidad
 
 
 @api.route('/asignar/calificaciones/materia/<int:materiaId>/unidad/<int:unidadId>/nunidad/<int:nunidad>', methods=['POST'])
@@ -162,7 +190,6 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
     rdexel = ReadNotasExel(data['file'], 
                            unidad=nunidad)
     notas, columnsNotas = rdexel.readExel
-    
     #para asignar las notas, llamamos al cursa
     cursa = CursaDaoControl()
     cursa._lista.search_model(1, '_periodoAcademicoId')
@@ -174,7 +201,6 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
         print(len(notas))
         print("ERROR MI AMIGASO")
         return jsonify({"message": "Error al asignar las calificaciones, no coinciden las notas con los estudiantes"})
-    
     #1- Crear rubrica de calificacion en caso de que no exista, de paso almacenamos su identificador
     identificatorRub = []
     for i in range(0, len(columnsNotas)):
@@ -196,23 +222,24 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
 
 
 
-@api.route('/ciclos')
+@api.route('/ciclos') # <-- este nos devuelve la lista de los ciclos que tenemos.
 def ciclos():
     materias = MateriaDaoControl()
     aux = materias._lista.sort_models('_ciclo', 0)
     ciclos = []
     for i in range(1, len(aux)):
         if aux[i-1]._ciclo != aux[i]._ciclo:
-            ciclos.append(aux[i-1]._ciclo)
-        
+            ciclos.append(aux[i-1]._ciclo)  
     print(ciclos)
     return jsonify({"ciclos": ciclos})
 
+
+
 #<int:cicloId> se pasa como parametro en la url
-@api.route('/ciclos/materias/<int:ciclo>', methods=['GET'])
+@api.route('/ciclos/materias/<int:ciclo>', methods=['GET'])# <-- aplica la búsqueda y nos retorna la materia en específico.77
 def marerias_ciclo(ciclo):
     materias = MateriaDaoControl()
-    #en sortmodels se para el 1 para ordenarlo de manera acendente, sino sera desendente
+    #en sortmodels se para el 1 para ordenarlo de manera ascendente, sino sera desendente
     materias._lista.search_model(ciclo, '_ciclo')
     return materias.to_dict_list()
 
@@ -227,9 +254,7 @@ def estudiantes_materia(materia):
         unidades = unidades.to_dict_list()
     except Exception as e:
         print('Error: '+str(e))
-        unidades = []
-        
-        
+        unidades = []     
     m = MateriaDaoControl()
     m = m._lista.search_model(materia, '_id')
     array = cursa._lista.search_model(ultimo_periodoId(), '_periodoAcademicoId')
@@ -242,6 +267,8 @@ def estudiantes_materia(materia):
     estudiantes.lista.sort_models('_primerApellido', 0)
     print(estudiantes.to_dict_list())
     return make_response(jsonify({"cursa": array[0].serializable, "estudiante": estudiantes.to_dict_list(), "materia": m[0].serializable, "unidades": unidades})) 
+
+
 
 
 @api.route('/materia/crear/unidad/<int:materiaId>', methods=['POST'])
@@ -261,15 +288,14 @@ def crear_unidad(materiaId):
     return make_response(jsonify({"message": "Unidad ya existe"}), 400)
     
 
+
+
 @api.route('/materia/unidad/<int:materiaId>', methods=['GET'])
 def ver_unidades(materiaId):
     unidad = UnidadDaoControl()
     unidad._lista.search_model(materiaId, '_materiaId')
     return make_response(jsonify({"unidades": unidad.to_dict_list()}))
-    
-    
-
-
+        
 
 
 @api.route('/docente/materias/<string:docente>', methods=['GET'])
@@ -298,24 +324,11 @@ def ultimo_periodoId():
     return idultimoperiodo
 
 
-@api.route('/funcion_docente', methods=['GET'])
-def funcion_docente():
-    funcion = FuncionDocenteDaoControl()
-    usuarios = UsuarioDaoControl()
-    funcion = funcion._lista.toArray
-    aux = "["
-    for i in range(0, len(funcion)):
-        x = usuarios._lista.search_model(funcion[i]._docenteUserCedula, '_cedula')
-        for j in range(0, len(x)):
-            aux += '{"cedula": "'+x[j]._cedula+'", "nombres": "'+x[j]._nombres+'", "apellidos": "'+x[j]._apellidos+'", "funcion": "'+funcion[i]._funcion+'"}'
-            if j < len(x)-1:
-                aux += ","
-    usuarios.lista.toList(aux)
-    print(len(usuarios.lista.toArray))
-        
-    return make_response(jsonify({"docentes": usuarios.to_dict_list()}))
 
-@api.route('/crear_estudiantes_docentes', methods=['POST'])
+
+
+
+@api.route('/crear_estudiantes_docentes', methods=['POST'])# <-- Se permite la carga tanto de docentes como estudiantes (solo se crean cuando no existen.)
 def crear_estudiantes_docentes():
     files = request.files
     data = request.form 
@@ -342,9 +355,99 @@ def crear_estudiantes_docentes():
     return jsonify({"message": "Estudiantes y docentes asignados correctamente"})
     
 
+@api.route('/funcion_docente', methods=['GET'])
+def funcion_docente():
+    funcion = FuncionDocenteDaoControl()
+    usuarios = UsuarioDaoControl()
+    funcion = funcion._lista.toArray
+    arr = []
+    for i in range(0, len(funcion)):
+        x = usuarios._lista.search_model(funcion[i]._docenteUserCedula, '_cedula')
+        dict = {}
+        for j in range(0, len(x)):
+            dict = {"cedula": x[j]._cedula, "nombres": x[j]._primerNombre+" "+x[j]._segundoNombre, "apellidos": x[j]._primerApellido, "funcion": funcion[i]._descripcion}
+        arr.append(dict)
+        
+    return make_response(jsonify({"docentes": arr}))
+
+@api.route('/calificaciones-por-materia/<int:cicloId>', methods=['GET'])
+def calificaciones_por_materia(cicloId):
+    periodoID = ultimo_periodoId()
+    cursa = CursaDaoControl()
+    cursa._lista.search_model(periodoID, '_periodoAcademicoId')
     
+    materias = MateriaDaoControl()
+    materias._lista.search_model(cicloId, '_ciclo')
+    listaMaterias = materias.lista.toArray
+    listaCursa = cursa.lista.toArray
+    cusaMaterias = []
+    for i in range(0, len(listaMaterias)):
+        for j in range(0, len(listaCursa)):
+            if listaMaterias[i]._id == listaCursa[j]._materiaId:
+                cusaMaterias.append(listaCursa[j])
+    cursa.lista.toList(cusaMaterias)
+    
+    
+    unidades = UnidadDaoControl()
+    listaUnidades = unidades._lista.toArray
+    
+    auxListUnidades = []
+    for i in range(0, len(listaMaterias)):
+        unidades.lista.toList(listaUnidades)
+        aux = unidades.lista.search_model(listaMaterias[i]._id, '_materiaId')
+        print(listaMaterias[i]._id)
+        auxListUnidades.append(aux)
+    
+    print(auxListUnidades)
+        
+        
+    
+    
+    return make_response(jsonify({"cursa": cursa.to_dict_list()}))
+
+
+
+
 
 def ultimo_periodoId():
     periodo = PeriodoAcademicoDaoControl()._list().toArray
     idultimoperiodo = periodo[len(periodo)-1]._id
     return idultimoperiodo
+
+
+
+
+@api.route('/rendimiento/ciclo/<int:cicloId>', methods=['GET'])
+def rendimiento_ciclo(cicloId):
+    cursa = CursaDaoControl()
+    estudiantes = UsuarioDaoControl()
+    rubrica = RubricaCalificacionDaoControl()
+    calificacion = CalificacionDaoControl()
+    unidades = UnidadDaoControl()
+
+    periodoId = ultimo_periodoId()
+    
+    
+    # Obtener materias del ciclo
+    materias = MateriaDaoControl()
+    materias._lista.search_model(cicloId, '_ciclo')
+    print(materias.to_dict_list())
+    print("ciclos cargados...", "\n\n")  # hasta aquí esta bien.
+    
+    
+
+    for materia in materias:
+        cursa.lista.search_model(materia._id, '_materiaId', type=0)
+        cursaIds = [c._id for c in cursa.lista.toArray]
+        
+        for cursaId in cursaIds:
+            calificaciones = calificacion._lista.search_model(cursaId, '_cursaId')
+            promedio = np.mean([float(calif._calificacion) for calif in calificaciones])
+            if materia._nombre not in rendimiento:
+                rendimiento[materia._nombre] = []
+            rendimiento[materia._nombre].append(promedio)
+
+    return jsonify({"calificaciones": calificacion.to_dict_list()})
+    
+    # Promedios por materia
+   

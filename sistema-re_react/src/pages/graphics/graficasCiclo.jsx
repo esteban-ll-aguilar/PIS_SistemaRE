@@ -5,15 +5,12 @@ const GraficasCiclo = () => {
   const chartRef = useRef(null);
 
   const data = [
-    { value: 15, name: 'Ciclo 1' },
-    { value: 12, name: 'Ciclo 2' },
-    { value: 10, name: 'Ciclo 3' },
-    { value: 9, name: 'Ciclo 4' },
-    { value: 7, name: 'Ciclo 5' },
-    { value: 5, name: 'Ciclo 6' },
-    { value: 5, name: 'Ciclo 7' },
-    { value: 6, name: 'Ciclo 8' },
-    { value: 5, name: 'Ciclo 9' }
+    { value: 6.70, name: 'MATEMÁTICAS DISCRETAS' },
+    { value: 7.09, name: 'REDACCIÓN' },
+    { value: 9.03, name: 'ALGEBRA LINEAL' },
+    { value: 8.04, name: 'ELETRICIDAD' },
+    { value: 7.00, name: 'TEORIA DE LA PROGRAMACIÓN' },
+
   ];
 
   const defaultPalette = [
