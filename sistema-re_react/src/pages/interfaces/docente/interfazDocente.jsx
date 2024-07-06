@@ -7,7 +7,7 @@ import Graficas from '../../graphics/graficas';
 import { Outlet, useParams } from 'react-router-dom';
 import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi";
 import { FaTachometerAlt } from "react-icons/fa";
-import EstudianteCursa from '../../examples/estudianteCursa';
+import EstudianteCursa from '../../../components/estudianteCursa';
 
 const InterfazDocente = () => {
     const { id } = useParams();
@@ -91,7 +91,7 @@ const InterfazDocente = () => {
           
         {selectComponent === 'Principal' && (
            selectedMateriaId ? (
-            <EstudianteCursa id={selectedMateriaId} />
+            <EstudianteCursa id={selectedMateriaId} idDocente={id} />
             ) : (
                 <Materias
                     baseUrl="http://127.0.0.1:5000/docente"

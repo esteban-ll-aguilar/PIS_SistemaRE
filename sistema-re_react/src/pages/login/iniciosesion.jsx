@@ -49,7 +49,7 @@ const handleLoginClick = async (e) => {
   if (response.ok) {
     const responseData = await response.json();
     setData(responseData);
-
+    console.log(responseData);
     // Mostrar una alerta de éxito
     alert('Inicio de sesión exitoso');
 
@@ -68,15 +68,15 @@ const handleLoginClick = async (e) => {
       console.error('No se encontraron roles válidos para el usuario');
     }
   } else {
-    console.error('Error al iniciar sesión:', response.statusText);
-    alert('Error al iniciar sesión:', response.statusText);
+    console.error('Error al iniciar sesión:');
+    alert('Error al iniciar sesión:');
     // Mostrar una alerta visual de error al usuario
   }
 };
 
   const handleActivationEmailClick = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://127.0.0.1:5000/activar-cuenta', {
+    const response = await fetch('http://127.0.0.1:5000/send-email-activar-cuenta', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -87,10 +87,12 @@ const handleLoginClick = async (e) => {
     if (response.ok) {
       // Lógica para manejar la respuesta de activación exitosa
       console.log('Correo de activación enviado correctamente.');
+      alert('Correo de activación enviado correctamente.');
       // Aquí podrías mostrar un mensaje de éxito al usuario o redirigirlo a otra página
     } else {
       // Manejo de errores en la activación de la cuenta
-      console.error('Error al activar cuenta:', response.statusText);
+      console.error('Error al activar cuenta o cuenta activa');
+      alert('Error al activar cuenta o cuenta activa');
       // Aquí podrías mostrar un mensaje de error al usuario
     }
   };

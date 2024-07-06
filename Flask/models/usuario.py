@@ -8,7 +8,7 @@ class Usuario:
         self.__segundoApellido = "NULL"
         self.__correo = ""
         self.__contrasena = 'NULL'
-        self.__estado = True
+        self.__estado = 0
         self.__urlImagen = 'NULL'
         self.__nombreUsuario = 'NULL'
         

@@ -40,7 +40,7 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
 
                 if (response.status === 200) {
                     alert("Elemento creado exitosamente");
-                    window.location.href = redirect;
+                    //window.location.href = redirect;
                 } else {
                     alert("Error al enviar el formulario o el Elemento ya existe");
                 }
@@ -51,6 +51,7 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
         }
     };
 
+    
     const handleChange = (event, name) => {
         let newValue = event.target.value;
         if (campos[name] === 'number') {
@@ -61,6 +62,7 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
             [name]: newValue,
         }));
     };
+
 
     const validateForm = () => {
         const newErrors = {};
@@ -147,7 +149,7 @@ const Form = ({ campos, names, link, redirect, title, contentType }) => {
                 ))}
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300"
+                    className="w-full bg-[#529914] text-white font-bold py-2 px-4 rounded-full hover:bg-[#529910] transition duration-300"
                 >
                     Enviar
                 </button>
