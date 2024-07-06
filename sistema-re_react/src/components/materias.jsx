@@ -34,7 +34,7 @@ const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria, materi
   }, [baseUrl, endpoint, parameter, materiasAdmin]);
 
   return (
-    <div className="App p-4 bg-white min-h-screen dark:bg-slate-700">
+    <div className="App p-10 grid min-h-screen bg-[#f1f1f1] dark:bg-slate-700">
       <header className="App-header text-center mb-4 bg-[#f1f1f1] pb-5 rounded-lg ">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 dark:text-white p-l">{title}</h1>
         {error && <p className="text-red-500 mb-4 dark:text-red-400">Error: {error}</p>}

@@ -10,7 +10,7 @@ import Ciclos from './ciclos';
 import FormEstudianteDocente from './formEstudianteDocente';
 import EstudientTarget from '../../../components/EstudientTarget';
 import Materias from '../../../components/materias';
-import EstudianteCursa from '../../examples/estudianteCursa';
+import EstudianteCursa from '../../../components/estudianteCursa';
 import FuncionDocente from './funcionDocente';
 
 const InterfazAdmin = () => {
@@ -74,7 +74,7 @@ const InterfazAdmin = () => {
     },
     {
       icono: <FaUserGraduate color='white' />,
-      texto: 'Informe',
+      texto: 'Descargar Informe',
       ruta: '/informe'
     },
     {

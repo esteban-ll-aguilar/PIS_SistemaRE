@@ -35,7 +35,7 @@ class ExelCursaAsignate(ExelDaoAdapter):
         createModel = CreateModel()
         for docente in datosDocentes:
             existDocente, idDocente, cedulaDocente = DocenteDaoControl()._lista.__exist__(docente['Cedula'])
-            existFuncionDocente, idFuncionDocente,_ = FuncionDocenteDaoControl()._lista.__exist__(data="DOCENTE", cedula=cedulaDocente)
+            existFuncionDocente, idFuncionDocente,_ = FuncionDocenteDaoControl()._lista.__exist__(data="DOCENTE", cedula=docente['Cedula'])
             existMateria, idMateria, cedulaMateriaDocente = MateriaDaoControl()._lista.__exist__(docente['Materia'], docente['Ciclo'])
             if not existDocente: idDocente, cedulaDocente = createModel.createDocente(docente)
             if not existMateria: idMateria = createModel.createMateria(docente)
