@@ -2,5 +2,7 @@ npm install bootstrap-icons formik
 npm install react-icons
 npm install @react-pdf/renderer --save
 npm install axios
+npm install react-toastify
+npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome
 
 npm install tailwindcss recharts

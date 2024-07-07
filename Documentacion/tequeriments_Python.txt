@@ -5,3 +5,4 @@ pip install Flask
 pip install flask_cors
 pip install numpy
 pip install openpyxl
+pip install Flask-Mail

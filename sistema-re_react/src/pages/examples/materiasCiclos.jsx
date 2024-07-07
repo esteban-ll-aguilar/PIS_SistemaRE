@@ -31,7 +31,7 @@ const Materias = () => {
   return (
     <>
     <Dashboardview />
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-700 p-4">
+    <div className="min-h-screen dark:bg-slate-700 p-4">
       <header className="text-center mb-4">
         <h1 className="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Materias</h1>
         {error && <p className="text-red-500 dark:text-red-400">Error: {error}</p>}

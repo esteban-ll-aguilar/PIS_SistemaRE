@@ -81,7 +81,7 @@ class CreateModel:
     
     def createFuncionDocente(self,funcion,userCedula):
         funcionD = FuncionDocenteDaoControl()
-        funcionD._funcionDocente._descripcion = funcion
+        funcionD._funcionDocente._descripcionFuncionD = funcion
         funcionD._funcionDocente._docenteUserCedula = userCedula
         funcionD.save
         return funcionD._funcionDocente._id
