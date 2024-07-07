@@ -140,11 +140,14 @@ class Linked_List(object):
                     return True, node._data._id, node._data._cedulaDocente
                 elif hasattr(node._data, '_correo'):
                     return self.model_exist('_correo', data)
-                elif hasattr(node._data, '_docenteUserCedula') and node._data._docenteUserCedula == cedula and hasattr(node._data, '_descripcion') and node._data._descripcion == data:
+                elif hasattr(node._data, '_docenteUserCedula') and node._data._docenteUserCedula == cedula and hasattr(node._data, '_descripcionFuncionD') and node._data._descripcionFuncionD == data:
                     print('Ya existe funcion docente)')
                     return True, node._data._id, node._data._docenteUserCedula
-                elif hasattr(node._data, '_materiaId') and  hasattr(node._data, '_nombre') and hasattr(node._data, '_nUnidad'):
-                    if node._data._nombre == data and node._data._materiaId == id and node._data._nUnidad == nunidad:
+                elif hasattr(node._data, '_materiaId') and hasattr(node._data, '_nUnidad') and hasattr(node._data, '_nombre'):
+                    if node._data._nombre == data:
+                        print('Ya existe unidad')
+                        return True, node._data._id, node._data._nombre
+                    elif data and node._data._materiaId == id and node._data._nUnidad == nunidad:
                         print('Ya existe unidad')
                         return True, node._data._id, node._data._materiaId
                 elif hasattr(node._data, '_descripcion') and node._data._descripcion == data:
