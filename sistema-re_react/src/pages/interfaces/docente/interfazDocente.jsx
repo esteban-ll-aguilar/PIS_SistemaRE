@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
 import Materias from '../../../components/materias';
-import Informe from '../informe/informe';
+import Informe from '../informe/informeSeguimiento';
 import Graficas from '../../graphics/graficas';
 import { Outlet, useParams } from 'react-router-dom';
 import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi";
 import { FaTachometerAlt } from "react-icons/fa";
-import EstudianteCursa from '../../examples/estudianteCursa';
+import EstudianteCursa from '../../../components/estudianteCursa';
 
 const InterfazDocente = () => {
     const { id } = useParams();
@@ -53,11 +53,11 @@ const InterfazDocente = () => {
     ];
 
     const administrar = [
-        {
+        /* {
             icono: <HiViewBoards color='white' />,
             texto: 'Materias',
             ruta: '/materias'
-        }
+        } */
     ];
 
     const acciones = [
@@ -91,7 +91,7 @@ const InterfazDocente = () => {
           
         {selectComponent === 'Principal' && (
            selectedMateriaId ? (
-            <EstudianteCursa id={selectedMateriaId} />
+            <EstudianteCursa id={selectedMateriaId} idDocente={id} />
             ) : (
                 <Materias
                     baseUrl="http://127.0.0.1:5000/docente"
