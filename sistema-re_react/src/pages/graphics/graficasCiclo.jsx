@@ -145,39 +145,10 @@ const GraficasCiclo = ({ onSelectCiclo }) => {
   }, []);
 
   return (
-    <div>
+      <div>
           <div className="card col-span-1 md:col-span-2 lg:col-span-3 p-4">
             <ReactEcharts ref={chartRef} option={pieOption} style={{ height: '400px', width: '100%' }} />
           </div>
-        <div>
-          {ciclos.length > 0 ? (
-            ciclos.map((ciclo, index) => (
-              <div key={index} className="flex relative items-center bg-white mb-4 py-4 h-[120px] w-[50%] rounded-lg shadow-md">
-                <div className="ml-2 mt-2 absolute left-0 top-0">
-                  <p className="text-4x1 font-semibold text-gray-500 dark:text-black">
-                    Ciclo {ciclo}
-                  </p>
-                   
-                </div>
-                <div className=' mx-2 mb-[10px] absolute right-0 bottom-0'>
-                  <button onClick={() => setMostrarContenido(!mostrarContenido)}
-                    className="text-white rounded-full text-center bg-[#529914] p-4">
-                    {mostrarContenido ? 'Ocultar Contenido' : 'Mostrar Contenido'}
-                    {mostrarContenido && (
-                    <div className='contenido bg-black w-full'>
-                      Este es el contenido desplegado.
-                    </div>
-                  )}
-                  </button >    
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="col-span-full text-center p-4 bg-white dark:bg-gray-500 rounded-lg shadow-md">
-              <p className="text-gray-700 dark:text-white">No hay ciclos</p>
-            </div>
-          )}
-        </div>
       </div>
   );
 };

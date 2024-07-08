@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 
+const Pepito = ({ ciclo }) => {
+  const [data, setData] = useState([]);
 
-const Pepito = () => {
-  const [data, setData] = useState([]);  // establezco un estado de nombre data 
-
-  useEffect(() => { // establecemos el useEffect para registrar los cambios en data
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/rendimiento/ciclo/2");
+        const response = await fetch(`http://127.0.0.1:5000/rendimiento/ciclo/${ciclo}`);
 
         if (response.ok) {
-          const aux = await response.json(); // si la respuesta de la ruta es ok empezamos a guardar los objetos en el aux
-          setData(aux.materias); // el .materias es para poder estar dentro del objeto y operar con sus atributos 
-          
+          const aux = await response.json();
+          setData(aux.materias);
           console.log(aux);
         } else {
           console.error("Error fetching data:", response.status);
@@ -22,17 +20,19 @@ const Pepito = () => {
       }
     };
     fetchData();
-  }, []); // Dependencia vacía para ejecutar solo una vez al montar
+  }, [ciclo]); // Dependencia de ciclo para ejecutar cada vez que cambie
 
   return (
     <div>
-    materias: {
-        data.length > 0 ? (data.map((materias, index) =>
-             {
-                return (<p key={index} > {materias.nombre}</p>)
-              })
-        ): null
-    }
+      <p className="mb-4 text-2xl font-semibold border-[solid] border-[#04344c] border-b-[2px] w-[370px]">materias:</p>{
+        data.length > 0 ? (
+          data.map((materias, index) => (
+            <div key={index} className="mb-4 ml-4  text-xl text-[#04344c]">
+              {materias.nombre}
+            </div>
+          ))
+        ) : null
+      }
     </div>
   );
 };
