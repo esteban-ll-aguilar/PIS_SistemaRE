@@ -189,7 +189,7 @@ const handleLoginClick = async (e) => {
             >
               Iniciar sesión
             </button>
-            <a href="#">¿Olvidaste tu contraseña?</a>
+            <a href="/iniciosesion/olvido-contrasena" className="link">¿Olvidaste tu contraseña?</a>
           </form>
         </div>
 
