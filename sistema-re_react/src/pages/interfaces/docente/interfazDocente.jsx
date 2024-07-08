@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
 import Materias from '../../../components/materias';
-import Informe from '../informe/informe';
+import Informe from '../informe/informeSeguimiento';
 import Graficas from '../../graphics/graficas';
 import { Outlet, useParams } from 'react-router-dom';
 import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi";
 import { FaTachometerAlt } from "react-icons/fa";
-import EstudianteCursa from '../../examples/estudianteCursa';
+import EstudianteCursa from '../../../components/estudianteCursa';
 
 const InterfazDocente = () => {
     const { id } = useParams();
@@ -15,6 +15,7 @@ const InterfazDocente = () => {
     const [selectComponent, setSelectComponent] = useState('Principal');
     const [selectedMateriaId, setSelectedMateriaId] = useState(null);
     const [data, setData] = useState([]);
+    const [funciones, setFunciones] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,8 +32,30 @@ const InterfazDocente = () => {
                 console.error('Error fetching data:', error);
             }
         };
+        
+        const fetchFuncionDocente = async () => {
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/funcion_docente//${id}`, 
+                {
+                    method: 'GET',
+                });
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setFunciones(data.funcion);
+                console.log(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
         fetchData();
+        fetchFuncionDocente();
     }, [id]);
+
+
+
 
     useEffect(() => {
         if (selectComponent === 'Principal') {
@@ -55,17 +78,22 @@ const InterfazDocente = () => {
     const administrar = [
         {
             icono: <HiViewBoards color='white' />,
+            texto: 'Roles',
+            ruta: '/roles'
+        }
+        /* {
+            icono: <HiViewBoards color='white' />,
             texto: 'Materias',
             ruta: '/materias'
-        }
+        } */
     ];
 
     const acciones = [
-        {
+        /* {
             icono: <HiOutlineDocumentDuplicate color='white' />,
             texto: 'Informe',
             ruta: '/informe'
-        },
+        }, */
         {
             icono: <HiOutlineDocumentDuplicate color='white' />,
             texto: 'Graficas',
@@ -91,7 +119,7 @@ const InterfazDocente = () => {
           
         {selectComponent === 'Principal' && (
            selectedMateriaId ? (
-            <EstudianteCursa id={selectedMateriaId} />
+            <EstudianteCursa id={selectedMateriaId} idDocente={id} />
             ) : (
                 <Materias
                     baseUrl="http://127.0.0.1:5000/docente"
@@ -110,11 +138,17 @@ const InterfazDocente = () => {
         </div>
         )}
         
-        {selectComponent === '/informe' && (
-            <Informe />
+        {selectComponent === '/roles' && (
+            funciones.map((funcion, index) => (
+                <div key={index} className="relative p-6 bg-white mx-6 dark:bg-gray-500 rounded-lg shadow-lg w-[300px] h-[160px] hover:shadow-2xl transition-shadow duration-300">
+                    <p className="text-2xl font-semibold text-[#04344c] dark:text-white mb-4">
+                        {funcion.descripcion}
+                    </p>
+                </div>
+            ))
         )}
         {selectComponent === '/graficas' && (
-            <Graficas />
+            <Graficas/>
         )}
         </section>
       </section>

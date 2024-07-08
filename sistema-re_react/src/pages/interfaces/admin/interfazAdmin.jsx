@@ -4,18 +4,22 @@ import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiOutlineRefresh
 import { FaBook, FaTachometerAlt, FaUserGraduate } from 'react-icons/fa';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
-import Informe from '../informe/informe';
+import Informe from '../informe/informeSeguimiento';
 import Graficas from '../../graphics/graficas';
 import Ciclos from './ciclos';
 import FormEstudianteDocente from './formEstudianteDocente';
 import EstudientTarget from '../../../components/EstudientTarget';
 import Materias from '../../../components/materias';
+import EstudianteCursa from '../../../components/estudianteCursa';
+import FuncionDocente from './funcionDocente';
+import TarjetaGraficasAdmin from '../../../components/TarjetaGraficasAdmin';
 
 const InterfazAdmin = () => {
   const { id } = useParams();
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [selectComponent, setSelectComponent] = useState('Principal');
   const [selectedCicloId, setSelectedCicloId] = useState(null);
+  const [selectedMateriaId, setSelectedMateriaId] = useState(null);
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -41,8 +45,9 @@ const InterfazAdmin = () => {
   };
 
   useEffect(() => {
-    if (selectComponent === '/ciclos') {
+    if (selectComponent === 'Principal') {
       setSelectedCicloId(null);
+      setSelectedMateriaId(null);
     }
   }, [selectComponent]);
 
@@ -56,16 +61,6 @@ const InterfazAdmin = () => {
   
   const administrar = [
     {
-      icono: <HiViewBoards color='white' />,
-      texto: 'Ciclos',
-      ruta: '/ciclos'
-    },
-    {
-      icono: <FaBook color='white' />,
-      texto: 'Periodo Academico',
-      ruta: '/periodoAcademico'
-    },
-    {
       icono: <HiUserGroup color='white' />,
       texto: 'Funciones Docentes',
       ruta: '/funcionDocente'
@@ -75,12 +70,12 @@ const InterfazAdmin = () => {
   const acciones = [
     {
       icono: <HiOutlineRefresh color='white' />,
-      texto: 'Actualizar Datos',
+      texto: 'Crear Nuevo Periodo',
       ruta: '/actualizarDatos'
     },
     {
       icono: <FaUserGraduate color='white' />,
-      texto: 'Informe',
+      texto: 'Descargar Informe',
       ruta: '/informe'
     },
     {
@@ -109,25 +104,24 @@ const InterfazAdmin = () => {
           <p className="mt-8"></p>
 
           {selectComponent === 'Principal' && (
-            <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_primer_nombre} {data.user_primer_apellido}</h1>
-              <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
-            </div>
-          )}
-          {selectComponent === '/ciclos' && (
             selectedCicloId ? (
-              <Materias
-                baseUrl="http://127.0.0.1:5000/ciclos"
-                endpoint="materias"
-                parameter={selectedCicloId}
-                title={"Materias"}
-                materiasAdmin={true}
-                onSelectMateria={(materiaId) => setSelectedCicloId(materiaId)}
-              />
-            ) : (
-              <Ciclos onSelectCiclo={(cicloId) => setSelectedCicloId(cicloId)} />
-            )
+                selectedMateriaId ? (
+                  <EstudianteCursa id={selectedMateriaId} ShowDelete={false} viewBottonForm={false} />
+                ) : (
+                  <Materias
+                    baseUrl="http://127.0.0.1:5000/ciclos"
+                    endpoint="materias"
+                    parameter={selectedCicloId}
+                    title={"Materias"}
+                    materiasAdmin={true}
+                    onSelectMateria={(materiaId) => setSelectedMateriaId(materiaId)}
+                  />
+                )
+              ) : (
+                <Ciclos onSelectCiclo={(cicloId) => setSelectedCicloId(cicloId)} />
+              )
           )}
+          
           {selectComponent === '/periodoAcademico' && (
             <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
               <h1 className='text-3xl font-bold dark:text-white'>Periodo Academico</h1>
@@ -135,10 +129,7 @@ const InterfazAdmin = () => {
             </div>
           )}
           {selectComponent === '/funcionDocente' && (
-            <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Funciones de docentes</h1>
-              <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
-            </div>
+            <FuncionDocente />
           )}
           {selectComponent === '/actualizarDatos' && (
             <FormEstudianteDocente id={id}/>
@@ -147,7 +138,7 @@ const InterfazAdmin = () => {
             <Informe />
           )}
           {selectComponent === '/graficas' && (
-            <Graficas />
+            <TarjetaGraficasAdmin />
           )}
           {selectComponent === '/estudiantes' && (
             <EstudientTarget />
