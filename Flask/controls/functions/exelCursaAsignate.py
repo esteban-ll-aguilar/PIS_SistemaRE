@@ -10,8 +10,8 @@ from controls.functions.createmodel import CreateModel
 from controls.tda.linked.ordenation_methods.quickSort import QuickSort
 
 class ExelCursaAsignate(ExelDaoAdapter):
-    def __init__(self, file_path: str):
-        super().__init__(ExelCursaAsignate,file_path)
+    def __init__(self, archivo):
+        super().__init__(ExelCursaAsignate,archivo)
         
     @property
     def saveExel(self):
@@ -35,11 +35,15 @@ class ExelCursaAsignate(ExelDaoAdapter):
         createModel = CreateModel()
         for docente in datosDocentes:
             existDocente, idDocente, cedulaDocente = DocenteDaoControl()._lista.__exist__(docente['Cedula'])
-            existFuncionDocente, idFuncionDocente,_ = FuncionDocenteDaoControl()._lista.__exist__(data="DOCENTE", cedula=cedulaDocente)
-            existMateria, idMateria, _ = MateriaDaoControl()._lista.__exist__(docente['Materia'], docente['Ciclo'], docente['Cedula'])
+            existFuncionDocente, idFuncionDocente,_ = FuncionDocenteDaoControl()._lista.__exist__(data="DOCENTE", cedula=docente['Cedula'])
+            existMateria, idMateria, cedulaMateriaDocente = MateriaDaoControl()._lista.__exist__(docente['Materia'], docente['Ciclo'])
             if not existDocente: idDocente, cedulaDocente = createModel.createDocente(docente)
             if not existMateria: idMateria = createModel.createMateria(docente)
             if not existFuncionDocente: idFuncionDocente = createModel.createFuncionDocente("DOCENTE", cedulaDocente)
+        
+            if existMateria:
+                if cedulaMateriaDocente != docente['Cedula']:
+                    materia = MateriaDaoControl().merge(idMateria)
         
         mdc = MateriaDaoControl()
         lista = mdc._lista.sort_models('_ciclo')

@@ -138,11 +138,24 @@ class DaoAdapter(Generic[T]):
         print("Eliminado")
 
 
-    def _merge(self, data: T, pos) -> T:
-        print("Guardando")
-        self._list()
-        self.lista.edit(data, pos)
-        f = open(self.URL + self.file, "w")
-        print("Nombre del archivo: "+self.file)
-        f.write(self.__transform__())
-        f.close()
+    def _merge(self, data: T) -> T:
+        dataclass = ''
+        columns= self.obtainColums()
+        i = 0
+        for cont in (data.serializable):
+            if isinstance(data.serializable[cont], str):
+                if self.date_valid(data.serializable[cont], '%d-%m-%Y'):
+                    dataclass += columns[i]+ " = TO_DATE('"+data.serializable[cont]+"', 'DD-MM-YYYY')"+','
+                else:
+                    dataclass += columns[i]+" = '"+str(data.serializable[cont])+"'"+','
+            else:
+                dataclass += columns[i] + " = " + str(data.serializable[cont])+','
+            i += 1
+            
+        dataclass = dataclass[:-1] 
+        sql = "UPDATE "+self.__name+" SET " + dataclass + " WHERE " + columns[0] + " = " + str(data.serializable[columns[0]])
+        print(sql)
+        
+        self.__connection.cursor().execute(sql)
+        self.__connection.commit()
+        print("Actualizado")

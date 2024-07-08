@@ -1,7 +1,7 @@
 class FuncionDocente:
     def __init__(self):
         self.__id = 0
-        self.__descripcion = ""
+        self.__descripcionFuncionD = ""
         self.__docenteUserCedula = ""
 
     @property
@@ -13,12 +13,12 @@ class FuncionDocente:
         self.__id = value
 
     @property
-    def _descripcion(self):
-        return self.__descripcion
+    def _descripcionFuncionD(self):
+        return self.__descripcionFuncionD
 
-    @_descripcion.setter
-    def _descripcion(self, value):
-        self.__descripcion = value
+    @_descripcionFuncionD.setter
+    def _descripcionFuncionD(self, value):
+        self.__descripcionFuncionD = value
 
     @property
     def _docenteUserCedula(self):
@@ -43,14 +43,14 @@ class FuncionDocente:
     def serializable(self):
         return {
             "idfunciondocente": self._id,
-            "descripcion": self._descripcion,
+            "descripcion": self._descripcionFuncionD,
             "docente_user_cedula": self._docenteUserCedula,
         }
     
     def deserialize(self, data):
         duncionDocente = FuncionDocente()
         duncionDocente._id = data["idfunciondocente"]
-        duncionDocente._descripcion = data["descripcion"]
+        duncionDocente._descripcionFuncionD = data["descripcion"]
         duncionDocente._docenteUserCedula = data["docente_user_cedula"]
         return duncionDocente
 

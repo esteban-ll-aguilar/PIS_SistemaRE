@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import GraficasCiclo from '../graphics/graficasCiclo';
 import GraficasUnidad from './graficasUnidad';
 import GraficasMateria from './graficasMateria';
+import { use } from 'echarts';
+
+
 
 export const Graficas = () => {
   return (
@@ -10,7 +13,7 @@ export const Graficas = () => {
       <div className=" bg-white card col-span-1 md:col-span-2 lg:col-span-3 p-4 dark:bg-sky-900 dark:text-white rounded-md" >
         <div className="stat dark:bg-sky-900 ">
           <h2 className='text-2xl font-bold text-center mt-4'>Rendimiento Academico Estudiantil</h2>
-          <p className='text-center'>Grafica del rendimiento estudiantil por ciclo de la carrera de computacion, seleccione el ciclo para obervar su rendimiento</p>
+          <p className='text-center'>Gráfica del rendimiento estudiantil por ciclo de la carrera de computacion, seleccione el ciclo para obervar su rendimiento</p>
           <GraficasCiclo>
           </GraficasCiclo>
         </div>

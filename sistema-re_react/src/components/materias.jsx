@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Materias = ({ baseUrl, endpoint, parameter, title }) => {
-  const { id } = useParams(); // Obtén el ID del ciclo desde los parámetros de la URL
 
+const Materias = ({ baseUrl, endpoint, parameter, title, onSelectMateria, materiasAdmin=false }) => {
   const [materias, setMaterias] = useState([]);
   const [error, setError] = useState(null);
 
@@ -19,33 +18,39 @@ const Materias = ({ baseUrl, endpoint, parameter, title }) => {
         }
 
         const data = await response.json();
-        setMaterias(data.materias); // Actualiza el estado con la lista de materias
+        if (materiasAdmin) {
+          setMaterias(data);
+        } else {
+          setMaterias(data.materias);
+        }
         console.log(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error con la base de datos:', error);
         setError(error.message); // Maneja el error
       }
     };
 
     fetchMaterias();
-  }, [baseUrl, endpoint, parameter]);
+  }, [baseUrl, endpoint, parameter, materiasAdmin]);
 
   return (
-    <div className="App p-4 bg-blue-200 min-h-screen dark:bg-slate-700">
-      <header className="App-header text-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2 dark:text-white">{title}</h1>
+    <div className="App p-10 grid min-h-screen bg-[#f1f1f1] dark:bg-slate-700">
+      <header className="App-header text-center mb-4 bg-[#f1f1f1] pb-5 rounded-lg ">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 dark:text-white p-l">{title}</h1>
         {error && <p className="text-red-500 mb-4 dark:text-red-400">Error: {error}</p>}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center">
           {materias.length > 0 ? (
             materias.map((materia, index) => (
-              <div key={index} className="relative p-6 bg-white dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
-                <p className="text-xl font-semibold text-gray-700 dark:text-white mb-4">{materia.nombre}</p>
-                <Link
-                  to={`/estudiantes/materia/${materia.idmateria}`}
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full text-center block mt-auto hover:from-blue-600 hover:to-purple-600 transition-colors duration-300"
+              <div key={index} className="relative p-6 bg-white mx-6 dark:bg-gray-500 rounded-lg shadow-lg w-[300px] h-[160px] hover:shadow-2xl transition-shadow duration-300">
+                <p className="text-2xl font-semibold text-[#04344c] dark:text-white mb-4">
+                  {materia.nombre}
+                </p>
+                <button
+                  onClick={() => onSelectMateria(materia.idmateria)}
+                  className="text-white px-4 py-2 rounded-full text-center block mt-auto bg-[#529914] absolute bottom-0 my-4 mx-auto left-0 right-0 w-40"
                 >
                   Ver Estudiantes
-                </Link>
+                </button>
               </div>
             ))
           ) : (

@@ -6,7 +6,7 @@ from controls.estudianteDaoControl import EstudianteDaoControl
 from controls.usuarioDaoControl import UsuarioDaoControl
 from controls.unidadDaoControl import UnidadDaoControl
 from controls.rubricaCalificacionDaoControl import RubricaCalificacionDaoControl
-import datetime
+from datetime import datetime
 import pandas as pd
 from controls.calificacionDaoControl import CalificacionDaoControl
 class CreateModel:
@@ -55,9 +55,21 @@ class CreateModel:
     
     def createUsuario(self,data, estado=0):
         usuario = UsuarioDaoControl()
+        nombres = data['Nombre'].strip().split()
+        apellidos = data['Apellido'].strip().split()
+        
         usuario._usuario._cedula = data['Cedula']
-        usuario._usuario._nombres = data['Nombre']
-        usuario._usuario._apellidos = data['Apellido']
+        if len(nombres) == 2:
+            usuario._usuario._primerNombre = nombres[0]
+            usuario._usuario._segundoNombre = nombres[1]
+        else:
+            usuario._usuario._primerNombre = nombres[0]
+            
+        if len(apellidos) == 2:
+            usuario._usuario._primerApellido = apellidos[0]
+            usuario._usuario._segundoApellido = apellidos[1]
+        else:
+            usuario._usuario._primerApellido = apellidos[0]
         usuario._usuario._correo = data['Correo']
         usuario._usuario._contrasena = data['Cedula']
         usuario._usuario._estado = estado
@@ -69,7 +81,7 @@ class CreateModel:
     
     def createFuncionDocente(self,funcion,userCedula):
         funcionD = FuncionDocenteDaoControl()
-        funcionD._funcionDocente._descripcion = funcion
+        funcionD._funcionDocente._descripcionFuncionD = funcion
         funcionD._funcionDocente._docenteUserCedula = userCedula
         funcionD.save
         return funcionD._funcionDocente._id
@@ -95,4 +107,17 @@ class CreateModel:
         rubrica = RubricaCalificacionDaoControl()
         rubrica._rubricaCalificacion._descripcion = descripcion
         rubrica.save
+        
+    def createPeriodoAcademico(self,data):
+        periodo = PeriodoAcademicoDaoControl()
+        fechaInicio =  datetime.strptime(data['fechaInicio'], '%Y-%m-%d').strftime('%d-%m-%Y') # convertir fecha
+        fechaFin = datetime.strptime(data['fechaFin'], '%Y-%m-%d').strftime('%d-%m-%Y')
+        
+        periodo._periodoAcademico._nombre = data['nombrePeriodo']
+        periodo._periodoAcademico._fechaInicio = fechaInicio
+        periodo._periodoAcademico._fechaFin = fechaFin
+        periodo.save
+        return periodo._periodoAcademico._id
+        
+        
         

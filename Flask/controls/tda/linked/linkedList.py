@@ -135,31 +135,39 @@ class Linked_List(object):
             for i in range(0, self._length):
                 if hasattr(node._data, '_cedula'):
                     return self.model_exist('_cedula', data, type=0)
-                elif hasattr(node._data, '_ciclo') and node._data._ciclo == id and  hasattr(node._data, '_nombre') and node._data._nombre == data and hasattr(node._data, '_cedulaDocente') and node._data._cedulaDocente == cedula:
+                elif hasattr(node._data, '_ciclo') and node._data._ciclo == id and  hasattr(node._data, '_nombre') and node._data._nombre == data and hasattr(node._data, '_cedulaDocente'):
                     print('Ya existe materia')
-                    return True, node._data._id, node._data._ciclo
+                    return True, node._data._id, node._data._cedulaDocente
                 elif hasattr(node._data, '_correo'):
                     return self.model_exist('_correo', data)
-                elif hasattr(node._data, '_docenteUserCedula') and node._data._docenteUserCedula == cedula and hasattr(node._data, '_descripcion') and node._data._descripcion == data:
+                elif hasattr(node._data, '_docenteUserCedula') and node._data._docenteUserCedula == cedula and hasattr(node._data, '_descripcionFuncionD') and node._data._descripcionFuncionD == data:
                     print('Ya existe funcion docente)')
                     return True, node._data._id, node._data._docenteUserCedula
-                elif hasattr(node._data, '_materiaId') and  hasattr(node._data, '_nombre') and hasattr(node._data, '_nUnidad'):
-                    if node._data._nombre == data and node._data._materiaId == id and node._data._nUnidad == nunidad:
+                elif hasattr(node._data, '_materiaId') and hasattr(node._data, '_nUnidad') and hasattr(node._data, '_nombre'):
+                    if node._data._nombre == data:
+                        print('Ya existe unidad')
+                        return True, node._data._id, node._data._nombre
+                    elif data and node._data._materiaId == id and node._data._nUnidad == nunidad:
                         print('Ya existe unidad')
                         return True, node._data._id, node._data._materiaId
                 elif hasattr(node._data, '_descripcion') and node._data._descripcion == data:
                     return True, node._data._id, node._data._descripcion
                 elif hasattr(node._data, '_nombres'):
                     return self.model_exist('_nombres', data)
+                
+                elif hasattr(node._data, '_nombre')  and hasattr(node._data, '_fechaInicio') and hasattr(node._data, '_fechaFin') and node._data._nombre == data:
+                    print('Ya existe periodo academico')
+                    return True, node._data._id, node._data._nombre
+                
+                
                 node = node._next
             return False, None, None
 
     def model_exist(self, attr, data, type=1):
         array = self.search_model(data, attr, type)
-        print('array', array)
         if array == None or len(array) == 0:
             return False, None, None
-        print('Ya existe usuario')
+        print('Ya existe ')
         return True, array[0]._id, getattr(array[0], attr)
         
         
@@ -223,6 +231,8 @@ class Linked_List(object):
         
     def toList(self, array):
         self.clear
+        if array == None or len(array) == 0:
+            return
         for i in range(0, len(array)):
             self.__addLast__(array[i])
         

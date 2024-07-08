@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Unidades from '../../components/unidades';
+import Unidades from './unidades';
 import { FaExclamationTriangle } from 'react-icons/fa'; // Importa el icono de advertencia
+import Dashboardview from './Dashboardview';
 
-const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowDelete = true}) => {
-  const { id } = useParams();
+
+const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowDelete = true, id, idDocente}) => {
   const [Estudiante, setEstudiante] = useState([]);
   const [error, setError] = useState(null);
   const [data, setData] = useState({});
@@ -51,7 +52,6 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
         throw new Error(`Network response was not ok: ${eliminar.statusText}`);
       }
       alert('Estudiante eliminado de la materia');
-      window.location.reload();
     } catch (error) {
       console.error('Error:', error);
       setError(error.message);
@@ -72,7 +72,7 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
       setShowForm(false)
     ) : (
       <div className="flex justify-center mt-6">
-        <Link to={`/materia/crear/unidad/${id}`} className="bg-gray-800 dark:bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+        <Link to={`/materia/crear/unidad/${id}/${idDocente}` } className="bg-[#529914] dark:bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-[#3C6E10] transition-colors duration-300">
           Crear Unidad
         </Link>
       </div>
@@ -85,7 +85,7 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
     {error && <p className="text-red-500 text-center dark:text-red-400">Error: {error}</p>}
     {showBoton && (
       <div className="flex justify-center mb-6">
-        <button onClick={() => setShowTable(!showTable)} className="bg-gray-800 dark:bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+        <button onClick={() => setShowTable(!showTable)} className="bg-[#529914] dark:bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-[#3C6E10] transition-colors duration-300">
           Tabla de Estudiantes ({Estudiante.length})
         </button>
       </div>
@@ -114,11 +114,11 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
             {Estudiante.map((estudiante, index) => (
               <tr key={index} className="border-t dark:border-gray-700">
                 <td className="py-2 px-4 text-center dark:text-gray-300">{index + 1}</td>
-                <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_apellidos}</td>
-                <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_nombres}</td>
+                <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_primer_apellido} {estudiante.user_segundo_apellido}</td>
+                <td className="py-2 px-4 dark:text-gray-300">{estudiante.user_primer_nombre} {estudiante.user_segundo_nombre}</td>
                 {showDelete && (
                   <td className="py-2 px-4 text-center">
-                    <button onClick={() => eliminarEstudiante(estudiante.user_cedula, materia.idmateria)} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-red-500 transition-colors duration-300">
+                    <button onClick={() => eliminarEstudiante(estudiante.user_cedula, materia.idmateria)} className="bg-[#529914] text-white px-4 py-2 rounded-lg hover:bg-red-500 transition-colors duration-300">
                       Eliminar
                     </button>
                   </td>

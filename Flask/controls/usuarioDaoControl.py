@@ -29,5 +29,5 @@ class UsuarioDaoControl(DaoAdapter):
     def delete(self, pos):
         self._delete(pos)  
         
-    def merge(self, pos):
-        self._merge(self.__usuario,pos)
+    def merge(self):
+        self._merge(self.__usuario)
