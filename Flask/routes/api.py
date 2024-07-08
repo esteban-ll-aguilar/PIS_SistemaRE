@@ -30,16 +30,18 @@ api = Blueprint('api', __name__)
 def mail(): 
     data = request.json
     
-    enviado = MAIL().send_email(subject=data['subject'], recipient=data['recipient'], body=data['body'])
+    enviado = MAIL().send_email(subject=data['subject'], recipient=[data['recipient']], body=data['body'])
     if enviado:
         return jsonify({"message": "Correo enviado correctamente"})
     return jsonify({"message": "Error al enviar el correo"})
     
 
+@api.route('/hola')    
+def mail_send():
+    send = MAIL().send_email(subject="Hola", recipient=["esteban.leon@unl.edu.ec", "esteban.aguilar2005@hotmail.com"], body="Hola mundo")
+    return jsonify({"message": "Correo enviado correctamente"})
     
-
-
-
+    
 @api.route('/login', methods=['POST'])
 def login():
     user = UsuarioDaoControl()
@@ -51,6 +53,10 @@ def login():
         return make_response(jsonify({"message": "Usuario no encontrado, usted no esta registrado en la platafoma"}), 400)
     if FuncionDocenteDaoControl()._lista.search_model(docente[0]._cedula, '_docenteUserCedula') is None:
         return make_response(jsonify({"message": "Usuario no encontrado, usted no esta registrado en la platafoma"}), 400)
+    
+    if docente[0]._estado == '0':
+        return abort(400)
+    
     if docente[0]._correo == data['email'] and docente[0]._contrasena == data['password']:
         funcion._lista.search_model(docente[0]._cedula, '_docenteUserCedula', type=0)
         print(funcion.lista.toArray[0])
@@ -67,7 +73,6 @@ def send_emailactivar_cuenta():
     user = UsuarioDaoControl()
     funcion = FuncionDocenteDaoControl()
     data = request.json
-    print(data) 
     docente = user._lista.search_model(data['email'], '_correo')  
     if docente is None:
         return make_response(jsonify({"message": "Usuario no encontrado, usted no esta registrado en la platafoma"}), 400)
@@ -80,7 +85,7 @@ def send_emailactivar_cuenta():
         return abort(400)
     
     body = f"Para activar su cuenta haga click en el siguiente enlace: http://localhost:3000/activar-cuenta/{docente[0]._cedula}"
-    send = MAIL().send_email(subject="Activacion de cuenta", recipient=data['email'], body=body)
+    send = MAIL().send_email(subject="Activacion de cuenta", recipient=[data['email']], body=body)
     if send:
         return jsonify({"message": "Usuario encontrado", "docente": user.to_dict_list(), "funcion": funcion.to_dict_list()})  
     else:
@@ -105,7 +110,22 @@ def activar_cuenta():
     else:
         return abort(400)
 
+@api.route('/olvido-contrasena', methods=['POST'])
+def olvido_contrasena():
+    user = UsuarioDaoControl()
+    data = request.json
+    docente = user._lista.search_model(data['email'], '_correo')  
+    if docente is None:
+        return make_response(jsonify({"message": "Usuario no encontrado, usted no esta registrado en la platafoma"}), 404)
+    if docente[0]._estado == '0':
+        return abort(400)
+    send = MAIL().send_email(subject="Recuperacion de contraseña", recipient=[data['email']], body=f"Su contraseña es: {docente[0]._contrasena}")
+    if send:
+        return jsonify({"message": "Correo enviado correctamente"})
+    return jsonify({"message": "Error al enviar el correo"})
 
+
+    
     
 @api.route('/usuario/<string:cedula>')
 def usuario(cedula):
@@ -346,12 +366,10 @@ def materias_docente(docente):
     for i in range(0, len(array)):
         if not auxmateriasID.__contains__(array[i]._materiaId):
             auxmateriasID.append(array[i]._materiaId)
-            print(array[i]._materiaId)
-            
+            print(array[i]._materiaId)  
     for i in range(0, len(auxmateriasID)):
         x = m._lista.search_model(auxmateriasID[i], '_id')
         materiasId.append(x[0])    
-        
     m.lista.toList(materiasId)
     return make_response(jsonify({"materias": m.to_dict_list()}))
 
@@ -359,6 +377,7 @@ def ultimo_periodoId():
     periodo = PeriodoAcademicoDaoControl()._list().toArray
     idultimoperiodo = periodo[len(periodo)-1]._id
     return idultimoperiodo
+
 
 
 
@@ -392,33 +411,47 @@ def crear_estudiantes_docentes():
     return jsonify({"message": "Estudiantes y docentes asignados correctamente"})
     
 
-@api.route('/funcion_docente', methods=['GET'])
-def funcion_docente():
+@api.route('/funcion_de_docentes', methods=['GET'])
+def funcion_de_docentes():
     funcion = FuncionDocenteDaoControl()
     funcion._lista
     funcion.lista.sort_models('_descripcionFuncionD', 0)
+    listaFuncion = funcion.lista.toArray
     
-    docentes = DocenteDaoControl()._lista.toArray
+    docentes = DocenteDaoControl()
+    docentes = docentes._lista.toArray
     usuarios = UsuarioDaoControl()
-    usuarios._lista
-    usuarios.lista.sort_models('_primerApellido',1)
-    funcionesList = funcion.lista.toArray
-    usuariosList = usuarios.lista.toArray
-    print(len(funcionesList), len(usuariosList))
-    arr = []
+    listaUser = usuarios._lista.toArray
+
+    arruser = []
+    #usuarios
     for i in range(0, len(docentes)):
-        auxFuntion =[]
-        usuarios.lista.toList(usuariosList)
-        funcion.lista.toList(funcionesList)
-        user = usuarios.lista.search_model(funcionesList[i]._docenteUserCedula, '_cedula', type=0)
-        funtion = funcion.lista.search_model(funcionesList[i]._docenteUserCedula, '_docenteUserCedula', type=0)
+        usuarios.lista.toList(listaUser)
+        user = usuarios.lista.search_model(docentes[i].serializable['user_cedula'], '_cedula', type=0)
+        arruser.append(user[0])
         
-        print(len(user),len(funtion))
-        for j in range(0, len(funtion)):
-            auxFuntion.append(funtion[j].serializable)
-        docente = {'nombres': user[0]._primerNombre +" "+ user[0]._segundoNombre , 'apellidos': user[0]._primerApellido +" "+ user[0]._segundoApellido, 'cedula': user[0]._cedula}
-        arr.append({'user': docente, 'funcion': auxFuntion})
-    return make_response(jsonify({"docentes": arr}))
+    usuarios.lista.toList(arruser)
+    usuarios.lista.sort_models('_primerApellido', 0)
+    arruser = usuarios.lista.toArray
+    
+    for i in range(0, len(arruser)):
+        auxFuncion = []
+        funcion.lista.toList(listaFuncion)
+        funciondocente = funcion.lista.search_model(arruser[i]._cedula, '_docenteUserCedula', type=0)
+    
+        for j in range(0, len(funciondocente)):
+            auxFuncion.append(funciondocente[j].serializable)
+        docente = {'nombres': arruser[i]._primerNombre +" "+ arruser[i]._segundoNombre , 'apellidos': arruser[i]._primerApellido +" "+ arruser[i]._segundoApellido, 'cedula': arruser[i]._cedula}
+        arruser[i] = {'user': docente, 'funcion': auxFuncion}
+    
+    return make_response(jsonify({"docentes": arruser}))
+
+@api.route('/funcion_docente/<string:idDocente>', methods=['GET'])
+def funcion_docente(idDocente):
+    funcion = FuncionDocenteDaoControl()
+    funcion._lista.search_model(idDocente, '_docenteUserCedula', type=0)
+    return make_response(jsonify({"funcion": funcion.to_dict_list()}))
+
 
 
 
@@ -469,16 +502,14 @@ def rendimiento_ciclo(cicloId):
     rubrica = RubricaCalificacionDaoControl()
     calificacion = CalificacionDaoControl()
     unidades = UnidadDaoControl()
-
     periodoId = ultimo_periodoId()
-    
-    
     # Obtener materias del ciclo
     materias = MateriaDaoControl()
     materias._lista.search_model(cicloId, '_ciclo')
     print(materias.to_dict_list())
     print("ciclos cargados...", "\n\n")  # hasta aquí esta bien.
     
+    return make_response(jsonify({"materias": materias.to_dict_list()}))
     
     # Promedios por materia
    
