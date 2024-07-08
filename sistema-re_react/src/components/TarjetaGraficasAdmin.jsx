@@ -48,9 +48,7 @@ const TarjetaGraficasAdmin = () => {
                     <Pepito ciclo={index + 1}/>
                   </div>
                   <div className='w-[65%]  justify-center items-center rounded-tr-lg rounded-br-lg border-l-solid border-l-[4px] boder-l-[#04344c]'>
-                    <GraficasMateria>
-
-                    </GraficasMateria>
+                    <GraficasMateria />
                   </div>
                 </div>
               </div>

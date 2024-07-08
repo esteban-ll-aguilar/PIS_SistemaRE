@@ -497,12 +497,6 @@ def ultimo_periodoId():
 
 @api.route('/rendimiento/ciclo/<int:cicloId>', methods=['GET'])
 def rendimiento_ciclo(cicloId):
-    cursa = CursaDaoControl()
-    estudiantes = UsuarioDaoControl()
-    rubrica = RubricaCalificacionDaoControl()
-    calificacion = CalificacionDaoControl()
-    unidades = UnidadDaoControl()
-    periodoId = ultimo_periodoId()
     # Obtener materias del ciclo
     materias = MateriaDaoControl()
     materias._lista.search_model(cicloId, '_ciclo')
