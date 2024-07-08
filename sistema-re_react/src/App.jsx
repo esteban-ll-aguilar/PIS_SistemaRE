@@ -14,6 +14,7 @@ import Materias from './pages/examples/materiasCiclos';
 import EstudianteCursa from './components/estudianteCursa';
 import DocenteMaterias from './components/materias';
 import FormUnidad from './pages/interfaces/docente/formUnidad';
+import OLvidoContrasena from './pages/login/ovido_contrasena';
 import Pepito from './pages/examples/pepito';
 function App() {
 
@@ -26,8 +27,9 @@ function App() {
    <BrowserRouter>
    <Routes>
     <Route path='/' element={<Home/>} />
-    <Route path= '/example' element={<Pepito />} />
     <Route path='/iniciosesion' element={<Iniciosesion  />} />
+    <Route path='/iniciosesion/olvido-contrasena' element={<OLvidoContrasena />} />
+    <Route path= '/example' element={<Pepito />} />
     <Route path='/graficas' element={<Graficas  />} />
     <Route path='/informe' element={<Informe  />} />
     <Route path='/interfaz/admin/:id' element={<InterfazAdmin  />} />

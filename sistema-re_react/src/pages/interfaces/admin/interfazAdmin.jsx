@@ -12,6 +12,7 @@ import EstudientTarget from '../../../components/EstudientTarget';
 import Materias from '../../../components/materias';
 import EstudianteCursa from '../../../components/estudianteCursa';
 import FuncionDocente from './funcionDocente';
+import TarjetaGraficasAdmin from '../../../components/TarjetaGraficasAdmin';
 
 const InterfazAdmin = () => {
   const { id } = useParams();
@@ -137,7 +138,7 @@ const InterfazAdmin = () => {
             <Informe />
           )}
           {selectComponent === '/graficas' && (
-            <Graficas />
+            <TarjetaGraficasAdmin />
           )}
           {selectComponent === '/estudiantes' && (
             <EstudientTarget />

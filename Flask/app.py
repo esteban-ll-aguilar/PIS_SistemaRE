@@ -10,7 +10,7 @@ class MAIL:
         app = self.__app
         try:
             mail = Mail(app)
-            msg = Message(subject, sender=app.config['MAIL_USERNAME'], recipients=[recipient])
+            msg = Message(subject, sender=app.config['MAIL_USERNAME'], recipients=recipient)
             msg.body = body
             with app.app_context():
                 mail.send(msg)
