@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom'
 import SendEmail from '../pages/examples/envioCorreo';
 import Profile from '../pages/examples/gestionPerfil';
 import Sidebar from './Sidebar';
+import { useGrayscale } from './GrayscaleContext';
 
 
 const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, principal }) => {
     const [open, setOpen] = useState(false)
+
 
     const showProfile = () => {
         setOpen(!open)
@@ -59,6 +61,8 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
       const toggleModoNoche = () => {
         setModoNoche((modoNoche) => modoNoche === 'light' ? 'dark' : 'light');
       }
+    const { isGrayscale, toggleGrayscale } = useGrayscale();
+
 
     return (
         <>
@@ -103,6 +107,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                         <div className='bg-[#529914] border border-gray-300 shadow-lg absolute top-14 right-0 w-40 rounded-md p-5 space-y-2 dark:bg-blue-900'>
                             <p className="cursor-pointer text-white font-semibold dark:text-zinc-100 h" onClick={openProfileModal}>     Perfil       </p>
                             <p onClick={toggleModoNoche} className='cursor-pointer text-white font-semibold dark:text-zinc-100 '>Modo Oscuro</p>
+                            <p onClick={toggleGrayscale} className='cursor-pointer text-white font-semibold dark:text-zinc-100 '>{isGrayscale ? 'Desactivar' : 'Activar'} Escala de Grises</p>
                             <p>
                                 <Link to='/' className='cursor-pointer text-white font-semibold  dark:text-zinc-100 z-40'>Cerrar sesión</Link>
                             </p>
