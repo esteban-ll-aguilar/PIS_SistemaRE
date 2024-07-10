@@ -75,8 +75,21 @@ class Linked_List(object):
         
     def get(self, pos):
         return self.getNode(pos)._data
-        
-
+    
+    
+    @property
+    def get_final_Id(self):
+        id = 1
+        if self.isEmpty:
+            return id
+        else:
+            node = self.__head
+            for i in range(0, self._length):
+                if node._data._id > id:
+                    id = node._data._id
+                node = node._next
+        return id
+    
     def add(self, data, pos):
         if pos == 0:
             self.__addFirst__(data)

@@ -26,8 +26,8 @@ class EstudianteDaoControl(DaoAdapter):
         print("Guardando Estudiante")
         self._save(self.__estudiante)
     
-    def delete(self, pos):
-        self._delete(pos)  
+    def delete(self):
+        self._delete(self.__estudiante)  
         
-    def merge(self, pos):
-        self._merge(self.__estudiante,pos)
+    def merge(self):
+        self._merge(self.__estudiante)

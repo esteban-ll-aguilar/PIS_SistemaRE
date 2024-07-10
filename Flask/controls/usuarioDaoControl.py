@@ -26,8 +26,8 @@ class UsuarioDaoControl(DaoAdapter):
         print("Guardando Usuario")
         self._save(self.__usuario)
     
-    def delete(self, pos):
-        self._delete(pos)  
+    def delete(self):
+        self._delete(self.__usuario)  
         
     def merge(self):
         self._merge(self.__usuario)

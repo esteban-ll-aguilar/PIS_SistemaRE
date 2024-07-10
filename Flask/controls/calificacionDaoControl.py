@@ -26,6 +26,6 @@ class CalificacionDaoControl(DaoAdapter):
         print("Guardando Calificacion")
         self._save(self.__calificacion)
         
-    def merge(self, pos):
-        self._merge(self.__calificacion,pos)
+    def merge(self):
+        self._merge(self.__calificacion)
     
