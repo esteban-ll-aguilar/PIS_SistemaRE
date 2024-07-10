@@ -37,6 +37,7 @@ const InterfazAdmin = () => {
         console.error('Error fetching data:', error);
       }
     };
+    
     fetchData();
   }, [id]);
 
@@ -91,7 +92,7 @@ const InterfazAdmin = () => {
         <Sidebar
           isVisible={isSidebarVisible}
           toggleSidebar={toggleSidebar}
-          panel='Panel'
+          panel='Panel_'
           role='Administrador'
           principal={principal}
           administrar={administrar}

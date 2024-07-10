@@ -26,6 +26,11 @@ api = Blueprint('api', __name__)
 #get para presentar los datos
 #post para enviar los datos, modificar y iniciar sesion
 
+@api.route('/hola')    
+def mail_send():
+    send = MAIL().send_email(subject="Hola", recipient=["esteban.leon@unl.edu.ec", "esteban.aguilar2005@hotmail.com"], body="Hola mundo")
+    return jsonify({"message": "Correo enviado correctamente"})
+
 @api.route('/mail', methods=['POST'])    
 def mail(): 
     data = request.json
@@ -36,10 +41,6 @@ def mail():
     return jsonify({"message": "Error al enviar el correo"})
     
 
-@api.route('/hola')    
-def mail_send():
-    send = MAIL().send_email(subject="Hola", recipient=["esteban.leon@unl.edu.ec", "esteban.aguilar2005@hotmail.com"], body="Hola mundo")
-    return jsonify({"message": "Correo enviado correctamente"})
     
     
 @api.route('/login', methods=['POST'])
@@ -433,27 +434,61 @@ def funcion_de_docentes():
     usuarios.lista.toList(arruser)
     usuarios.lista.sort_models('_primerApellido', 0)
     arruser = usuarios.lista.toArray
-    
+    aux = []
     for i in range(0, len(arruser)):
         auxFuncion = []
         funcion.lista.toList(listaFuncion)
         funciondocente = funcion.lista.search_model(arruser[i]._cedula, '_docenteUserCedula', type=0)
+        
+        if funciondocente is None:
+            docente = {'nombres': arruser[i]._primerNombre +" "+ arruser[i]._segundoNombre , 'apellidos': arruser[i]._primerApellido +" "+ arruser[i]._segundoApellido, 'cedula': arruser[i]._cedula}
+            aux.append({'user': docente, 'funcion': []})
+        else:
+            for j in range(0, len(funciondocente)):#9955926918
+                auxFuncion.append(funciondocente[j].serializable)
+            docente = {'nombres': arruser[i]._primerNombre +" "+ arruser[i]._segundoNombre , 'apellidos': arruser[i]._primerApellido +" "+ arruser[i]._segundoApellido, 'cedula': arruser[i]._cedula}
+            aux.append({'user': docente, 'funcion': auxFuncion})
     
-        for j in range(0, len(funciondocente)):
-            auxFuncion.append(funciondocente[j].serializable)
-        docente = {'nombres': arruser[i]._primerNombre +" "+ arruser[i]._segundoNombre , 'apellidos': arruser[i]._primerApellido +" "+ arruser[i]._segundoApellido, 'cedula': arruser[i]._cedula}
-        arruser[i] = {'user': docente, 'funcion': auxFuncion}
-    
-    return make_response(jsonify({"docentes": arruser}))
+    return make_response(jsonify({"docentes": aux}))
 
-@api.route('/funcion_docente/<string:idDocente>', methods=['GET'])
-def funcion_docente(idDocente):
+
+@api.route('/crear/funcion_docente/<string:idCedDocente>/<string:funcionDocente>', methods=['POST'])
+def crear_funcion_docente(idCedDocente,funcionDocente):
     funcion = FuncionDocenteDaoControl()
-    funcion._lista.search_model(idDocente, '_docenteUserCedula', type=0)
-    return make_response(jsonify({"funcion": funcion.to_dict_list()}))
+    funcion._lista.search_model(idCedDocente, '_docenteUserCedula', type=0)
+    funcionesDelDocente = funcion.lista.toArray
+    
+    if funcion.lista.isEmpty:
+        CreateModel().createFuncionDocente(funcion=funcionDocente, userCedula=idCedDocente)
+        return make_response(jsonify({"message": "Funcion creada correctamente"}))
+    
+    for i in range(0, len(funcionesDelDocente)):
+        funct = funcionesDelDocente[i]._descripcionFuncionD
+        cedula = funcionesDelDocente[i]._docenteUserCedula
+        
+        if funct == funcionDocente and cedula == idCedDocente:
+            return make_response(jsonify({"message": "Funcion ya existe"}), 400)
+        
+    CreateModel().createFuncionDocente(funcion=funcionDocente, userCedula=idCedDocente)
+    return make_response(jsonify({"message": "Funcion creada correctamente"}))
 
-
-
+@api.route('/eliminar/funcion_docente/<string:idCedDocente>/<string:funcionDocente>', methods=['POST'])
+def eliminar_funcion_docente(idCedDocente,funcionDocente):
+    funcion = FuncionDocenteDaoControl()
+    funcion._lista.search_model(idCedDocente, '_docenteUserCedula', type=0)
+    funcionesDelDocente = funcion.lista.toArray
+    
+    for i in range(0, len(funcionesDelDocente)):
+        funct = funcionesDelDocente[i]._descripcionFuncionD
+        cedula = funcionesDelDocente[i]._docenteUserCedula
+        if funct == funcionDocente and cedula == idCedDocente:
+            funcion._funcionDocente = funcionesDelDocente[i]
+            funcion.delete()
+            return make_response(jsonify({"message": "Funcion eliminada correctamente"}))
+    return make_response(jsonify({"message": "Funcion no existe"}), 400)
+    
+    
+    
 
 @api.route('/calificaciones-por-materia/<int:cicloId>', methods=['GET'])
 def calificaciones_por_materia(cicloId):

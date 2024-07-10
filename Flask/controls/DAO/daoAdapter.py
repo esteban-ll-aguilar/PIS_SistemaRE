@@ -31,14 +31,14 @@ class DaoAdapter(Generic[T]):
         cur = self.__connection.cursor()
         print(self.__name)
         if self.__name == 'ESTUDIANTE':
-            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = estudiante.user_cedula")
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = estudiante.user_cedula  ORDER BY 1")
         elif self.__name == 'DOCENTE':
-            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = docente.user_cedula")
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = docente.user_cedula  ORDER BY 1")
              
         elif self.__name == 'FUNCIONDOCENTE':
-            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = funciondocente.docente_user_cedula")
+            cur.execute("SELECT * FROM USUARIO JOIN "+ self.__name + " ON usuario.user_cedula = funciondocente.docente_user_cedula  ORDER BY 1")
         else:
-            cur.execute("SELECT * FROM "+ self.__name)
+            cur.execute("SELECT * FROM "+ self.__name + " ORDER BY 1")
         columns = [col[0].lower() for col in cur.description]
         rows = [dict(zip(columns, row)) for row in cur.fetchall()]
         cur.close()
@@ -118,6 +118,7 @@ class DaoAdapter(Generic[T]):
     
         dataclass = ''
         columns= self.obtainColums()
+        data = data.serializable
         i = 0
         for cont in (data):
             if isinstance(data[cont], str):
@@ -140,20 +141,21 @@ class DaoAdapter(Generic[T]):
 
     def _merge(self, data: T) -> T:
         dataclass = ''
+        data = data.serializable
         columns= self.obtainColums()
         i = 0
-        for cont in (data.serializable):
-            if isinstance(data.serializable[cont], str):
-                if self.date_valid(data.serializable[cont], '%d-%m-%Y'):
-                    dataclass += columns[i]+ " = TO_DATE('"+data.serializable[cont]+"', 'DD-MM-YYYY')"+','
+        for cont in (data):
+            if isinstance(data[cont], str):
+                if self.date_valid(data[cont], '%d-%m-%Y'):
+                    dataclass += columns[i]+ " = TO_DATE('"+data[cont]+"', 'DD-MM-YYYY')"+','
                 else:
-                    dataclass += columns[i]+" = '"+str(data.serializable[cont])+"'"+','
+                    dataclass += columns[i]+" = '"+str(data[cont])+"'"+','
             else:
-                dataclass += columns[i] + " = " + str(data.serializable[cont])+','
+                dataclass += columns[i] + " = " + str(data[cont])+','
             i += 1
             
         dataclass = dataclass[:-1] 
-        sql = "UPDATE "+self.__name+" SET " + dataclass + " WHERE " + columns[0] + " = " + str(data.serializable[columns[0]])
+        sql = "UPDATE "+self.__name+" SET " + dataclass + " WHERE " + columns[0] + " = " + str(data[columns[0]])
         print(sql)
         
         self.__connection.cursor().execute(sql)
