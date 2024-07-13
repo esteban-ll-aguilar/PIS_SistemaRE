@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Document,
   Page,
@@ -6,6 +7,7 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
+import { PDFDocument } from "pdf-lib";
 import Unl from "../../../assets/foranix.png";
 import Quipux from "../../../assets/quipux.png";
 
@@ -314,7 +316,26 @@ const styles = StyleSheet.create({
   },
 });
 
-function Pdf() {
+function Pdf({ pdfFile }) {
+  const [extractedText, setExtractedText] = useState("");
+
+  useEffect(() => {
+    const extractTextFromPDF = async () => {
+      const pdfBytes = await pdfFile.arrayBuffer();
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const pages = pdfDoc.getPages();
+      let text = "";
+      for (let page of pages) {
+        text += await page.getTextContent();
+      }
+      setExtractedText(text);
+    };
+
+    if (pdfFile) {
+      extractTextFromPDF();
+    }
+  }, [pdfFile]);
+
   return (
     <Document>
       // Página 1
@@ -969,11 +990,12 @@ function Pdf() {
         />
       </Page>
       // Página 9
+      {extractedText && (
       <Page style={styles.page3}>
         <Text style={styles.tituloH}>
           6. RETROALIMENTACIÓN DEL DESEMPEÑO ESTUDIANTIL.
         </Text>
-
+        <Text style={styles.textJustified}>{extractedText}</Text>
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
@@ -982,68 +1004,7 @@ function Pdf() {
           fixed
         />
       </Page>
-      // Página 10
-      <Page style={styles.page3}>
-        <Text style={styles.tituloH}>
-          6. RETROALIMENTACIÓN DEL DESEMPEÑO ESTUDIANTIL.
-        </Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      // Página 11
-      <Page style={styles.page3}>
-        <Text style={styles.tituloH}>7. ACCIONES DE RETROALIMENTACIÓN</Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      // Página 12
-      <Page style={styles.page3}>
-        <Text style={styles.tituloH}>7. ACCIONES DE RETROALIMENTACIÓN</Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      // Página 13
-      <Page style={styles.page3}>
-        <Text style={styles.tituloH}>7. ACCIONES DE RETROALIMENTACIÓN</Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      // Página 14
-      <Page style={styles.page3}>
-        <Text style={styles.tituloH}>7. ACCIONES DE RETROALIMENTACIÓN</Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
+      )}
       // Página 15
       <Page style={styles.page3}>
         <Text style={styles.tituloH}>CONCLUSIONES</Text>

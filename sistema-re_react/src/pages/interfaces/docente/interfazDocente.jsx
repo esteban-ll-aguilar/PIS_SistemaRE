@@ -73,6 +73,11 @@ const InterfazDocente = () => {
             texto: 'Principal',
             ruta: 'Principal'
         },
+        {
+            icono: <HiViewBoards color='white' />,
+            texto: 'Pagina Informativa',
+            ruta: '/pagina_informativa'
+          }
     ];
 
     const administrar = [
@@ -137,7 +142,11 @@ const InterfazDocente = () => {
           <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
         </div>
         )}
-        
+        {selectComponent === '/pagina_informativa' && (
+            <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
+              <h1 className='text-3xl font-bold dark:text-white'>Pagina InformaticA</h1>
+            </div>
+          )}
         {selectComponent === '/roles' && (
             funciones.map((funcion, index) => (
                 <div key={index} className="relative p-6 bg-white mx-6 dark:bg-gray-500 rounded-lg shadow-lg w-[300px] h-[160px] hover:shadow-2xl transition-shadow duration-300">

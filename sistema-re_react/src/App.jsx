@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Iniciosesion from './pages/login/iniciosesion';
 import Graficas from './pages/graphics/graficas';
-import { Informe } from './pages/interfaces/informe/informeSeguimiento';
+import InformeSeguimiento  from './pages/interfaces/informe/informeSeguimiento';
 import InterfazAdmin from './pages/interfaces/admin/interfazAdmin';
 import InterfazDocente from './pages/interfaces/docente/interfazDocente';
 import InterfazResponsable from './pages/interfaces/responsable/interfazResponsable';
@@ -36,7 +36,7 @@ const AppContent = () => {
           <Route path='/iniciosesion/olvido-contrasena' element={<OLvidoContrasena />} />
           <Route path='/example' element={<Pepito />} />
           <Route path='/graficas' element={<Graficas />} />
-          <Route path='/informe' element={<Informe />} />
+          <Route path='/informe' element={ <InformeSeguimiento/> } />
           <Route path='/interfaz/admin/:id' element={<InterfazAdmin />} />
           <Route path='/interfaz/docente/:id' element={<InterfazDocente />} />
           <Route path='/interfaz/responsable/:id' element={<InterfazResponsable />} />

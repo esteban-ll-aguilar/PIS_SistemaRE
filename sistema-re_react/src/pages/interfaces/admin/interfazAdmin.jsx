@@ -57,8 +57,14 @@ const InterfazAdmin = () => {
       icono: <FaTachometerAlt color='white' />,
       texto: 'Principal',
       ruta: 'Principal'
+    },
+    {
+      icono: <HiUserGroup color='white' />,
+      texto: 'Pagina Informativa',
+      ruta: '/pagina_informativa'
     }
   ];
+
   
   const administrar = [
     {
@@ -123,10 +129,9 @@ const InterfazAdmin = () => {
               )
           )}
           
-          {selectComponent === '/periodoAcademico' && (
+          {selectComponent === '/pagina_informativa' && (
             <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Periodo Academico</h1>
-              <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
+              <h1 className='text-3xl font-bold dark:text-white'>Pagina InformaticA</h1>
             </div>
           )}
           {selectComponent === '/funcionDocente' && (
