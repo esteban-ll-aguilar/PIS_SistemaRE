@@ -1,7 +1,7 @@
 {
   "id": "modulo-proyeccion/ModeloCursa",
   "title": "Clase Cursa",
-  "description": "Descripción General",
+  "description": "La clase Cursa representa una entidad de cursa, que relaciona a un estudiante con una materia, paralelo y docente en un período académico. Proporciona métodos para serializar y deserializar los datos de cursa.",
   "source": "@site/docs/modulo-proyeccion/ModeloCursa.md",
   "sourceDirName": "modulo-proyeccion",
   "slug": "/modulo-proyeccion/ModeloCursa",

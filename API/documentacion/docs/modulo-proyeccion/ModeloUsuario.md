@@ -25,6 +25,8 @@ def __init__(self):
 **Descripción:** Constructor de la clase `Usuario`. Inicializa los atributos con valores predeterminados.
 
 ### `serializable` (Propiedad)
+- `self`: Es una referencia a la instancia actual de la clase Usuario.
+
 ```python
 @property
 def serializable(self):
@@ -45,6 +47,14 @@ def serializable(self):
 **Descripción:** Propiedad que devuelve un diccionario con los atributos de la entidad `Usuario` listos para ser serializados.
 
 ### `deserialize(data)` (Método)
+
+**Parámetros:**
+- `data` (dict): Un diccionario que contiene los datos del usuario. Debe tener las claves `user_iduser`, `user_cedula`, `user_primer_nombre`, `user_segundo_nombre`, `user_primer_apellido`, `user_segundo_apellido`, `user_correo`, `user_contrasena`, `user_estado`, `user_urlimage` y `user_nombreuser`.
+
+**Retorna:**
+- `Usuario`: Una instancia de `Usuario` con los datos deserializados.
+
+
 ```python
 def deserialize(self, data):
     usuario = Usuario()
@@ -62,9 +72,3 @@ def deserialize(self, data):
     return usuario
 ```
 **Descripción:** Método que deserializa un diccionario de datos en una instancia de `Usuario`.
-
-**Parámetros:**
-- `data` (dict): Un diccionario que contiene los datos del usuario. Debe tener las claves `user_iduser`, `user_cedula`, `user_primer_nombre`, `user_segundo_nombre`, `user_primer_apellido`, `user_segundo_apellido`, `user_correo`, `user_contrasena`, `user_estado`, `user_urlimage` y `user_nombreuser`.
-
-**Retorna:**
-- `Usuario`: Una instancia de `Usuario` con los datos deserializados.

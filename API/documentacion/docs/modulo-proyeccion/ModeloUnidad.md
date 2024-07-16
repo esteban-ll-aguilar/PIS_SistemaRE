@@ -18,6 +18,9 @@ def __init__(self):
 **Descripción:** Constructor de la clase `Unidad`. Inicializa los atributos `__id`, `__nombre`, `__nUnidad` y `__materiaId` con valores predeterminados.
 
 ### `serializable` (Propiedad)
+
+- `self`: Es una referencia a la instancia actual de la clase unidad.
+
 ```python
 @property
 def serializable(self):
@@ -31,6 +34,10 @@ def serializable(self):
 **Descripción:** Propiedad que devuelve un diccionario con los atributos de la entidad `Unidad` listos para ser serializados.
 
 ### `deserialize(data)` (Método)
+El método `deserialize` toma un diccionario `data` y crea una instancia de `unidad` con los valores proporcionados en el diccionario. Asigna los valores a los atributos correspondientes y devuelve la instancia de unidad.
+
+- `data:` Es un diccionario que contiene los datos necesarios para deserializar un objeto unidad. Las claves esperadas son idunidad, nombre, Numero de unidad (nunidad) y materiaID.
+
 ```python
 def deserialize(self, data):
     unidad = Unidad()
@@ -40,10 +47,3 @@ def deserialize(self, data):
     unidad._materiaId = data["materia_idmateria"]
     return unidad
 ```
-**Descripción:** Método que deserializa un diccionario de datos en una instancia de `Unidad`.
-
-**Parámetros:**
-- `data` (dict): Un diccionario que contiene los datos de la unidad. Debe tener las claves `idunidad`, `nombre`, `nunidad` y `materia_idmateria`.
-
-**Retorna:**
-- `Unidad`: Una instancia de `Unidad` con los datos deserializados.

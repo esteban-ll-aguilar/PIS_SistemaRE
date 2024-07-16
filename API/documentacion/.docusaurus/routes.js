@@ -99,15 +99,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '44b'),
+    component: ComponentCreator('/docs', 'ff6'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '959'),
+        component: ComponentCreator('/docs', '249'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '938'),
+            component: ComponentCreator('/docs', '7a8'),
             routes: [
               {
                 path: '/docs/category/controladores-dao-de-modelos',
@@ -178,6 +178,30 @@ export default [
               {
                 path: '/docs/modulo-proyeccion/ModeloUsuario',
                 component: ComponentCreator('/docs/modulo-proyeccion/ModeloUsuario', 'b0b'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/TDA/ListaEnlazada',
+                component: ComponentCreator('/docs/TDA/ListaEnlazada', 'fba'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/TDA/MetodoBusqueda',
+                component: ComponentCreator('/docs/TDA/MetodoBusqueda', 'ccd'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/TDA/MetodoOrdenacion',
+                component: ComponentCreator('/docs/TDA/MetodoOrdenacion', '968'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/TDA/NodeLinkedList',
+                component: ComponentCreator('/docs/TDA/NodeLinkedList', '6a1'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

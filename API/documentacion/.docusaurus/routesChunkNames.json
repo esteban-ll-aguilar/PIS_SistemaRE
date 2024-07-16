@@ -194,17 +194,17 @@
     "sidebar": "sidebar---blog-814-8ac",
     "content": "content---blog-welcomed-9-f-ffb"
   },
-  "/docs-44b": {
+  "/docs-ff6": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-959": {
+  "/docs-249": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-938": {
+  "/docs-7a8": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/category/controladores-dao-de-modelos-105": {
@@ -254,6 +254,22 @@
   "/docs/modulo-proyeccion/ModeloUsuario-b0b": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-modulo-proyeccion-modelo-usuario-56-d-a6f"
+  },
+  "/docs/TDA/ListaEnlazada-fba": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tda-lista-enlazada-4-ab-80b"
+  },
+  "/docs/TDA/MetodoBusqueda-ccd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tda-metodo-busquedaa-2-a-560"
+  },
+  "/docs/TDA/MetodoOrdenacion-968": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tda-metodo-ordenacion-6-f-9-79a"
+  },
+  "/docs/TDA/NodeLinkedList-6a1": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tda-node-linked-listdbe-d99"
   },
   "/docs/tutorial-extras/CalificacionDaoControl-4a4": {
     "__comp": "__comp---theme-doc-item-178-a40",

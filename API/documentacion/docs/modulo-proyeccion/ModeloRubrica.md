@@ -16,6 +16,9 @@ def __init__(self):
 **Descripción:** Constructor de la clase `RubricaCF`. Inicializa los atributos `__id` y `__descripcion` con valores predeterminados.
 
 ### `serializable` (Propiedad)
+
+- `self`: Es una referencia a la instancia actual de la clase RubricaCF.
+
 ```python
 @property
 def serializable(self):
@@ -27,6 +30,10 @@ def serializable(self):
 **Descripción:** Propiedad que devuelve un diccionario con los atributos de la entidad `RubricaCF` listos para ser serializados.
 
 ### `deserialize(data)` (Método)
+El método `deserialize` toma un diccionario `data` y crea una instancia de `RubricaCF` con los valores proporcionados en el diccionario. Asigna los valores a los atributos correspondientes y devuelve la instancia de RubricaCF.
+
+- `data:` Es un diccionario que contiene los datos necesarios para deserializar un objeto RubricaCF. Las claves esperadas son idrcal y descripcion.
+
 ```python
 def deserialize(self, data):
     rubricaCalificacion = RubricaCF()
@@ -35,9 +42,3 @@ def deserialize(self, data):
     return rubricaCalificacion
 ```
 **Descripción:** Método que deserializa un diccionario de datos en una instancia de `RubricaCF`.
-
-**Parámetros:**
-- `data` (dict): Un diccionario que contiene los datos de la rúbrica de calificación. Debe tener las claves `idrcal` y `descripcion`.
-
-**Retorna:**
-- `RubricaCF`: Una instancia de `RubricaCF` con los datos deserializados.

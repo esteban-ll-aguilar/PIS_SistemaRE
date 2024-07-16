@@ -16,5 +16,9 @@
   "previous": {
     "title": "UnidadDaoControl",
     "permalink": "/docs/tutorial-extras/UnidadDaoControl"
+  },
+  "next": {
+    "title": "Metodo de ordenación",
+    "permalink": "/docs/TDA/MetodoOrdenacion"
   }
 }

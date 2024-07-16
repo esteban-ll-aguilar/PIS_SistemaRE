@@ -4,13 +4,13 @@
  * Modify the docusaurus.config.js file at your site's root instead.
  */
 export default {
-  "title": "My Site",
-  "tagline": "Dinosaurs are cool",
+  "title": "Foranix",
+  "tagline": "Proyecto de tercer semestre sistema del rendimiento al desepeño estudiantil",
   "favicon": "img/favicon.ico",
   "url": "https://your-docusaurus-site.example.com",
   "baseUrl": "/",
-  "organizationName": "facebook",
-  "projectName": "docusaurus",
+  "organizationName": "Foranix",
+  "projectName": "documentacion",
   "onBrokenLinks": "throw",
   "onBrokenMarkdownLinks": "warn",
   "i18n": {
@@ -27,11 +27,11 @@ export default {
       {
         "docs": {
           "sidebarPath": "./sidebars.js",
-          "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/"
+          "editUrl": "https://github.com/esteban-ll-aguilar/PIS_SistemaRE"
         },
         "blog": {
           "showReadingTime": true,
-          "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/"
+          "editUrl": "https://github.com/esteban-ll-aguilar/PIS_SistemaRE"
         },
         "theme": {
           "customCss": "./src/css/custom.css"
@@ -42,25 +42,25 @@ export default {
   "themeConfig": {
     "image": "img/docusaurus-social-card.jpg",
     "navbar": {
-      "title": "My Site",
+      "title": "Foranix",
       "logo": {
         "alt": "My Site Logo",
-        "src": "img/logo.svg"
+        "src": "img/favicon.ico"
       },
       "items": [
         {
           "type": "docSidebar",
           "sidebarId": "tutorialSidebar",
           "position": "left",
-          "label": "Tutorial"
+          "label": "Documentación"
         },
         {
           "to": "/blog",
-          "label": "Blog",
+          "label": "Equipo",
           "position": "left"
         },
         {
-          "href": "https://github.com/facebook/docusaurus",
+          "href": "https://github.com/esteban-ll-aguilar/PIS_SistemaRE",
           "label": "GitHub",
           "position": "right"
         }
@@ -74,7 +74,7 @@ export default {
           "title": "Docs",
           "items": [
             {
-              "label": "Tutorial",
+              "label": "Documentación",
               "to": "/docs/intro"
             }
           ]
@@ -83,16 +83,16 @@ export default {
           "title": "Community",
           "items": [
             {
-              "label": "Stack Overflow",
-              "href": "https://stackoverflow.com/questions/tagged/docusaurus"
+              "label": "Instagram",
+              "href": "hhttps://www.instagram.com/foranix/"
             },
             {
               "label": "Discord",
-              "href": "https://discordapp.com/invite/docusaurus"
+              "href": "https://discord.gg/v8WGvRMS"
             },
             {
               "label": "Twitter",
-              "href": "https://twitter.com/docusaurus"
+              "href": "https://twitter.com/Cris____2005"
             }
           ]
         },
@@ -100,17 +100,17 @@ export default {
           "title": "More",
           "items": [
             {
-              "label": "Blog",
+              "label": "Equipo",
               "to": "/blog"
             },
             {
               "label": "GitHub",
-              "href": "https://github.com/facebook/docusaurus"
+              "href": "https://github.com/esteban-ll-aguilar/PIS_SistemaRE"
             }
           ]
         }
       ],
-      "copyright": "Copyright © 2024 My Project, Inc. Built with Docusaurus."
+      "copyright": "Copyright © 2024 Foranix, Inc. Built with Docusaurus."
     },
     "prism": {
       "theme": {

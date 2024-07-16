@@ -18,6 +18,10 @@ def __init__(self):
 **Descripción:** Constructor de la clase `Estudiante`. Inicializa los atributos `__id`, `__becaEconomica` y `__fechaNacimiento` con valores predeterminados. También llama al constructor de la clase `Usuario` utilizando `super().__init__()`.
 
 ### `serializable` (Propiedad)
+
+- `self`: Es una referencia a la instancia actual de la clase Estudiante.
+
+
 ```python
 @property
 def serializable(self):
@@ -31,6 +35,11 @@ def serializable(self):
 **Descripción:** Propiedad que devuelve un diccionario con los atributos de la entidad `Estudiante` listos para ser serializados.
 
 ### `deserialize(data)` (Método)
+
+El método `deserialize` toma un diccionario `data` y crea una instancia de `Estudiante` con los valores proporcionados en el diccionario. Asigna los valores a los atributos correspondientes y devuelve la instancia de Estudiante.
+
+- `data:` Es un diccionario que contiene los datos necesarios para deserializar un objeto Estudiante. Las claves esperadas son idestudiante, user_cedula, beca_economica y fecha_nacimiento.
+
 ```python
 def deserialize(self, data):
     estudiante = Estudiante()

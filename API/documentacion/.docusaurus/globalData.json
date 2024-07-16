@@ -61,6 +61,26 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "TDA/ListaEnlazada",
+              "path": "/docs/TDA/ListaEnlazada",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "TDA/MetodoBusqueda",
+              "path": "/docs/TDA/MetodoBusqueda",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "TDA/MetodoOrdenacion",
+              "path": "/docs/TDA/MetodoOrdenacion",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "TDA/NodeLinkedList",
+              "path": "/docs/TDA/NodeLinkedList",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "tutorial-extras/CalificacionDaoControl",
               "path": "/docs/tutorial-extras/CalificacionDaoControl",
               "sidebar": "tutorialSidebar"

@@ -18,7 +18,10 @@ def __init__(self) -> None:
 **Descripción:** Constructor de la clase. Inicializa todos los atributos privados de la clase con valores por defecto.
 
 
-#### `serializable` (Propiedad)
+### `serializable` (Propiedad)
+
+- self: Es una referencia a la instancia actual de la clase Calificacion.
+
 ```python
 @property
 def serializable(self):
@@ -32,7 +35,13 @@ def serializable(self):
 ```
 **Descripción:** Propiedad que devuelve un diccionario con los atributos de la calificación listos para ser serializados.
 
-#### `deserialize(data)` (Método)
+### `deserialize(data)` (Método)
+
+`deserialize` (data) (Método)
+El método deserialize toma un diccionario `data` y crea una instancia de `Calificacion` con los valores proporcionados en el diccionario. Asigna los valores a los atributos correspondientes y devuelve la instancia de Calificacion.
+
+- `data`: Es un diccionario que contiene los datos necesarios para deserializar un objeto Calificacion. Las claves esperadas son idcalificacion, valor, rubricacf_idrcal, unidad_idunidad y cursa_idcursa.
+
 ```python
 def deserialize(self, data):
     calificacion = Calificacion()
