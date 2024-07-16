@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/ModeloDocente",
+  "title": "Clase Docente",
+  "description": "Descripción General",
+  "source": "@site/docs/modulo-proyeccion/ModeloDocente.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/ModeloDocente",
+  "permalink": "/docs/modulo-proyeccion/ModeloDocente",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/ModeloDocente.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Clase Cursa",
+    "permalink": "/docs/modulo-proyeccion/ModeloCursa"
+  },
+  "next": {
+    "title": "Clase Estudiante",
+    "permalink": "/docs/modulo-proyeccion/ModeloEstudiante"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "intro",
+              "path": "/docs/intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloCalificacion",
+              "path": "/docs/modulo-proyeccion/ModeloCalificacion",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloCursa",
+              "path": "/docs/modulo-proyeccion/ModeloCursa",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloDocente",
+              "path": "/docs/modulo-proyeccion/ModeloDocente",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloEstudiante",
+              "path": "/docs/modulo-proyeccion/ModeloEstudiante",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloMateria",
+              "path": "/docs/modulo-proyeccion/ModeloMateria",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloPeriodo",
+              "path": "/docs/modulo-proyeccion/ModeloPeriodo",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloRubrica",
+              "path": "/docs/modulo-proyeccion/ModeloRubrica",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloUnidad",
+              "path": "/docs/modulo-proyeccion/ModeloUnidad",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "modulo-proyeccion/ModeloUsuario",
+              "path": "/docs/modulo-proyeccion/ModeloUsuario",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/CalificacionDaoControl",
+              "path": "/docs/tutorial-extras/CalificacionDaoControl",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/CursaDaoControl",
+              "path": "/docs/tutorial-extras/CursaDaoControl",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/DocenteDaoContro",
+              "path": "/docs/tutorial-extras/DocenteDaoContro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/EstudianteDaoControl",
+              "path": "/docs/tutorial-extras/EstudianteDaoControl",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/MateriaDaoControl",
+              "path": "/docs/tutorial-extras/MateriaDaoControl",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/PeriodoDaoControl",
+              "path": "/docs/tutorial-extras/PeriodoDaoControl",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/RubricaDaoControl",
+              "path": "/docs/tutorial-extras/RubricaDaoControl",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/UnidadDaoControl",
+              "path": "/docs/tutorial-extras/UnidadDaoControl",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/UsuarioDaoControl",
+              "path": "/docs/tutorial-extras/UsuarioDaoControl",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/modelos",
+              "path": "/docs/category/modelos",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/controladores-dao-de-modelos",
+              "path": "/docs/category/controladores-dao-de-modelos",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/docs/intro",
+                "label": "intro"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "label": "Controladores DAO de modelos",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "En nuestro proyecto integrador de saberes (PIS) tenemos que, para crear los **cursos, docentes, estudiantes y las notas** de estos últimos, se implementarán a través de archivos Excel, los cuales tendrán un formato específico para los docentes y estudiantes y las notas. Cabe resaltar que estos formatos pueden cambiar con el tiempo según la necesidad de información."
+  }
+}

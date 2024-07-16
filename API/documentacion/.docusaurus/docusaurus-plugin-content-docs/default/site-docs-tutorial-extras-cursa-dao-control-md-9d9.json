@@ -1,0 +1,27 @@
+{
+  "id": "tutorial-extras/CursaDaoControl",
+  "title": "CursaDaoControl",
+  "description": "CursaDaoControl es una clase que hereda de DaoAdapter y proporciona métodos para gestionar objetos de tipo Cursa. Esta clase maneja la creación, almacenamiento, eliminación y actualización de instancias de Cursa en la base de datos.",
+  "source": "@site/docs/tutorial-extras/CursaDaoControl.md",
+  "sourceDirName": "tutorial-extras",
+  "slug": "/tutorial-extras/CursaDaoControl",
+  "permalink": "/docs/tutorial-extras/CursaDaoControl",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/tutorial-extras/CursaDaoControl.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "CalificacionDaoControl",
+    "permalink": "/docs/tutorial-extras/CalificacionDaoControl"
+  },
+  "next": {
+    "title": "DocenteDaoControl",
+    "permalink": "/docs/tutorial-extras/DocenteDaoContro"
+  }
+}

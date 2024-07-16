@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/RubricaDaoControl",
+  "title": "RubricaCalificacionDaoControl",
+  "description": "La clase RubricaCalificacionDaoControl es una clase que extiende de DaoAdapter y está diseñada para manejar las operaciones de acceso a datos (DAO) para la entidad RubricaCF. Esta clase encapsula la lógica necesaria para interactuar con los datos de RubricaCF, proporcionando métodos para guardar, eliminar y fusionar rúbricas de calificación.",
+  "source": "@site/docs/modulo-proyeccion/RubricaDaoControl.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/RubricaDaoControl",
+  "permalink": "/docs/modulo-proyeccion/RubricaDaoControl",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/RubricaDaoControl.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "PeriodoAcademicoDaoControl",
+    "permalink": "/docs/modulo-proyeccion/PeriodoDaoControl"
+  },
+  "next": {
+    "title": "UnidadDaoControl",
+    "permalink": "/docs/modulo-proyeccion/UnidadDaoControl"
+  }
+}

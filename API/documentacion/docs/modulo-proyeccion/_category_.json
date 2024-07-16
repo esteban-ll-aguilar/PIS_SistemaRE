@@ -1,0 +1,8 @@
+{
+  "label": "Modelos",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Para el desarrollo de nuestro sistema de seguimiento al desempeño estudiantil, hemos visto la creación de las clases bases que fueron identificada en nuestro modelo UML que fue levantado cojuntamente con los requerimientos del programa que se adjunta en nuestro apartado Requerimientos."
+  }
+}

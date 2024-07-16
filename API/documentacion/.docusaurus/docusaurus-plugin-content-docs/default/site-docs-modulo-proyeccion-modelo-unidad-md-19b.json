@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/ModeloUnidad",
+  "title": "Clase Unidad",
+  "description": "Descripción General",
+  "source": "@site/docs/modulo-proyeccion/ModeloUnidad.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/ModeloUnidad",
+  "permalink": "/docs/modulo-proyeccion/ModeloUnidad",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/ModeloUnidad.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Clase RubricaCF",
+    "permalink": "/docs/modulo-proyeccion/ModeloRubrica"
+  },
+  "next": {
+    "title": "Clase Usuario",
+    "permalink": "/docs/modulo-proyeccion/ModeloUsuario"
+  }
+}

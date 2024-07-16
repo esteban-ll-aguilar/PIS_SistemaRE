@@ -1,0 +1,12 @@
+{
+  "type": "mdx",
+  "permalink": "/markdown-page",
+  "source": "@site/src/pages/markdown-page.md",
+  "title": "DOCUMENTACION FORANIX",
+  "description": "Documentacion del PIS",
+  "frontMatter": {
+    "title": "DOCUMENTACION FORANIX",
+    "description": "Documentacion del PIS"
+  },
+  "unlisted": false
+}

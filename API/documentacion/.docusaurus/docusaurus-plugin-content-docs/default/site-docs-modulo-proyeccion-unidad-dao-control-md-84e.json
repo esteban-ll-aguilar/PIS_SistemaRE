@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/UnidadDaoControl",
+  "title": "UnidadDaoControl",
+  "description": "La clase UnidadDaoControl es una clase que extiende de DaoAdapter y está diseñada para manejar las operaciones de acceso a datos (DAO) para la entidad Unidad. Esta clase encapsula la lógica necesaria para interactuar con los datos de Unidad, proporcionando métodos para guardar, eliminar y fusionar unidades.",
+  "source": "@site/docs/modulo-proyeccion/UnidadDaoControl.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/UnidadDaoControl",
+  "permalink": "/docs/modulo-proyeccion/UnidadDaoControl",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/UnidadDaoControl.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "RubricaCalificacionDaoControl",
+    "permalink": "/docs/modulo-proyeccion/RubricaDaoControl"
+  },
+  "next": {
+    "title": "UsuarioDaoControl",
+    "permalink": "/docs/modulo-proyeccion/UsuarioDaoControl"
+  }
+}
