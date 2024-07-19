@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Document,
   Page,
@@ -20,6 +21,11 @@ const styles = StyleSheet.create({
     padding: 20,
     // Centra todos los elementos horizontalmente
   },
+  page4: {
+
+    padding: 20,
+    // Centra todos los elementos horizontalmente
+  },
   titulo: {
     fontSize: 14, // Tamaño de la fuente del título
     textAlign: "center",
@@ -31,26 +37,46 @@ const styles = StyleSheet.create({
   },
   tituloH: {
     fontSize: 14, // Tamaño de la fuente del título
-    textAlign: "center",
     marginTop: 60,
     fontWeight: "bold", // Negrita
     color: "black", // Color del texto en modo negro
+    marginLeft: 50
+  },
+  tituloH1: {
+    fontSize: 14, // Tamaño de la fuente del título
+    marginTop: 60,
+    fontWeight: "bold", // Negrita
+    color: "black", // Color del texto en modo negro
+    textAlign: 'center'
   },
   titulopage3:{
     fontSize: 14, // Tamaño de la fuente del título
-    textAlign: "left",
     marginTop: 60,
+    marginLeft: 50,
     fontWeight: "bold", // Negrita
     color: "black",
+
   },
   tituloDE: {
     fontSize: 14, // Tamaño de la fuente del título
     textAlign: "center",
-    marginTop: 40,
+    
+    marginTop: 70,
     fontWeight: "bold", // Negrita
     color: "black",
     marginBottom: 0, // Espacio entre las líneas del título
     lineHeight: 1.2, // Color del texto en modo negro
+    
+  },
+  tituloDEE: {
+    fontSize: 44, // Tamaño de la fuente del título
+    textAlign: "center",
+    marginTop: 170,
+    fontWeight: "bold", // Negrita
+    color: "black",
+    marginBottom: 0, // Espacio entre las líneas del título
+    lineHeight: 1.2, // Color del texto en modo negro
+    
   },
 
   tituloD: {
@@ -61,12 +87,30 @@ const styles = StyleSheet.create({
     color: "black", // Color del texto en modo negro
     marginLeft: 50, 
   },
-  tituloD2: {
+  tituloM: {
     fontSize: 14, // Tamaño de la fuente del título
     textAlign: "left",
+    marginTop: 60,
+    fontWeight: "bold", // Negrita
+    color: "black", // Color del texto en modo negro
+    marginLeft: 50, 
+  },
+  tituloD2: {
+    fontSize: 14, // Tamaño de la fuente del título
     marginTop: 15,
     fontWeight: "bold", // Negrita
     color: "black", // Color del texto en modo negro
+    marginLeft: 50
+
+  },
+  tituloO: {
+    fontSize: 14, // Tamaño de la fuente del título
+    textAlign: "left",
+    marginTop: 60,
+    marginBottom: 10,
+    fontWeight: "bold", // Negrita
+    color: "black", // Color del texto en modo negro
+    marginLeft: 50, 
   },
   image: {
     width: "250px",
@@ -81,9 +125,15 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 5,
     marginTop: 20,
+    marginLeft: 50 
+  },
+  subtitle0: {
+    fontSize: 14,
+    marginBottom: 5,
+    marginTop: 10,
+    marginLeft: 50 
   },
   section: {
     margin: 10,
@@ -157,7 +207,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.2,
     marginLeft: 50,
     marginRight: 50,
-    marginTop: 15,
+    marginTop: 10,
     // Justificar el texto
   },
   Justified2: {
@@ -167,9 +217,20 @@ const styles = StyleSheet.create({
     lineHeight: 1.2,
     marginLeft: 50,
     marginRight: 50,
-    marginTop: 60,
+    marginTop: 10,
     // Justificar el texto
   },
+  Justified6:  {
+    fontSize: 12,
+    textAlign: "justify",
+    marginBottom: 2, // Espacio entre las líneas del título
+    lineHeight: 1.2,
+    marginLeft: 50,
+    marginRight: 50,
+    marginTop: 80,
+    // Justificar el texto
+  },
+
 
   table2Col: {
     width: "50%",
@@ -215,7 +276,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
-    padding: 30,
+    padding: 10,
     textAlign: "center",
     backgroundColor: "#DDDDDD",
   },
@@ -230,7 +291,8 @@ const styles = StyleSheet.create({
   },
   singleColTableCell: {
     fontSize: 10,
-    textAlign: "justify",
+    textAlign: "center",
+
   },
   bulletPoint: {
     fontSize: 12,
@@ -253,8 +315,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function Pdf() {
-  return (
+const Pdf = () => (
+
     <Document>
       // Página 1
       <Page style={styles.page}>
@@ -289,7 +351,7 @@ function Pdf() {
       </Page>
       // Página 2
       <Page style={styles.page}>
-        <Text style={styles.tituloH}>Historial de Revisiones</Text>
+        <Text style={styles.tituloH1}>Historial de Revisiones</Text>
         <View style={styles.table}>
           {/* Primera fila con títulos */}
           <View style={styles.tableRow}>
@@ -355,7 +417,7 @@ function Pdf() {
           </View>
         </View>
 
-        <Text style={styles.tituloH}>Firmas de Responsabilidad</Text>
+        <Text style={styles.tituloH1}>Firmas de Responsabilidad</Text>
         <View style={styles.table}>
           {/* Primera fila con títulos */}
           <View style={styles.tableRow}>
@@ -532,6 +594,7 @@ function Pdf() {
           fixed
         />
       </Page>
+      // Página 4
       <Page style={styles.page3}>
         <Text style={styles.titulopage3}>B.3. OBJETIVOS DE LA CARRERA</Text>
         <Text style={styles.subtitle}> Objetivo general</Text>
@@ -618,8 +681,9 @@ function Pdf() {
           fixed
         />
       </Page>
-
-      <Page style={styles.page}>
+      // Página 5
+      <Page style={styles.page3}>
+        <Text style={styles.tituloM}>2. MARCO Legal</Text>
         <Text style={styles.Justified2}>
           La Ley Orgánica de Educación Superior - LOES en el Artículo 5, literal
           b, d y g, señala como derechos estudiantiles:
@@ -697,8 +761,9 @@ function Pdf() {
           fixed
         />
       </Page>
+      // Página 6
       <Page style={styles.page}>
-        <Text style={styles.Justified2}>
+        <Text style={styles.Justified6}>
           “Art. 203.- Retroalimentación del desempeño estudiantil. - Es el
           conjunto de acciones que se ejecutan en las carreras universitarias
           para retroalimentar el desempeño del estudiante en cada una de las
@@ -755,16 +820,17 @@ function Pdf() {
           fixed
         />
       </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloH}>3. OBJETIVOS</Text>
-        <Text style={styles.subtitle}>General</Text>
+      // Página 7
+      <Page style={styles.page3}>
+        <Text style={styles.tituloO}>3. OBJETIVOS</Text>
+        <Text style={styles.subtitle0}>GENERAL</Text>
         <Text style={styles.Justified}>
           Exponer los resultados del seguimiento al desempeño estudiantil de la
           Carrera de Computación correspondiente al periodo académico octubre
           2023 - marzo 2024, para encontrar indicadores que permita conocer el
           proceso educativo y tomar decisiones correctoras.
         </Text>
-        <Text style={styles.subtitle}>ESPECÍFICOS</Text>
+        <Text style={styles.subtitle0}>ESPECÍFICOS</Text>
         <View style={styles.lista}>
           <View style={styles.listItem}>
             <Text style={styles.bulletPoint}>•</Text>
@@ -790,7 +856,7 @@ function Pdf() {
             </Text>
           </View>
         </View>
-        <Text style={styles.subtitle}>4. METODOLOGÍA</Text>
+        <Text style={styles.subtitle0}>4. METODOLOGÍA</Text>
         <View style={styles.lista}>
           <Text style={styles.Justified}>
             La metodología usada para preparar el informe de seguimiento al
@@ -847,7 +913,8 @@ function Pdf() {
           fixed
         />
       </Page>
-      <Page style={styles.page}>
+      // Página 8
+      <Page style={styles.page3}>
         <Text style={styles.tituloH}>
           5. SEGUIMIENTO DEL DESEMPEÑO ESTUDIANTIL
         </Text>
@@ -902,77 +969,21 @@ function Pdf() {
           fixed
         />
       </Page>
-      <Page style={styles.page}>
+      // Página 9
+      <Page style={styles.page3}>
         <Text style={styles.tituloH}>
           6. RETROALIMENTACIÓN DEL DESEMPEÑO ESTUDIANTIL.
         </Text>
-
+        <Text style={styles.textJustified}></Text>
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
             `${pageNumber} / ${totalPages}`
           }
-          fixed
         />
       </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloH}>
-          6. RETROALIMENTACIÓN DEL DESEMPEÑO ESTUDIANTIL.
-        </Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloH}>7. ACCIONES DE RETROALIMENTACIÓN</Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloH}>7. ACCIONES DE RETROALIMENTACIÓN</Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloH}>7. ACCIONES DE RETROALIMENTACIÓN</Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloH}>7. ACCIONES DE RETROALIMENTACIÓN</Text>
-
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      <Page style={styles.page}>
+      // Página 15
+      <Page style={styles.page3}>
         <Text style={styles.tituloH}>CONCLUSIONES</Text>
         <Text style={styles.Justified}>
           Luego del análisis de las calificaciones por asignaturas de la carrera
@@ -989,7 +1000,8 @@ function Pdf() {
           fixed
         />
       </Page>
-      <Page style={styles.page}>
+      // Página 16
+      <Page style={styles.page3}>
         <Text style={styles.tituloH}>RECOMENDACIONES</Text>
         <Text style={styles.Justified}>
           Luego del análisis de las calificaciones por asignaturas de la carrera
@@ -1075,8 +1087,9 @@ function Pdf() {
           fixed
         />
       </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloDE}>
+      // Página 17
+      <Page style={styles.page4}>
+        <Text style={styles.tituloDEE}>
           ANEXO 1: NORMATIVA DEL SEGUIMIENTO AL DESEMPEÑO ESTUDIANTIL{" "}
         </Text>
         <Text
@@ -1087,7 +1100,8 @@ function Pdf() {
           fixed
         />
       </Page>
-      <Page style={styles.page}>
+      // Página 18
+      <Page style={styles.page3}>
         <Text style={styles.tituloDE}> CAPÍTULO IV</Text>
         <Text style={styles.titulo}>SEGUIMIENTO AL DESEMPEÑO ESTUDIANTIL</Text>
         <Text style={styles.Justified}>
@@ -1164,6 +1178,7 @@ function Pdf() {
           fixed
         />
       </Page>
+      // Página 19
       <Page style={styles.page}>
         <Text style={styles.Justified2}>
           Art. 204.- Responsables del seguimiento al desempeño estudiantil.- Son
@@ -1216,6 +1231,20 @@ function Pdf() {
           fixed
         />
       </Page>
+      // Página 20
+      <Page style={styles.page4}>
+        <Text style={styles.tituloDEE}>
+          ANEXO 3: DISPOSICIÓN A DOCENTES DE ACCIONES DE RETROALOMENTACIÓN{" "}
+        </Text>
+        <Text
+          style={styles.pageNumber}
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber} / ${totalPages}`
+          }
+          fixed
+        />
+      </Page>
+      // Página 21
       <Page style={styles.page}>
         <Text style={styles.tituloDE}>
           ANEXO 3: DISPOSICIÓN A DOCENTES DE ACCIONES DE RETROALOMENTACIÓN{" "}
@@ -1228,6 +1257,7 @@ function Pdf() {
           fixed
         />
       </Page>
+      // Página 22
       <Page style={styles.page}>
         <Text style={styles.tituloDE}>
           ANEXO 3: DISPOSICIÓN A DOCENTES DE ACCIONES DE RETROALOMENTACIÓN{" "}
@@ -1240,6 +1270,7 @@ function Pdf() {
           fixed
         />
       </Page>
+      // Página 23
       <Page style={styles.page}>
         <Text style={styles.tituloDE}>
           ANEXO 3: DISPOSICIÓN A DOCENTES DE ACCIONES DE RETROALOMENTACIÓN{" "}
@@ -1252,6 +1283,7 @@ function Pdf() {
           fixed
         />
       </Page>
+      // Página 24
       <Page style={styles.page}>
         <Text style={styles.tituloDE}>
           ANEXO 3: DISPOSICIÓN A DOCENTES DE ACCIONES DE RETROALOMENTACIÓN{" "}
@@ -1264,20 +1296,9 @@ function Pdf() {
           fixed
         />
       </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloDE}>
-          ANEXO 3: DISPOSICIÓN A DOCENTES DE ACCIONES DE RETROALOMENTACIÓN{" "}
-        </Text>
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
-      <Page style={styles.page}>
-        <Text style={styles.tituloH}>
+      // Página 25
+      <Page style={styles.page3}>
+        <Text style={styles.tituloDEE}>
           ANEXO 5: REPORTE DE REGISTRO DE LAS ACTIVIDADES DE TUTORÍA ACADÉMICAS
         </Text>
         <Text
@@ -1290,6 +1311,4 @@ function Pdf() {
       </Page>
     </Document>
   );
-}
-
 export default Pdf;

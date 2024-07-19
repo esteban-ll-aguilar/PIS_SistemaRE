@@ -1,3 +1,4 @@
+
 class Cursa:
     def __init__(self):
         self.__id = 0

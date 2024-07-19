@@ -28,27 +28,26 @@ const Ciclos = ({ onSelectCiclo }) => {
   }, []);
 
   return (
-    <div className="App p-10 grid min-h-screen bg-[#f1f1f1] dark:bg-slate-700">
-      <header className="App-header text-center mb-4 contain-content ml-9 ">
+    <div className="App p-10 bg-[#f1f1f1] dark:bg-slate-700 min-h-screen">
+      <header className="App-header text-center mb-4">
         <h1 className="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Ciclos Existentes</h1>
         {error && <p className="text-red-500 dark:text-red-400">Error: {error}</p>}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {ciclos.length > 0 ? (
             ciclos.map((ciclo, index) => (
               <div
                 key={index}
-                className="flex-col selection:p-6 h-[200px] p-2 dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 contain-content "
+                className="flex flex-col justify-between p-6 h-[200px] bg-white dark:bg-gray-500 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                <div className='w-full h-[70%] flex justify-center '>
-                  <p className=" mt-12 text-4xl font-semibold flex  text-gray-500 dark:text-white">Ciclo {ciclo}</p>
+                <div className="flex-grow flex items-center justify-center">
+                  <p className="text-2xl font-semibold text-gray-800 dark:text-white">Ciclo {ciclo}</p>
                 </div>
-
-                <div className='mb-4'>
+                <div className="flex justify-center mt-4">
                   <button
                     onClick={() => onSelectCiclo(ciclo)}
-                    className="text-white rounded-full text-center bg-[#529914]  bottom-0 p-4"
+                    className="text-white rounded-full text-center bg-[#529914] py-2 px-4"
                   >
-                    Ver Materias este ciclo
+                    Ver Materias
                   </button>
                 </div>
               </div>

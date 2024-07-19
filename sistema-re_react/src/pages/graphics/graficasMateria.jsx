@@ -31,16 +31,13 @@ const GraficasMateria = () => {
     legend: { // Configuración de la leyenda (legend)
       data: data.categories, // Las categorías como etiquetas de la leyenda
       //virar a 45 grados la leyenda
-      labels: {
-        color: '#FF5733',
-        rotation: 45
-      }
     },
     xAxis: { // Configuración del eje X (horizontal) //Ahi?
       type: 'category', // Tipo de eje: categoría
       data: data.materias, // Datos para las materias en el eje X
       axislabel: {
-        color: '#FF5733'
+        color: '#FF5733',
+        rotation: 45, 
       }
     },
     yAxis: { // Configuración del eje Y (vertical)

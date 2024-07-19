@@ -23,9 +23,49 @@ const FuncionDocente = () => {
         setError(error.message);
       }
     };
-
     fetchFuncionDocentes();
   }, []);
+
+  const asignarFuncion = async (cedula, funcion) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000//crear/funcion_docente/${cedula}/${funcion}`, {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+      alert('Función asignada correctamente');
+      //recargar la pagina
+      window.location.reload();
+    } catch (error) {
+      setError(error.message);
+      alert('Error al asignar la función');
+    }
+  };
+  const eliminarFuncion = async (cedula, funcion) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000//eliminar/funcion_docente/${cedula}/${funcion}`, {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+      alert('Función eliminada correctamente');
+      //recargar la pagina
+      window.location.reload();
+
+    } catch (error) {
+      setError(error.message);
+      alert('Error al eliminar la función');
+    }
+  };
+
 
   return (
     <div className="min-h-screen p-4 flex flex-col items-center dark:bg-slate-700">
@@ -44,7 +84,7 @@ const FuncionDocente = () => {
                 <th className="py-2 px-4">Nombres</th>
                 <th className="py-2 px-4">ADMIN.</th>
                 <th className="py-2 px-4">DOCENTE</th>
-                <th className="py-2 px-4">PERSONAL SEG.</th>
+                <th className="py-2 px-4">PERSONAL DE SEGUIMIENTO</th>
               </tr>
             </thead>
             <tbody>
@@ -55,19 +95,58 @@ const FuncionDocente = () => {
                   <td className="py-2 px-4">{docente.user.apellidos}</td>
                   <td className="py-2 px-4">{docente.user.nombres}</td>
                   <td className="py-2 px-4 text-center">
-                    {docente.funcion.some(funcion => funcion.descripcion === 'ADMINISTRADOR') && (
-                      <FontAwesomeIcon icon={faCheck} className="text-green-500 mx-2" />
+                    {docente.funcion.some(funcion => funcion.descripcion === 'ADMINISTRADOR') ? (
+                      <>
+                      <FontAwesomeIcon icon={faCheck} className="text-green-500 mx-2 size-5"  />
+                      <a className="text-blue-500 mx-2 text-ms hover:text-red-500 cursor-pointer"
+                        onClick={() => eliminarFuncion(docente.user.cedula, 'ADMINISTRADOR')}
+                      ><b>Quitar</b></a>
+                      
+                      </>
+                    ): (
+                      <>
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                          onClick={() => asignarFuncion(docente.user.cedula, 'ADMINISTRADOR')}
+                        >
+                          Asignar Administrador
+                        </button>
+                      </>
+                    )} 
+                    </td>
+                  <td className="py-2 px-4 text-center">
+                    {docente.funcion.some(funcion => funcion.descripcion === 'DOCENTE') ? (
+                      <>
+                      <FontAwesomeIcon icon={faCheck} className="text-purple-500 mx-2 size-5" />
+                      <a className="text-blue-500 text-ms mx-2 hover:text-red-500 cursor-pointer"
+                        onClick={() => eliminarFuncion(docente.user.cedula, 'DOCENTE')}
+                      ><b>Quitar</b></a>
+                      </>
+                    ) : (
+                        <>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                          onClick={() => asignarFuncion(docente.user.cedula, 'DOCENTE')}
+                        >
+                          Asignar Docente
+                        </button>
+                        </>
                     )}
                   </td>
                   <td className="py-2 px-4 text-center">
-                    {docente.funcion.some(funcion => funcion.descripcion === 'DOCENTE') && (
-                      <FontAwesomeIcon icon={faCheck} className="text-blue-500 mx-2" />
-                    )}
-                  </td>
-                  <td className="py-2 px-4 text-center">
-                    {docente.funcion.some(funcion => funcion.descripcion === 'PERSONAL_SEG') && (
-                      <FontAwesomeIcon icon={faCheck} className="text-red-500 mx-2" />
-                    )}
+                    {docente.funcion.some(funcion => funcion.descripcion === 'PERSONAL_SEGUIMIENTO') ? (
+                      <>
+                      <FontAwesomeIcon icon={faCheck} className="text-red-500 mx-2 size-5" />
+                      <a className="text-blue-500 mx-2 text-ms hover:text-red-500 cursor-pointer"
+                        onClick={() => eliminarFuncion(docente.user.cedula, 'PERSONAL_SEGUIMIENTO')}
+                      ><b>Quitar</b></a>
+                      </>
+                    ): (
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                          onClick={() => asignarFuncion(docente.user.cedula, 'PERSONAL_SEGUIMIENTO')}
+                        >
+                          Asignar Personal de SEG.
+                        </button>
+                      )
+                    }
                   </td>
                 </tr>
               ))}

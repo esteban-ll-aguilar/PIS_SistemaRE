@@ -26,8 +26,8 @@ class RubricaCalificacionDaoControl(DaoAdapter):
         print("Guardando RubricaCalificacion")
         self._save(self.__rubricaCalificacion)
         
-    def delete(self, pos):
-        self._delete(pos)  
+    def delete(self):
+        self._delete(self.__rubricaCalificacion)  
         
-    def merge(self, pos):
-        self._merge(self.__rubricaCalificacion,pos)
+    def merge(self):
+        self._merge(self.__rubricaCalificacion)
