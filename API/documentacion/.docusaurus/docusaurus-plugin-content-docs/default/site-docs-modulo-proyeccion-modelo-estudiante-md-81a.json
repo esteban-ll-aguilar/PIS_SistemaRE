@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/ModeloEstudiante",
+  "title": "Clase Estudiante",
+  "description": "Descripción General",
+  "source": "@site/docs/modulo-proyeccion/ModeloEstudiante.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/ModeloEstudiante",
+  "permalink": "/docs/modulo-proyeccion/ModeloEstudiante",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/ModeloEstudiante.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Clase Docente",
+    "permalink": "/docs/modulo-proyeccion/ModeloDocente"
+  },
+  "next": {
+    "title": "Clase Materia",
+    "permalink": "/docs/modulo-proyeccion/ModeloMateria"
+  }
+}

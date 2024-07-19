@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/ModeloCalificacion",
+  "title": "Clase Calificacion",
+  "description": "Descripción General",
+  "source": "@site/docs/modulo-proyeccion/ModeloCalificacion.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/ModeloCalificacion",
+  "permalink": "/docs/modulo-proyeccion/ModeloCalificacion",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/ModeloCalificacion.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modelos",
+    "permalink": "/docs/category/modelos"
+  },
+  "next": {
+    "title": "Clase Cursa",
+    "permalink": "/docs/modulo-proyeccion/ModeloCursa"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "modulo-proyeccion/UsuarioDaoControl",
+  "title": "UsuarioDaoControl",
+  "description": "La clase UsuarioDaoControl extiende de DaoAdapter y se utiliza para gestionar operaciones relacionadas con la entidad Usuario.",
+  "source": "@site/docs/modulo-proyeccion/UsuarioDaoControl.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/UsuarioDaoControl",
+  "permalink": "/docs/modulo-proyeccion/UsuarioDaoControl",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/UsuarioDaoControl.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "UnidadDaoControl",
+    "permalink": "/docs/modulo-proyeccion/UnidadDaoControl"
+  }
+}

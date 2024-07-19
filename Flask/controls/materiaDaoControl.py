@@ -18,7 +18,6 @@ class MateriaDaoControl(DaoAdapter):
         self.__materia = value
     
     
-    
     @property
     def _lista(self):
         return self._list()

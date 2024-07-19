@@ -1,0 +1,317 @@
+{
+  "/__docusaurus/debug-5ff": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/config-5ba": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/content-a2b": {
+    "__comp": "__comp---theme-debug-contentba-8-ce7",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    },
+    "__props": "__props---docusaurus-debug-content-3-c-0-be2"
+  },
+  "/__docusaurus/debug/globalData-c3c": {
+    "__comp": "__comp---theme-debug-global-dataede-0fa",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/metadata-156": {
+    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/registry-88c": {
+    "__comp": "__comp---theme-debug-registry-679-501",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/routes-000": {
+    "__comp": "__comp---theme-debug-routes-946-699",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/API-769": {
+    "__comp": "__comp---theme-mdx-page-1-f-3-b90",
+    "__context": {
+      "plugin": "plugin---ap-ia-74-45f"
+    },
+    "content": "content---api-178-ebf"
+  },
+  "/blog-b2f": {
+    "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
+    "__context": {
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "items": [
+      {
+        "content": "content---blog-766-e3c"
+      },
+      {
+        "content": "content---blogf-4-f-cd7"
+      },
+      {
+        "content": "content---blog-871-381"
+      },
+      {
+        "content": "content---blog-925-e00"
+      }
+    ],
+    "__props": "__props---blogc-15-573"
+  },
+  "/blog/archive-182": {
+    "__comp": "__comp---theme-blog-archive-page-9-e-4-1d8",
+    "__context": {
+      "plugin": "plugin---blog-369-22e"
+    },
+    "__props": "__props---blog-archivef-81-229"
+  },
+  "/blog/first-blog-post-89a": {
+    "__comp": "__comp---theme-blog-post-pageccc-cab",
+    "__context": {
+      "data": {
+        "blogMetadata": "blogMetadata---blog-first-blog-postace-ee5"
+      },
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "content": "content---blog-first-blog-poste-27-4a1"
+  },
+  "/blog/long-blog-post-9ad": {
+    "__comp": "__comp---theme-blog-post-pageccc-cab",
+    "__context": {
+      "data": {
+        "blogMetadata": "blogMetadata---blog-first-blog-postace-ee5"
+      },
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "content": "content---blog-long-blog-post-736-bc7"
+  },
+  "/blog/mdx-blog-post-e9f": {
+    "__comp": "__comp---theme-blog-post-pageccc-cab",
+    "__context": {
+      "data": {
+        "blogMetadata": "blogMetadata---blog-first-blog-postace-ee5"
+      },
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "content": "content---blog-mdx-blog-post-593-37b"
+  },
+  "/blog/tags-287": {
+    "__comp": "__comp---theme-blog-tags-list-page-01-a-d0b",
+    "__context": {
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "__props": "__props---blog-tags-3-a-2-fa2"
+  },
+  "/blog/tags/docusaurus-704": {
+    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
+    "__context": {
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "items": [
+      {
+        "content": "content---blog-766-e3c"
+      },
+      {
+        "content": "content---blogf-4-f-cd7"
+      },
+      {
+        "content": "content---blog-871-381"
+      },
+      {
+        "content": "content---blog-925-e00"
+      }
+    ],
+    "__props": "__props---blog-tags-docusaurus-321-832"
+  },
+  "/blog/tags/facebook-858": {
+    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
+    "__context": {
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "items": [
+      {
+        "content": "content---blog-766-e3c"
+      }
+    ],
+    "__props": "__props---blog-tags-facebooke-5-a-514"
+  },
+  "/blog/tags/hello-299": {
+    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
+    "__context": {
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "items": [
+      {
+        "content": "content---blog-766-e3c"
+      },
+      {
+        "content": "content---blog-871-381"
+      }
+    ],
+    "__props": "__props---blog-tags-hellof-82-2fd"
+  },
+  "/blog/tags/hola-00d": {
+    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
+    "__context": {
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "items": [
+      {
+        "content": "content---blog-925-e00"
+      }
+    ],
+    "__props": "__props---blog-tags-hola-5-e-9-9a3"
+  },
+  "/blog/welcome-d2b": {
+    "__comp": "__comp---theme-blog-post-pageccc-cab",
+    "__context": {
+      "data": {
+        "blogMetadata": "blogMetadata---blog-first-blog-postace-ee5"
+      },
+      "plugin": "plugin---blog-369-22e"
+    },
+    "sidebar": "sidebar---blog-814-8ac",
+    "content": "content---blog-welcomed-9-f-ffb"
+  },
+  "/docs-ff6": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
+    "__context": {
+      "plugin": "plugin---docsaba-d7c"
+    }
+  },
+  "/docs-249": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---docs-005-788"
+  },
+  "/docs-7a8": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
+  },
+  "/docs/category/controladores-dao-de-modelos-105": {
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-controladores-dao-de-modelos-89-d-609"
+  },
+  "/docs/category/modelos-3b0": {
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-modelos-73-c-1f1"
+  },
+  "/docs/intro-61d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-intro-0-e-3-be1"
+  },
+  "/docs/modulo-proyeccion/ModeloCalificacion-c0e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-calificacion-2-e-7-8c5"
+  },
+  "/docs/modulo-proyeccion/ModeloCursa-c26": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-cursa-560-7f3"
+  },
+  "/docs/modulo-proyeccion/ModeloDocente-12f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-docentef-14-15d"
+  },
+  "/docs/modulo-proyeccion/ModeloEstudiante-6a3": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-estudiante-81-a-75b"
+  },
+  "/docs/modulo-proyeccion/ModeloMateria-0c4": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-materiaeb-7-3b1"
+  },
+  "/docs/modulo-proyeccion/ModeloPeriodo-df7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-periodo-8-f-1-5af"
+  },
+  "/docs/modulo-proyeccion/ModeloRubrica-e2b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-rubricab-79-5f0"
+  },
+  "/docs/modulo-proyeccion/ModeloUnidad-13c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-unidad-19-b-446"
+  },
+  "/docs/modulo-proyeccion/ModeloUsuario-b0b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-modulo-proyeccion-modelo-usuario-56-d-a6f"
+  },
+  "/docs/TDA/ListaEnlazada-fba": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tda-lista-enlazada-4-ab-80b"
+  },
+  "/docs/TDA/MetodoBusqueda-ccd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tda-metodo-busquedaa-2-a-560"
+  },
+  "/docs/TDA/MetodoOrdenacion-968": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tda-metodo-ordenacion-6-f-9-79a"
+  },
+  "/docs/TDA/NodeLinkedList-6a1": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tda-node-linked-listdbe-d99"
+  },
+  "/docs/tutorial-extras/CalificacionDaoControl-4a4": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-calificacion-dao-controld-4-c-647"
+  },
+  "/docs/tutorial-extras/CursaDaoControl-53d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-cursa-dao-control-9-d-9-741"
+  },
+  "/docs/tutorial-extras/DocenteDaoContro-fe1": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-docente-dao-contro-5-d-0-774"
+  },
+  "/docs/tutorial-extras/EstudianteDaoControl-387": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-estudiante-dao-controlcf-7-97c"
+  },
+  "/docs/tutorial-extras/MateriaDaoControl-726": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-materia-dao-control-56-a-eb6"
+  },
+  "/docs/tutorial-extras/PeriodoDaoControl-a8e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-periodo-dao-control-5-e-7-57b"
+  },
+  "/docs/tutorial-extras/RubricaDaoControl-9ff": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-rubrica-dao-controld-4-b-137"
+  },
+  "/docs/tutorial-extras/UnidadDaoControl-fd9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-unidad-dao-control-469-ca3"
+  },
+  "/docs/tutorial-extras/UsuarioDaoControl-3ea": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-usuario-dao-controlee-5-ccf"
+  },
+  "/-2e1": {
+    "__comp": "__comp---site-src-pages-index-jsc-4-f-f99",
+    "__context": {
+      "plugin": "plugin---ap-ia-74-45f"
+    },
+    "config": "config---5-e-9-4f3"
+  }
+}

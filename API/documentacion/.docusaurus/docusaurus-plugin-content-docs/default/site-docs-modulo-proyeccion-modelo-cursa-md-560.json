@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/ModeloCursa",
+  "title": "Clase Cursa",
+  "description": "La clase Cursa representa una entidad de cursa, que relaciona a un estudiante con una materia, paralelo y docente en un período académico. Proporciona métodos para serializar y deserializar los datos de cursa.",
+  "source": "@site/docs/modulo-proyeccion/ModeloCursa.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/ModeloCursa",
+  "permalink": "/docs/modulo-proyeccion/ModeloCursa",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/ModeloCursa.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Clase Calificacion",
+    "permalink": "/docs/modulo-proyeccion/ModeloCalificacion"
+  },
+  "next": {
+    "title": "Clase Docente",
+    "permalink": "/docs/modulo-proyeccion/ModeloDocente"
+  }
+}

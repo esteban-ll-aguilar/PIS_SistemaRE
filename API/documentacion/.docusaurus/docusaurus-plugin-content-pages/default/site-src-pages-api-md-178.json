@@ -1,0 +1,12 @@
+{
+  "type": "mdx",
+  "permalink": "/API",
+  "source": "@site/src/pages/API.md",
+  "title": "DOCUMENTACION FORANIX",
+  "description": "Documentacion del PIS",
+  "frontMatter": {
+    "title": "DOCUMENTACION FORANIX",
+    "description": "Documentacion del PIS"
+  },
+  "unlisted": false
+}
