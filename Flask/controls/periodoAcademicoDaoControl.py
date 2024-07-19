@@ -27,8 +27,8 @@ class PeriodoAcademicoDaoControl(DaoAdapter):
         print("Guardando PeriodoAcademico")
         self._save(self.__periodoAcademico)
     
-    def delete(self, pos):
-        self._delete(pos)  
+    def delete(self):
+        self._delete(self.__periodoAcademico)  
         
-    def merge(self, pos):
-        self._merge(self.__periodoAcademico,pos)
+    def merge(self):
+        self._merge(self.__periodoAcademico)

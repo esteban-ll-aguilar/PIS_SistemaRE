@@ -1,0 +1,28 @@
+
+@api.route('/estudiantes/ciclos', methods=['GET'])
+def estudiantes_ciclo():
+    materias = MateriaDaoControl()
+    cursa = CursaDaoControl()
+    cursa._lista.sort_models('_periodoAcademicoId', ultimo_periodoId())
+    #lista de materias 
+    lista_Materias= materias._lista.toArray
+    Lista_Materias_Ciclo = []
+    for i in range(0, len(lista_Materias)):
+        if lista_Materias[i]._ciclo == 1:
+            Lista_Materias_Ciclo.append(lista_Materias[i])
+    #lista de estudiantes
+    lista_Cursa = cursa.lista.toArray
+    Lista_Cursa_Ciclo = {}
+    for i in range(0, len(Lista_Materias_Ciclo)):
+        auxCursa = CursaDaoControl()
+        cursa.lista.toList(lista_Cursa)
+        estudiantesMateria = cursa.lista.search_model(Lista_Materias_Ciclo[i]._id, '_materiaId', type=0, method=1) 
+        for i in range(0, len(estudiantesMateria)):
+            if auxCursa._lista.isEmpty:
+                auxCursa._lista.add(estudiantesMateria[i]._estudianteCedula)
+            else:
+                existeEstudiante,_,_ = auxCursa.lista.__exist__(estudiantesMateria[i]._estudianteCedula)
+                if not existeEstudiante:
+                    auxCursa.lista.__addLast__(estudiantesMateria[i]._estudianteCedula)
+        
+        Lista_Cursa_Ciclo[Lista_Materias_Ciclo[i]._nombre] = auxCursa.to_dict_list()

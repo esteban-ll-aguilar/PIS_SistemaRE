@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/ModeloPeriodo",
+  "title": "Clase PeriodoAcademico",
+  "description": "Descripción General",
+  "source": "@site/docs/modulo-proyeccion/ModeloPeriodo.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/ModeloPeriodo",
+  "permalink": "/docs/modulo-proyeccion/ModeloPeriodo",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/ModeloPeriodo.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Clase Materia",
+    "permalink": "/docs/modulo-proyeccion/ModeloMateria"
+  },
+  "next": {
+    "title": "Clase RubricaCF",
+    "permalink": "/docs/modulo-proyeccion/ModeloRubrica"
+  }
+}

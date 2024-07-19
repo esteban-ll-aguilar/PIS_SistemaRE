@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import SendEmail from '../pages/examples/envioCorreo';
 import Profile from '../pages/examples/gestionPerfil';
 import Sidebar from './Sidebar';
+import { useGrayscale } from './GrayscaleContext';
 
 
 const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, principal }) => {
@@ -18,7 +19,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
         setSelectedComponent(ruta);
     };
 
-
+    
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -59,6 +60,8 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
       const toggleModoNoche = () => {
         setModoNoche((modoNoche) => modoNoche === 'light' ? 'dark' : 'light');
       }
+    const { isGrayscale, toggleGrayscale } = useGrayscale();
+
 
     return (
         <>
@@ -69,7 +72,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     <FaBars />
                 </button>
 
-                <div className='flex items-center bg-gray-100 rounded-md overflow-hidden '>
+                {/* <div className='flex items-center bg-gray-100 rounded-md overflow-hidden '>
                     <input 
                         type="text" 
                         className='bg-gray-100 h-10 outline-none pl-4 w-72 text-sm ' 
@@ -78,7 +81,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     <button className='bg-[#529914] h-10 px-4 flex items-center justify-center text-white dark:bg-sky-700'>
                         <FaSearch />
                     </button>    
-                </div>
+                </div> */}
             </div>
 
             <div className='flex items-center gap-6'>
@@ -95,7 +98,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                 </div>
 
                 <div className='relative flex items-center gap-3 cursor-pointer text-white' onClick={showProfile}>
-                    <p className='font-medium'>{role}</p>
+                    
                     <div className='h-12 w-12 rounded-full bg-transparent overflow-hidden'>
                         <img src={profile} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />     
                     </div>
@@ -103,6 +106,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                         <div className='bg-[#529914] border border-gray-300 shadow-lg absolute top-14 right-0 w-40 rounded-md p-5 space-y-2 dark:bg-blue-900'>
                             <p className="cursor-pointer text-white font-semibold dark:text-zinc-100 h" onClick={openProfileModal}>     Perfil       </p>
                             <p onClick={toggleModoNoche} className='cursor-pointer text-white font-semibold dark:text-zinc-100 '>Modo Oscuro</p>
+                            <p onClick={toggleGrayscale} className='cursor-pointer text-white font-semibold dark:text-zinc-100 '>{isGrayscale ? 'Desactivar' : 'Activar'} Escala de Grises</p>
                             <p>
                                 <Link to='/' className='cursor-pointer text-white font-semibold  dark:text-zinc-100 z-40'>Cerrar sesión</Link>
                             </p>
@@ -111,7 +115,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                 </div>
                 {isProfileModalOpen && (
                 <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
-                    <Profile onClose={closeProfileModal} />
+                    <Profile onClose={closeProfileModal} cedula={role} />
                 </div>
                 )}
             </div>

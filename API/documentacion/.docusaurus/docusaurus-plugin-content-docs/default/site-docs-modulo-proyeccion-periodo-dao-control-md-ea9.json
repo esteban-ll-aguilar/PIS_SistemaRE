@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/PeriodoDaoControl",
+  "title": "PeriodoAcademicoDaoControl",
+  "description": "La clase PeriodoAcademicoDaoControl es una clase que extiende de DaoAdapter y está diseñada para manejar las operaciones de acceso a datos (DAO) para la entidad PeriodoAcademico. Esta clase encapsula la lógica necesaria para interactuar con los datos de PeriodoAcademico, proporcionando métodos para guardar, eliminar y fusionar períodos académicos.",
+  "source": "@site/docs/modulo-proyeccion/PeriodoDaoControl.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/PeriodoDaoControl",
+  "permalink": "/docs/modulo-proyeccion/PeriodoDaoControl",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/PeriodoDaoControl.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "MateriaDaoControl",
+    "permalink": "/docs/modulo-proyeccion/MateriaDaoControl"
+  },
+  "next": {
+    "title": "RubricaCalificacionDaoControl",
+    "permalink": "/docs/modulo-proyeccion/RubricaDaoControl"
+  }
+}

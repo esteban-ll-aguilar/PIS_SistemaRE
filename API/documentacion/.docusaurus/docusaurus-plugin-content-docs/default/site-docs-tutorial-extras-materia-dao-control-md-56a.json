@@ -1,0 +1,24 @@
+{
+  "id": "tutorial-extras/MateriaDaoControl",
+  "title": "MateriaDaoControl",
+  "description": "MateriaDaoControl es una clase que hereda de DaoAdapter y proporciona métodos para gestionar objetos de tipo Materia. Esta clase maneja la creación, almacenamiento, eliminación y actualización de instancias de Materia en la base de datos.",
+  "source": "@site/docs/tutorial-extras/MateriaDaoControl.md",
+  "sourceDirName": "tutorial-extras",
+  "slug": "/tutorial-extras/MateriaDaoControl",
+  "permalink": "/docs/tutorial-extras/MateriaDaoControl",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/tutorial-extras/MateriaDaoControl.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "EstudianteDaoControl",
+    "permalink": "/docs/tutorial-extras/EstudianteDaoControl"
+  },
+  "next": {
+    "title": "PeriodoAcademicoDaoControl",
+    "permalink": "/docs/tutorial-extras/PeriodoDaoControl"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "tutorial-extras/DocenteDaoContro",
+  "title": "DocenteDaoControl",
+  "description": "DocenteDaoControl es una clase que hereda de DaoAdapter y se utiliza para gestionar las operaciones de base de datos relacionadas con los docentes. A continuación, se detallan sus funciones y propiedades:",
+  "source": "@site/docs/tutorial-extras/DocenteDaoContro.md",
+  "sourceDirName": "tutorial-extras",
+  "slug": "/tutorial-extras/DocenteDaoContro",
+  "permalink": "/docs/tutorial-extras/DocenteDaoContro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/tutorial-extras/DocenteDaoContro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "CursaDaoControl",
+    "permalink": "/docs/tutorial-extras/CursaDaoControl"
+  },
+  "next": {
+    "title": "EstudianteDaoControl",
+    "permalink": "/docs/tutorial-extras/EstudianteDaoControl"
+  }
+}

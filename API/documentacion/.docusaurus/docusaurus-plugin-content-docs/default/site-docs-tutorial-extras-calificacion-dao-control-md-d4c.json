@@ -1,0 +1,27 @@
+{
+  "id": "tutorial-extras/CalificacionDaoControl",
+  "title": "CalificacionDaoControl",
+  "description": "CalificacionDaoControl es una clase que hereda de DaoAdapter y se utiliza para gestionar las operaciones de base de datos relacionadas con las calificaciones. A continuación, se detallan sus funciones y propiedades:",
+  "source": "@site/docs/tutorial-extras/CalificacionDaoControl.md",
+  "sourceDirName": "tutorial-extras",
+  "slug": "/tutorial-extras/CalificacionDaoControl",
+  "permalink": "/docs/tutorial-extras/CalificacionDaoControl",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/tutorial-extras/CalificacionDaoControl.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Controladores DAO de modelos",
+    "permalink": "/docs/category/controladores-dao-de-modelos"
+  },
+  "next": {
+    "title": "CursaDaoControl",
+    "permalink": "/docs/tutorial-extras/CursaDaoControl"
+  }
+}

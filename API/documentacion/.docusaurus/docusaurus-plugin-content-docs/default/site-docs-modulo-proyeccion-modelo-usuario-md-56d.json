@@ -1,0 +1,24 @@
+{
+  "id": "modulo-proyeccion/ModeloUsuario",
+  "title": "Clase Usuario",
+  "description": "Descripción General",
+  "source": "@site/docs/modulo-proyeccion/ModeloUsuario.md",
+  "sourceDirName": "modulo-proyeccion",
+  "slug": "/modulo-proyeccion/ModeloUsuario",
+  "permalink": "/docs/modulo-proyeccion/ModeloUsuario",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/modulo-proyeccion/ModeloUsuario.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Clase Unidad",
+    "permalink": "/docs/modulo-proyeccion/ModeloUnidad"
+  },
+  "next": {
+    "title": "Controladores DAO de modelos",
+    "permalink": "/docs/category/controladores-dao-de-modelos"
+  }
+}

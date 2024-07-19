@@ -18,7 +18,6 @@ class MateriaDaoControl(DaoAdapter):
         self.__materia = value
     
     
-    
     @property
     def _lista(self):
         return self._list()
@@ -29,10 +28,10 @@ class MateriaDaoControl(DaoAdapter):
         print("Guardando Materia")
         self._save(self.__materia)
         
-    def delete(self, pos):
-        self._delete(pos)  
+    def delete(self):
+        self._delete(self.__materia)  
         
-    def merge(self, pos):
-        self._merge(self.__materia,pos)
+    def merge(self):
+        self._merge(self.__materia)
         
         

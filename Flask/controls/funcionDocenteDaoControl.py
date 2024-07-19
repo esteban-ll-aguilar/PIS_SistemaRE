@@ -22,13 +22,14 @@ class FuncionDocenteDaoControl(DaoAdapter):
     
     @property
     def save(self):
-        self.__funcionDocente._id = self._lista._length + 1
+        print(self._lista.get_final_Id)
+        self.__funcionDocente._id = self._lista.get_final_Id + 1
         print("Guardando Rol")
         self._save(self.__funcionDocente)
         
-    def delete(self, pos):
-        self._delete(pos)  
+    def delete(self):
+        self._delete(self.__funcionDocente)  
         
-    def merge(self, pos):
-        self._merge(self.__funcionDocente,pos)
+    def merge(self):
+        self._merge(self.__funcionDocente)
         

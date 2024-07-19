@@ -1,0 +1,24 @@
+{
+  "id": "tutorial-extras/UsuarioDaoControl",
+  "title": "UsuarioDaoControl",
+  "description": "La clase UsuarioDaoControl extiende de DaoAdapter y se utiliza para gestionar operaciones relacionadas con la entidad Usuario.",
+  "source": "@site/docs/tutorial-extras/UsuarioDaoControl.md",
+  "sourceDirName": "tutorial-extras",
+  "slug": "/tutorial-extras/UsuarioDaoControl",
+  "permalink": "/docs/tutorial-extras/UsuarioDaoControl",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/tutorial-extras/UsuarioDaoControl.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "UnidadDaoControl",
+    "permalink": "/docs/tutorial-extras/UnidadDaoControl"
+  },
+  "next": {
+    "title": "Metodo de ordenación",
+    "permalink": "/docs/TDA/MetodoOrdenacion"
+  }
+}
