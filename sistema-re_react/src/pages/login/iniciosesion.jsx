@@ -54,7 +54,7 @@ const handleLoginClick = async (e) => {
     alert('Inicio de sesión exitoso');
 
     // Verificar si responseData tiene la propiedad 'funcion' antes de acceder a ella
-    if (responseData.funcion && responseData.funcion.length > 0) {
+    /* if (responseData.funcion && responseData.funcion.length > 0) {
       for (let i = 0; i < responseData.funcion.length; i++) {
         if (responseData.funcion[i].descripcion === 'ENCARGADO SEG') {
           navigate('/interfaz/admin/' + responseData.funcion[i].docente_user_cedula);
@@ -63,7 +63,27 @@ const handleLoginClick = async (e) => {
         } else if (responseData.funcion[i].descripcion === 'DIRECTOR') {
           navigate('/interfaz/director/' + responseData.funcion[i].docente_user_cedula);
         }
-      }
+      } */
+        if (responseData.funcion && responseData.funcion.length > 0) {
+          for (let i = 0; i < responseData.funcion.length; i++) {
+            let ruta = '';
+            if (responseData.funcion[i].descripcion === 'ENCARGADO SEG') {
+              ruta = '/interfaz/admin/';
+            } else if (responseData.funcion[i].descripcion === 'DOCENTE') {
+              ruta = '/interfaz/docente/';
+            } else if (responseData.funcion[i].descripcion === 'DIRECTOR') {
+              ruta = '/interfaz/director/';
+            }
+    
+            if (ruta) {
+              navigate(ruta + responseData.funcion[i].docente_user_cedula, {
+                state: {
+                  nombres: responseData.user_nombreuser,
+                  correo: responseData.user_correo
+                }
+              });
+            }
+          }
     } else {
       console.error('No se encontraron roles válidos para el usuario');
     }

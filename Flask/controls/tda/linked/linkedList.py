@@ -146,6 +146,8 @@ class Linked_List(object):
     def __exist__(self, data, id=None, cedula=None,  nunidad=None):
             node = self.__head
             for i in range(0, self._length):
+                if hasattr(node._data, '_estudianteCedula'):
+                    return self.model_exist('_estudianteCedula', data, type=0)
                 if hasattr(node._data, '_cedula'):
                     return self.model_exist('_cedula', data, type=0)
                 elif hasattr(node._data, '_ciclo') and node._data._ciclo == id and  hasattr(node._data, '_nombre') and node._data._nombre == data and hasattr(node._data, '_cedulaDocente'):

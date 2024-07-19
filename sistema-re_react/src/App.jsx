@@ -18,6 +18,7 @@ import FormUnidad from './pages/interfaces/docente/formUnidad';
 import OLvidoContrasena from './pages/login/ovido_contrasena';
 import Pepito from './pages/examples/pepito';
 import { GrayscaleProvider, useGrayscale } from './components/GrayscaleContext';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const GrayscaleToggle = () => {
   const { isGrayscale, toggleGrayscale } = useGrayscale();
@@ -57,7 +58,9 @@ const AppContent = () => {
 function App() {
   return (
     <GrayscaleProvider>
-      <AppContent />
+      <SnackbarProvider>
+        <AppContent />
+      </SnackbarProvider>
     </GrayscaleProvider>
   );
 }

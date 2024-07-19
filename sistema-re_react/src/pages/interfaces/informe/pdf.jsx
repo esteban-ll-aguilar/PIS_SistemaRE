@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Document,
   Page,
@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
-import { PDFDocument } from "pdf-lib";
 import Unl from "../../../assets/foranix.png";
 import Quipux from "../../../assets/quipux.png";
 
@@ -316,27 +315,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function Pdf({ pdfFile }) {
-  const [extractedText, setExtractedText] = useState("");
+const Pdf = () => (
 
-  useEffect(() => {
-    const extractTextFromPDF = async () => {
-      const pdfBytes = await pdfFile.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(pdfBytes);
-      const pages = pdfDoc.getPages();
-      let text = "";
-      for (let page of pages) {
-        text += await page.getTextContent();
-      }
-      setExtractedText(text);
-    };
-
-    if (pdfFile) {
-      extractTextFromPDF();
-    }
-  }, [pdfFile]);
-
-  return (
     <Document>
       // Página 1
       <Page style={styles.page}>
@@ -990,21 +970,18 @@ function Pdf({ pdfFile }) {
         />
       </Page>
       // Página 9
-      {extractedText && (
       <Page style={styles.page3}>
         <Text style={styles.tituloH}>
           6. RETROALIMENTACIÓN DEL DESEMPEÑO ESTUDIANTIL.
         </Text>
-        <Text style={styles.textJustified}>{extractedText}</Text>
+        <Text style={styles.textJustified}></Text>
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
             `${pageNumber} / ${totalPages}`
           }
-          fixed
         />
       </Page>
-      )}
       // Página 15
       <Page style={styles.page3}>
         <Text style={styles.tituloH}>CONCLUSIONES</Text>
@@ -1334,6 +1311,4 @@ function Pdf({ pdfFile }) {
       </Page>
     </Document>
   );
-}
-
 export default Pdf;

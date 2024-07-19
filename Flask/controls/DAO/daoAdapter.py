@@ -19,14 +19,13 @@ class DaoAdapter(Generic[T]):
     def _list(self) -> T:
         self.lista.clear
         columns, rows = self.obtainColumsRows()
-        #print(rows)
-        
         for i in rows:
             self.lista.__addLast__(self.atype().deserialize(i))
         return self.lista
-    
     # usuario.user_iduser,funciondocente.idfunciondocente, usuario.user_nombres, usuario.user_apellidos, \
                     #      usuario.user_correo,funciondocente.descripcion
+
+                    
     def obtainColumsRows(self):
         cur = self.__connection.cursor()
         print(self.__name)

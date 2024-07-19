@@ -96,10 +96,10 @@ class CreateModel:
         calificacion.save
         
     
-    def createUnidad(self,data, materiaId):
+    def createUnidad(self, materiaId, nunidad, nombre):
         unidad = UnidadDaoControl()
-        unidad._unidad._nombre = data['Unidad']
-        unidad._unidad._nUnidad = data['nUnidad']
+        unidad._unidad._nombre = nombre
+        unidad._unidad._nUnidad = nunidad
         unidad._unidad._materiaId = materiaId
         unidad.save
         

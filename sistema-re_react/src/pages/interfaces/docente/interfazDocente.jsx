@@ -8,14 +8,17 @@ import { Outlet, useParams } from 'react-router-dom';
 import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi";
 import { FaTachometerAlt } from "react-icons/fa";
 import EstudianteCursa from '../../../components/estudianteCursa';
+import PaginaInfoAdmin from './paginaInfoAdmin';
+import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
+import verificarFuncion from '../../../components/funtions/verificarFuncion';
 
 const InterfazDocente = () => {
     const { id } = useParams();
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
     const [selectComponent, setSelectComponent] = useState('Principal');
     const [selectedMateriaId, setSelectedMateriaId] = useState(null);
+
     const [data, setData] = useState([]);
-    const [funciones, setFunciones] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,28 +36,10 @@ const InterfazDocente = () => {
             }
         };
         
-        const fetchFuncionDocente = async () => {
-            try {
-                const response = await fetch(`http://127.0.0.1:5000/funcion_docente//${id}`, 
-                {
-                    method: 'GET',
-                });
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-                const data = await response.json();
-                setFunciones(data.funcion);
-                console.log(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
         fetchData();
-        fetchFuncionDocente();
     }, [id]);
 
-
+    verificarFuncion(id, 'DOCENTE');
 
 
     useEffect(() => {
@@ -76,7 +61,7 @@ const InterfazDocente = () => {
         {
             icono: <HiViewBoards color='white' />,
             texto: 'Pagina Informativa',
-            ruta: '/pagina_informativa'
+            ruta: '/paginaInformativa'
           }
     ];
 
@@ -86,19 +71,9 @@ const InterfazDocente = () => {
             texto: 'Roles',
             ruta: '/roles'
         }
-        /* {
-            icono: <HiViewBoards color='white' />,
-            texto: 'Materias',
-            ruta: '/materias'
-        } */
     ];
 
     const acciones = [
-        /* {
-            icono: <HiOutlineDocumentDuplicate color='white' />,
-            texto: 'Informe',
-            ruta: '/informe'
-        }, */
         {
             icono: <HiOutlineDocumentDuplicate color='white' />,
             texto: 'Graficas',
@@ -119,7 +94,7 @@ const InterfazDocente = () => {
           setSelectedComponent={setSelectComponent} // [2]
         />
         <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'}  dark:bg-slate-700`}>
-          <Dashboardview role={data.user_nombres} toggleSidebar={toggleSidebar} />
+          <Dashboardview role={data.user_cedula} toggleSidebar={toggleSidebar} />
           <Outlet />
           
         {selectComponent === 'Principal' && (
@@ -136,28 +111,20 @@ const InterfazDocente = () => {
             )
             
         )}
-        {selectComponent === '/materias' && (
+        {/* {selectComponent === '/materias' && (
           <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
             <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
           <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
         </div>
-        )}
-        {selectComponent === '/pagina_informativa' && (
-            <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Pagina InformaticA</h1>
-            </div>
+        )} */}
+        {selectComponent === '/paginaInformativa' && (
+            <PaginaInfoAdmin />
           )}
         {selectComponent === '/roles' && (
-            funciones.map((funcion, index) => (
-                <div key={index} className="relative p-6 bg-white mx-6 dark:bg-gray-500 rounded-lg shadow-lg w-[300px] h-[160px] hover:shadow-2xl transition-shadow duration-300">
-                    <p className="text-2xl font-semibold text-[#04344c] dark:text-white mb-4">
-                        {funcion.descripcion}
-                    </p>
-                </div>
-            ))
+            <RolPersonalEducativo cedula={id}/>
         )}
         {selectComponent === '/graficas' && (
-            <Graficas/>
+            <Graficas />
         )}
         </section>
       </section>

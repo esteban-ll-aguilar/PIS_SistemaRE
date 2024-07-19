@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiOutlineRefresh } from 'react-icons/hi';
-import { FaBook, FaTachometerAlt, FaUserGraduate } from 'react-icons/fa';
+import { FaBook, FaTachometerAlt, FaTeeth, FaUser, FaUserGraduate } from 'react-icons/fa';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
 import Informe from '../informe/informeSeguimiento';
@@ -12,7 +12,12 @@ import EstudientTarget from '../../../components/EstudientTarget';
 import Materias from '../../../components/materias';
 import EstudianteCursa from '../../../components/estudianteCursa';
 import FuncionDocente from './funcionDocente';
+import PaginaInfoAdmin from './paginaInfoAdmin';
 import TarjetaGraficasAdmin from '../../../components/TarjetaGraficasAdmin';
+import verificarFuncion from '../../../components/funtions/verificarFuncion';
+import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
+import AdministrarDocentes from './administrar/administrarDocentes';
+import AdministrarMaterias from './administrar/administrarMaterias';
 
 const InterfazAdmin = () => {
   const { id } = useParams();
@@ -37,10 +42,11 @@ const InterfazAdmin = () => {
         console.error('Error fetching data:', error);
       }
     };
-    
+
     fetchData();
   }, [id]);
 
+  verificarFuncion(id, 'ADMINISTRADOR');
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
@@ -61,19 +67,34 @@ const InterfazAdmin = () => {
     {
       icono: <HiUserGroup color='white' />,
       texto: 'Pagina Informativa',
-      ruta: '/pagina_informativa'
+      ruta: '/paginaInfoAdmin'
     }
   ];
 
-  
+
   const administrar = [
     {
       icono: <HiUserGroup color='white' />,
       texto: 'Funciones Docentes',
       ruta: '/funcionDocente'
+    },
+    {
+      icono: <FaTeeth color='white' />,
+      texto: 'Docentes',
+      ruta: '/docentes'
+    },
+    {
+      icono: <FaBook color='white' />,
+      texto: 'Materias',
+      ruta: '/materias'
+    },
+    {
+      icono: <FaUser color='white' />,
+      texto: 'Sus Roles',
+      ruta: '/roles'
     }
   ];
-  
+
   const acciones = [
     {
       icono: <HiOutlineRefresh color='white' />,
@@ -112,33 +133,41 @@ const InterfazAdmin = () => {
 
           {selectComponent === 'Principal' && (
             selectedCicloId ? (
-                selectedMateriaId ? (
-                  <EstudianteCursa id={selectedMateriaId} ShowDelete={false} viewBottonForm={false} />
-                ) : (
-                  <Materias
-                    baseUrl="http://127.0.0.1:5000/ciclos"
-                    endpoint="materias"
-                    parameter={selectedCicloId}
-                    title={"Materias"}
-                    materiasAdmin={true}
-                    onSelectMateria={(materiaId) => setSelectedMateriaId(materiaId)}
-                  />
-                )
+              selectedMateriaId ? (
+                <EstudianteCursa id={selectedMateriaId} ShowDelete={false} viewBottonForm={false} />
               ) : (
-                <Ciclos onSelectCiclo={(cicloId) => setSelectedCicloId(cicloId)} />
+                <Materias
+                  baseUrl="http://127.0.0.1:5000/ciclos"
+                  endpoint="materias"
+                  parameter={selectedCicloId}
+                  title={"Materias"}
+                  materiasAdmin={true}
+                  onSelectMateria={(materiaId) => setSelectedMateriaId(materiaId)}
+                />
               )
+            ) : (
+              <Ciclos onSelectCiclo={(cicloId) => setSelectedCicloId(cicloId)} />
+            )
           )}
-          
-          {selectComponent === '/pagina_informativa' && (
-            <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Pagina InformaticA</h1>
-            </div>
+
+          {selectComponent === '/paginaInfoAdmin' && (
+            
+            <PaginaInfoAdmin />
           )}
           {selectComponent === '/funcionDocente' && (
             <FuncionDocente />
           )}
+          {selectComponent === '/roles' && (
+            <RolPersonalEducativo cedula={id} />
+          )}
+          {selectComponent === '/docentes' && (
+            <AdministrarDocentes />
+          )}
+          {selectComponent === '/materias' && (
+            <AdministrarMaterias />
+          )}
           {selectComponent === '/actualizarDatos' && (
-            <FormEstudianteDocente id={id}/>
+            <FormEstudianteDocente id={id} />
           )}
           {selectComponent === '/informe' && (
             <Informe />

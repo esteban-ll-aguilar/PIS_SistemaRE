@@ -11,7 +11,6 @@ import { useGrayscale } from './GrayscaleContext';
 const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, principal }) => {
     const [open, setOpen] = useState(false)
 
-
     const showProfile = () => {
         setOpen(!open)
     }
@@ -20,7 +19,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
         setSelectedComponent(ruta);
     };
 
-
+    
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -73,7 +72,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     <FaBars />
                 </button>
 
-                <div className='flex items-center bg-gray-100 rounded-md overflow-hidden '>
+                {/* <div className='flex items-center bg-gray-100 rounded-md overflow-hidden '>
                     <input 
                         type="text" 
                         className='bg-gray-100 h-10 outline-none pl-4 w-72 text-sm ' 
@@ -82,7 +81,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     <button className='bg-[#529914] h-10 px-4 flex items-center justify-center text-white dark:bg-sky-700'>
                         <FaSearch />
                     </button>    
-                </div>
+                </div> */}
             </div>
 
             <div className='flex items-center gap-6'>
@@ -99,7 +98,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                 </div>
 
                 <div className='relative flex items-center gap-3 cursor-pointer text-white' onClick={showProfile}>
-                    <p className='font-medium'>{role}</p>
+                    
                     <div className='h-12 w-12 rounded-full bg-transparent overflow-hidden'>
                         <img src={profile} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />     
                     </div>
@@ -116,7 +115,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                 </div>
                 {isProfileModalOpen && (
                 <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
-                    <Profile onClose={closeProfileModal} />
+                    <Profile onClose={closeProfileModal} cedula={role} />
                 </div>
                 )}
             </div>

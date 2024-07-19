@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiOutlineRefresh } from 'react-icons/hi';
+import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup } from 'react-icons/hi';
 import { FaTachometerAlt, FaUserGraduate } from 'react-icons/fa';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
 import Informe from '../informe/informeSeguimiento';
 import Ciclos from '../admin/ciclos';
-import FormEstudianteDocente from '../admin/formEstudianteDocente';
-import EstudientTarget from '../../../components/EstudientTarget';
-import Materias from '../../../components/materias';
 import EstudianteCursa from '../../../components/estudianteCursa';
+import Materias from '../../../components/materias';
 import TarjetaGraficasAdmin from '../../../components/TarjetaGraficasAdmin';
+import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
+
 const InterfazResponsable = () => {
   const { id } = useParams();
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
@@ -34,7 +34,6 @@ const InterfazResponsable = () => {
         console.error('Error fetching data:', error);
       }
     };
-    
     fetchData();
   }, [id]);
 
@@ -63,7 +62,11 @@ const InterfazResponsable = () => {
   ];
   
   const administrar = [
-    
+    {
+      icono: <HiViewBoards color='white' />,
+      texto: 'Roles',
+      ruta: '/roles'
+    }
   ];
   
   const acciones = [
@@ -80,8 +83,8 @@ const InterfazResponsable = () => {
   ];
 
   return (
-    <div className='dark:bg-slate-700 h-[100%]'>
-      <section className='flex '>
+    <div className='dark:bg-slate-700 h-[100%] relative'>
+      <section className='flex'>
         <Sidebar
           isVisible={isSidebarVisible}
           toggleSidebar={toggleSidebar}
@@ -90,10 +93,11 @@ const InterfazResponsable = () => {
           principal={principal}
           administrar={administrar}
           acciones={acciones}
-          setSelectedComponent={setSelectComponent} // [2]
+          setSelectedComponent={setSelectComponent}
+          className="z-50"
         />
-        <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'} `}>
-          <Dashboardview role={data.user_nombres} toggleSidebar={toggleSidebar} />
+        <section className={`flex flex-col w-full transition-all duration-300 relative ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'}`}>
+          <Dashboardview role={data.user_nombres} toggleSidebar={toggleSidebar} className="z-50" />
           <Outlet />
           <p className="mt-8"></p>
 
@@ -118,17 +122,17 @@ const InterfazResponsable = () => {
           
           {selectComponent === '/pagina_informativa' && (
             <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Pagina InformaticA</h1>
+              <h1 className='text-3xl font-bold dark:text-white'>Pagina Informativa</h1>
             </div>
+          )}
+          {selectComponent === '/roles' && (
+            <RolPersonalEducativo cedula={id} />
           )}
           {selectComponent === '/informe' && (
             <Informe />
           )}
           {selectComponent === '/graficas' && (
             <TarjetaGraficasAdmin />
-          )}
-          {selectComponent === '/estudiantes' && (
-            <EstudientTarget />
           )}
         </section>
       </section>
