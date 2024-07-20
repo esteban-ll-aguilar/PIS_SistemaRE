@@ -40,19 +40,13 @@ function InformeSeguimiento() {
             </div>
             <div className="flex flex-col items-center space-y-4">
                 <UploadPDF onFileUpload={setUserPDF} onClearUpload={clearUserPDF} />
-                <button
+                {/* <button
                     onClick={clearUserPDF}
                     disabled={!userPDF}
                     className={`px-4 py-2 rounded shadow ${userPDF ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
                 >
                     Limpiar PDF Subido
-                </button>
-                <button
-                    disabled={!userPDF}
-                    className={`px-4 py-2 rounded shadow ${userPDF ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
-                >
-                    Combinar PDFs
-                </button>
+                </button> */}
                 {userPDF && dynamicPDFBlob && secondDynamicPDFBlob && (
                     <CombinePDFs
                         dynamicPDFBlob={dynamicPDFBlob}
@@ -60,6 +54,13 @@ function InformeSeguimiento() {
                         secondDynamicPDFBlob={secondDynamicPDFBlob}
                     />
                 )}
+                {/* <button
+                    disabled={!userPDF}
+                    className={`px-4 py-2 rounded shadow ${userPDF ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
+                >
+                    Combinar PDFs
+                </button> */}
+                
             </div>
         </div>
     );

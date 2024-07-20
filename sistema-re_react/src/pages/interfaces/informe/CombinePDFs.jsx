@@ -5,6 +5,15 @@ import { saveAs } from 'file-saver';
 
 const CombinePDFs = ({ dynamicPDFBlob, userPDFBlob, secondDynamicPDFBlob }) => {
     const [combinedPdfUrl, setCombinedPdfUrl] = useState(null);
+    const [showPdf, setShowPdf] = useState(false);
+
+    const show = () => {
+        setShowPdf(true);
+    }
+
+    const unshow = () => {  
+        setShowPdf(false);
+    }
 
     const combine = async () => {
         const pdfDoc = await PDFDocument.create();
@@ -36,13 +45,48 @@ const CombinePDFs = ({ dynamicPDFBlob, userPDFBlob, secondDynamicPDFBlob }) => {
     };
 
     return (
-        <div>
-            <button onClick={combine}>Combinar PDFs</button>
+        <div className='text-center'>
+            <button onClick={combine}
+                className={`px-4 py-2 rounded shadow ${userPDFBlob ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
+
+            >Combinar PDFs</button>
             {combinedPdfUrl && (
-                <div>
-                    <iframe src={combinedPdfUrl} width="100%" height="600px"></iframe>
-                    <button onClick={download}>Descargar PDF</button>
+                <section className='flex flex-col items-center space-y-4'>
+                <div  className=''>
+                             
+                    {showPdf ? true &&(
+                        <button 
+                            className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700"
+                            onClick={unshow}
+                        >
+                            Ocultar PDF Combinado
+                        </button>
+                    ) : (
+                        <button 
+                            className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700"
+                            onClick={show}
+                        >
+                            Mostrat PDF Combinado
+                        </button>
+                    )
+
+                    }
+                    <button 
+                        className="px-4 py-2 m-4 bg-blue-600 text-white rounded shadow hover:bg-blue-700"
+                        onClick={download}
+                    >
+                        Descargar PDF
+                    </button>  
+                    {/* <iframe src={combinedPdfUrl} 
+                    className=' h-[300px] sm:h-[400px] md:w-[700px] md:h-[500px] lg:w-[800px] lg:h-[600px] xl:w-[900px] xl:h-[700px] 2xl:w-[1000px] 2xl:h-[800px] sm:w-[600px] '
+                    ></iframe> */}
+                    {showPdf && <iframe src={combinedPdfUrl} 
+                    className=' h-[300px] sm:h-[400px] md:w-[700px] md:h-[500px] lg:w-[800px] lg:h-[600px] xl:w-[900px] xl:h-[700px] 2xl:w-[1000px] 2xl:h-[800px] sm:w-[600px] '
+                    ></iframe>}
+
+                    
                 </div>
+                </section>
             )}
         </div>
     );

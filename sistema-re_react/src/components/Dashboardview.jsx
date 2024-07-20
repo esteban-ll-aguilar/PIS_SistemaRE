@@ -120,7 +120,10 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     )}
                 </div>
 
-                <div className='relative flex items-center gap-3 cursor-pointer text-white' onClick={showProfile}>
+                <div className='relative flex items-center gap-3 cursor-pointer text-white
+                    dark:text-zinc-100 transition-colors duration-300
+                    ' onClick={showProfile}
+                    >
                     <p>{usuario.user_primer_nombre} {usuario.user_primer_apellido}</p>
                     <div className='h-12 w-12 rounded-full bg-transparent overflow-hidden'>
                         <img src={profile} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />     
