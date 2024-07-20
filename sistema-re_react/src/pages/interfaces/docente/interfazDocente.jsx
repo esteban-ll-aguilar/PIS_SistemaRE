@@ -4,13 +4,14 @@ import Dashboardview from '../../../components/Dashboardview';
 import Materias from '../../../components/materias';
 import Informe from '../informe/informeSeguimiento';
 import Graficas from '../../graphics/graficas';
-import { Outlet, useParams } from 'react-router-dom';
-import { HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi";
-import { FaTachometerAlt } from "react-icons/fa";
+import { useParams } from 'react-router-dom';
+import { HiAnnotation, HiHome, HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi";
+import { FaImages, FaPage4, FaPagelines, FaPager, FaTachometerAlt, FaUser, FaUserCircle, FaUserEdit, FaUserInjured, FaUsersCog, FaUserSecret, FaUserTimes } from "react-icons/fa";
 import EstudianteCursa from '../../../components/estudianteCursa';
 import PaginaInfoAdmin from './paginaInfoAdmin';
 import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
 import verificarFuncion from '../../../components/funtions/verificarFuncion';
+import CalificacionesBajasEstudiantes from './calificacionesBajasEstudiantes';
 
 const InterfazDocente = () => {
     const { id } = useParams();
@@ -41,7 +42,6 @@ const InterfazDocente = () => {
 
     verificarFuncion(id, 'DOCENTE');
 
-
     useEffect(() => {
         if (selectComponent === 'Principal') {
             setSelectedMateriaId(null);
@@ -54,84 +54,74 @@ const InterfazDocente = () => {
 
     const principal = [
         {
-            icono: <FaTachometerAlt color='white' />,
+            icono: <HiHome color='white' className='size-5' />,
             texto: 'Principal',
             ruta: 'Principal'
         },
         {
-            icono: <HiViewBoards color='white' />,
+            icono: <HiAnnotation color='white' className='size-5' />,
             texto: 'Pagina Informativa',
             ruta: '/paginaInformativa'
-          }
-    ];
-
-    const administrar = [
+        },
         {
-            icono: <HiViewBoards color='white' />,
-            texto: 'Roles',
+            icono: <FaUser color='white' className='size-5' />,
+            texto: 'Sus Roles',
             ruta: '/roles'
         }
     ];
 
+    const administrar = [
+        
+    ];
+
     const acciones = [
         {
-            icono: <HiOutlineDocumentDuplicate color='white' />,
+            icono: <FaUserTimes color='white' className='size-5' />,
+            texto: 'Ver Estudiantes Bajos',
+            ruta: '/estudiantesBajos'
+        },
+        {
+            icono: <FaImages color='white' className='size-5' />,
             texto: 'Graficas',
             ruta: '/graficas'
         }
     ];
 
     return (
-      <div className='dark:bg-slate-700 '>
-      <section className='flex '>
-        <Sidebar
-          isVisible={isSidebarVisible}
-          toggleSidebar={toggleSidebar}
-          role='Panel Docente'
-          principal={principal}
-          administrar={administrar}
-          acciones={acciones}
-          setSelectedComponent={setSelectComponent} // [2]
-        />
-        <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'}  dark:bg-slate-700`}>
-          <Dashboardview role={data.user_cedula} toggleSidebar={toggleSidebar} />
-          <Outlet />
-          
-        {selectComponent === 'Principal' && (
-           selectedMateriaId ? (
-            <EstudianteCursa id={selectedMateriaId} idDocente={id} />
-            ) : (
-                <Materias
-                    baseUrl="http://127.0.0.1:5000/docente"
-                    endpoint="materias"
-                    parameter={id}
-                    title={"Materias"}
-                    onSelectMateria={(materiaId) => setSelectedMateriaId(materiaId)}
+        <div className='dark:bg-slate-700'>
+            <section className='flex'>
+                <Sidebar
+                    isVisible={isSidebarVisible}
+                    toggleSidebar={toggleSidebar}
+                    role='Panel Docente'
+                    principal={principal}
+                    administrar={administrar}
+                    acciones={acciones}
+                    setSelectedComponent={setSelectComponent}
+                    className='z-50'
                 />
-            )
-            
-        )}
-        {/* {selectComponent === '/materias' && (
-          <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-            <h1 className='text-3xl font-bold dark:text-white'>Bienvenido, {data.user_nombres} {data.user_apellidos}</h1>
-          <p className='text-gray-500 dark:text-white '>Selecciona una opción del menú</p>
-        </div>
-        )} */}
-        {selectComponent === '/paginaInformativa' && (
-            <PaginaInfoAdmin />
-          )}
-        {selectComponent === '/roles' && (
-            <RolPersonalEducativo cedula={id}/>
-        )}
-        {selectComponent === '/graficas' && (
-            <Graficas />
-        )}
-        </section>
-      </section>
-
-
-                  
-            
+                <section className={`flex flex-col w-full transition-all duration-300 ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'} dark:bg-slate-700`}>
+                    <Dashboardview role={id} toggleSidebar={toggleSidebar} />
+                    
+                    {selectComponent === 'Principal' && (
+                        selectedMateriaId ? (
+                            <EstudianteCursa id={selectedMateriaId} idDocente={id} />
+                        ) : (
+                            <Materias
+                                baseUrl="http://127.0.0.1:5000/docente"
+                                endpoint="materias"
+                                parameter={id}
+                                title={"Materias"}
+                                onSelectMateria={(materiaId) => setSelectedMateriaId(materiaId)}
+                            />
+                        )
+                    )}
+                    {selectComponent === '/paginaInformativa' && <PaginaInfoAdmin />}
+                    {selectComponent === '/roles' && <RolPersonalEducativo cedula={id} />}
+                    {selectComponent === '/graficas' && <Graficas />}
+                    {selectComponent === '/estudiantesBajos' && <CalificacionesBajasEstudiantes cedula={id}/>}
+                </section>
+            </section>
         </div>
     );
 };

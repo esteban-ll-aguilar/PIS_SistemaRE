@@ -32,7 +32,7 @@ const Ciclos = ({ onSelectCiclo }) => {
       <header className="App-header text-center mb-4">
         <h1 className="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Ciclos Existentes</h1>
         {error && <p className="text-red-500 dark:text-red-400">Error: {error}</p>}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3  gap-6 mt-6 px-4 md:px-6 lg:px-8">
           {ciclos.length > 0 ? (
             ciclos.map((ciclo, index) => (
               <div

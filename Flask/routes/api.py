@@ -35,7 +35,7 @@ def mail_send():
 @api.route('/mail', methods=['POST'])    
 def mail(): 
     data = request.json
-    
+    #sujeto, destinatario, cuerpo
     enviado = MAIL().send_email(subject=data['subject'], recipient=[data['recipient']], body=data['body'])
     if enviado:
         return jsonify({"message": "Correo enviado correctamente"})
@@ -160,6 +160,31 @@ def materia():
     return make_response(jsonify({"materia": materia.to_dict_list()}))
 
 
+@api.route('/ver/docentes', methods=['GET'])
+def ver_docentes():
+    docentes = DocenteDaoControl()
+    usuarios = UsuarioDaoControl()
+    docentes._lista.toArray
+    listaUser = usuarios._lista.toArray
+    aux = []
+    for i in range(0, len(docentes.lista.toArray)):
+        usuarios.lista.toList(listaUser)
+        user = usuarios.lista.search_model(docentes.lista.toArray[i]._cedula, '_cedula', type=0)
+        aux.append(user[0].serializable)
+    return make_response(jsonify({"docentes": aux}))
+
+@api.route('/ver/estudiantes', methods=['GET'])
+def ver_estudiantes():
+    estudiantes = EstudianteDaoControl()
+    usuarios = UsuarioDaoControl()
+    estudiantes._lista.toArray
+    listaUser = usuarios._lista.toArray 
+    aux = []
+    for i in range(0, len(estudiantes.lista.toArray)):
+        usuarios.lista.toList(listaUser)
+        user = usuarios.lista.search_model(estudiantes.lista.toArray[i]._cedula, '_cedula', type=0)
+        aux.append(user[0].serializable)
+    return make_response(jsonify({"estudiantes": aux}))
 
 @api.route('/estudiantes/eliminar/cursa/estudiante/<string:estudiante>/materia/<int:materia>', methods=['DELETE'])
 def eliminar_cursa(estudiante, materia):
@@ -234,8 +259,11 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
         listCalificacion = []
         for i in range(0, len(auxcursaid)):
             calif = calificacion._lista.search_model(auxcursaid[i], '_cursaId')
-            listCalificacion.append(calif)
+            if calif is not None:
+                listCalificacion.append(calif)
         rubricaLista = rubrica._lista.toArray
+        
+        
         aux = []
         for i in range(0, len(listCalificacion)):
             arr = []
@@ -284,8 +312,10 @@ def promedios(materiaId, unidadId):
         estudiantes.append(listaEstudiantes[j])
         j+=1
     promedios = np.array(promedios, dtype=float)
+    if promedios.size == 0:
+        return jsonify({"promedio_Materia": 0, "estudiantes": []})
     promedio = round(np.mean(promedios), 2)
-    print(estudiantes)
+    #print(estudiantes)
     return jsonify({"promedio_Materia": promedio, "estudiantes": estudiantes})
 
 
@@ -428,6 +458,32 @@ def materias_docente(docente):
     m.lista.toList(materiasId)
     return make_response(jsonify({"materias": m.to_dict_list()}))
 
+@api.route('/promedios/materias/docente/<string:docente>', methods=['GET'])
+def promedios_materias_docente(docente):
+    URL = 'http://localhost:5000/docente/materias/'+docente
+    response = requests.get(URL)
+    data = response.json()
+    print(data)
+    materias = data['materias']
+    unidades = UnidadDaoControl()
+    unidad = unidades._lista.toArray
+    promedios = {}
+    for i in range(0, len(materias)):
+        unidades.lista.toList(unidad)
+        aux = unidades.lista.search_model(materias[i]['idmateria'], '_materiaId')
+        URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(len(aux))
+        response = requests.get(URL)
+        data = response.json()
+        promedioEstudiante = []
+        
+        for estudiante in data['estudiantes']:
+            if estudiante['promedio'] < 7:
+                promedioEstudiante.append(estudiante)
+        promedios[materias[i]['nombre']] = promedioEstudiante
+    return jsonify({"notasBajasMaterias": promedios})
+
+
+
 def ultimo_periodoId():
     periodo = PeriodoAcademicoDaoControl()._list().toArray
     idultimoperiodo = periodo[len(periodo)-1]._id
@@ -553,18 +609,6 @@ def eliminar_funcion_docente(idCedDocente,funcionDocente):
     return make_response(jsonify({"message": "Funcion no existe"}), 400)
     
     
-@api.route('/ver/docentes', methods=['GET'])
-def ver_docentes():
-    docentes = DocenteDaoControl()
-    usuarios = UsuarioDaoControl()
-    docentes._lista.toArray
-    listaUser = usuarios._lista.toArray
-    aux = []
-    for i in range(0, len(docentes.lista.toArray)):
-        usuarios.lista.toList(listaUser)
-        user = usuarios.lista.search_model(docentes.lista.toArray[i]._cedula, '_cedula', type=0)
-        aux.append(user[0].serializable)
-    return make_response(jsonify({"docentes": aux}))
 
 
 
@@ -619,46 +663,7 @@ def rendimiento_ciclo(cicloId):
     return make_response(jsonify({"materias": materias.to_dict_list()}))
 #////////////////////////////////////////////////////////////////////////////////////////////
     
-    """ 
-#estudiantes con el numero de cedula y el ciclo en donde estan
-@api.route('/estudiantes/ciclos', methods=['GET'])
-def estudiantes_ciclo():
-    materias = MateriaDaoControl()
-    cursa = CursaDaoControl()
-    #lista de materias 
-    lista_Materias= materias._lista.toArray
-    Lista_Materias_Ciclo = []
-    Lista_ciclos = []
-    for i in range(0, len(lista_Materias)):
-        #obtener los ciclos de las materias
-        if Lista_ciclos.__contains__(lista_Materias[i]._ciclo) == False:
-            Lista_ciclos.append(lista_Materias[i]._ciclo)
-        #obtener las materias de los ciclos
-    for i in range(0, len(Lista_ciclos)):
-        auxMaterias = []
-        for j in range(0, len(lista_Materias)):
-            if lista_Materias[j]._ciclo == Lista_ciclos[i]:
-                auxMaterias.append(lista_Materias[j])
-        Lista_Materias_Ciclo.append(auxMaterias)
-    print(len(Lista_Materias_Ciclo))
-    #lista de estudiantes, no te entiendo
-    lista_Cursa = cursa._lista.toArray
-    estudiantes = {}
-    for i in range(0, len(lista_Cursa)):
-        for j in range(0, len(Lista_Materias_Ciclo)):
-            Lista_Estudiantes_Cursa = []
-            for k in range(0, len(Lista_Materias_Ciclo[j])):
-                if lista_Cursa[i]._materiaId == Lista_Materias_Ciclo[j][k]._id:
-                    Lista_Estudiantes_Cursa.append(lista_Cursa[i]._estudianteCedula)
-            estudiantes[Lista_ciclos[j]] = Lista_Estudiantes_Cursa
-                
-    #lista de estudiantes
-    return make_response(jsonify({"estudiantes": estudiantes})) """
 
-    
-    
-    
-        
     
     
     
