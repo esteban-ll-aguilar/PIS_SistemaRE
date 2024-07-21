@@ -521,7 +521,7 @@ def bajas_calificaciones_materias_docente(docente):
     return jsonify({"notasBajasMaterias": promedios})
 
 @api.route('/notas/materias/docente/<string:docente>', methods=['GET'])
-def notas_materias_docente(docente):
+def notas_materiasUnidad_docente(docente):
     URL = 'http://localhost:5000/docente/materias/'+docente
     response = requests.get(URL)
     data = response.json()
@@ -549,14 +549,18 @@ def notas_materias_docente(docente):
         promedios[materias[i]['nombre']] = {"0 a 5": [], "5 a 7": [], "7 a 8.5": [], "8.5 a 10": []}
         print(unidadSearch)
         if unidadSearch != None:
+            auxUnidad = UnidadDaoControl()
+            auxUnidad.lista.toList(unidadSearch)
+            auxUnidad.lista.sort_models('_nUnidad', 0)
+            unidadSearch = auxUnidad.lista.toArray
             for j in range(0, len(unidadSearch)):
                 notas_0_5 = []
                 notas_5_7 = []
                 notas_7_85 = []
                 notas_85_10 = []
-                nUnidad = unidadSearch[j]._nUnidad
-                print(materias[i]['idmateria'], nUnidad)
-                URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(nUnidad)
+                idUnidad = unidadSearch[j]._id
+                print(materias[i]['idmateria'], idUnidad)
+                URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(idUnidad)
                 response = requests.get(URL)
                 data = response.json()
                 
@@ -592,26 +596,57 @@ def ciclo_rendimiento_materias():
     response = requests.get(URL)
     data = response.json()
     ciclos = data['ciclos']
-    rendimientoMaterias = {}
+    rendimientoCiclos = {}
     for ciclo in ciclos:
         materiasCiclo = materias.lista.search_model(ciclo, '_ciclo')
+        rendimientoCiclos[ciclo] = {"promedioCiclo": 0, "materias": []}
         promediosMateria = {}
+        promediosCiclo = {}
+        auxPromedios = []
+        rangoMateria = {}
         for materia in materiasCiclo:
             unidadesMateria = unidades.lista.search_model(materia._id, '_materiaId')
             promedios = []
+            rangoMateria[materia._nombre] = {"0 a 5": [], "5 a 7": [], "7 a 8.5": [], "8.5 a 10": []}
+            
             if unidadesMateria is not None:
+                notas_0_5 = []
+                notas_5_7 = []
+                notas_7_85 = []
+                notas_85_10 = []
                 for i in range(0, len(unidadesMateria)):
-                    URL = 'http://localhost:5000/promedios/materia/'+str(materia._id)+'/unidad/'+str(i+1)
+                    URL = 'http://localhost:5000/promedios/materia/'+str(materia._id)+'/unidad/'+str(unidadesMateria[i]._id)
                     response = requests.get(URL)
                     data = response.json()
                     print(data['promedio_Materia'])
                     promedios.append(data['promedio_Materia'])
-                promediosMateria[materia._nombre] = sum(promedios)/len(promedios)
+                    for estudiante in data['estudiantes']:
+                        if estudiante['promedio'] < 5:
+                            notas_0_5.append(estudiante)
+                        elif estudiante['promedio'] >= 5 and estudiante['promedio'] < 7:
+                            notas_5_7.append(estudiante)
+                        elif estudiante['promedio'] >= 7 and estudiante['promedio'] < 8.5:
+                            notas_7_85.append(estudiante)
+                        elif estudiante['promedio'] >= 8.5 and estudiante['promedio'] <= 10:
+                            notas_85_10.append(estudiante)
+                    
+                    rangoMateria[materia._nombre]["0 a 5"].append(len(notas_0_5))
+                    rangoMateria[materia._nombre]["5 a 7"].append(len(notas_5_7))
+                    rangoMateria[materia._nombre]["7 a 8.5"].append(len(notas_7_85))
+                    rangoMateria[materia._nombre]["8.5 a 10"].append(len(notas_85_10))
+                    
+                for key in promedios:
+                    for k in promedios[key]:
+                        while len(promedios[key][k]) < 3:
+                            promedios[key][k].append(0)
+                auxPromedios.append(round(sum(promedios)/len(promedios),2))
             unidades.lista.toList(listaUnidades)
-        rendimientoMaterias[ciclo] = promediosMateria
+        rendimientoCiclos[ciclo]["materias"].append(rangoMateria)
+        if len(auxPromedios) != 0:
+            rendimientoCiclos[ciclo]["promedioCiclo"] = sum(auxPromedios)/len(auxPromedios)
         materias.lista.toList(listaMaterias)
     
-    return jsonify({"rendimientoCiclos": rendimientoMaterias})
+    return jsonify({"rendimientoCiclos": rendimientoCiclos})
 
 
 

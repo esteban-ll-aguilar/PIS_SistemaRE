@@ -1,31 +1,23 @@
-// src/components/CombinePDFs.js
 import React, { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 
-const CombinePDFs = ({ dynamicPDFBlob, userPDFBlob, secondDynamicPDFBlob }) => {
+function CombinePDFs({ dynamicPDFBlob, userPDF, secondDynamicPDFBlob }) {
     const [combinedPdfUrl, setCombinedPdfUrl] = useState(null);
     const [showPdf, setShowPdf] = useState(false);
 
-    const show = () => {
-        setShowPdf(true);
-    }
-
-    const unshow = () => {  
-        setShowPdf(false);
-    }
-
     const combine = async () => {
-        const pdfDoc = await PDFDocument.create();
+        if (!dynamicPDFBlob || !userPDF || !secondDynamicPDFBlob) return;
 
+        const pdfDoc = await PDFDocument.create();
         const dynamicPDF = await PDFDocument.load(await dynamicPDFBlob.arrayBuffer());
-        const userPDF = await PDFDocument.load(await userPDFBlob.arrayBuffer());
+        const userPDFDoc = await PDFDocument.load(await userPDF.arrayBuffer());
         const secondDynamicPDF = await PDFDocument.load(await secondDynamicPDFBlob.arrayBuffer());
 
         const dynamicPages = await pdfDoc.copyPages(dynamicPDF, dynamicPDF.getPageIndices());
         dynamicPages.forEach(page => pdfDoc.addPage(page));
 
-        const userPages = await pdfDoc.copyPages(userPDF, userPDF.getPageIndices());
+        const userPages = await pdfDoc.copyPages(userPDFDoc, userPDFDoc.getPageIndices());
         userPages.forEach(page => pdfDoc.addPage(page));
 
         const secondDynamicPages = await pdfDoc.copyPages(secondDynamicPDF, secondDynamicPDF.getPageIndices());
@@ -38,58 +30,38 @@ const CombinePDFs = ({ dynamicPDFBlob, userPDFBlob, secondDynamicPDFBlob }) => {
     };
 
     const download = () => {
-        const a = document.createElement('a');
-        a.href = combinedPdfUrl;
-        a.download = 'Informe de desempeño estudiantil.pdf';
-        a.click();
+        if (combinedPdfUrl) {
+            const a = document.createElement('a');
+            a.href = combinedPdfUrl;
+            a.download = 'combined.pdf';
+            a.click();
+        }
+    };
+
+    const toggleShowPdf = () => {
+        setShowPdf(!showPdf);
     };
 
     return (
-        <div className='text-center'>
-            <button onClick={combine}
-                className={`px-4 py-2 dark:bg-green-900 dark:text-white rounded shadow ${userPDFBlob ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
-
-            >Obtener  Informe</button>
+        <div className="flex flex-col items-center space-y-4">
+            <button onClick={combine} className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                Obtener Informe
+            </button>
             {combinedPdfUrl && (
-                <section className='flex flex-col items-center space-y-4'>
-                <div  className=''>
-                             
-                    {showPdf ? true &&(
-                        <button 
-                            className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 dark:bg-blue-800  dark:text-white "
-                            onClick={unshow}
-                        >
-                            Ocultar Informe 
-                        </button>
-                    ) : (
-                        <button 
-                            className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 dark:bg-blue-800  dark:text-white "
-                            onClick={show}
-                        >
-                            Mostra Informe 
-                        </button>
-                    )
-
-                    }
-                    <button 
-                        className="px-4 py-2 m-4 bg-red-600 text-white rounded shadow hover:bg-blue-700 dark:bg-red-800  dark:text-white "
-                        onClick={download}
-                    >
-                        Descargar Informe 
-                    </button>  
-                    {/* <iframe src={combinedPdfUrl} 
-                    className=' h-[300px] sm:h-[400px] md:w-[700px] md:h-[500px] lg:w-[800px] lg:h-[600px] xl:w-[900px] xl:h-[700px] 2xl:w-[1000px] 2xl:h-[800px] sm:w-[600px] '
-                    ></iframe> */}
-                    {showPdf && <iframe src={combinedPdfUrl} 
-                    className=' h-[300px] sm:h-[400px] md:w-[700px] md:h-[500px] lg:w-[200px] lg:h-[600px] xl:w-[200px] xl:h-[700px] 2xl:w-[1000px] 2xl:h-[800px] sm:w-[600px] '
-                    ></iframe>}
-
-                    
-                </div>
-                </section>
+                <>
+                    <button onClick={toggleShowPdf} className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                        {showPdf ? 'Ocultar Informe Completo' : 'Mostrar Informe Completo'}
+                    </button>
+                    <button onClick={download} className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                        Descargar Informe de Desempeño Estudiantil
+                    </button>
+                    {showPdf && (
+                        <iframe src={combinedPdfUrl} className="w-full h-96 border-2 border-gray-300 mt-4"></iframe>
+                    )}
+                </>
             )}
         </div>
     );
-};
+}
 
 export default CombinePDFs;
