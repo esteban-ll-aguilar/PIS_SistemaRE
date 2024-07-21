@@ -10,7 +10,7 @@ import EstudianteCursa from '../../../components/estudianteCursa';
 import Materias from '../../../components/materias';
 import TarjetaGraficasAdmin from '../../../components/TarjetaGraficasAdmin';
 import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
-import PaginaInfoAdmin from '../docente/paginaInfoAdmin';
+import PaginaInfoAdmin from './paginaInfoAdmin';
 
 const InterfazResponsable = () => {
   const { id } = useParams();

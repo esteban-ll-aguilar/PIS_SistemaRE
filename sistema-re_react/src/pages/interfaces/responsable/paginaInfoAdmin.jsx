@@ -88,51 +88,6 @@ const PaginaInfoAdmin = () => {
                 Reglas de Uso
             </h4>
 
-            <p className=" dark:text-white font-bold mb-2 mt-4" style={{ textAlign: 'justify', marginBottom: '1em' }}>
-                Administrador
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Como director de la carrera de computación, el ingeniero Pablo Ordóñez 
-            desempeña un papel clave en la administración de la aplicación web de 
-            seguimiento al rendimiento estudiantil. Su posición le confiere la responsabilidad 
-            de gestionar y supervisar todos los aspectos del sistema, garantizando una 
-            operación eficiente y efectiva.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            En su rol como administrador, el ingeniero Pablo Ordóñez tiene la capacidad de ejecutar las siguientes funciones:
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Crear Periodos Académicos: Establecer y gestionar periodos académicos, 
-            especificando fechas de inicio y fin, y asignar tanto a estudiantes como a docentes a estos periodos.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Acceso a Gráficos de Rendimiento: Visualizar gráficos detallados que abarcan el 
-            rendimiento de todas las materias en la carrera de computación, ofreciendo una perspectiva completa del progreso académico.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Descargar Informes: Generar y descargar informes que detallan información 
-            exhaustiva sobre el rendimiento de los estudiantes, facilitando una revisión y análisis profundos.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Gestión de Roles: Asignar y quitar roles de administrador, 
-            docente o personal de seguimiento a los usuarios, adaptando el sistema a las necesidades operativas y organizativas.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Editar Información de Docentes: 
-            Modificar los datos de los docentes, asegurando que la información esté actualizada y correcta.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Visualización Completa: Acceder a la información de todas las materias y ciclos, 
-            incluyendo estudiantes y notas, para una supervisión integral del rendimiento académico.
-            </p>
 
             <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
             
@@ -171,50 +126,6 @@ const PaginaInfoAdmin = () => {
             ofreciendo una representación visual que facilita la identificación de tendencias y áreas de mejora.
             </p>
 
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            </p>
-
-
-            <p className=" dark:text-white font-bold mb-2 mt-4" style={{ textAlign: 'justify', marginBottom: '1em' }}>
-                Docente
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-                En la aplicación web de seguimiento al rendimiento estudiantil,
-                los docentes desempeñan un rol importante en la gestión y evaluación
-                del progreso académico de sus estudiantes. Además de la capacidad de
-                cargar y actualizar notas a través de un formato Excel descargable,
-                los docentes tienen acceso a herramientas visuales que les permiten monitorear 
-                el rendimiento de los estudiantes de manera efectiva. Entre estas herramientas 
-                se incluyen gráficos detallados que reflejan el desempeño de los estudiantes 
-                por unidad, facilitando la identificación de áreas de mejora y el análisis de 
-                tendencias en el rendimiento académico. Estas funcionalidades están diseñadas 
-                para apoyar a los docentes en la optimización de su labor educativa y en la 
-                toma de decisiones informadas para el desarrollo académico de sus alumnos.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            El usuario de tipo docente en la aplicación web de seguimiento 
-            al rendimiento estudiantil tiene acceso a las siguientes funcionalidades:
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Acceso al Sistema: El docente podrá 
-            acceder al sistema utilizando sus credenciales institucionales, garantizando la seguridad y privacidad de la información.
-            
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Carga de Estudiantes y Notas: Una vez dentro del sistema, el docente tendrá 
-            la capacidad de cargar las notas de los estudiantes. Esta carga se realizará 
-            exclusivamente para las materias que el docente 
-            imparte, asegurando que cada docente gestione únicamente su área de responsabilidad.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Formato de Carga: Para facilitar el proceso de carga de notas, el sistema proporciona un formato predefinido en Excel. 
-            Este formato puede ser descargado directamente desde la aplicación web. 
-            </p>
 
             <h4 className="text-2xl dark:text-white font-bold mb-2 mt-4">
                 Normativas por la Universidad
