@@ -19,12 +19,12 @@ const UploadPDF = ({ onFileUpload, onClearUpload }) => {
     };
 
     return (
-        <div className="flex text-center flex-col items-center space-y-6 p-6 bg-white rounded-lg shadow-lg">
+        <div className="flex text-center flex-col items-center space-y-6 p-6  rounded-lg ">
             {fileName && (
-                <div className="flex items-center text-center justify-between space-x-2 text-gray-700 text-sm bg-gray-100 py-2 px-4 rounded-md w-full">
+                <div className="flex items-center text-center justify-between space-x-2 text-gray-700 text-sm bg-gray-200 py-2 px-4 rounded-md w-full ">
                     <span className="truncate">{fileName}</span>
                     <FaTimes
-                        className="cursor-pointer text-red-500 hover:text-red-700"
+                        className="cursor-pointer text-red-500 hover:text-red-700 dark:text-red-800"
                         onClick={clearFile}
                     />
                 </div>
@@ -38,7 +38,7 @@ const UploadPDF = ({ onFileUpload, onClearUpload }) => {
                     focus:ring-opacity-50 hover:from-blue-600 hover:to-blue-700
                     w-[200px] md:w-[250px] lg:w-[300px] xl:w-[350px] 2xl:w-[400px]
                     text-sm font-semibold
-                    dark:from-blue-400 dark:to-blue-500 dark:hover:from-blue-500 dark:hover:to-blue-600
+                    dark:from-blue-700 dark:to-blue-800 dark:hover:from-blue-500 dark:hover:to-blue-600
                     dark:focus:ring-blue-700
                     "
             >

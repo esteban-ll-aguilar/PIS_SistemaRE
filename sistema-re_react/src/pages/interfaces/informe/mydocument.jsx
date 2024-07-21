@@ -5,7 +5,8 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
-    backgroundColor: '#f4f4f4',
+    backgroundColor: '#FFFFFF', // Fondo blanco
+    padding: 10
   },
   section: {
     margin: 10,
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '550px',
-    height: '185px'
+    height: '345px'
   },
   pageNumber: {
     position: "absolute",

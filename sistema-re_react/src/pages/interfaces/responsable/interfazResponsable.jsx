@@ -10,6 +10,7 @@ import EstudianteCursa from '../../../components/estudianteCursa';
 import Materias from '../../../components/materias';
 import TarjetaGraficasAdmin from '../../../components/TarjetaGraficasAdmin';
 import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
+import PaginaInfoAdmin from '../docente/paginaInfoAdmin';
 
 const InterfazResponsable = () => {
   const { id } = useParams();
@@ -120,9 +121,7 @@ const InterfazResponsable = () => {
           )}
           
           {selectComponent === '/pagina_informativa' && (
-            <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Pagina Informativa</h1>
-            </div>
+            <PaginaInfoAdmin/>
           )}
           {selectComponent === '/roles' && (
             <RolPersonalEducativo cedula={id} />

@@ -1,10 +1,10 @@
-from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for, abort
+from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for, abort, send_from_directory
 from app import MAIL
 import requests
 
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from flask_cors import CORS
-import os
+import os, sys
 import numpy as np
 from controls.materiaDaoControl import MateriaDaoControl
 from controls.estudianteDaoControl import EstudianteDaoControl
@@ -159,6 +159,35 @@ def materia():
     
     return make_response(jsonify({"materia": materia.to_dict_list()}))
 
+@api.route('/guardar/foto/perfil/<string:cedula>', methods=['POST'])
+def actualizar_foto_perfil(cedula):
+    user = UsuarioDaoControl()
+    usuario = user._lista.search_model(cedula, '_cedula')
+    data = request.files
+    
+    #cambiar el nombre de la imagen por la cedula sin danar la extension
+    data['file'].filename = cedula + os.path.splitext(data['file'].filename)[1]
+    URL = os.path.join(os.getcwd(), 'data', 'images', data['file'].filename)
+    data['file'].save(URL)
+    
+    usuario[0]._urlImagen = URL
+    user._usuario = usuario[0]
+    user.merge()
+    return make_response(jsonify({"usuario": user.to_dict_list()}))
+
+
+@api.route('/ver/foto/perfil/<string:cedula>', methods=['GET'])
+def ver_foto_perfil(cedula):
+    user = UsuarioDaoControl()
+    user._lista.search_model(cedula, '_cedula')
+    URL = user.lista.toArray[0]._urlImagen
+    print(URL)
+    if URL == "NULL":
+        return make_response(jsonify({"message": "No se encontro la imagen"}), 404)
+    
+    return send_from_directory(os.path.dirname(URL), os.path.basename(URL))
+
+
 
 @api.route('/ver/docentes', methods=['GET'])
 def ver_docentes():
@@ -233,7 +262,7 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
         #buscamos las calificaciones de la unidad
         calificacion._lista.search_model(unidadId, '_unidadId', type=0)
         calificacion.lista.sort_models('_cursaId', 0)
-        
+        #AAAAAAAAAAAAAAAAA
         #obtener los estudiantes de la materia
         estudiantesList = estudiantes._lista.toArray
         listEstudiante = []
@@ -459,7 +488,7 @@ def materias_docente(docente):
     return make_response(jsonify({"materias": m.to_dict_list()}))
 
 @api.route('/promedios/materias/docente/<string:docente>', methods=['GET'])
-def promedios_materias_docente(docente):
+def bajas_calificaciones_materias_docente(docente):
     URL = 'http://localhost:5000/docente/materias/'+docente
     response = requests.get(URL)
     data = response.json()
@@ -471,15 +500,61 @@ def promedios_materias_docente(docente):
     for i in range(0, len(materias)):
         unidades.lista.toList(unidad)
         aux = unidades.lista.search_model(materias[i]['idmateria'], '_materiaId')
-        URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(len(aux))
-        response = requests.get(URL)
-        data = response.json()
-        promedioEstudiante = []
-        
-        for estudiante in data['estudiantes']:
-            if estudiante['promedio'] < 7:
-                promedioEstudiante.append(estudiante)
-        promedios[materias[i]['nombre']] = promedioEstudiante
+        if aux != None:
+            URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(len(aux))
+            response = requests.get(URL)
+            data = response.json()
+            promedioEstudiante = []
+            
+            for estudiante in data['estudiantes']:
+                if estudiante['promedio'] < 7:
+                    promedioEstudiante.append(estudiante)
+            promedios[materias[i]['nombre']] = promedioEstudiante
+    
+    return jsonify({"notasBajasMaterias": promedios})
+
+@api.route('/notas/materias/docente/<string:docente>', methods=['GET'])
+def notas_materias_docente(docente):
+    URL = 'http://localhost:5000/docente/materias/'+docente
+    response = requests.get(URL)
+    data = response.json()
+    print(data)
+    materias = data['materias']
+    unidades = UnidadDaoControl()
+    unidad = unidades._lista.toArray
+    promedios = {}
+    #separamos las calificaciones de los estudiantes en 4 listas
+    #de 0 a 5, de 5 a 7, de 7 a 8.5, de 8.5 a 10
+    """
+        cada punto en el array significa la unidad y el numeros de estudiantes con esa nota
+        "notasBajasMaterias": {
+        "Materia 1": [
+            "0 a 5": [4,5,6]
+            "5 a 7": [6,7,8]
+            "7 a 8.5": [8,9,10]
+            "8.5 a 10": [9,10]
+        ],
+        }
+    """
+    numeroEstudiantesPromedio = []
+    notas_0_5 = []
+    notas_5_7 = []
+    notas_7_85 = []
+    notas_85_10 = []
+    for i in range(0, len(materias)):
+        unidades.lista.toList(unidad)
+        unidadSearch = unidades.lista.search_model(materias[i]['idmateria'], '_materiaId')
+        if unidadSearch != None:
+            for i in range(0, len(unidadSearch)):
+                URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(i+1)
+                response = requests.get(URL)
+                data = response.json()
+                promedioEstudiante = []
+                for estudiante in data['estudiantes']:
+                    promedioEstudiante.append(estudiante['promedio'])
+                print(promedioEstudiante)
+                ##oye la reunion te estamos grabando mueve 
+                
     return jsonify({"notasBajasMaterias": promedios})
 
 

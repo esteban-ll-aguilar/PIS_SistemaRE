@@ -27,40 +27,26 @@ function InformeSeguimiento() {
     };
 
     return (
-        <div className="flex flex-col h-full w-full p-6 space-y-6 bg-gray-100">
-            <h1 className="text-3xl font-bold text-center">Combinar PDF Dinámico y PDF Subido</h1>
-            <div className="flex justify-center">
-                <PDFDownloadLink document={<DynamicPDF />} fileName="dynamic.pdf">
-                    {({ loading }) => (
-                        <button className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
-                            {loading ? 'Generando PDF...' : 'Descargar PDF Dinámico'}
-                        </button>
+        <div className="min-h-screen bg-gray-100 dark:bg-slate-800 dark:text-white flex items-center justify-center">
+            <div className="w-full max-w-4xl py-10 px-32	 bg-white dark:bg-slate-900 rounded-lg shadow-lg">
+                <h1 className="text-3xl font-bold text-center dark:text-white mb-4">
+                    Informe de desempeño estudiantil
+                </h1>
+                <p className="text-center text-lg dark:text-gray-300 mb-6">
+                    Aquí podrás subir el plan de retroalimentación que se realizo a los estudiantes con bajo rendimiento el cual se adjutara con el informe de desmpeño estudiantil para obtener el informe completo.<br/> 
+                    Primero, sube un el archivo PDF, luego haga click en el boton obtener infome y podra visualizar el informe completo y descargarlo.
+                </p>
+                <div className="flex flex-col items-center space-y-4">
+                    <UploadPDF onFileUpload={setUserPDF} onClearUpload={clearUserPDF} />
+                    
+                    {userPDF && dynamicPDFBlob && secondDynamicPDFBlob && (
+                        <CombinePDFs
+                            dynamicPDFBlob={dynamicPDFBlob}
+                            userPDFBlob={userPDF}
+                            secondDynamicPDFBlob={secondDynamicPDFBlob}
+                        />
                     )}
-                </PDFDownloadLink>
-            </div>
-            <div className="flex flex-col items-center space-y-4">
-                <UploadPDF onFileUpload={setUserPDF} onClearUpload={clearUserPDF} />
-                {/* <button
-                    onClick={clearUserPDF}
-                    disabled={!userPDF}
-                    className={`px-4 py-2 rounded shadow ${userPDF ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
-                >
-                    Limpiar PDF Subido
-                </button> */}
-                {userPDF && dynamicPDFBlob && secondDynamicPDFBlob && (
-                    <CombinePDFs
-                        dynamicPDFBlob={dynamicPDFBlob}
-                        userPDFBlob={userPDF}
-                        secondDynamicPDFBlob={secondDynamicPDFBlob}
-                    />
-                )}
-                {/* <button
-                    disabled={!userPDF}
-                    className={`px-4 py-2 rounded shadow ${userPDF ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
-                >
-                    Combinar PDFs
-                </button> */}
-                
+                </div>
             </div>
         </div>
     );

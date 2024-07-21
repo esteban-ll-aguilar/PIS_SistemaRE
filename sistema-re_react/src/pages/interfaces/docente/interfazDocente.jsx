@@ -12,6 +12,7 @@ import PaginaInfoAdmin from './paginaInfoAdmin';
 import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
 import verificarFuncion from '../../../components/funtions/verificarFuncion';
 import CalificacionesBajasEstudiantes from './calificacionesBajasEstudiantes';
+import GraficasUnidad from '../../graphics/graficasUnidad';
 
 const InterfazDocente = () => {
     const { id } = useParams();
@@ -118,7 +119,7 @@ const InterfazDocente = () => {
                     )}
                     {selectComponent === '/paginaInformativa' && <PaginaInfoAdmin />}
                     {selectComponent === '/roles' && <RolPersonalEducativo cedula={id} />}
-                    {selectComponent === '/graficas' && <Graficas />}
+                    {selectComponent === '/graficas' && <GraficasUnidad />}
                     {selectComponent === '/estudiantesBajos' && <CalificacionesBajasEstudiantes cedula={id}/>}
                 </section>
             </section>

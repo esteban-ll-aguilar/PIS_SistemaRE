@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { FaChevronLeft, FaChevronRight, FaInfo } from 'react-icons/fa';
 import logo from '../assets/tapa.png';
 import '../styles/sidebar.css';
@@ -7,7 +7,7 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
   const handleClick = (ruta) => {
     setSelectedComponent(ruta);
   };
-
+  
   return (
     <div
       className={`bg-[#04344c] px-[45px] py-[29px] w-[350px] h-screen overflow-y-auto transition-transform duration-300 ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed shadow-2xl dark:bg-blue-950 z-50 scrollbar-hide`}
@@ -39,7 +39,8 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
         ))}
       </div>
 
-      <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
+      {administrar.length > 0 && (
+        <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
         <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">Administrar</p>
         {administrar.map((item, index) => (
           <div
@@ -57,6 +58,7 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
           </div>
         ))}
       </div>
+      )}
 
       <div className="pt-[10px] border-b-[1px] border-[#EDEDED]/[0.3]">
         <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">Acciones</p>

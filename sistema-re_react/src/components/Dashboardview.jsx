@@ -120,13 +120,14 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     )}
                 </div>
 
-                <div className='relative flex items-center gap-3 cursor-pointer text-white
+                <div className='relative flex items-center gap-5 cursor-pointer text-white
                     dark:text-zinc-100 transition-colors duration-300
                     ' onClick={showProfile}
                     >
+                      
                     <p>{usuario.user_primer_nombre} {usuario.user_primer_apellido}</p>
-                    <div className='h-12 w-12 rounded-full bg-transparent overflow-hidden'>
-                        <img src={profile} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />     
+                    <div className='h-20 w-20 rounded-full bg-transparent overflow-hidden'>
+                        <img src={`http://127.0.0.1:5000/ver/foto/perfil/${role}`} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />     
                     </div>
                     {open && (
                         <div className='bg-[#529914] border border-gray-300 shadow-lg absolute top-14 right-0 w-48 rounded-lg p-6 space-y-4 dark:bg-blue-900 transition-transform transform duration-300'>
@@ -161,6 +162,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
                     )}
                 </div>
                 {isProfileModalOpen && (
+                  
                 <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
                     <Profile onClose={closeProfileModal} cedula={role} />
                 </div>

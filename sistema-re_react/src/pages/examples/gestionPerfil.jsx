@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 
 const Profile = ({ onClose, cedula }) => {
     const [usuario, setUsuario] = useState({});
-    const [avatar, setAvatar] = useState('https://via.placeholder.com/150');
+    const [avatar, setAvatar] = useState(`http://127.0.0.1:5000/ver/foto/perfil/${cedula}`);
     const { enqueueSnackbar } = useSnackbar();
     const [showPassword, setShowPassword] = useState(false);
 
@@ -27,11 +27,30 @@ const Profile = ({ onClose, cedula }) => {
         fetchData();
     }, [cedula]);
 
-    const handleAvatarChange = (e) => {
-        const file = e.target.files[0];
-        console.log('Archivo seleccionado:', file);
-        // Aquí podrías usar una API para subir la imagen y obtener su URL
-    };
+    const handleAvatarChange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+          const formData = new FormData();
+          formData.append('file', file);
+          try {
+              const response = await fetch(`http://127.0.0.1:5000/guardar/foto/perfil/${cedula}`, {
+                  method: 'POST',
+                  body: formData,
+              });
+              if (!response.ok) {
+                  throw new Error(`Network response was not ok: ${response.statusText}`);
+              }
+              const data = await response.json();
+              const imageUrl = `http://127.0.0.1:5000/ver/foto/perfil/${cedula}`;
+              setAvatar(imageUrl);
+              enqueueSnackbar('Avatar actualizado correctamente', { variant: 'success' });
+              window.location.reload();
+            } catch (error) {
+              console.error('Error updating avatar:', error);
+              enqueueSnackbar('Error al actualizar avatar', { variant: 'error' });
+          }
+      }
+  };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -79,7 +98,7 @@ const Profile = ({ onClose, cedula }) => {
                     <img
                         src={avatar}
                         alt="Avatar"
-                        className="w-24 h-24 rounded-full object-cover"
+                        className="w-[250px] h-[250px] rounded-full object-cover"
                     />
                     <input
                         type="file"
