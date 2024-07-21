@@ -196,6 +196,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: "center", // Centrar el texto
   },
+  tableCell2: {
+    fontSize: 10,
+    padding: 18,
+    textAlign: "center", // Centrar el texto
+  },
   tableCellJustified: {
     fontSize: 10,
     textAlign: "justify", // Justificar el texto
@@ -368,45 +373,12 @@ const DynamicPDF = () => (
               <Text style={styles.tableCell}>Autor</Text>
             </View>
           </View>
-          {/* Filas de datos */}
-          <View style={styles.tableRow}>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>26-Julio-2022</Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>Versión</Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCellJustified}>
-                Informe versión inicial de informe
-              </Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCellJustified}>
-                Equipo de desempeño estudiantil
-              </Text>
-            </View>
-          </View>
           <View style={styles.tableRow}>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}> </Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}></Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCellJustified}></Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCellJustified}></Text>
-            </View>
-          </View>
-          <View style={styles.tableRow}>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}></Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}> </Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCellJustified}></Text>
@@ -440,14 +412,14 @@ const DynamicPDF = () => (
               </Text>
             </View>
             <View style={styles.table2Col}>
-              <Text style={styles.tableCell}> </Text>
+              <Text style={styles.tableCell2}> </Text>
             </View>
           </View>
 
           <View style={styles.tableRow}>
             <View style={styles.table2Col}>
               <Text style={styles.tableCell}>
-                Ing. José Guamán Quinche M.Sc.
+                Ing. José Guamán Quinche M.S.c.
               </Text>
               <Text style={styles.tableCell}>
                 {" "}
@@ -455,7 +427,7 @@ const DynamicPDF = () => (
               </Text>
             </View>
             <View style={styles.table2Col}>
-              <Text style={styles.tableCell}> </Text>
+              <Text style={styles.tableCell2}> </Text>
             </View>
           </View>
 

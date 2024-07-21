@@ -27,6 +27,7 @@ const InterfazAdmin = () => {
   const [selectedCicloId, setSelectedCicloId] = useState(null);
   const [selectedMateriaId, setSelectedMateriaId] = useState(null);
   const [data, setData] = useState({});
+  verificarFuncion(id, 'ADMINISTRADOR');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +48,6 @@ const InterfazAdmin = () => {
     fetchData();
   }, [id]);
 
-  verificarFuncion(id, 'ADMINISTRADOR');
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { FaSearch } from 'react-icons/fa';
+import Cargando from "../../../../components/funtions/cargando";
 
 const AdministrarDocentes = () => {
     const [docentes, setDocentes] = useState([]);
@@ -9,7 +10,7 @@ const AdministrarDocentes = () => {
     const [emailError, setEmailError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const { enqueueSnackbar } = useSnackbar(); // Obtener enqueueSnackbar aquí
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchDocentes = async () => {
             try {
@@ -24,6 +25,8 @@ const AdministrarDocentes = () => {
                 console.log(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
             }
         };
         
@@ -114,7 +117,11 @@ const AdministrarDocentes = () => {
 
     return (
         <>
-            <div className="flex p-4 justify-center items-center mb-4">
+            {loading ? (
+                <Cargando />
+            ) : (
+             <section>
+                <div className="flex p-4 justify-center items-center mb-4">
                 <div className="relative w-full max-w-sm">
                     <input
                         type="text"
@@ -244,6 +251,9 @@ const AdministrarDocentes = () => {
                     </div>
                 </div>
             )}
+             </section>
+            )}
+        
         </>
     );
 };

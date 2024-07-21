@@ -8,7 +8,7 @@ const GraficasMateria = () => {
     categories: ['0 a 4.5', '4.6 a 6.9', '7 a 10'], // Categorías de notas
     materias: ['BDD', 'EDD', 'Requisitos SW', 'Estadistica analitica', 'Arq. de Ordenadores'], // Materias
     rendimiento: { // Datos de rendimiento por materia y categoría de notas
-      'BDD': [4.4], // Rendimiento para 'Base datos' en cada categoría de notas
+      'BDD': [4.4, 7], // Rendimiento para 'Base datos' en cada categoría de notas
       'EDD': [6.3], 
       'Requisitos SW': [7.3], 
       'Estadistica analitica': [9.20],

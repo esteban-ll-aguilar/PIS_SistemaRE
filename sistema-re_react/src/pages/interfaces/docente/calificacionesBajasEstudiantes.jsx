@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSnackbar } from 'notistack';
+import Cargando from "../../../components/funtions/cargando";
 
 const CalificacionesBajasEstudiantes = ({ cedula }) => {
     const [calificaciones, setCalificaciones] = useState({});
@@ -109,12 +110,7 @@ const CalificacionesBajasEstudiantes = ({ cedula }) => {
         <div className="p-6 bg-white dark:bg-gray-800 dark:text-white min-h-screen">
             <h1 className="text-3xl font-bold mb-6 text-center">Calificaciones Bajas de Estudiantes</h1>
             {loading ? (
-                <div className="flex justify-center items-center h-64">
-                    <div className="relative">
-                        <div className="w-16 h-16 border-4 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
-                        <span className="absolute inset-0 flex items-center justify-center text-blue-500">Cargando...</span>
-                    </div>
-                </div>
+                <Cargando />
             ) : (
                 Object.entries(calificaciones).map(([materia, estudiantes]) => (
                     <div key={materia} className="mb-8">

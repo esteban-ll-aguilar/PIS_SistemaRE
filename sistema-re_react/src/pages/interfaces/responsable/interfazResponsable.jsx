@@ -11,6 +11,8 @@ import Materias from '../../../components/materias';
 import TarjetaGraficasAdmin from '../../../components/TarjetaGraficasAdmin';
 import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
 import PaginaInfoAdmin from './paginaInfoAdmin';
+import Graficas from '../../graphics/graficas';
+import verificarFuncion from '../../../components/funtions/verificarFuncion';
 
 const InterfazResponsable = () => {
   const { id } = useParams();
@@ -19,7 +21,7 @@ const InterfazResponsable = () => {
   const [selectedCicloId, setSelectedCicloId] = useState(null);
   const [selectedMateriaId, setSelectedMateriaId] = useState(null);
   const [data, setData] = useState({});
-
+  verificarFuncion(id, 'PERSONAL_SEGUIMIENTO');
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,6 +40,9 @@ const InterfazResponsable = () => {
     fetchData();
   }, [id]);
 
+
+  
+  
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
@@ -90,8 +95,7 @@ const InterfazResponsable = () => {
         <Sidebar
           isVisible={isSidebarVisible}
           toggleSidebar={toggleSidebar}
-          panel='Panel_'
-          role='Responsable'
+          role='Panel Responsable'
           principal={principal}
           administrar={administrar}
           acciones={acciones}
@@ -130,7 +134,7 @@ const InterfazResponsable = () => {
             <Informe />
           )}
           {selectComponent === '/graficas' && (
-            <TarjetaGraficasAdmin />
+            <Graficas />
           )}
         </section>
       </section>

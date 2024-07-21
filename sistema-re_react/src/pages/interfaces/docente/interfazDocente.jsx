@@ -19,8 +19,8 @@ const InterfazDocente = () => {
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
     const [selectComponent, setSelectComponent] = useState('Principal');
     const [selectedMateriaId, setSelectedMateriaId] = useState(null);
-
     const [data, setData] = useState([]);
+    verificarFuncion(id, 'DOCENTE');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,7 +41,6 @@ const InterfazDocente = () => {
         fetchData();
     }, [id]);
 
-    verificarFuncion(id, 'DOCENTE');
 
     useEffect(() => {
         if (selectComponent === 'Principal') {
@@ -119,7 +118,7 @@ const InterfazDocente = () => {
                     )}
                     {selectComponent === '/paginaInformativa' && <PaginaInfoAdmin />}
                     {selectComponent === '/roles' && <RolPersonalEducativo cedula={id} />}
-                    {selectComponent === '/graficas' && <GraficasUnidad />}
+                    {selectComponent === '/graficas' && <GraficasUnidad cedula={id} />}
                     {selectComponent === '/estudiantesBajos' && <CalificacionesBajasEstudiantes cedula={id}/>}
                 </section>
             </section>

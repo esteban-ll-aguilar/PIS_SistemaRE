@@ -37,7 +37,6 @@ const MyDocument = ({ imageSources }) => (
     {imageSources.map((src, index) => (
       <Page size="A4" style={styles.page} key={index}>
         <View style={styles.section}>
-          <Text style={styles.title}>Ciclo {index + 1}</Text>
           <Image style={styles.image} src={src} />
         </View>
         <Text

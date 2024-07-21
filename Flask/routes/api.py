@@ -187,6 +187,11 @@ def ver_foto_perfil(cedula):
     
     return send_from_directory(os.path.dirname(URL), os.path.basename(URL))
 
+@api.route('/buscarpdf', methods=['POST'])
+def encontrar_pdf():
+    pass
+
+
 
 
 @api.route('/ver/docentes', methods=['GET'])
@@ -396,7 +401,9 @@ def ciclos_existentes():
     ciclos = []
     for i in range(1, len(aux)):
         if aux[i-1]._ciclo != aux[i]._ciclo:
-            ciclos.append(aux[i-1]._ciclo)  
+            ciclos.append(aux[i-1]._ciclo)
+        if i == len(aux)-1:
+            ciclos.append(aux[i]._ciclo)  
     print(ciclos)
     return jsonify({"ciclos": ciclos})
 
@@ -518,7 +525,6 @@ def notas_materias_docente(docente):
     URL = 'http://localhost:5000/docente/materias/'+docente
     response = requests.get(URL)
     data = response.json()
-    print(data)
     materias = data['materias']
     unidades = UnidadDaoControl()
     unidad = unidades._lista.toArray
@@ -536,26 +542,78 @@ def notas_materias_docente(docente):
         ],
         }
     """
-    numeroEstudiantesPromedio = []
-    notas_0_5 = []
-    notas_5_7 = []
-    notas_7_85 = []
-    notas_85_10 = []
+    
     for i in range(0, len(materias)):
         unidades.lista.toList(unidad)
         unidadSearch = unidades.lista.search_model(materias[i]['idmateria'], '_materiaId')
+        promedios[materias[i]['nombre']] = {"0 a 5": [], "5 a 7": [], "7 a 8.5": [], "8.5 a 10": []}
+        print(unidadSearch)
         if unidadSearch != None:
-            for i in range(0, len(unidadSearch)):
-                URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(i+1)
+            for j in range(0, len(unidadSearch)):
+                notas_0_5 = []
+                notas_5_7 = []
+                notas_7_85 = []
+                notas_85_10 = []
+                nUnidad = unidadSearch[j]._nUnidad
+                print(materias[i]['idmateria'], nUnidad)
+                URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(nUnidad)
                 response = requests.get(URL)
                 data = response.json()
-                promedioEstudiante = []
-                for estudiante in data['estudiantes']:
-                    promedioEstudiante.append(estudiante['promedio'])
-                print(promedioEstudiante)
-                ##oye la reunion te estamos grabando mueve 
                 
-    return jsonify({"notasBajasMaterias": promedios})
+                for estudiante in data['estudiantes']:
+                    if estudiante['promedio'] < 5:
+                        notas_0_5.append(estudiante)
+                    elif estudiante['promedio'] >= 5 and estudiante['promedio'] < 7:
+                        notas_5_7.append(estudiante)
+                    elif estudiante['promedio'] >= 7 and estudiante['promedio'] < 8.5:
+                        notas_7_85.append(estudiante)
+                    elif estudiante['promedio'] >= 8.5 and estudiante['promedio'] <= 10:
+                        notas_85_10.append(estudiante)
+                    
+                promedios[materias[i]['nombre']]["0 a 5"].append(len(notas_0_5))
+                promedios[materias[i]['nombre']]["5 a 7"].append(len(notas_5_7))
+                promedios[materias[i]['nombre']]["7 a 8.5"].append(len(notas_7_85))
+                promedios[materias[i]['nombre']]["8.5 a 10"].append(len(notas_85_10))
+    #llenar de 0 hasta tener 3 elementos
+    for key in promedios:
+        for k in promedios[key]:
+            while len(promedios[key][k]) < 3:
+                promedios[key][k].append(0)
+                
+    return jsonify({"promediosUnidad": promedios})
+
+@api.route('/ciclo/rendimiento/materias/', methods=['GET'])
+def ciclo_rendimiento_materias():
+    materias = MateriaDaoControl()
+    unidades = UnidadDaoControl()
+    listaUnidades = unidades._lista.toArray
+    listaMaterias = materias._lista.toArray
+    URL = 'http://localhost:5000/ciclos'
+    response = requests.get(URL)
+    data = response.json()
+    ciclos = data['ciclos']
+    rendimientoMaterias = {}
+    for ciclo in ciclos:
+        materiasCiclo = materias.lista.search_model(ciclo, '_ciclo')
+        promediosMateria = {}
+        for materia in materiasCiclo:
+            unidadesMateria = unidades.lista.search_model(materia._id, '_materiaId')
+            promedios = []
+            if unidadesMateria is not None:
+                for i in range(0, len(unidadesMateria)):
+                    URL = 'http://localhost:5000/promedios/materia/'+str(materia._id)+'/unidad/'+str(i+1)
+                    response = requests.get(URL)
+                    data = response.json()
+                    print(data['promedio_Materia'])
+                    promedios.append(data['promedio_Materia'])
+                promediosMateria[materia._nombre] = sum(promedios)/len(promedios)
+            unidades.lista.toList(listaUnidades)
+        rendimientoMaterias[ciclo] = promediosMateria
+        materias.lista.toList(listaMaterias)
+    
+    return jsonify({"rendimientoCiclos": rendimientoMaterias})
+
+
 
 
 
