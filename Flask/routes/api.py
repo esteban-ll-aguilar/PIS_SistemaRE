@@ -187,10 +187,31 @@ def ver_foto_perfil(cedula):
     
     return send_from_directory(os.path.dirname(URL), os.path.basename(URL))
 
-@api.route('/buscarpdf', methods=['POST'])
-def encontrar_pdf():
-    pass
+pdf_folder = os.path.join(os.getcwd(), 'data', 'documents')
+pdf_filename = 'informedeseguimientoestudiantil.pdf'
+pdf_path = os.path.join(pdf_folder, pdf_filename)
 
+@api.route('/buscarpdf', methods=['POST'])
+def manejar_pdf():
+    if os.path.exists(pdf_path):
+        return send_from_directory(pdf_folder, pdf_filename, as_attachment=True)
+    else:
+        if 'file' not in request.files:
+            return make_response(jsonify({"error": "No se ha enviado ningún archivo."}), 400)
+        
+        file = request.files['file']
+        
+        if file.filename == '':
+            return make_response(jsonify({"error": "No se ha seleccionado ningún archivo."}), 400)
+        
+        if not file.filename.lower().endswith('.pdf'):
+            return make_response(jsonify({"error": "El archivo debe ser un PDF."}), 400)
+        
+        if not os.path.exists(pdf_folder):
+            os.makedirs(pdf_folder)
+        
+        file.save(pdf_path)
+        return jsonify({"message": "Archivo PDF guardado correctamente."})
 
 
 
@@ -635,10 +656,11 @@ def ciclo_rendimiento_materias():
                     rangoMateria[materia._nombre]["7 a 8.5"].append(len(notas_7_85))
                     rangoMateria[materia._nombre]["8.5 a 10"].append(len(notas_85_10))
                     
-                for key in promedios:
-                    for k in promedios[key]:
-                        while len(promedios[key][k]) < 3:
-                            promedios[key][k].append(0)
+                for key in rangoMateria:
+                    for k in rangoMateria[key]:
+                        while len(rangoMateria[key][k]) < 3:
+                            rangoMateria[key][k].append(0)
+                            
                 auxPromedios.append(round(sum(promedios)/len(promedios),2))
             unidades.lista.toList(listaUnidades)
         rendimientoCiclos[ciclo]["materias"].append(rangoMateria)
