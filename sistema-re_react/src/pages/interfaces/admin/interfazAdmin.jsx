@@ -137,15 +137,10 @@ const InterfazAdmin = () => {
 
   const acciones = [
     // {
-    //   icono: <HiOutlineRefresh color='white' className='size-5' />,
-    //   texto: 'Crear Nuevo Periodo',
-    //   ruta: 'ActualizarDatos'
+    //   icono: <FaFileDownload color='white' className='size-5'/>,
+    //   texto: 'Descargar Informe',
+    //   ruta: 'Informe'
     // },
-    {
-      icono: <FaFileDownload color='white' className='size-5'/>,
-      texto: 'Descargar Informe',
-      ruta: 'Informe'
-    },
     {
       icono: <FaImages color='white' className='size-5' />,
       texto: 'Graficas',

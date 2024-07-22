@@ -6,7 +6,7 @@ import Informe from '../informe/informeSeguimiento';
 import Graficas from '../../graphics/graficas';
 import { useParams } from 'react-router-dom';
 import { HiAnnotation, HiHome, HiOutlineDocumentDuplicate, HiViewBoards } from "react-icons/hi";
-import { FaImages, FaPage4, FaPagelines, FaPager, FaTachometerAlt, FaUser, FaUserCircle, FaUserEdit, FaUserInjured, FaUsersCog, FaUserSecret, FaUserTimes } from "react-icons/fa";
+import { FaFile, FaImages, FaPage4, FaPagelines, FaPager, FaTachometerAlt, FaUser, FaUserCircle, FaUserEdit, FaUserInjured, FaUsersCog, FaUserSecret, FaUserTimes } from "react-icons/fa";
 import EstudianteCursa from '../../../components/estudianteCursa';
 import PaginaInfoAdmin from './paginaInfoAdmin';
 import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
@@ -96,6 +96,11 @@ const InterfazDocente = () => {
             icono: <FaUser color='white' className='size-5' />,
             texto: 'Sus Roles',
             ruta: '/roles'
+        },
+        {
+            icono: <FaFile color='white' className='size-5' />,
+            texto: 'Formato Notas',
+            ruta: '/formatoNotas'
         }
     ];
 
@@ -149,6 +154,14 @@ const InterfazDocente = () => {
                     {selectComponent === '/roles' && <RolPersonalEducativo cedula={id} />}
                     {selectComponent === '/graficas' && <GraficasUnidad cedula={id} />}
                     {selectComponent === '/estudiantesBajos' && <CalificacionesBajasEstudiantes cedula={id}/>}
+                    {selectComponent === '/formatoNotas' && 
+                    <>
+                        <h1 className='text-2xl font-bold text-center dark:text-white'>Formato de Notas</h1>
+                        <div className='flex justify-center'>
+                            <iframe src="https://docs.google.com/spreadsheets/d/1gHq4lKDtaeOe3VmhYdwH77ss0Xaz_Urh/edit?usp=sharing&ouid=105616310271479743819&rtpof=true&sd=true/preview" width="840" height="580"></iframe>
+                        </div>
+                        
+                    </>}
                 </section>
             </section>
         </div>

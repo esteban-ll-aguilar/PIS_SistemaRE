@@ -163,11 +163,20 @@ function InformeSeguimiento() {
             const signatureImageBytes2 = await fetch(signatureImage2).then(res => res.arrayBuffer());
             const signatureImageEmbed2 = await pdfDoc.embedPng(signatureImageBytes2);
 
-            const [firstPage] = pdfDoc.getPages(3);
-            const { width, height } = firstPage.getSize();
-            firstPage.drawImage(signatureImageEmbed1,{ x: 383, y: 255, width: 110, height: 70 });
+            const pages = pdfDoc.getPages();
+            if (pages.length < 2) {
+                throw new Error('El documento debe tener al menos 2 páginas para colocar las firmas en la página 2.');
+            }
 
-            firstPage.drawImage(signatureImageEmbed2, { x: 383, y: 255, width: 110, height: 70 });
+            const secondPage = pages[1]; // Página 2 (índice 1)
+            const { width, height } = secondPage.getSize();
+            secondPage.drawImage(signatureImageEmbed1, {
+                x: 383, y: 515, width: 110, height: 70
+            });
+
+            secondPage.drawImage(signatureImageEmbed2, {
+                x: 383, y: 456, width: 110, height: 70
+            });
 
             const signedPdfBytes = await pdfDoc.save();
             const signedPdfBlob = new Blob([signedPdfBytes], { type: 'application/pdf' });
@@ -195,37 +204,53 @@ function InformeSeguimiento() {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-slate-800 dark:text-white flex items-center justify-center">
             <div className="w-full max-w-4xl py-10 px-32 bg-white dark:bg-slate-900 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-center dark:text-white mb-4">
-                    Informe de desempeño estudiantil
-                </h1>
-                <p className="text-center text-lg dark:text-gray-300 mb-6">
-                    Aquí podrás subir el plan de retroalimentación que se realizó a los estudiantes con bajo rendimiento el cual se adjuntará con el informe de desempeño estudiantil para obtener el informe completo.<br/> 
-                    Primero, sube el archivo PDF, luego haz clic en el botón obtener informe y podrás visualizar el informe completo y descargarlo.
-                </p>
-
                 <div className="space-y-10">
                     <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
-                        {!fileExists && (
-                            <div>
-                                <UploadPDF onFileUpload={setUserPDF} onClearUpload={clearAll} />
-                                {dynamicPDFBlob && secondDynamicPDFBlob && (
-                                    <button onClick={handleCombineAndUpload} className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
-                                        Obtener Informe
-                                    </button>
-                                )}
-                            </div>
-                        )}
-                        {fileExists && (
+                        {!fileExists ? (
+                            <>
+                                <div className='items-center justify-center text-center'>
+                                    <h1 className="text-3xl font-bold text-center dark:text-white mb-4">
+                                        Subir retroalimentación estudiantil
+                                    </h1>
+                                    <p className="text-justify text-lg dark:text-gray-300 mb-6">
+                                        Aquí podrás subir el plan de retroalimentación que se realizó a los estudiantes con bajo rendimiento, el cual se adjuntará con el informe de desempeño estudiantil para obtener el informe completo.<br/>
+                                        Primero, sube el archivo PDF, luego haz clic en el botón obtener informe y podrás visualizar el informe completo y descargarlo.
+                                    </p>
+                                </div>
+                                <div>
+                                    <UploadPDF onFileUpload={setUserPDF} onClearUpload={clearAll} />
+                                    {dynamicPDFBlob && secondDynamicPDFBlob && (
+                                        <button onClick={handleCombineAndUpload} className="ml-52 px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                                            Obtener Informe
+                                        </button>
+                                    )}
+                                    {combinedPdfUrl && (
+                                        <button onClick={handleUploadPdf} className="ml-52 px-7 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 mt-4">
+                                            Subir  Informe
+                                        </button>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
                             <div className="text-center">
-                                <p className="text-lg mb-4">El informe ya está disponible. Puedes descargarlo o firmarlo.</p>
+                                <h1 className="text-3xl font-bold text-center dark:text-white mb-4">
+                                    Subir firmas para validez del informe de desempeño estudiantil
+                                </h1>
+                                <p className="text-lg mb-4 text-justify">El informe ya está subido; solo falta firmar para validar este documento. Aquí podrás visualizar el informe subido. Solo sube las firmas y se generará el documento de manera automática.</p>
                                 <div className="mt-4">
-                                    <iframe src={existingPdfUrl} width="100%" height="500px" title="Existing PDF"></iframe>
-                                    <a href={existingPdfUrl} download="combined.pdf" className="mt-4 px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
-                                        Descargar Informe
-                                    </a>
-                                    <input type="file" onChange={handleSignatureChange1} accept="image/png, image/jpeg" className="mt-4"/>
-                                    <input type="file" onChange={handleSignatureChange2} accept="image/png, image/jpeg" className="mt-4"/>
-                                    <p className="mt-4 text-lg">{uploadMessage}</p>
+                                    <iframe src={existingPdfUrl} width="100%" height="500px" title="Existing PDF" className='mb-10 mt-5'></iframe>
+                                    <div className='mt-10 mb-10'>
+                                        <a href={existingPdfUrl} download="combined.pdf" className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
+                                            Descargar Informe sin firmas
+                                        </a>
+                                    </div>
+                                    <div className='mt-5'>
+                                        <input type="file" onChange={handleSignatureChange1} accept="image/png, image/jpeg" className="mt-4"/>
+                                    </div>
+                                    <div className='mt-5'>
+                                        <input type="file" onChange={handleSignatureChange2} accept="image/png, image/jpeg" className="mt-4"/>
+                                        <p className="mt-4 text-lg">{uploadMessage}</p>
+                                    </div>
                                 </div>
                             </div>
                         )}

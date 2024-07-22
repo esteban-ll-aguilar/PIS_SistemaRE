@@ -334,7 +334,7 @@ const DynamicPDF = () => (
         <Image style={styles.image1} src={Quipux} />
         <Text style={styles.titulo}>INFORME DE DESEMPEÑO ESTUDIANTIL</Text>
         <Text style={styles.text}>
-          PERIODO ACADÉMICO: OCTUBRE 2023 - MARZO 2024
+          PERIODO ACADÉMICO: MARZO 2024 - AGOSTO 2024
         </Text>
         <Text style={styles.text}>EQUIPO RESPONSABLE</Text>
         <Text style={styles.textJustified}>
@@ -345,7 +345,6 @@ const DynamicPDF = () => (
         </Text>
         <Text style={styles.text}>DIRECTOR DE LA CARRERA</Text>
         <Text style={styles.textJustified}>Ing. Pablo Fernando Ordóñez </Text>
-        <Text style={styles.text}>MARZO 2024</Text>
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) =>
