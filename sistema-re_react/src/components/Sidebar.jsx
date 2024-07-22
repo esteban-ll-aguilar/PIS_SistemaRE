@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import React, {useState} from 'react';
+import { FaChevronLeft, FaChevronRight, FaInfo } from 'react-icons/fa';
 import logo from '../assets/tapa.png';
 import '../styles/sidebar.css';
+
 const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, acciones, setSelectedComponent, panel = '' }) => {
   const handleClick = (ruta) => {
     setSelectedComponent(ruta);
   };
-
+  
   return (
     <div
-      className={`bg-[#04344c] px-[45px] py-[29px] h-screen overflow-y-auto transition-transform duration-300 ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed shadow-2xl dark:bg-blue-950 z-50 scrollbar-hide`}
+      className={`bg-[#04344c] px-[45px] py-[29px] w-[350px] h-screen overflow-y-auto transition-transform duration-300 ${isVisible ? 'translate-x-0' : '-translate-x-full'} fixed shadow-2xl dark:bg-blue-950 z-50 scrollbar-hide`}
     >
       <div className="px-[1x] py-[28px] flex items-center justify-center">
         <img src={logo} alt="logo" className="w-40" />
@@ -30,16 +30,17 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
           >
             <div className="flex items-center gap-[10px]">
               {item.icono}
-              <Link to={item.ruta} className="text-[14px] text-white leading-[20px] font-normal hover:bg-[#0491d1]">
+              <span className="text-[14px] text-white leading-[20px] font-normal hover:bg-[#0491d1]">
                 {item.texto}
-              </Link>
+              </span>
             </div>
             <FaChevronRight color="white" />
           </div>
         ))}
       </div>
 
-      <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
+      {administrar.length > 0 && (
+        <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
         <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">Administrar</p>
         {administrar.map((item, index) => (
           <div
@@ -49,14 +50,15 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
           >
             <div className="flex items-center gap-[10px]">
               {item.icono}
-              <Link to={item.ruta} className="text-[14px] leading-[20px] font-normal text-white">
+              <span className="text-[14px] leading-[20px] font-normal text-white">
                 {item.texto}
-              </Link>
+              </span>
             </div>
             <FaChevronRight color="white" />
           </div>
         ))}
       </div>
+      )}
 
       <div className="pt-[10px] border-b-[1px] border-[#EDEDED]/[0.3]">
         <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">Acciones</p>
@@ -68,9 +70,9 @@ const Sidebar = ({ isVisible, toggleSidebar, role, principal, administrar, accio
           >
             <div className="flex items-center gap-[10px]">
               {accion.icono}
-              <Link to={accion.ruta} className="text-[14px] leading-[20px] font-normal text-white">
+              <span className="text-[14px] leading-[20px] font-normal text-white">
                 {accion.texto}
-              </Link>
+              </span>
             </div>
             <FaChevronRight color="white" />
           </div>

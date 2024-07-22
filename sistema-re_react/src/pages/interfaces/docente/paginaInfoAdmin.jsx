@@ -4,7 +4,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const PaginaInfoAdmin = () => {
     return (
-        <div style={{ fontFamily: "Times New Roman", width: '70%', margin: '0 auto' }}>
+        <div style={{ fontFamily: "Times New Roman", width: '70%', margin: '0 auto' }} className=' dark:text-white'>
             <h4 className="text-2xl dark:text-white font-bold mb-2" style={{ textAlign: 'justify', marginBottom: '2em' }} >
                 Seguimiento al rendimiento estudiantil
             </h4>
@@ -87,61 +87,6 @@ const PaginaInfoAdmin = () => {
             <h4 className="text-2xl dark:text-white font-bold mb-2 mt-4">
                 Reglas de Uso
             </h4>
-
-            <p className=" dark:text-white font-bold mb-2 mt-4" style={{ textAlign: 'justify', marginBottom: '1em' }}>
-                Administrador
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Como director de la carrera de computación, el ingeniero Pablo Ordóñez 
-            desempeña un papel clave en la administración de la aplicación web de 
-            seguimiento al rendimiento estudiantil. Su posición le confiere la responsabilidad 
-            de gestionar y supervisar todos los aspectos del sistema, garantizando una 
-            operación eficiente y efectiva.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            En su rol como administrador, el ingeniero Pablo Ordóñez tiene la capacidad de ejecutar las siguientes funciones:
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Crear Periodos Académicos: Establecer y gestionar periodos académicos, 
-            especificando fechas de inicio y fin, y asignar tanto a estudiantes como a docentes a estos periodos.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Acceso a Gráficos de Rendimiento: Visualizar gráficos detallados que abarcan el 
-            rendimiento de todas las materias en la carrera de computación, ofreciendo una perspectiva completa del progreso académico.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Descargar Informes: Generar y descargar informes que detallan información 
-            exhaustiva sobre el rendimiento de los estudiantes, facilitando una revisión y análisis profundos.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Gestión de Roles: Asignar y quitar roles de administrador, 
-            docente o personal de seguimiento a los usuarios, adaptando el sistema a las necesidades operativas y organizativas.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Editar Información de Docentes: 
-            Modificar los datos de los docentes, asegurando que la información esté actualizada y correcta.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Visualización Completa: Acceder a la información de todas las materias y ciclos, 
-            incluyendo estudiantes y notas, para una supervisión integral del rendimiento académico.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            
-            </p>
-
-
-            <p className=" dark:text-white font-bold mb-2 mt-4" style={{ textAlign: 'justify', marginBottom: '1em' }}>
-                Encargado de la comitiva
-            </p>
             <p className=" dark:text-white font-bold mb-2 mt-4" style={{ textAlign: 'justify', marginBottom: '1em' }}>
                 Docente
             </p>

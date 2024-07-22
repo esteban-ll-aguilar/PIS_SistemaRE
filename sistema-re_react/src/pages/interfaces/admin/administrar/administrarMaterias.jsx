@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import Cargando from "../../../../components/funtions/cargando";
+
 
 const AdministrarMaterias = () => {
     const [materias, setMaterias] = useState([]);
     const [editingMaterias, setEditingMaterias] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const { enqueueSnackbar } = useSnackbar();
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchMaterias = async () => {
@@ -22,6 +26,8 @@ const AdministrarMaterias = () => {
             } catch (error) {
                 console.error('Error fetching data:', error);
                 enqueueSnackbar('Error al cargar las materias', { variant: 'error' });
+            } finally {
+                setLoading(false);
             }
         };
         
@@ -83,6 +89,10 @@ const AdministrarMaterias = () => {
     const groupedMaterias = groupMateriasByCiclo(materias);
 
     return (
+    <> 
+       {loading ? (
+        <Cargando />
+       ) : ( 
         <div className="p-9">
             {Object.entries(groupedMaterias).map(([ciclo, materias]) => (
                 <div key={ciclo}>
@@ -153,7 +163,9 @@ const AdministrarMaterias = () => {
                 </div>
             )}
         </div>
-    );
+       )}   
+    </> 
+  );
 };
 
 export default AdministrarMaterias;

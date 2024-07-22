@@ -2,13 +2,36 @@ import {React, useEffect, useState} from 'react'
 import { FaSearch, FaEnvelope, FaRegBell, FaBars, FaChevronRight } from "react-icons/fa"
 import profile from "../assets/profile.png"
 import { Link } from 'react-router-dom'
-import SendEmail from '../pages/examples/envioCorreo';
+import SendEmail from './SendEmail';
 import Profile from '../pages/examples/gestionPerfil';
 import Sidebar from './Sidebar';
 import { useGrayscale } from './GrayscaleContext';
 
 
 const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, principal }) => {
+    const [usuario, setUsuario] = useState([]);
+    useEffect(() => {
+    const fetchData = async () => {
+        try {
+        const response = await fetch(`http://127.0.0.1:5000/usuario/${role}`, {
+            method: 'GET',
+        });
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        const usuario = await response.json();
+        setUsuario(usuario.usuario[0]);
+        } catch (error) {
+        console.error('Error fetching data:', error);
+        }
+    };
+    
+    fetchData();
+    }, []);
+
+    
+    
+    
     const [open, setOpen] = useState(false)
 
     const showProfile = () => {
@@ -68,8 +91,8 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
         <header className='flex items-center justify-between px-6 py-5 border-b border-gray-300 bg-[#04344c] shadow-sm dark:bg-blue-950'>
             <div className='flex items-center gap-4 '>
 
-                <button onClick={toggleSidebar} className='p-2  text-white rounded-md bg-[#529914]  dark:bg-sky-700'>
-                    <FaBars />
+                <button onClick={toggleSidebar} className='p-3  text-white rounded-md bg-[#529914]  dark:bg-sky-700 hover:bg-[#3C6E10] transition-colors duration-300'>
+                    <FaBars className='text-white size-7 hover:text-white ' />
                 </button>
 
                 {/* <div className='flex items-center bg-gray-100 rounded-md overflow-hidden '>
@@ -86,34 +109,60 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
 
             <div className='flex items-center gap-6'>
                 <div className='flex items-center gap-5 border-r pr-6 text-[#529914]'>
-                <FaRegBell className='hover:text-white transition-colors duration-300 cursor-pointer' /> 
-                <FaEnvelope className='hover:text-white text-[#529914] transition-colors duration-300 cursor-pointer' onClick={openModal} />
+                {/* <FaRegBell className='hover:text-white transition-colors duration-300 cursor-pointer' />  */}
+                <FaEnvelope className='hover:text-white text-[#529914] transition-colors duration-300 cursor-pointer size-7' onClick={openModal} />
                     {isModalOpen && (
                         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
                         <div className="w-96 bg-write p-2 rounded-lg shadow-md">
-                            <SendEmail onClose={closeModal} />
+                            <SendEmail onClose={closeModal} userRemitente={usuario} />
                         </div>
                         </div>
                     )}
                 </div>
 
-                <div className='relative flex items-center gap-3 cursor-pointer text-white' onClick={showProfile}>
-                    
-                    <div className='h-12 w-12 rounded-full bg-transparent overflow-hidden'>
-                        <img src={profile} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />     
+                <div className='relative flex items-center gap-5 cursor-pointer text-white
+                    dark:text-zinc-100 transition-colors duration-300
+                    ' onClick={showProfile}
+                    >
+                      
+                    <p>{usuario.user_primer_nombre} {usuario.user_primer_apellido}</p>
+                    <div className='h-20 w-20 rounded-full bg-transparent overflow-hidden'>
+                        <img src={`http://127.0.0.1:5000/ver/foto/perfil/${role}`} alt="Profile" className='h-full w-full object-cover bg-neutral-200 dark:bg-neutral-300' />     
                     </div>
                     {open && (
-                        <div className='bg-[#529914] border border-gray-300 shadow-lg absolute top-14 right-0 w-40 rounded-md p-5 space-y-2 dark:bg-blue-900'>
-                            <p className="cursor-pointer text-white font-semibold dark:text-zinc-100 h" onClick={openProfileModal}>     Perfil       </p>
-                            <p onClick={toggleModoNoche} className='cursor-pointer text-white font-semibold dark:text-zinc-100 '>Modo Oscuro</p>
-                            <p onClick={toggleGrayscale} className='cursor-pointer text-white font-semibold dark:text-zinc-100 '>{isGrayscale ? 'Desactivar' : 'Activar'} Escala de Grises</p>
-                            <p>
-                                <Link to='/' className='cursor-pointer text-white font-semibold  dark:text-zinc-100 z-40'>Cerrar sesión</Link>
-                            </p>
-                        </div>
+                        <div className='bg-[#529914] border border-gray-300 shadow-lg absolute top-14 right-0 w-48 rounded-lg p-6 space-y-4 dark:bg-blue-900 transition-transform transform duration-300'>
+                        <p 
+                          className="cursor-pointer text-white font-semibold hover:text-yellow-300 dark:text-zinc-100 dark:hover:text-yellow-300 transition-colors"
+                          onClick={openProfileModal}
+                        >
+                          Perfil
+                        </p>
+                        <p 
+                          onClick={toggleModoNoche}
+                          className='cursor-pointer text-white font-semibold hover:text-yellow-300 dark:text-zinc-100 dark:hover:text-yellow-300 transition-colors'
+                        >
+                          Modo Oscuro
+                        </p>
+                        <p 
+                          onClick={toggleGrayscale}
+                          className='cursor-pointer text-white font-semibold hover:text-yellow-300 dark:text-zinc-100 dark:hover:text-yellow-300 transition-colors'
+                        >
+                          {isGrayscale ? 'Desactivar' : 'Activar'} Escala de Grises
+                        </p>
+                        <p>
+                          <Link 
+                            to='/' 
+                            className='cursor-pointer text-white font-semibold hover:text-yellow-300 dark:text-zinc-100 dark:hover:text-yellow-300 transition-colors'
+                          >
+                            Cerrar sesión
+                          </Link>
+                        </p>
+                      </div>
+                      
                     )}
                 </div>
                 {isProfileModalOpen && (
+                  
                 <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
                     <Profile onClose={closeProfileModal} cedula={role} />
                 </div>

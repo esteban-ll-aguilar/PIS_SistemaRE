@@ -1,46 +1,17 @@
-import React, { useRef, useState, useEffect } from 'react'; // estas son las que tengo que quitar por que no es del docente
+import React, { useRef, useState, useEffect } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
-const GraficasCiclo = ({ onSelectCiclo }) => {
+const GraficasCiclo = ({ rendimientoCiclos }) => {
   const chartRef = useRef(null);
-  const [ciclos, setCiclos] = useState([]);
-  const [error, setError] = useState(null);
-  const [mostrarContenido, setMostrarContenido] = useState(false);
+  const [currentOption, setCurrentOption] = useState({});
 
-  useEffect(() => {
-    const fetchCiclos = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:5000/ciclos', {
-          method: 'GET',
-        });
+  // Convertimos los datos de rendimientoCiclos en el formato requerido
+  const calificacionesPorCiclo = Object.entries(rendimientoCiclos).map(([ciclo, data]) => ({
+    value: data.promedioCiclo,
+    name: `Ciclo ${ciclo}`,
+  }));
 
-        if (!response.ok) {
-          throw new Error(`Error con el servidor: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setCiclos(data.ciclos); // Actualiza el estado con la lista de ciclos
-        console.log(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError(error.message); // Maneja el error
-      }
-    };
-    fetchCiclos();
-  }, []);
-
-  const calificaciones_por_materia = [
-    { value: 6.70, name: 'MATEMÁTICAS DISCRETAS' },
-    { value: 7.09, name: 'REDACCIÓN' },
-    { value: 9.03, name: 'ALGEBRA LINEAL' },
-    { value: 8.04, name: 'ELETRICIDAD' },
-    { value: 7.00, name: 'TEORIA DE LA PROGRAMACIÓN' }
-  ];
-
-  const defaultPalette = [
-    '#5470c6', '#91cc75', '#fac858', '#ee6666', 
-    '#73c0de'
-  ];
-
+  const defaultPalette = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de'];
   const radius = ['50%', '90%'];
 
   const pieOption = {
@@ -50,21 +21,21 @@ const GraficasCiclo = ({ onSelectCiclo }) => {
         id: 'distribution',
         radius: radius,
         label: {
-          show: true
+          show: true,
         },
         universalTransition: true,
         animationDurationUpdate: 1000,
-        data: calificaciones_por_materia
-      }
-    ]
+        data: calificacionesPorCiclo,
+      },
+    ],
   };
 
   const parliamentOption = (function () {
-    let sum = calificaciones_por_materia.reduce((sum, cur) => sum + cur.value, 0);
+    let sum = calificacionesPorCiclo.reduce((sum, cur) => sum + cur.value, 0);
     let angles = [];
     let startAngle = -Math.PI / 2;
     let curAngle = startAngle;
-    calificaciones_por_materia.forEach(item => {
+    calificacionesPorCiclo.forEach((item) => {
       angles.push(curAngle);
       curAngle += (item.value / sum) * Math.PI * 2;
     });
@@ -77,9 +48,11 @@ const GraficasCiclo = ({ onSelectCiclo }) => {
       for (let i = 0; i < rowsCount; i++) {
         let totalRingSeatsNumber = Math.round((totalAngle * r) / size);
         let newSize = (totalAngle * r) / totalRingSeatsNumber;
-        for (let k = Math.floor((startAngle * r) / newSize) * newSize;
-             k < Math.floor((endAngle * r) / newSize) * newSize - 1e-6;
-             k += newSize) {
+        for (
+          let k = Math.floor((startAngle * r) / newSize) * newSize;
+          k < Math.floor((endAngle * r) / newSize) * newSize - 1e-6;
+          k += newSize
+        ) {
           let angle = k / r;
           let x = Math.cos(angle) * r;
           let y = Math.sin(angle) * r;
@@ -94,7 +67,7 @@ const GraficasCiclo = ({ onSelectCiclo }) => {
       series: {
         type: 'custom',
         id: 'distribution',
-        data: calificaciones_por_materia,
+        data: calificacionesPorCiclo,
         coordinateSystem: undefined,
         universalTransition: true,
         animationDurationUpdate: 1000,
@@ -106,50 +79,46 @@ const GraficasCiclo = ({ onSelectCiclo }) => {
           var cx = api.getWidth() * 0.5;
           var cy = api.getHeight() * 0.5;
           var size = viewSize / 50;
-          var points = parliamentLayout(
-            angles[idx],
-            angles[idx + 1],
-            Math.PI * 2,
-            r0,
-            r1,
-            size + 3
-          );
+          var points = parliamentLayout(angles[idx], angles[idx + 1], Math.PI * 2, r0, r1, size + 3);
           return {
             type: 'group',
-            children: points.map(pt => ({
+            children: points.map((pt) => ({
               type: 'circle',
               autoBatch: true,
               shape: {
                 cx: cx + pt[0],
                 cy: cy + pt[1],
-                r: size / 2
+                r: size / 2,
               },
               style: {
-                fill: defaultPalette[idx % defaultPalette.length]
-              }
-            }))
+                fill: defaultPalette[idx % defaultPalette.length],
+              },
+            })),
           };
-        }
-      }
+        },
+      },
     };
   })();
 
   useEffect(() => {
-    let currentOption = pieOption;
+    setCurrentOption(pieOption);
+  }, []); // Este useEffect se ejecuta solo una vez
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      currentOption = currentOption === pieOption ? parliamentOption : pieOption;
+      setCurrentOption((prevOption) => (prevOption === pieOption ? parliamentOption : pieOption));
       const chartInstance = chartRef.current.getEchartsInstance();
       chartInstance.setOption(currentOption);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [pieOption, parliamentOption, currentOption]); // Este useEffect depende de las opciones de gráficos
 
   return (
-      <div>
-          <div className="card col-span-1 md:col-span-2 lg:col-span-3 p-4">
-            <ReactEcharts ref={chartRef} option={pieOption} style={{ height: '400px', width: '100%' }} />
-          </div>
+    <div>
+      <div className="card col-span-1 md:col-span-2 lg:col-span-3 p-4">
+        <ReactEcharts ref={chartRef} option={currentOption} style={{ height: '400px', width: '100%' }} />
       </div>
+    </div>
   );
 };
 

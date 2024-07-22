@@ -1,10 +1,10 @@
-from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for, abort
+from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for, abort, send_from_directory
 from app import MAIL
 import requests
 
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from flask_cors import CORS
-import os
+import os, sys
 import numpy as np
 from controls.materiaDaoControl import MateriaDaoControl
 from controls.estudianteDaoControl import EstudianteDaoControl
@@ -20,6 +20,8 @@ from controls.calificacionDaoControl import CalificacionDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from controls.functions.exelCursaAsignate import ExelCursaAsignate
+from controls.functions.exelFormat import ExelFormat
+from config.DBConfig import DBConnection
 import io # gráfica
 import base64 # gráfica 
 api = Blueprint('api', __name__)
@@ -35,7 +37,7 @@ def mail_send():
 @api.route('/mail', methods=['POST'])    
 def mail(): 
     data = request.json
-    
+    #sujeto, destinatario, cuerpo
     enviado = MAIL().send_email(subject=data['subject'], recipient=[data['recipient']], body=data['body'])
     if enviado:
         return jsonify({"message": "Correo enviado correctamente"})
@@ -159,7 +161,151 @@ def materia():
     
     return make_response(jsonify({"materia": materia.to_dict_list()}))
 
+@api.route('/guardar/foto/perfil/<string:cedula>', methods=['POST'])
+def actualizar_foto_perfil(cedula):
+    user = UsuarioDaoControl()
+    usuario = user._lista.search_model(cedula, '_cedula')
+    data = request.files
+    
+    #cambiar el nombre de la imagen por la cedula sin danar la extension
+    data['file'].filename = cedula + os.path.splitext(data['file'].filename)[1]
+    URL = os.path.join(os.getcwd(), 'data', 'images', data['file'].filename)
+    data['file'].save(URL)
+    
+    usuario[0]._urlImagen = URL
+    user._usuario = usuario[0]
+    user.merge()
+    return make_response(jsonify({"usuario": user.to_dict_list()}))
 
+@api.route('/verificar/documento', methods=['GET'])
+def verificar_documento():
+    filename = request.args.get('filename')
+    if not filename:
+        return make_response(jsonify({"message": "Filename parameter is required"}), 400)
+    
+    upload_folder = os.path.join(os.getcwd(), 'data', 'documents')
+    file_path = os.path.join(upload_folder, filename)
+
+    if os.path.exists(file_path):
+        return make_response(jsonify({"exists": True}), 200)
+    else:
+        return make_response(jsonify({"exists": False}), 200)
+
+@api.route('/exportar/dataBase', methods=['GET'])
+def exportar_dataBase():
+    db = DBConnection()
+    file_path = r"C:\app\esteb\product\21c\admin\xe\dpdump\BACKUP.DMP"
+    #eliminar el archivo si existe
+    if os.path.exists(file_path):
+       os.remove(file_path)
+    
+    db.exportDataBase
+    print(os.path.dirname(file_path))
+    print(os.path.basename(file_path))
+    
+    return send_from_directory(
+        directory=os.path.dirname(file_path),
+        path=os.path.basename(file_path),
+        as_attachment=True
+    )   
+    
+@api.route('/guardar/documento', methods=['POST'])
+def guardar_documento():
+    if 'file' not in request.files:
+        return make_response(jsonify({"message": "No file part in the request"}), 400)
+
+    file = request.files['file']
+    if file.filename == '':
+        return make_response(jsonify({"message": "No selected file"}), 400)
+
+    upload_folder = os.path.join(os.getcwd(), 'data', 'documents')
+    os.makedirs(upload_folder, exist_ok=True)
+    file_path = os.path.join(upload_folder, file.filename)
+
+    if os.path.exists(file_path):
+        return make_response(jsonify({"message": "El archivo ya existe"}), 400)
+    
+    file.save(file_path)
+    return make_response(jsonify({"message": "Documento guardado correctamente"}), 200)
+
+@api.route('/documento/exists', methods=['GET'])
+def check_document_exists():
+    filename = request.args.get('filename')
+    if not filename:
+        return make_response(jsonify({"exists": False}), 400)
+
+    file_path = os.path.join(os.getcwd(), 'data', 'documents', filename)
+    exists = os.path.exists(file_path)
+    return jsonify({"exists": exists})
+
+@api.route('/documento/<filename>', methods=['GET'])
+def get_document(filename):
+    file_path = os.path.join(os.getcwd(), 'data', 'documents', filename)
+    if not os.path.exists(file_path):
+        return make_response(jsonify({"message": "File not found"}), 404)
+
+    return send_from_directory(os.path.dirname(file_path), filename)
+
+    
+
+@api.route('/obtener/documento/<string:documento>', methods=['GET'])
+def obtener_documento(documento):
+    documento = "FormatoDocentes.xlsx"
+    URL = os.path.join(os.getcwd(), 'data', 'documents', documento)
+    if not os.path.exists(URL):
+        return make_response(jsonify({"message": "El archivo no existe"}), 404)
+    return send_from_directory(os.path.dirname(URL), os.path.basename(URL))
+
+@api.route('/obtener/periodo_academico', methods=['GET'])
+def obtener_periodo_academico():
+    periodo = PeriodoAcademicoDaoControl()
+    periodo._lista.search_model(ultimo_periodoId(), '_id')
+    return make_response(jsonify({"periodo_academico": periodo.to_dict_list()}))
+
+@api.route('/ver/foto/perfil/<string:cedula>', methods=['GET'])
+def ver_foto_perfil(cedula):
+    user = UsuarioDaoControl()
+    user._lista.search_model(cedula, '_cedula')
+    URL = user.lista.toArray[0]._urlImagen
+    print(URL)
+    if URL == "NULL":
+        return make_response(jsonify({"message": "No se encontro la imagen"}), 404)
+    
+    return send_from_directory(os.path.dirname(URL), os.path.basename(URL))
+
+pdf_folder = os.path.join(os.getcwd(), 'data', 'documents')
+pdf_filename = 'informedeseguimientoestudiantil.pdf'
+pdf_path = os.path.join(pdf_folder, pdf_filename)
+
+
+
+
+
+@api.route('/ver/docentes', methods=['GET'])
+def ver_docentes():
+    docentes = DocenteDaoControl()
+    usuarios = UsuarioDaoControl()
+    docentes._lista.toArray
+    listaUser = usuarios._lista.toArray
+    aux = []
+    for i in range(0, len(docentes.lista.toArray)):
+        usuarios.lista.toList(listaUser)
+        user = usuarios.lista.search_model(docentes.lista.toArray[i]._cedula, '_cedula', type=0)
+        aux.append(user[0].serializable)
+    return make_response(jsonify({"docentes": aux}))
+
+@api.route('/ver/estudiantes', methods=['GET'])
+def ver_estudiantes():
+    estudiantes = EstudianteDaoControl()
+    usuarios = UsuarioDaoControl()
+    estudiantes._lista.toArray
+    listaUser = usuarios._lista.toArray 
+    aux = []
+    for i in range(0, len(estudiantes.lista.toArray)):
+        usuarios.lista.toList(listaUser)
+        user = usuarios.lista.search_model(estudiantes.lista.toArray[i]._cedula, '_cedula', type=0)
+        aux.append(user[0].serializable)
+    return make_response(jsonify({"estudiantes": aux}))
 
 @api.route('/estudiantes/eliminar/cursa/estudiante/<string:estudiante>/materia/<int:materia>', methods=['DELETE'])
 def eliminar_cursa(estudiante, materia):
@@ -208,7 +354,6 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
         #buscamos las calificaciones de la unidad
         calificacion._lista.search_model(unidadId, '_unidadId', type=0)
         calificacion.lista.sort_models('_cursaId', 0)
-        
         #obtener los estudiantes de la materia
         estudiantesList = estudiantes._lista.toArray
         listEstudiante = []
@@ -234,8 +379,11 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
         listCalificacion = []
         for i in range(0, len(auxcursaid)):
             calif = calificacion._lista.search_model(auxcursaid[i], '_cursaId')
-            listCalificacion.append(calif)
+            if calif is not None:
+                listCalificacion.append(calif)
         rubricaLista = rubrica._lista.toArray
+        
+        
         aux = []
         for i in range(0, len(listCalificacion)):
             arr = []
@@ -284,8 +432,10 @@ def promedios(materiaId, unidadId):
         estudiantes.append(listaEstudiantes[j])
         j+=1
     promedios = np.array(promedios, dtype=float)
+    if promedios.size == 0:
+        return jsonify({"promedio_Materia": 0, "estudiantes": []})
     promedio = round(np.mean(promedios), 2)
-    print(estudiantes)
+    #print(estudiantes)
     return jsonify({"promedio_Materia": promedio, "estudiantes": estudiantes})
 
 
@@ -337,7 +487,9 @@ def ciclos_existentes():
     ciclos = []
     for i in range(1, len(aux)):
         if aux[i-1]._ciclo != aux[i]._ciclo:
-            ciclos.append(aux[i-1]._ciclo)  
+            ciclos.append(aux[i-1]._ciclo)
+        if i == len(aux)-1:
+            ciclos.append(aux[i]._ciclo)  
     print(ciclos)
     return jsonify({"ciclos": ciclos})
 
@@ -428,6 +580,167 @@ def materias_docente(docente):
     m.lista.toList(materiasId)
     return make_response(jsonify({"materias": m.to_dict_list()}))
 
+@api.route('/promedios/materias/docente/<string:docente>', methods=['GET'])
+def bajas_calificaciones_materias_docente(docente):
+    URL = 'http://localhost:5000/docente/materias/'+docente
+    response = requests.get(URL)
+    data = response.json()
+    print(data)
+    materias = data['materias']
+    unidades = UnidadDaoControl()
+    unidad = unidades._lista.toArray
+    promedios = {}
+    for i in range(0, len(materias)):
+        unidades.lista.toList(unidad)
+        aux = unidades.lista.search_model(materias[i]['idmateria'], '_materiaId')
+        if aux != None:
+            URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(len(aux))
+            response = requests.get(URL)
+            data = response.json()
+            promedioEstudiante = []
+            
+            for estudiante in data['estudiantes']:
+                if estudiante['promedio'] < 7:
+                    promedioEstudiante.append(estudiante)
+            promedios[materias[i]['nombre']] = promedioEstudiante
+    
+    return jsonify({"notasBajasMaterias": promedios})
+
+@api.route('/notas/materias/docente/<string:docente>', methods=['GET'])
+def notas_materiasUnidad_docente(docente):
+    URL = 'http://localhost:5000/docente/materias/'+docente
+    response = requests.get(URL)
+    data = response.json()
+    materias = data['materias']
+    unidades = UnidadDaoControl()
+    unidad = unidades._lista.toArray
+    promedios = {}
+    #separamos las calificaciones de los estudiantes en 4 listas
+    #de 0 a 5, de 5 a 7, de 7 a 8.5, de 8.5 a 10
+    """
+        cada punto en el array significa la unidad y el numeros de estudiantes con esa nota
+        "notasBajasMaterias": {
+        "Materia 1": [
+            "0 a 5": [4,5,6]
+            "5 a 7": [6,7,8]
+            "7 a 8.5": [8,9,10]
+            "8.5 a 10": [9,10]
+        ],
+        }
+    """
+    
+    for i in range(0, len(materias)):
+        unidades.lista.toList(unidad)
+        unidadSearch = unidades.lista.search_model(materias[i]['idmateria'], '_materiaId')
+        promedios[materias[i]['nombre']] = {"0 a 5": [], "5 a 7": [], "7 a 8.5": [], "8.5 a 10": []}
+        print(unidadSearch)
+        if unidadSearch != None:
+            auxUnidad = UnidadDaoControl()
+            auxUnidad.lista.toList(unidadSearch)
+            auxUnidad.lista.sort_models('_nUnidad', 0)
+            unidadSearch = auxUnidad.lista.toArray
+            for j in range(0, len(unidadSearch)):
+                notas_0_5 = []
+                notas_5_7 = []
+                notas_7_85 = []
+                notas_85_10 = []
+                idUnidad = unidadSearch[j]._id
+                print(materias[i]['idmateria'], idUnidad)
+                URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(idUnidad)
+                response = requests.get(URL)
+                data = response.json()
+                
+                for estudiante in data['estudiantes']:
+                    if estudiante['promedio'] < 5:
+                        notas_0_5.append(estudiante)
+                    elif estudiante['promedio'] >= 5 and estudiante['promedio'] < 7:
+                        notas_5_7.append(estudiante)
+                    elif estudiante['promedio'] >= 7 and estudiante['promedio'] < 8.5:
+                        notas_7_85.append(estudiante)
+                    elif estudiante['promedio'] >= 8.5 and estudiante['promedio'] <= 10:
+                        notas_85_10.append(estudiante)
+                    
+                promedios[materias[i]['nombre']]["0 a 5"].append(len(notas_0_5))
+                promedios[materias[i]['nombre']]["5 a 7"].append(len(notas_5_7))
+                promedios[materias[i]['nombre']]["7 a 8.5"].append(len(notas_7_85))
+                promedios[materias[i]['nombre']]["8.5 a 10"].append(len(notas_85_10))
+    #llenar de 0 hasta tener 3 elementos
+    for key in promedios:
+        for k in promedios[key]:
+            while len(promedios[key][k]) < 3:
+                promedios[key][k].append(0)
+                
+    return jsonify({"promediosUnidad": promedios})
+
+@api.route('/ciclo/rendimiento/materias/', methods=['GET'])
+def ciclo_rendimiento_materias():
+    materias = MateriaDaoControl()
+    unidades = UnidadDaoControl()
+    listaUnidades = unidades._lista.toArray
+    listaMaterias = materias._lista.toArray
+    URL = 'http://localhost:5000/ciclos'
+    response = requests.get(URL)
+    data = response.json()
+    ciclos = data['ciclos']
+    rendimientoCiclos = {} 
+    aux= [] 
+    rendimientoMaterias = {}
+    for ciclo in ciclos:
+        materiasCiclo = materias.lista.search_model(ciclo, '_ciclo')
+        rendimientoCiclos[ciclo] = {"promedioCiclo": 0}
+        rendimientoMaterias[ciclo] = {"materias": []}
+        auxPromedios = []
+        rangoMateria = {}
+        for materia in materiasCiclo:
+            unidadesMateria = unidades.lista.search_model(materia._id, '_materiaId')
+            promedios = []
+            
+            rangoMateria[materia._nombre] = {"0 a 5": [], "5 a 7": [], "7 a 8.5": [], "8.5 a 10": []}
+            
+            if unidadesMateria is not None:
+                notas_0_5 = []
+                notas_5_7 = []
+                notas_7_85 = []
+                notas_85_10 = []
+                for i in range(0, len(unidadesMateria)):
+                    URL = 'http://localhost:5000/promedios/materia/'+str(materia._id)+'/unidad/'+str(unidadesMateria[i]._id)
+                    response = requests.get(URL)
+                    data = response.json()
+                    print(data['promedio_Materia'])
+                    promedios.append(data['promedio_Materia'])
+                    for estudiante in data['estudiantes']:
+                        if estudiante['promedio'] < 5:
+                            notas_0_5.append(estudiante)
+                        elif estudiante['promedio'] >= 5 and estudiante['promedio'] < 7:
+                            notas_5_7.append(estudiante)
+                        elif estudiante['promedio'] >= 7 and estudiante['promedio'] < 8.5:
+                            notas_7_85.append(estudiante)
+                        elif estudiante['promedio'] >= 8.5 and estudiante['promedio'] <= 10:
+                            notas_85_10.append(estudiante)
+                    
+                    rangoMateria[materia._nombre]["0 a 5"].append(len(notas_0_5))
+                    rangoMateria[materia._nombre]["5 a 7"].append(len(notas_5_7))
+                    rangoMateria[materia._nombre]["7 a 8.5"].append(len(notas_7_85))
+                    rangoMateria[materia._nombre]["8.5 a 10"].append(len(notas_85_10))
+                    
+                for key in rangoMateria:
+                    for k in rangoMateria[key]:
+                        while len(rangoMateria[key][k]) < 3:
+                            rangoMateria[key][k].append(0)
+                            
+                auxPromedios.append(round(sum(promedios)/len(promedios),2))
+            unidades.lista.toList(listaUnidades)
+        rendimientoMaterias[ciclo]["materias"].append(rangoMateria)
+        if len(auxPromedios) != 0:
+            rendimientoCiclos[ciclo]["promedioCiclo"] = sum(auxPromedios)/len(auxPromedios)
+        materias.lista.toList(listaMaterias)
+    
+    return jsonify({"rendimientoCiclos": rendimientoCiclos, "rendimientoMaterias": rendimientoMaterias})
+
+
+
+
+
 def ultimo_periodoId():
     periodo = PeriodoAcademicoDaoControl()._list().toArray
     idultimoperiodo = periodo[len(periodo)-1]._id
@@ -445,18 +758,18 @@ def crear_estudiantes_docentes():
     data = request.form 
     print(files['docenteFile'])
     
+    formato = ExelFormat()
+    cumpleFEstudian = formato.verify_exel_format(files['estudianteFile'])
+    cumpleFDocente = formato.verify_exel_format(files['docenteFile'], isStudent=False)
+    print(cumpleFEstudian)
+    print(cumpleFDocente)
+    if not cumpleFEstudian or not cumpleFDocente:
+        return jsonify({"message": "Formato de exel incorrecto"}, 404)
+    
     existPeriodo, periodoAcId, _ = PeriodoAcademicoDaoControl()._lista.__exist__(data['nombrePeriodo'])    
     if PeriodoAcademicoDaoControl()._lista.isEmpty or not existPeriodo:
         periodoAcId = CreateModel().createPeriodoAcademico(data)
-    #if existPeriodo:
-    #   return make_response(jsonify({"message": "Periodo academico ya existe"}), 400)
-    # crear periodo academico
-    """   eda.saveExel
-    eca.saveExel
-    eca.asignarEstudiante
     
-    eca.crearCursa(1) """
-    #asignar docentes
     docentes = ExelDocentesAsignate(files['docenteFile'])  
     estudianteCursa = ExelCursaAsignate(files['estudianteFile'])
     docentes.saveExel
@@ -553,18 +866,6 @@ def eliminar_funcion_docente(idCedDocente,funcionDocente):
     return make_response(jsonify({"message": "Funcion no existe"}), 400)
     
     
-@api.route('/ver/docentes', methods=['GET'])
-def ver_docentes():
-    docentes = DocenteDaoControl()
-    usuarios = UsuarioDaoControl()
-    docentes._lista.toArray
-    listaUser = usuarios._lista.toArray
-    aux = []
-    for i in range(0, len(docentes.lista.toArray)):
-        usuarios.lista.toList(listaUser)
-        user = usuarios.lista.search_model(docentes.lista.toArray[i]._cedula, '_cedula', type=0)
-        aux.append(user[0].serializable)
-    return make_response(jsonify({"docentes": aux}))
 
 
 
@@ -619,46 +920,7 @@ def rendimiento_ciclo(cicloId):
     return make_response(jsonify({"materias": materias.to_dict_list()}))
 #////////////////////////////////////////////////////////////////////////////////////////////
     
-    """ 
-#estudiantes con el numero de cedula y el ciclo en donde estan
-@api.route('/estudiantes/ciclos', methods=['GET'])
-def estudiantes_ciclo():
-    materias = MateriaDaoControl()
-    cursa = CursaDaoControl()
-    #lista de materias 
-    lista_Materias= materias._lista.toArray
-    Lista_Materias_Ciclo = []
-    Lista_ciclos = []
-    for i in range(0, len(lista_Materias)):
-        #obtener los ciclos de las materias
-        if Lista_ciclos.__contains__(lista_Materias[i]._ciclo) == False:
-            Lista_ciclos.append(lista_Materias[i]._ciclo)
-        #obtener las materias de los ciclos
-    for i in range(0, len(Lista_ciclos)):
-        auxMaterias = []
-        for j in range(0, len(lista_Materias)):
-            if lista_Materias[j]._ciclo == Lista_ciclos[i]:
-                auxMaterias.append(lista_Materias[j])
-        Lista_Materias_Ciclo.append(auxMaterias)
-    print(len(Lista_Materias_Ciclo))
-    #lista de estudiantes, no te entiendo
-    lista_Cursa = cursa._lista.toArray
-    estudiantes = {}
-    for i in range(0, len(lista_Cursa)):
-        for j in range(0, len(Lista_Materias_Ciclo)):
-            Lista_Estudiantes_Cursa = []
-            for k in range(0, len(Lista_Materias_Ciclo[j])):
-                if lista_Cursa[i]._materiaId == Lista_Materias_Ciclo[j][k]._id:
-                    Lista_Estudiantes_Cursa.append(lista_Cursa[i]._estudianteCedula)
-            estudiantes[Lista_ciclos[j]] = Lista_Estudiantes_Cursa
-                
-    #lista de estudiantes
-    return make_response(jsonify({"estudiantes": estudiantes})) """
 
-    
-    
-    
-        
     
     
     

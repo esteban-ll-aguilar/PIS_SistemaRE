@@ -4,8 +4,8 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const PaginaInfoAdmin = () => {
     return (
-        <div style={{ fontFamily: "Times New Roman", width: '70%', margin: '0 auto' }}>
-            <h4 className="text-2xl dark:text-white font-bold mb-2" style={{ textAlign: 'justify', marginBottom: '2em' }} >
+        <div style={{ fontFamily: "Times New Roman", width: '70%', margin: '0 auto' }} className=' dark:text-white'>
+            <h4 className="text-2xl dark:text-white font-bold mb-2" style={{ textAlign: 'justify', marginBottom: '1em' }} >
                 Seguimiento al rendimiento estudiantil
             </h4>
 
@@ -44,7 +44,7 @@ const PaginaInfoAdmin = () => {
             </p>
 
             <h4 className="text-2xl dark:text-white font-bold mb-2 mt-4">
-                Encargados de la Comitiva
+                Responsable de la comitiva
             </h4>
             <p className=" dark:text-white font-bold mb-2 mt-4" style={{ textAlign: 'justify', marginBottom: '1em' }}>
                 Art. 204.- Responsables del seguimiento al desempeño estudiantil
@@ -139,49 +139,6 @@ const PaginaInfoAdmin = () => {
             </p>
 
 
-            <p className=" dark:text-white font-bold mb-2 mt-4" style={{ textAlign: 'justify', marginBottom: '1em' }}>
-                Encargado de la comitiva
-            </p>
-            <p className=" dark:text-white font-bold mb-2 mt-4" style={{ textAlign: 'justify', marginBottom: '1em' }}>
-                Docente
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-                En la aplicación web de seguimiento al rendimiento estudiantil,
-                los docentes desempeñan un rol importante en la gestión y evaluación
-                del progreso académico de sus estudiantes. Además de la capacidad de
-                cargar y actualizar notas a través de un formato Excel descargable,
-                los docentes tienen acceso a herramientas visuales que les permiten monitorear 
-                el rendimiento de los estudiantes de manera efectiva. Entre estas herramientas 
-                se incluyen gráficos detallados que reflejan el desempeño de los estudiantes 
-                por unidad, facilitando la identificación de áreas de mejora y el análisis de 
-                tendencias en el rendimiento académico. Estas funcionalidades están diseñadas 
-                para apoyar a los docentes en la optimización de su labor educativa y en la 
-                toma de decisiones informadas para el desarrollo académico de sus alumnos.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            El usuario de tipo docente en la aplicación web de seguimiento 
-            al rendimiento estudiantil tiene acceso a las siguientes funcionalidades:
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Acceso al Sistema: El docente podrá 
-            acceder al sistema utilizando sus credenciales institucionales, garantizando la seguridad y privacidad de la información.
-            
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Carga de Estudiantes y Notas: Una vez dentro del sistema, el docente tendrá 
-            la capacidad de cargar las notas de los estudiantes. Esta carga se realizará 
-            exclusivamente para las materias que el docente 
-            imparte, asegurando que cada docente gestione únicamente su área de responsabilidad.
-            </p>
-
-            <p style={{ textAlign: 'justify', marginBottom: '1em' }}>
-            Formato de Carga: Para facilitar el proceso de carga de notas, el sistema proporciona un formato predefinido en Excel. 
-            Este formato puede ser descargado directamente desde la aplicación web. 
-            </p>
 
             <h4 className="text-2xl dark:text-white font-bold mb-2 mt-4">
                 Normativas por la Universidad

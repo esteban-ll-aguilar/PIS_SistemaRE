@@ -76,7 +76,7 @@ const styles2 = StyleSheet.create({
   },
 });
 
-const PDF2 = () => (
+const SecondDynamicPDF = () => (
   <Document>
     <Page style={styles2.page10}>
       <Text style={styles2.tituloc}>CONCLUSIONES</Text>
@@ -285,4 +285,4 @@ const PDF2 = () => (
   </Document>
 );
 
-export default PDF2;
+export default SecondDynamicPDF;

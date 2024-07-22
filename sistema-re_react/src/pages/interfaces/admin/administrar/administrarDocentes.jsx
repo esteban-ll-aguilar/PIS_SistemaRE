@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import { FaSearch } from 'react-icons/fa';
+import Cargando from "../../../../components/funtions/cargando";
 
 const AdministrarDocentes = () => {
     const [docentes, setDocentes] = useState([]);
     const [editingDocente, setEditingDocente] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [emailError, setEmailError] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const { enqueueSnackbar } = useSnackbar(); // Obtener enqueueSnackbar aquí
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchDocentes = async () => {
             try {
@@ -22,6 +25,8 @@ const AdministrarDocentes = () => {
                 console.log(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
             }
         };
         
@@ -100,8 +105,37 @@ const AdministrarDocentes = () => {
         setEditingDocente(null);
     };
 
+    // Filtrar docentes según el término de búsqueda
+    const filteredDocentes = docentes.filter(docente => 
+        docente.user_cedula.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        docente.user_primer_nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        docente.user_segundo_nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        docente.user_primer_apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        docente.user_segundo_apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        docente.user_correo.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <>
+            {loading ? (
+                <Cargando />
+            ) : (
+             <section>
+                <div className="flex p-4 justify-center items-center mb-4">
+                <div className="relative w-full max-w-sm">
+                    <input
+                        type="text"
+                        placeholder="Buscar docente..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white pl-10"
+                    />
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <FaSearch className="text-gray-400 dark:text-white" />
+                    </div>
+                </div>
+            </div>
+            
             <table className="min-w-full bg-white border border-gray-300 dark:border-gray-700">
                 <thead className="bg-gray-100 dark:bg-gray-800 dark:text-white">
                     <tr>
@@ -115,15 +149,15 @@ const AdministrarDocentes = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {docentes.map((docente) => (
+                    {filteredDocentes.map((docente) => (
                         <tr key={docente.id} className="hover:bg-gray-50">
-                            <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300">{docente.user_cedula}</td>
+                            <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300 text-center">{docente.user_cedula}</td>
                             <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300">{docente.user_primer_nombre}</td>
                             <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300">{docente.user_segundo_nombre}</td>
                             <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300">{docente.user_primer_apellido}</td>
                             <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300">{docente.user_segundo_apellido}</td>
                             <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300">{docente.user_correo}</td>
-                            <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300">
+                            <td className="py-2 px-4 border-b dark:border-gray-700 dark:bg-slate-300 text-center">
                                 <button
                                     className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600"
                                     onClick={() => handleEditClick(docente)}
@@ -217,6 +251,9 @@ const AdministrarDocentes = () => {
                     </div>
                 </div>
             )}
+             </section>
+            )}
+        
         </>
     );
 };

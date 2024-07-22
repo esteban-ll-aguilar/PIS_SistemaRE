@@ -4,6 +4,7 @@ sys.path.append('../')
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from controls.functions.exelCursaAsignate import ExelCursaAsignate
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
+from config.DBConfig import DBConnection
 #Esteban
 #eda = ExelDocentesAsignate(r"C:\Users\esteb\OneDrive\Escritorio\Estudios_Esteban\3-Ciclo\PIS\Docentes_AbrilAgosto2024.xlsx")
 #eca = ExelCursaAsignate(r"C:\Users\esteb\OneDrive\Escritorio\Estudios_Esteban\3-Ciclo\PIS\Estudiantes_AbrilAgosto2024.xlsx")
@@ -11,12 +12,14 @@ from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
 eda = ExelDocentesAsignate(r"C:\Users\Asus\Downloads\Docentes_AbrilAgosto2024.xlsx")
 eca = ExelCursaAsignate(r"C:\Users\Asus\Downloads\Estudiantes_AbrilAgosto2024.xlsx")
 try:
-    eda.saveExel
+    """ eda.saveExel
     eca.saveExel
     eca.asignarEstudiante
     
     eca.crearCursa(1)
-    
+     """
+    db = DBConnection()
+    db.exportDataBase
     
     
     

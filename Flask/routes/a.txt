@@ -1,28 +1,53 @@
-
-@api.route('/estudiantes/ciclos', methods=['GET'])
-def estudiantes_ciclo():
-    materias = MateriaDaoControl()
-    cursa = CursaDaoControl()
-    cursa._lista.sort_models('_periodoAcademicoId', ultimo_periodoId())
-    #lista de materias 
-    lista_Materias= materias._lista.toArray
-    Lista_Materias_Ciclo = []
-    for i in range(0, len(lista_Materias)):
-        if lista_Materias[i]._ciclo == 1:
-            Lista_Materias_Ciclo.append(lista_Materias[i])
-    #lista de estudiantes
-    lista_Cursa = cursa.lista.toArray
-    Lista_Cursa_Ciclo = {}
-    for i in range(0, len(Lista_Materias_Ciclo)):
-        auxCursa = CursaDaoControl()
-        cursa.lista.toList(lista_Cursa)
-        estudiantesMateria = cursa.lista.search_model(Lista_Materias_Ciclo[i]._id, '_materiaId', type=0, method=1) 
-        for i in range(0, len(estudiantesMateria)):
-            if auxCursa._lista.isEmpty:
-                auxCursa._lista.add(estudiantesMateria[i]._estudianteCedula)
-            else:
-                existeEstudiante,_,_ = auxCursa.lista.__exist__(estudiantesMateria[i]._estudianteCedula)
-                if not existeEstudiante:
-                    auxCursa.lista.__addLast__(estudiantesMateria[i]._estudianteCedula)
-        
-        Lista_Cursa_Ciclo[Lista_Materias_Ciclo[i]._nombre] = auxCursa.to_dict_list()
+@api.route('/notas/materias/docente/<string:docente>', methods=['GET'])
+def notas_materias_docente(docente):
+    URL = 'http://localhost:5000/docente/materias/'+docente
+    response = requests.get(URL)
+    data = response.json()
+    print(data)
+    materias = data['materias']
+    unidades = UnidadDaoControl()
+    unidad = unidades._lista.toArray
+    promedios = {}
+    #separamos las calificaciones de los estudiantes en 4 listas
+    #de 0 a 5, de 5 a 7, de 7 a 8.5, de 8.5 a 10
+    """
+        cada punto en el array significa la unidad y el numeros de estudiantes con esa nota
+        "notasBajasMaterias": {
+        "Materia 1": [
+            "0 a 5": [4,5,6]
+            "5 a 7": [6,7,8]
+            "7 a 8.5": [8,9,10]
+            "8.5 a 10": [9,10]
+        ],
+        }
+    """
+    numeroEstudiantesPromedio = []
+    notas_0_5 = []
+    notas_5_7 = []
+    notas_7_85 = []
+    notas_85_10 = []
+    for i in range(0, len(materias)):
+        unidades.lista.toList(unidad)
+        unidadSearch = unidades.lista.search_model(materias[i]['idmateria'], '_materiaId')
+        print(unidadSearch)
+        if unidadSearch != None:
+            for i in range(0, len(unidadSearch)):
+                URL = 'http://localhost:5000/promedios/materia/'+str(materias[i]['idmateria'])+'/unidad/'+str(i+1)
+                response = requests.get(URL)
+                data = response.json()
+                promedioEstudiante = []
+                for estudiante in data['estudiantes']:
+                    promedioEstudiante.append(estudiante['promedio'])
+                numeroEstudiantesPromedio.append(promedioEstudiante)
+    
+    promedios = []
+    for i in range(0, len(numeroEstudiantesPromedio)):
+        if len(numeroEstudiantesPromedio[i]) == 0:
+            promedios.append({"0 a 5": 0, "5 a 7": 0, "7 a 8.5": 0, "8.5 a 10": 0})
+            continue
+        promedios.append({"0 a 5": len([x for x in numeroEstudiantesPromedio[i] if x < 5]),
+                          "5 a 7": len([x for x in numeroEstudiantesPromedio[i] if x >= 5 and x < 7]),
+                          "7 a 8.5": len([x for x in numeroEstudiantesPromedio[i] if x >= 7 and x < 8.5]),
+                          "8.5 a 10": len([x for x in numeroEstudiantesPromedio[i] if x >= 8.5 and x <= 10])})
+    print(promedios)
+    return jsonify({"notasBajasMaterias": promedios})

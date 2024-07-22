@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
-import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup } from 'react-icons/hi';
-import { FaTachometerAlt, FaUserGraduate } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+import { HiOutlineDocumentDuplicate, HiViewBoards, HiUserGroup, HiAnnotation, HiOutlineClipboardCopy, HiPhotograph } from 'react-icons/hi';
+import { FaFileDownload, FaFileImport, FaHome, FaImages, FaProjectDiagram, FaTachometerAlt, FaUser, FaUserGraduate } from 'react-icons/fa';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
 import Informe from '../informe/informeSeguimiento';
@@ -10,6 +10,10 @@ import EstudianteCursa from '../../../components/estudianteCursa';
 import Materias from '../../../components/materias';
 import TarjetaGraficasAdmin from '../../../components/TarjetaGraficasAdmin';
 import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
+import PaginaInfoAdmin from './paginaInfoAdmin';
+import Graficas from '../../graphics/graficas';
+import verificarFuncion from '../../../components/funtions/verificarFuncion';
+import GraficasResponsable from '../../graphics/graficasResponsable';
 
 const InterfazResponsable = () => {
   const { id } = useParams();
@@ -18,7 +22,7 @@ const InterfazResponsable = () => {
   const [selectedCicloId, setSelectedCicloId] = useState(null);
   const [selectedMateriaId, setSelectedMateriaId] = useState(null);
   const [data, setData] = useState({});
-
+  verificarFuncion(id, 'PERSONAL_SEGUIMIENTO');
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,6 +41,9 @@ const InterfazResponsable = () => {
     fetchData();
   }, [id]);
 
+
+  
+  
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
@@ -50,33 +57,34 @@ const InterfazResponsable = () => {
 
   const principal = [
     {
-      icono: <FaTachometerAlt color='white' />,
+      icono: <FaHome color='white' className='size-5' />,
       texto: 'Principal',
       ruta: 'Principal'
     },
     {
-      icono: <HiUserGroup color='white' />,
+      icono: <HiAnnotation color='white' className='size-5' />,
       texto: 'Pagina Informativa',
       ruta: '/pagina_informativa'
-    }
-  ];
-  
-  const administrar = [
+    },
     {
-      icono: <HiViewBoards color='white' />,
-      texto: 'Roles',
+      icono: <FaUser color='white' className='size-5' />,
+      texto: 'Sus Roles',
       ruta: '/roles'
     }
   ];
   
+  const administrar = [
+    
+  ];
+  
   const acciones = [
     {
-      icono: <FaUserGraduate color='white' />,
+      icono: <FaFileDownload color='white' className='size-5' />,
       texto: 'Descargar Informe',
       ruta: '/informe'
     },
     {
-      icono: <HiOutlineDocumentDuplicate color='white' />,
+      icono: <FaImages color='white' className='size-5' />,
       texto: 'Graficas',
       ruta: '/graficas'
     }
@@ -88,19 +96,16 @@ const InterfazResponsable = () => {
         <Sidebar
           isVisible={isSidebarVisible}
           toggleSidebar={toggleSidebar}
-          panel='Panel_'
-          role='Responsable'
+          role='Panel Responsable'
           principal={principal}
           administrar={administrar}
           acciones={acciones}
           setSelectedComponent={setSelectComponent}
-          className="z-50"
+          className="z-50 dark:bg-blue-950"
         />
         <section className={`flex flex-col w-full transition-all duration-300 relative ${isSidebarVisible ? 'ml-[270px]' : 'ml-0'}`}>
-          <Dashboardview role={data.user_nombres} toggleSidebar={toggleSidebar} className="z-50" />
-          <Outlet />
-          <p className="mt-8"></p>
-
+          <Dashboardview role={id} toggleSidebar={toggleSidebar} className="z-50" />
+          
           {selectComponent === 'Principal' && (
             selectedCicloId ? (
                 selectedMateriaId ? (
@@ -121,9 +126,7 @@ const InterfazResponsable = () => {
           )}
           
           {selectComponent === '/pagina_informativa' && (
-            <div className='App py-80 flex flex-col items-center justify-center dark:max-h-full dark:bg-slate-700'>
-              <h1 className='text-3xl font-bold dark:text-white'>Pagina Informativa</h1>
-            </div>
+            <PaginaInfoAdmin/>
           )}
           {selectComponent === '/roles' && (
             <RolPersonalEducativo cedula={id} />
@@ -132,7 +135,7 @@ const InterfazResponsable = () => {
             <Informe />
           )}
           {selectComponent === '/graficas' && (
-            <TarjetaGraficasAdmin />
+            <GraficasResponsable />
           )}
         </section>
       </section>

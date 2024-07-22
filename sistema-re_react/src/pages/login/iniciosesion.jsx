@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom'; // Importamos el hook useNavigat
 import "bootstrap-icons/font/bootstrap-icons.css"; // Importamos los iconos de Bootstrap
 import './inicioSesion.css'; // Incluimos los estilos adicionales
 import { useFormik } from 'formik'; // Importamos useFormik para gestionar el estado y validación del formulario
+import { useSnackbar } from 'notistack';
 
 export const Iniciosesion = () => {
   const [data, setData] = useState(); // Estado para almacenar los datos del formulario
+  const { enqueueSnackbar } = useSnackbar(); // Función para mostrar notificaciones en pantalla
   // Función de validación para el formulario
   const validate = (values) => {
     const errors = {};
@@ -51,8 +53,8 @@ const handleLoginClick = async (e) => {
     setData(responseData);
     console.log(responseData);
     // Mostrar una alerta de éxito
-    alert('Inicio de sesión exitoso');
-
+    //alert('Inicio de sesión exitoso');
+    enqueueSnackbar('Inicio de sesión exitoso', { variant: 'success' });
     // Verificar si responseData tiene la propiedad 'funcion' antes de acceder a ella
     /* if (responseData.funcion && responseData.funcion.length > 0) {
       for (let i = 0; i < responseData.funcion.length; i++) {
@@ -86,10 +88,12 @@ const handleLoginClick = async (e) => {
           }
     } else {
       console.error('No se encontraron roles válidos para el usuario');
+      enqueueSnackbar('No se encontraron roles válidos para el usuario', { variant: 'error' });
     }
   } else {
     console.error('Error al iniciar sesión:');
-    alert('Error al iniciar sesión:');
+    //alert('Error al iniciar sesión:');
+    enqueueSnackbar('Error al iniciar sesión', { variant: 'error' });
     // Mostrar una alerta visual de error al usuario
   }
 };
@@ -107,12 +111,14 @@ const handleLoginClick = async (e) => {
     if (response.ok) {
       // Lógica para manejar la respuesta de activación exitosa
       console.log('Correo de activación enviado correctamente.');
-      alert('Correo de activación enviado correctamente.');
+      //alert('Correo de activación enviado correctamente.');
+      enqueueSnackbar('Correo de activación enviado correctamente', { variant: 'success' });
       // Aquí podrías mostrar un mensaje de éxito al usuario o redirigirlo a otra página
     } else {
       // Manejo de errores en la activación de la cuenta
       console.error('Error al activar cuenta o cuenta activa');
-      alert('Error al activar cuenta o cuenta activa');
+      //alert('Error al activar cuenta o cuenta activa');
+      enqueueSnackbar('Error al activar cuenta o cuenta activa', { variant: 'error' });
       // Aquí podrías mostrar un mensaje de error al usuario
     }
   };

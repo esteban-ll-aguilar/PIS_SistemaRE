@@ -18,7 +18,7 @@ const verificarFuncion = async (cedula, descripcion) => {
 
         if (!tienePermiso) {
             alert('No tienes permisos para acceder a esta interfaz');
-                window.location.href = 'http://localhost:3000/';
+            window.location.href = 'http://localhost:3000/';
         }
     } catch (error) {
         console.error('Error fetching data:', error);

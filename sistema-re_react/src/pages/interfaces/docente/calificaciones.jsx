@@ -42,8 +42,12 @@ const Calificaciones = () => {
     <>
     <div className="min-h-screen p-4 flex flex-col items-center dark:bg-slate-700">
   <header className="mb-6 text-center">
-    <h4 className="text-2xl dark:text-white font-bold mb-2">Calificaciones Unidad {unidad.nunidad}</h4>
-    <p className="text-lg">{unidad.nombre}</p>
+    { estudiantes.length > 0 && (
+      <>
+      <h4 className="text-2xl dark:text-white font-bold mb-2">Calificaciones Unidad {unidad.nunidad}</h4>
+      <p className="text-lg">{unidad.nombre}</p>
+      </>
+    )}
     {error && <p className="text-red-500 mt-2">Error: {error}</p>}
   </header>
   {rubrica.length <= 0 ? (
@@ -93,12 +97,15 @@ const Calificaciones = () => {
       </table>
     </div>
   ) : (
-    <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md w-full max-w-md">No hay calificaciones disponibles.</div>
+    <div className="text-center p-9 m-4 bg-white dark:bg-gray-800 rounded-lg shadow-md w-full max-w-md">No hay calificaciones disponibles.</div>
   )}
 
-  <div>
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={() => window.print()}>Imprimir</button>
-  </div>
+  {estudiantes.length > 0 && (
+    <div>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={() => window.print()}>Imprimir</button>
+    </div>
+  )}
+
 </div>
 
 

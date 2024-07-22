@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import Cargando from "../../../components/funtions/cargando";
+
+
 
 const FuncionDocente = () => {
   const [docentes, setDocentes] = useState([]);
   const [error, setError] = useState(null);
+  const { enqueueSnackbar } = useSnackbar(); // Obtener enqueueSnackbar aquí
+  const [loading, setLoading] = useState(true);
+
+
 
   useEffect(() => {
     const fetchFuncionDocentes = async () => {
@@ -21,6 +29,8 @@ const FuncionDocente = () => {
         console.log(responseData.docentes);
       } catch (error) {
         setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchFuncionDocentes();
@@ -37,12 +47,12 @@ const FuncionDocente = () => {
       }
       const responseData = await response.json();
       console.log(responseData);
-      alert('Función asignada correctamente');
-      //recargar la pagina
+      enqueueSnackbar('Función asignada correctamente', { variant: 'success' });
+    //recargar la pagina
       window.location.reload();
     } catch (error) {
       setError(error.message);
-      alert('Error al asignar la función');
+      enqueueSnackbar('Error al asignar la función', { variant: 'error' });
     }
   };
   const eliminarFuncion = async (cedula, funcion) => {
@@ -56,22 +66,27 @@ const FuncionDocente = () => {
       }
       const responseData = await response.json();
       console.log(responseData);
-      alert('Función eliminada correctamente');
+      enqueueSnackbar('Función eliminada correctamente', { variant: 'success' });
       //recargar la pagina
       window.location.reload();
 
     } catch (error) {
       setError(error.message);
-      alert('Error al eliminar la función');
+      enqueueSnackbar('Error al eliminar la función', { variant: 'error' });
     }
   };
 
 
   return (
-    <div className="min-h-screen p-4 flex flex-col items-center dark:bg-slate-700">
-      <header className="mb-6 text-center">
-        <h4 className="text-2xl dark:text-white font-bold mb-2">Funciones de los docentes</h4>
-        {error && <p className="text-red-500 mt-2">Error: {error}</p>}
+    <>
+        {loading ? (
+          <Cargando/>
+        ) : (
+
+            <div className="min-h-screen p-4 flex flex-col items-center dark:bg-slate-700">
+              <header className="mb-6 text-center">
+                 <h4 className="text-2xl dark:text-white font-bold mb-2">Funciones de los docentes</h4>
+                 {error && <p className="text-red-500 mt-2">Error: {error}</p>}
       </header>
       {docentes.length > 0 ? (
         <div className="w-full overflow-x-auto">
@@ -158,7 +173,10 @@ const FuncionDocente = () => {
           No se ha asignado funciones a los docentes.
         </div>
       )}
-    </div>
+             
+     </div>
+     )}
+    </>
   );
 };
 
