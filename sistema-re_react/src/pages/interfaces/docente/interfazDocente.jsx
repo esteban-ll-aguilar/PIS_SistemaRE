@@ -13,13 +13,18 @@ import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
 import verificarFuncion from '../../../components/funtions/verificarFuncion';
 import CalificacionesBajasEstudiantes from './calificacionesBajasEstudiantes';
 import GraficasUnidad from '../../graphics/graficasUnidad';
-
+import { useSnackbar } from 'notistack';
+import {verificarFechaMayorAUnMes} from '../../../components/funtions/verificarFecha';
 const InterfazDocente = () => {
     const { id } = useParams();
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
     const [selectComponent, setSelectComponent] = useState('Principal');
     const [selectedMateriaId, setSelectedMateriaId] = useState(null);
     const [data, setData] = useState([]);
+    const [periodoAcademico, setPeriodoAcademico] = useState({});
+    const { enqueueSnackbar } = useSnackbar();
+    const [showDelete, setShowDelete] = useState(true);
+
     verificarFuncion(id, 'DOCENTE');
 
     useEffect(() => {
@@ -37,10 +42,34 @@ const InterfazDocente = () => {
                 console.error('Error fetching data:', error);
             }
         };
+        const fetchPeriodoAcademico = async () => {
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/obtener/periodo_academico`, {
+                    method: 'GET',
+                });
         
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+        
+                const responseData = await response.json();
+                if (responseData && responseData.periodo_academico && responseData.periodo_academico.length > 0) {
+                    const periodo = responseData.periodo_academico[0];
+                    setPeriodoAcademico(periodo);
+                    console.log(periodo.fecha_inicio);
+                    setShowDelete(verificarFechaMayorAUnMes(periodo.fecha_inicio));
+                } else {
+                    throw new Error('Response data is not in expected format');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                enqueueSnackbar('Error al cargar el periodo académico', { variant: 'error' });
+            }
+        };
+      
+        fetchPeriodoAcademico();
         fetchData();
     }, [id]);
-
 
     useEffect(() => {
         if (selectComponent === 'Principal') {
@@ -105,7 +134,7 @@ const InterfazDocente = () => {
                     
                     {selectComponent === 'Principal' && (
                         selectedMateriaId ? (
-                            <EstudianteCursa id={selectedMateriaId} idDocente={id} />
+                            <EstudianteCursa id={selectedMateriaId} idDocente={id} ShowDelete={showDelete} />
                         ) : (
                             <Materias
                                 baseUrl="http://127.0.0.1:5000/docente"

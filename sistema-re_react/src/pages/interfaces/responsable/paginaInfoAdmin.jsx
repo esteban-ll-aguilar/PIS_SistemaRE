@@ -4,7 +4,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const PaginaInfoAdmin = () => {
     return (
-        <div style={{ fontFamily: "Times New Roman", width: '70%', margin: '0 auto' }}>
+        <div style={{ fontFamily: "Times New Roman", width: '70%', margin: '0 auto' }} className=' dark:text-white'>
             <h4 className="text-2xl dark:text-white font-bold mb-2" style={{ textAlign: 'justify', marginBottom: '1em' }} >
                 Seguimiento al rendimiento estudiantil
             </h4>

@@ -7,6 +7,7 @@ import { use } from 'echarts';
 
 
 export const Graficas = () => {
+  
   return (
     <div>
       <div className='dashboard gap-4 p-4' > 

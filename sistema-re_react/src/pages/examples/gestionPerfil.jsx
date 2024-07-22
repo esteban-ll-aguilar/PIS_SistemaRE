@@ -5,8 +5,9 @@ import { useSnackbar } from 'notistack';
 const Profile = ({ onClose, cedula }) => {
     const [usuario, setUsuario] = useState({});
     const [avatar, setAvatar] = useState(`http://127.0.0.1:5000/ver/foto/perfil/${cedula}`);
-    const { enqueueSnackbar } = useSnackbar();
     const [showPassword, setShowPassword] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,29 +29,29 @@ const Profile = ({ onClose, cedula }) => {
     }, [cedula]);
 
     const handleAvatarChange = async (e) => {
-      const file = e.target.files[0];
-      if (file) {
-          const formData = new FormData();
-          formData.append('file', file);
-          try {
-              const response = await fetch(`http://127.0.0.1:5000/guardar/foto/perfil/${cedula}`, {
-                  method: 'POST',
-                  body: formData,
-              });
-              if (!response.ok) {
-                  throw new Error(`Network response was not ok: ${response.statusText}`);
-              }
-              const data = await response.json();
-              const imageUrl = `http://127.0.0.1:5000/ver/foto/perfil/${cedula}`;
-              setAvatar(imageUrl);
-              enqueueSnackbar('Avatar actualizado correctamente', { variant: 'success' });
-              window.location.reload();
+        const file = e.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/guardar/foto/perfil/${cedula}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                const data = await response.json();
+                const imageUrl = `http://127.0.0.1:5000/ver/foto/perfil/${cedula}`;
+                setAvatar(imageUrl);
+                enqueueSnackbar('Avatar actualizado correctamente', { variant: 'success' });
+                window.location.reload();
             } catch (error) {
-              console.error('Error updating avatar:', error);
-              enqueueSnackbar('Error al actualizar avatar', { variant: 'error' });
-          }
-      }
-  };
+                console.error('Error updating avatar:', error);
+                enqueueSnackbar('Error al actualizar avatar', { variant: 'error' });
+            }
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -61,7 +62,38 @@ const Profile = ({ onClose, cedula }) => {
         setShowPassword(!showPassword);
     };
 
+    const validatePassword = (password) => {
+        const minLength = 8;
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (password.length < minLength) {
+            return `La contraseña debe tener al menos ${minLength} caracteres.`;
+        }
+        if (!hasUpperCase) {
+            return 'La contraseña debe incluir al menos una letra mayúscula.';
+        }
+        if (!hasLowerCase) {
+            return 'La contraseña debe incluir al menos una letra minúscula.';
+        }
+        if (!hasNumber) {
+            return 'La contraseña debe incluir al menos un número.';
+        }
+        if (!hasSpecialChar) {
+            return 'La contraseña debe incluir al menos un carácter especial.';
+        }
+        return '';
+    };
+
     const saveChanges = async () => {
+        const passwordError = validatePassword(usuario.user_contrasena || '');
+        if (passwordError) {
+            setPasswordError(passwordError);
+            return;
+        }
+
         console.log('Datos del usuario:', usuario);
         try {
             const response = await fetch('http://127.0.0.1:5000/actualizar/usuario', {
@@ -141,8 +173,9 @@ const Profile = ({ onClose, cedula }) => {
                     className="absolute inset-y-0 pt-6 right-0 pr-4 flex items-center cursor-pointer"
                     onClick={togglePasswordVisibility}
                 >
-                    {showPassword ? <FaEyeSlash className="text-gray-500 size-5" /> : <FaEye className="text-gray-500 size-5" />}
+                    {showPassword ? <FaEyeSlash className="text-gray-500 mb-1 size-5" /> : <FaEye className="text-gray-500 mb-1 size-5" />}
                 </div>
+                {passwordError && <p className="text-red-600 text-sm mt-2">{passwordError}</p>}
             </div>
             <button
                 onClick={saveChanges}

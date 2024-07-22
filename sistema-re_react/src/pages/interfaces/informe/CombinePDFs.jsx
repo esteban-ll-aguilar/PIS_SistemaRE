@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
-import { saveAs } from 'file-saver';
 
 function CombinePDFs({ dynamicPDFBlob, userPDF, secondDynamicPDFBlob }) {
     const [combinedPdfUrl, setCombinedPdfUrl] = useState(null);
@@ -9,31 +8,35 @@ function CombinePDFs({ dynamicPDFBlob, userPDF, secondDynamicPDFBlob }) {
     const combine = async () => {
         if (!dynamicPDFBlob || !userPDF || !secondDynamicPDFBlob) return;
 
-        const pdfDoc = await PDFDocument.create();
-        const dynamicPDF = await PDFDocument.load(await dynamicPDFBlob.arrayBuffer());
-        const userPDFDoc = await PDFDocument.load(await userPDF.arrayBuffer());
-        const secondDynamicPDF = await PDFDocument.load(await secondDynamicPDFBlob.arrayBuffer());
+        try {
+            const pdfDoc = await PDFDocument.create();
+            const dynamicPDF = await PDFDocument.load(await dynamicPDFBlob.arrayBuffer());
+            const userPDFDoc = await PDFDocument.load(await userPDF.arrayBuffer());
+            const secondDynamicPDF = await PDFDocument.load(await secondDynamicPDFBlob.arrayBuffer());
 
-        const dynamicPages = await pdfDoc.copyPages(dynamicPDF, dynamicPDF.getPageIndices());
-        dynamicPages.forEach(page => pdfDoc.addPage(page));
+            const dynamicPages = await pdfDoc.copyPages(dynamicPDF, dynamicPDF.getPageIndices());
+            dynamicPages.forEach(page => pdfDoc.addPage(page));
 
-        const userPages = await pdfDoc.copyPages(userPDFDoc, userPDFDoc.getPageIndices());
-        userPages.forEach(page => pdfDoc.addPage(page));
+            const userPages = await pdfDoc.copyPages(userPDFDoc, userPDFDoc.getPageIndices());
+            userPages.forEach(page => pdfDoc.addPage(page));
 
-        const secondDynamicPages = await pdfDoc.copyPages(secondDynamicPDF, secondDynamicPDF.getPageIndices());
-        secondDynamicPages.forEach(page => pdfDoc.addPage(page));
+            const secondDynamicPages = await pdfDoc.copyPages(secondDynamicPDF, secondDynamicPDF.getPageIndices());
+            secondDynamicPages.forEach(page => pdfDoc.addPage(page));
 
-        const combinedPdfBytes = await pdfDoc.save();
-        const combinedPdfBlob = new Blob([combinedPdfBytes], { type: 'application/pdf' });
-        const combinedPdfUrl = URL.createObjectURL(combinedPdfBlob);
-        setCombinedPdfUrl(combinedPdfUrl);
+            const combinedPdfBytes = await pdfDoc.save();
+            const combinedPdfBlob = new Blob([combinedPdfBytes], { type: 'application/pdf' });
+            const combinedPdfUrl = URL.createObjectURL(combinedPdfBlob);
+            setCombinedPdfUrl(combinedPdfUrl);
+        } catch (error) {
+            console.error('Error combining PDFs:', error);
+        }
     };
 
     const download = () => {
         if (combinedPdfUrl) {
             const a = document.createElement('a');
             a.href = combinedPdfUrl;
-            a.download = 'combined.pdf';
+            a.download = 'seguimientoInforme Desempeño Estudiantil Computación UNL Marzo 2024 - Agosto 2024-combined.pdf';
             a.click();
         }
     };
@@ -56,7 +59,7 @@ function CombinePDFs({ dynamicPDFBlob, userPDF, secondDynamicPDFBlob }) {
                         Descargar Informe de Desempeño Estudiantil
                     </button>
                     {showPdf && (
-                        <iframe src={combinedPdfUrl} className="w-full h-96 border-2 border-gray-300 mt-4"></iframe>
+                        <iframe src={combinedPdfUrl} className="w-full h-96 border-2 border-gray-300 mt-4" title="Combined PDF"></iframe>
                     )}
                 </>
             )}

@@ -33,4 +33,18 @@ class DBConnection:
             return con
         except Exception as e:
             print('Error: '+str(e))
+            
+            
+    @property
+    def exportDataBase(self):
+        #guardar el archivo en descargas
+        print('Exportando base de datos')
+        #os.system(f'expdp {self.__USER}/{self.__PASSWORD}@{self.__DSN} DIRECTORY=EXPORT_DATABASE DUMPFILE=backup.dmp')
+        os.system(f'expdp {self.__USER}/{self.__PASSWORD}@{self.__DSN} DIRECTORY=DATA_PUMP_DIR DUMPFILE=backup.dmp')
+        #CREATE DIRECTORY my_backup_dir AS 'C:\USERS\ESTEB\ONEDRIVE\ESCRITORIO\ESTUDIOS_ESTEBAN\3-CICLO\PIS\PIS_SISTEMARE\FLASK/DATA/DATABASE/';
+        #GRANT READ, WRITE ON DIRECTORY my_backup_dir TO your_user;
+
+        # print('Exportación exitosa')
+    
+        
         

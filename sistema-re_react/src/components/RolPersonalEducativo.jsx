@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboardTeacher, faUserTie, faUserCog } from '@fortawesome/free-solid-svg-icons';
+import Cargando from "../components/funtions/cargando";
+
 
 const RolPersonalEducativo = ({ cedula }) => {
     const [funciones, setFunciones] = useState([]);
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchFuncionDocente = async () => {
@@ -19,6 +23,8 @@ const RolPersonalEducativo = ({ cedula }) => {
                 console.log(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
             }
         };
         fetchFuncionDocente();
@@ -51,6 +57,10 @@ const RolPersonalEducativo = ({ cedula }) => {
     };
 
     return (
+    <> 
+      {loading ? (
+        <Cargando />
+      ) : (   
         <div className="flex flex-col items-center space-y-6 p-6">
             {funciones.map((funcion, index) => (
                 <div key={index} className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md hover:shadow-2xl transition-shadow duration-300">
@@ -67,7 +77,10 @@ const RolPersonalEducativo = ({ cedula }) => {
                     </div>
                 </div>
             ))}
+            
         </div>
+        )}
+     </>
     );
 };
 

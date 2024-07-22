@@ -1,27 +1,21 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
-import { color } from 'echarts';
 
-const GraficasMateria = () => {
-  // Definición de los datos para las categorías de notas, materias y rendimientos
-  const data = {
-    categories: ['0 a 4.5', '4.6 a 6.9', '7 a 10'], // Categorías de notas
-    materias: ['BDD', 'EDD', 'Requisitos SW', 'Estadistica analitica', 'Arq. de Ordenadores'], // Materias
-    rendimiento: { // Datos de rendimiento por materia y categoría de notas
-      'BDD': [4.4, 7], // Rendimiento para 'Base datos' en cada categoría de notas
-      'EDD': [6.3], 
-      'Requisitos SW': [7.3], 
-      'Estadistica analitica': [9.20],
-      'Arq. de Ordenadores': [7.8]
-    }
-  };
+const GraficasMateria = ({ materias }) => {
+  // Transformar los datos de materias en el formato requerido
+  const categories = ['0 a 5', '5 a 7', '7 a 8.5', '8.5 a 10'];
+  const materiasKeys = Object.keys(materias[0]);
+  const rendimiento = materiasKeys.reduce((acc, materia) => {
+    acc[materia] = categories.map(category => materias[0][materia][category].reduce((a, b) => a + b, 0));
+    return acc;
+  }, {});
 
   // Colores para cada categoría de notas
-  const colors = ['#FF0000 ', '#FFFC00', '#41FF00 '];
+  const colors = ['#FF0000', '#FFFC00', '#41FF00', '#0000FF'];
 
   // Configuración de las opciones para la gráfica
   const option = {
-    color: colors, //igualAsigna los colores directamente en las opciones de la gráfica
+    color: colors, // Asigna los colores directamente en las opciones de la gráfica
     tooltip: { // Configuración del tooltip al pasar el mouse sobre la gráfica
       trigger: 'axis',
       axisPointer: {
@@ -29,22 +23,22 @@ const GraficasMateria = () => {
       }
     },
     legend: { // Configuración de la leyenda (legend)
-      data: data.categories, // Las categorías como etiquetas de la leyenda
-      //virar a 45 grados la leyenda
+      data: categories, // Las categorías como etiquetas de la leyenda
     },
-    xAxis: { // Configuración del eje X (horizontal) //Ahi?
+    xAxis: { // Configuración del eje X (horizontal)
       type: 'category', // Tipo de eje: categoría
-      data: data.materias, // Datos para las materias en el eje X
-      axislabel: {
+      data: materiasKeys, // Datos para las materias en el eje X
+      axisLabel: {
         color: '#FF5733',
-        rotation: 45, 
+        rotate: 45,
+        fontSize: 12,
       }
     },
     yAxis: { // Configuración del eje Y (vertical)
-      type: 'value', 
+      type: 'value',
       name: 'Estudiantes'
     },
-    series: data.categories.map((category, index) => ({ // Configuración de las series de datos
+    series: categories.map((category, index) => ({ // Configuración de las series de datos
       name: category, // Nombre de la serie
       type: 'bar', // Tipo de gráfica: barras
       stack: 'total', // Apilar las barras
@@ -54,7 +48,7 @@ const GraficasMateria = () => {
       itemStyle: {
         color: colors[index] // Asigna un color a cada categoría de notas
       },
-      data: data.materias.map(materia => data.rendimiento[materia][index]) // Datos de rendimiento por materia y categoría de notas
+      data: materiasKeys.map(materia => rendimiento[materia][index]) // Datos de rendimiento por materia y categoría de notas
     }))
   };
 

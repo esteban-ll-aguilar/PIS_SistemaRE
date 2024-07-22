@@ -1,173 +1,196 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios'; // Asegúrate de tener axios instalado
+import React, { useState, useEffect } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { pdf } from '@react-pdf/renderer';
-import SignatureCanvas from 'react-signature-canvas';
 import DynamicPDF from './DynamicPDF';
 import SecondDynamicPDF from './SecondDynamicPDF';
 import UploadPDF from './UploadPDF';
-import CombinePDFs from './CombinePDFs';
 
 function InformeSeguimiento() {
     const [userPDF, setUserPDF] = useState(null);
     const [dynamicPDFBlob, setDynamicPDFBlob] = useState(null);
     const [secondDynamicPDFBlob, setSecondDynamicPDFBlob] = useState(null);
-    const [signedPdfBlob, setSignedPdfBlob] = useState(null);
-    const [showPdf, setShowPdf] = useState(false);
-    const [signing, setSigning] = useState(false);
-    const [uploadingImage, setUploadingImage] = useState(false);
-    const [currentSignature, setCurrentSignature] = useState(1);
-    const sigCanvas = useRef(null);
     const [combinedPdfUrl, setCombinedPdfUrl] = useState(null);
-    const [pdfExiste, setPdfExiste] = useState(null); // null, true, o false
+    const [uploadMessage, setUploadMessage] = useState('');
+    const [fileExists, setFileExists] = useState(false);
+    const [existingPdfUrl, setExistingPdfUrl] = useState('');
+    const [signatureImage1, setSignatureImage1] = useState(null);
+    const [signatureImage2, setSignatureImage2] = useState(null);
 
     useEffect(() => {
-        const verificarPdfExiste = async () => {
+        const generateDynamicPDFs = async () => {
             try {
-                const respuesta = await axios.post(`http://127.0.0.1:5000//buscarpdf`);
-                if (respuesta.status === 200) {
-                    // El PDF existe
-                    setPdfExiste(true);
-                }
+                const dynamicPDFBlob = await pdf(<DynamicPDF />).toBlob();
+                setDynamicPDFBlob(dynamicPDFBlob);
+
+                const secondDynamicPDFBlob = await pdf(<SecondDynamicPDF />).toBlob();
+                setSecondDynamicPDFBlob(secondDynamicPDFBlob);
             } catch (error) {
-                if (error.response && error.response.status === 400) {
-                    // El PDF no existe o hubo otros errores
-                    setPdfExiste(false);
-                }
+                console.error('Error generating dynamic PDFs:', error);
             }
         };
 
-        verificarPdfExiste();
+        generateDynamicPDFs();
+    }, []);
+
+    useEffect(() => {
+        const checkFileExists = async () => {
+            try {
+                const filename = 'combined.pdf';
+                const response = await fetch(`http://127.0.0.1:5000/documento/exists?filename=${filename}`);
+                const result = await response.json();
+                if (result.exists) {
+                    setFileExists(true);
+                    setExistingPdfUrl(`http://127.0.0.1:5000/documento/${filename}`);
+                } else {
+                    setFileExists(false);
+                }
+            } catch (error) {
+                console.error('Error checking file existence:', error);
+            }
+        };
+
+        checkFileExists();
     }, []);
 
     const clearAll = () => {
         setUserPDF(null);
         setDynamicPDFBlob(null);
         setSecondDynamicPDFBlob(null);
-        setSignedPdfBlob(null);
         setCombinedPdfUrl(null);
-        setShowPdf(false);
-        setSigning(false);
-        setUploadingImage(false);
-        setCurrentSignature(1);
+        setUploadMessage('');
+        setFileExists(false);
+        setExistingPdfUrl('');
+        setSignatureImage1(null);
+        setSignatureImage2(null);
     };
 
-    const startSigning = (signatureNumber) => {
-        setSigning(true);
-        setUploadingImage(false);
-        setCurrentSignature(signatureNumber);
-    };
-
-    const startUploadingImage = (signatureNumber) => {
-        setUploadingImage(true);
-        setSigning(false);
-        setCurrentSignature(signatureNumber);
-    };
-
-    const handleImageUpload = async (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                const imageDataUrl = reader.result;
-                await finishSigning(imageDataUrl);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const finishSigning = async (signatureDataUrl) => {
-        if (!userPDF) return;
-
-        try {
-            const pdfDoc = await PDFDocument.load(await userPDF.arrayBuffer());
-            const pages = pdfDoc.getPages();
-            const firstPage = pages[1]; // Ajustar si es necesario
-
-            let signatureImage;
-            if (signatureDataUrl.startsWith('data:image/png')) {
-                signatureImage = await pdfDoc.embedPng(signatureDataUrl);
-            } else if (signatureDataUrl.startsWith('data:image/jpeg')) {
-                signatureImage = await pdfDoc.embedJpg(signatureDataUrl);
-            } else {
-                console.error('Formato de imagen inválido');
-                return;
-            }
-
-            // Ajustar estas coordenadas si es necesario
-            const positions = [
-                { x: 383, y: 255, width: 110, height: 70 }, // Firma 1
-                { x: 383, y: 313, width: 110, height: 70 }  // Firma 2
-            ];
-
-            const pos = positions[currentSignature - 1];
-
-            firstPage.drawImage(signatureImage, {
-                x: pos.x,
-                y: firstPage.getHeight() - pos.y - pos.height,
-                width: pos.width,
-                height: pos.height,
-            });
-
-            const signedPdfBytes = await pdfDoc.save();
-            const signedPdfBlob = new Blob([signedPdfBytes], { type: 'application/pdf' });
-            setSignedPdfBlob(signedPdfBlob);
-            setSigning(false);
-            setUploadingImage(false);
-        } catch (error) {
-            console.error('Error al finalizar la firma:', error);
-        }
-    };
-
-    const finishCanvasSigning = async () => {
-        const signatureDataUrl = sigCanvas.current.toDataURL();
-        await finishSigning(signatureDataUrl);
-    };
-
-    const combine = async () => {
-        if (!signedPdfBlob || !dynamicPDFBlob || !secondDynamicPDFBlob) {
-            console.error("Uno o más PDFs son indefinidos");
-            console.log({ signedPdfBlob, dynamicPDFBlob, secondDynamicPDFBlob });
+    const handleCombineAndUpload = async () => {
+        if (!dynamicPDFBlob || !userPDF || !secondDynamicPDFBlob) {
+            console.error("One or more PDFs are undefined");
             return;
         }
 
         try {
             const pdfDoc = await PDFDocument.create();
+            const dynamicPdfDoc = await PDFDocument.load(await dynamicPDFBlob.arrayBuffer());
+            const userPdfDoc = await PDFDocument.load(await userPDF.arrayBuffer());
+            const secondDynamicPdfDoc = await PDFDocument.load(await secondDynamicPDFBlob.arrayBuffer());
 
-            const signedPDF = await PDFDocument.load(await signedPdfBlob.arrayBuffer());
-            const dynamicPDF = await PDFDocument.load(await dynamicPDFBlob.arrayBuffer());
-            const secondDynamicPDF = await PDFDocument.load(await secondDynamicPDFBlob.arrayBuffer());
+            const dynamicPdfPages = await pdfDoc.copyPages(dynamicPdfDoc, dynamicPdfDoc.getPageIndices());
+            dynamicPdfPages.forEach(page => pdfDoc.addPage(page));
 
-            const signedPages = await pdfDoc.copyPages(signedPDF, signedPDF.getPageIndices());
-            signedPages.forEach(page => pdfDoc.addPage(page));
+            const userPdfPages = await pdfDoc.copyPages(userPdfDoc, userPdfDoc.getPageIndices());
+            userPdfPages.forEach(page => pdfDoc.addPage(page));
 
-            const dynamicPages = await pdfDoc.copyPages(dynamicPDF, dynamicPDF.getPageIndices());
-            dynamicPages.forEach(page => pdfDoc.addPage(page));
-
-            const secondDynamicPages = await pdfDoc.copyPages(secondDynamicPDF, secondDynamicPDF.getPageIndices());
-            secondDynamicPages.forEach(page => pdfDoc.addPage(page));
+            const secondDynamicPdfPages = await pdfDoc.copyPages(secondDynamicPdfDoc, secondDynamicPdfDoc.getPageIndices());
+            secondDynamicPdfPages.forEach(page => pdfDoc.addPage(page));
 
             const combinedPdfBytes = await pdfDoc.save();
             const combinedPdfBlob = new Blob([combinedPdfBytes], { type: 'application/pdf' });
             const combinedPdfUrl = URL.createObjectURL(combinedPdfBlob);
             setCombinedPdfUrl(combinedPdfUrl);
         } catch (error) {
-            console.error('Error al combinar los PDFs:', error);
+            console.error('Error combining PDFs:', error);
         }
     };
 
-    const download = () => {
-        if (combinedPdfUrl) {
+    const handleUploadPdf = async () => {
+        if (!combinedPdfUrl) return;
+
+        try {
+            const response = await fetch(combinedPdfUrl);
+            const blob = await response.blob();
+            const file = new File([blob], 'combined.pdf', { type: 'application/pdf' });
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const uploadResponse = await fetch('http://127.0.0.1:5000/guardar/documento', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await uploadResponse.json();
+            if (uploadResponse.ok) {
+                setUploadMessage('Documento guardado correctamente');
+                setFileExists(true);
+                setExistingPdfUrl(`http://127.0.0.1:5000/documento/combined.pdf`);
+            } else {
+                setUploadMessage(result.message);
+            }
+        } catch (error) {
+            setUploadMessage('Error al subir el documento');
+            console.error('Error uploading PDF:', error);
+        }
+    };
+
+    const handleSignatureChange1 = (event) => {
+        const file = event.target.files[0];
+        if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setSignatureImage1(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Por favor sube una imagen PNG o JPG.');
+        }
+    };
+
+    const handleSignatureChange2 = (event) => {
+        const file = event.target.files[0];
+        if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setSignatureImage2(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Por favor sube una imagen PNG o JPG.');
+        }
+    };
+
+    const handleSignDocument = async () => {
+        if (!existingPdfUrl || !signatureImage1 || !signatureImage2) return;
+
+        try {
+            const existingPdfBytes = await fetch(existingPdfUrl).then(res => res.arrayBuffer());
+            const pdfDoc = await PDFDocument.load(existingPdfBytes);
+
+            const signatureImageBytes1 = await fetch(signatureImage1).then(res => res.arrayBuffer());
+            const signatureImageEmbed1 = await pdfDoc.embedPng(signatureImageBytes1);
+
+            const signatureImageBytes2 = await fetch(signatureImage2).then(res => res.arrayBuffer());
+            const signatureImageEmbed2 = await pdfDoc.embedPng(signatureImageBytes2);
+
+            const [firstPage] = pdfDoc.getPages(3);
+            const { width, height } = firstPage.getSize();
+            firstPage.drawImage(signatureImageEmbed1,{ x: 383, y: 255, width: 110, height: 70 });
+
+            firstPage.drawImage(signatureImageEmbed2, { x: 383, y: 255, width: 110, height: 70 });
+
+            const signedPdfBytes = await pdfDoc.save();
+            const signedPdfBlob = new Blob([signedPdfBytes], { type: 'application/pdf' });
+            const signedPdfUrl = URL.createObjectURL(signedPdfBlob);
+
             const a = document.createElement('a');
-            a.href = combinedPdfUrl;
-            a.download = 'combined.pdf';
+            a.href = signedPdfUrl;
+            a.download = 'combined_signed.pdf';
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
+
+            console.log('Documento firmado y descargado automáticamente.');
+        } catch (error) {
+            console.error('Error signing the document:', error);
         }
     };
 
-    const toggleShowPdf = () => {
-        setShowPdf(!showPdf);
-    };
+    useEffect(() => {
+        if (signatureImage1 && signatureImage2) {
+            handleSignDocument();
+        }
+    }, [signatureImage1, signatureImage2]);
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-slate-800 dark:text-white flex items-center justify-center">
@@ -176,66 +199,37 @@ function InformeSeguimiento() {
                     Informe de desempeño estudiantil
                 </h1>
                 <p className="text-center text-lg dark:text-gray-300 mb-6">
-                    Aquí podrás subir el plan de retroalimentación que se realizó a los estudiantes con bajo rendimiento el cual se adjutará con el informe de desempeño estudiantil para obtener el informe completo.<br/> 
-                    Primero, sube el archivo PDF, luego haz click en el botón obtener informe y podrás visualizar el informe completo y descargarlo.
+                    Aquí podrás subir el plan de retroalimentación que se realizó a los estudiantes con bajo rendimiento el cual se adjuntará con el informe de desempeño estudiantil para obtener el informe completo.<br/> 
+                    Primero, sube el archivo PDF, luego haz clic en el botón obtener informe y podrás visualizar el informe completo y descargarlo.
                 </p>
 
                 <div className="space-y-10">
-                    {pdfExiste === true && (
-                        // Sección para firmar PDFs
-                        <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
-                            <h2 className="text-2xl font-bold text-center dark:text-white mb-4">Firmar PDF</h2>
-                            {userPDF && (
-                                <div className="flex flex-col items-center space-y-4">
-                                    <button onClick={() => startUploadingImage(1)} className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
-                                        Subir Imagen de Firma (Firma 1)
+                    <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
+                        {!fileExists && (
+                            <div>
+                                <UploadPDF onFileUpload={setUserPDF} onClearUpload={clearAll} />
+                                {dynamicPDFBlob && secondDynamicPDFBlob && (
+                                    <button onClick={handleCombineAndUpload} className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                                        Obtener Informe
                                     </button>
-                                    <button onClick={() => startUploadingImage(2)} className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
-                                        Subir Imagen de Firma (Firma 2)
-                                    </button>
-                                    {signing && (
-                                        <div className="flex flex-col items-center">
-                                            <SignatureCanvas ref={sigCanvas} canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }} />
-                                            <button onClick={finishCanvasSigning} className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 mt-4">
-                                                Finalizar Firma
-                                            </button>
-                                        </div>
-                                    )}
-                                    {uploadingImage && (
-                                        <div className="flex flex-col items-center">
-                                            <input type="file" accept="image/png, image/jpeg" onChange={handleImageUpload} />
-                                        </div>
-                                    )}
-                                    {signedPdfBlob && (
-                                        <div className="flex flex-col items-center mt-4">
-                                            <a href={URL.createObjectURL(signedPdfBlob)} download="signed.pdf" className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
-                                                Descargar PDF Firmado
-                                            </a>
-                                        </div>
-                                    )}
+                                )}
+                            </div>
+                        )}
+                        {fileExists && (
+                            <div className="text-center">
+                                <p className="text-lg mb-4">El informe ya está disponible. Puedes descargarlo o firmarlo.</p>
+                                <div className="mt-4">
+                                    <iframe src={existingPdfUrl} width="100%" height="500px" title="Existing PDF"></iframe>
+                                    <a href={existingPdfUrl} download="combined.pdf" className="mt-4 px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
+                                        Descargar Informe
+                                    </a>
+                                    <input type="file" onChange={handleSignatureChange1} accept="image/png, image/jpeg" className="mt-4"/>
+                                    <input type="file" onChange={handleSignatureChange2} accept="image/png, image/jpeg" className="mt-4"/>
+                                    <p className="mt-4 text-lg">{uploadMessage}</p>
                                 </div>
-                            )}
-                        </div>
-                    )}
-                    {pdfExiste === false && (
-                        // Sección para subir y combinar PDFs
-                        <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
-                            <h2 className="text-2xl font-bold text-center dark:text-white mb-4">Combinar PDFs</h2>
-                            <UploadPDF onFileUpload={setUserPDF} onClearUpload={clearAll} />
-                            {dynamicPDFBlob && secondDynamicPDFBlob && (
-                                <CombinePDFs
-                                    dynamicPDFBlob={dynamicPDFBlob}
-                                    userPDF={userPDF}
-                                    secondDynamicPDFBlob={secondDynamicPDFBlob}
-                                    onCombine={combine}
-                                    combinedPdfUrl={combinedPdfUrl}
-                                    onDownload={download}
-                                    onToggleShowPdf={toggleShowPdf}
-                                    showPdf={showPdf}
-                                />
-                            )}
-                        </div>
-                    )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

@@ -13,6 +13,7 @@ import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
 import PaginaInfoAdmin from './paginaInfoAdmin';
 import Graficas from '../../graphics/graficas';
 import verificarFuncion from '../../../components/funtions/verificarFuncion';
+import GraficasResponsable from '../../graphics/graficasResponsable';
 
 const InterfazResponsable = () => {
   const { id } = useParams();
@@ -134,7 +135,7 @@ const InterfazResponsable = () => {
             <Informe />
           )}
           {selectComponent === '/graficas' && (
-            <Graficas />
+            <GraficasResponsable />
           )}
         </section>
       </section>

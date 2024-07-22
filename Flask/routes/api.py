@@ -20,6 +20,8 @@ from controls.calificacionDaoControl import CalificacionDaoControl
 from controls.periodoAcademicoDaoControl import PeriodoAcademicoDaoControl
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from controls.functions.exelCursaAsignate import ExelCursaAsignate
+from controls.functions.exelFormat import ExelFormat
+from config.DBConfig import DBConnection
 import io # gráfica
 import base64 # gráfica 
 api = Blueprint('api', __name__)
@@ -175,6 +177,90 @@ def actualizar_foto_perfil(cedula):
     user.merge()
     return make_response(jsonify({"usuario": user.to_dict_list()}))
 
+@api.route('/verificar/documento', methods=['GET'])
+def verificar_documento():
+    filename = request.args.get('filename')
+    if not filename:
+        return make_response(jsonify({"message": "Filename parameter is required"}), 400)
+    
+    upload_folder = os.path.join(os.getcwd(), 'data', 'documents')
+    file_path = os.path.join(upload_folder, filename)
+
+    if os.path.exists(file_path):
+        return make_response(jsonify({"exists": True}), 200)
+    else:
+        return make_response(jsonify({"exists": False}), 200)
+
+@api.route('/exportar/dataBase', methods=['GET'])
+def exportar_dataBase():
+    db = DBConnection()
+    file_path = r"C:\app\esteb\product\21c\admin\xe\dpdump\BACKUP.DMP"
+    #eliminar el archivo si existe
+    if os.path.exists(file_path):
+       os.remove(file_path)
+    
+    db.exportDataBase
+    print(os.path.dirname(file_path))
+    print(os.path.basename(file_path))
+    
+    return send_from_directory(
+        directory=os.path.dirname(file_path),
+        path=os.path.basename(file_path),
+        as_attachment=True
+    )   
+    
+@api.route('/guardar/documento', methods=['POST'])
+def guardar_documento():
+    if 'file' not in request.files:
+        return make_response(jsonify({"message": "No file part in the request"}), 400)
+
+    file = request.files['file']
+    if file.filename == '':
+        return make_response(jsonify({"message": "No selected file"}), 400)
+
+    upload_folder = os.path.join(os.getcwd(), 'data', 'documents')
+    os.makedirs(upload_folder, exist_ok=True)
+    file_path = os.path.join(upload_folder, file.filename)
+
+    if os.path.exists(file_path):
+        return make_response(jsonify({"message": "El archivo ya existe"}), 400)
+    
+    file.save(file_path)
+    return make_response(jsonify({"message": "Documento guardado correctamente"}), 200)
+
+@api.route('/documento/exists', methods=['GET'])
+def check_document_exists():
+    filename = request.args.get('filename')
+    if not filename:
+        return make_response(jsonify({"exists": False}), 400)
+
+    file_path = os.path.join(os.getcwd(), 'data', 'documents', filename)
+    exists = os.path.exists(file_path)
+    return jsonify({"exists": exists})
+
+@api.route('/documento/<filename>', methods=['GET'])
+def get_document(filename):
+    file_path = os.path.join(os.getcwd(), 'data', 'documents', filename)
+    if not os.path.exists(file_path):
+        return make_response(jsonify({"message": "File not found"}), 404)
+
+    return send_from_directory(os.path.dirname(file_path), filename)
+
+    
+
+@api.route('/obtener/documento/<string:documento>', methods=['GET'])
+def obtener_documento(documento):
+    documento = "FormatoDocentes.xlsx"
+    URL = os.path.join(os.getcwd(), 'data', 'documents', documento)
+    if not os.path.exists(URL):
+        return make_response(jsonify({"message": "El archivo no existe"}), 404)
+    return send_from_directory(os.path.dirname(URL), os.path.basename(URL))
+
+@api.route('/obtener/periodo_academico', methods=['GET'])
+def obtener_periodo_academico():
+    periodo = PeriodoAcademicoDaoControl()
+    periodo._lista.search_model(ultimo_periodoId(), '_id')
+    return make_response(jsonify({"periodo_academico": periodo.to_dict_list()}))
 
 @api.route('/ver/foto/perfil/<string:cedula>', methods=['GET'])
 def ver_foto_perfil(cedula):
@@ -191,27 +277,7 @@ pdf_folder = os.path.join(os.getcwd(), 'data', 'documents')
 pdf_filename = 'informedeseguimientoestudiantil.pdf'
 pdf_path = os.path.join(pdf_folder, pdf_filename)
 
-@api.route('/buscarpdf', methods=['POST'])
-def manejar_pdf():
-    if os.path.exists(pdf_path):
-        return send_from_directory(pdf_folder, pdf_filename, as_attachment=True)
-    else:
-        if 'file' not in request.files:
-            return make_response(jsonify({"error": "No se ha enviado ningún archivo."}), 400)
-        
-        file = request.files['file']
-        
-        if file.filename == '':
-            return make_response(jsonify({"error": "No se ha seleccionado ningún archivo."}), 400)
-        
-        if not file.filename.lower().endswith('.pdf'):
-            return make_response(jsonify({"error": "El archivo debe ser un PDF."}), 400)
-        
-        if not os.path.exists(pdf_folder):
-            os.makedirs(pdf_folder)
-        
-        file.save(pdf_path)
-        return jsonify({"message": "Archivo PDF guardado correctamente."})
+
 
 
 
@@ -288,7 +354,6 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
         #buscamos las calificaciones de la unidad
         calificacion._lista.search_model(unidadId, '_unidadId', type=0)
         calificacion.lista.sort_models('_cursaId', 0)
-        #AAAAAAAAAAAAAAAAA
         #obtener los estudiantes de la materia
         estudiantesList = estudiantes._lista.toArray
         listEstudiante = []
@@ -617,17 +682,19 @@ def ciclo_rendimiento_materias():
     response = requests.get(URL)
     data = response.json()
     ciclos = data['ciclos']
-    rendimientoCiclos = {}
+    rendimientoCiclos = {} 
+    aux= [] 
+    rendimientoMaterias = {}
     for ciclo in ciclos:
         materiasCiclo = materias.lista.search_model(ciclo, '_ciclo')
-        rendimientoCiclos[ciclo] = {"promedioCiclo": 0, "materias": []}
-        promediosMateria = {}
-        promediosCiclo = {}
+        rendimientoCiclos[ciclo] = {"promedioCiclo": 0}
+        rendimientoMaterias[ciclo] = {"materias": []}
         auxPromedios = []
         rangoMateria = {}
         for materia in materiasCiclo:
             unidadesMateria = unidades.lista.search_model(materia._id, '_materiaId')
             promedios = []
+            
             rangoMateria[materia._nombre] = {"0 a 5": [], "5 a 7": [], "7 a 8.5": [], "8.5 a 10": []}
             
             if unidadesMateria is not None:
@@ -663,12 +730,12 @@ def ciclo_rendimiento_materias():
                             
                 auxPromedios.append(round(sum(promedios)/len(promedios),2))
             unidades.lista.toList(listaUnidades)
-        rendimientoCiclos[ciclo]["materias"].append(rangoMateria)
+        rendimientoMaterias[ciclo]["materias"].append(rangoMateria)
         if len(auxPromedios) != 0:
             rendimientoCiclos[ciclo]["promedioCiclo"] = sum(auxPromedios)/len(auxPromedios)
         materias.lista.toList(listaMaterias)
     
-    return jsonify({"rendimientoCiclos": rendimientoCiclos})
+    return jsonify({"rendimientoCiclos": rendimientoCiclos, "rendimientoMaterias": rendimientoMaterias})
 
 
 
@@ -691,18 +758,18 @@ def crear_estudiantes_docentes():
     data = request.form 
     print(files['docenteFile'])
     
+    formato = ExelFormat()
+    cumpleFEstudian = formato.verify_exel_format(files['estudianteFile'])
+    cumpleFDocente = formato.verify_exel_format(files['docenteFile'], isStudent=False)
+    print(cumpleFEstudian)
+    print(cumpleFDocente)
+    if not cumpleFEstudian or not cumpleFDocente:
+        return jsonify({"message": "Formato de exel incorrecto"}, 404)
+    
     existPeriodo, periodoAcId, _ = PeriodoAcademicoDaoControl()._lista.__exist__(data['nombrePeriodo'])    
     if PeriodoAcademicoDaoControl()._lista.isEmpty or not existPeriodo:
         periodoAcId = CreateModel().createPeriodoAcademico(data)
-    #if existPeriodo:
-    #   return make_response(jsonify({"message": "Periodo academico ya existe"}), 400)
-    # crear periodo academico
-    """   eda.saveExel
-    eca.saveExel
-    eca.asignarEstudiante
     
-    eca.crearCursa(1) """
-    #asignar docentes
     docentes = ExelDocentesAsignate(files['docenteFile'])  
     estudianteCursa = ExelCursaAsignate(files['estudianteFile'])
     docentes.saveExel

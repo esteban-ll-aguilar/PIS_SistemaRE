@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { HiOutlineDocumentDuplicate, HiUserGroup, HiOutlineRefresh, HiBookmark, HiBookOpen, HiBookmarkAlt, HiOutlineClipboardCopy, HiHome, HiAnnotation } from 'react-icons/hi';
-import { FaBook, FaTachometerAlt, FaTeeth, FaUser, FaUserGraduate, FaUserFriends, FaImages, FaFileDownload } from 'react-icons/fa';
+import { FaBook, FaTachometerAlt, FaTeeth, FaUser, FaUserGraduate, FaUserFriends, FaImages, FaFileDownload, FaDatabase } from 'react-icons/fa';
 import Sidebar from '../../../components/Sidebar';
 import Dashboardview from '../../../components/Dashboardview';
 import Informe from '../informe/informeSeguimiento';
@@ -19,6 +19,10 @@ import RolPersonalEducativo from '../../../components/RolPersonalEducativo';
 import AdministrarDocentes from './administrar/administrarDocentes';
 import AdministrarMaterias from './administrar/administrarMaterias';
 import AdministrarEstudiantes from './administrar/administrarEstudiantes';
+import GraficasResponsable from '../../graphics/graficasResponsable';
+import ExportDataBase from './exportar/exportdatabase';
+import { useSnackbar } from 'notistack';
+import { verificarFechaMayor } from '../../../components/funtions/verificarFecha';
 
 const InterfazAdmin = () => {
   const { id } = useParams();
@@ -27,6 +31,9 @@ const InterfazAdmin = () => {
   const [selectedCicloId, setSelectedCicloId] = useState(null);
   const [selectedMateriaId, setSelectedMateriaId] = useState(null);
   const [data, setData] = useState({});
+  const [periodoAcademico, setPeriodoAcademico] = useState({});
+  const [fechaMayor, setFechaMayor] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   verificarFuncion(id, 'ADMINISTRADOR');
 
   useEffect(() => {
@@ -44,7 +51,34 @@ const InterfazAdmin = () => {
         console.error('Error fetching data:', error);
       }
     };
+      const fetchPeriodoAcademico = async () => {
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/obtener/periodo_academico`, {
+                method: 'GET',
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+    
+            const responseData = await response.json();
+            if (responseData && responseData.periodo_academico && responseData.periodo_academico.length > 0) {
+                const periodo = responseData.periodo_academico[0];
+                setPeriodoAcademico(periodo);
+                console.log(periodo.fecha_fin);
+                setFechaMayor(verificarFechaMayor(periodo.fecha_fin));
+                console.log(fechaMayor);
+              //  verificarFechaMayor(periodo.fecha_inicio);
+            } else {
+                throw new Error('Response data is not in expected format');
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            enqueueSnackbar('Error al cargar el periodo académico', { variant: 'error' });
+        }
+    };
 
+    fetchPeriodoAcademico();
     fetchData();
   }, [id]);
 
@@ -102,11 +136,11 @@ const InterfazAdmin = () => {
   ];
 
   const acciones = [
-    {
-      icono: <HiOutlineRefresh color='white' className='size-5' />,
-      texto: 'Crear Nuevo Periodo',
-      ruta: 'ActualizarDatos'
-    },
+    // {
+    //   icono: <HiOutlineRefresh color='white' className='size-5' />,
+    //   texto: 'Crear Nuevo Periodo',
+    //   ruta: 'ActualizarDatos'
+    // },
     {
       icono: <FaFileDownload color='white' className='size-5'/>,
       texto: 'Descargar Informe',
@@ -116,8 +150,24 @@ const InterfazAdmin = () => {
       icono: <FaImages color='white' className='size-5' />,
       texto: 'Graficas',
       ruta: 'Graficas'
+    },
+    {
+      icono: <FaDatabase color='white' className='size-5' />,
+      texto: 'Exportar Base de Datos',
+      ruta: 'ExportarBaseDatos'
     }
   ];
+
+  if (!fechaMayor) {
+    acciones.push(
+      {
+          icono: <HiOutlineRefresh color='white' className='size-5' />,
+          texto: 'Crear Nuevo Periodo',
+          ruta: 'ActualizarDatos'
+      }
+    );
+  }
+
 
   const renderSelectedComponent = () => {
     switch (selectComponent) {
@@ -153,9 +203,11 @@ const InterfazAdmin = () => {
       case 'Informe':
         return <Informe />;
       case 'Graficas':
-        return <TarjetaGraficasAdmin />;
+        return <GraficasResponsable />;
       case 'Estudiantes':
         return  <AdministrarEstudiantes /> //<EstudientTarget />;
+      case 'ExportarBaseDatos':
+        return <ExportDataBase />;
       default:
         return null;
     }
