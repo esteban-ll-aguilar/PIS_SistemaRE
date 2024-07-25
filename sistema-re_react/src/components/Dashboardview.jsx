@@ -88,7 +88,7 @@ const Dashboardview = ({ role, toggleSidebar, acciones, setSelectedComponent, pr
 
     return (
         <>
-        <header className='flex items-center justify-between px-6 py-5 border-b border-gray-300 bg-[#04344c] shadow-sm dark:bg-blue-950'>
+        <header className='flex relative z-10 items-center justify-between px-6 py-5 border-b border-gray-300 bg-[#04344c] shadow-sm dark:bg-blue-950'>
             <div className='flex items-center gap-4 '>
 
                 <button onClick={toggleSidebar} className='p-3  text-white rounded-md bg-[#529914]  dark:bg-sky-700 hover:bg-[#3C6E10] transition-colors duration-300'>

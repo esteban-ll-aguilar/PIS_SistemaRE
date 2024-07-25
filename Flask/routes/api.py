@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, make_response, request, render_template, redirect, url_for, abort, send_from_directory
 from app import MAIL
-import requests
+import requests, subprocess
 
 from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from flask_cors import CORS
@@ -29,18 +29,20 @@ api = Blueprint('api', __name__)
 #get para presentar los datos
 #post para enviar los datos, modificar y iniciar sesion
 
-@api.route('/hola')    
-def mail_send():
-    send = MAIL().send_email(subject="Hola", recipient=["esteban.leon@unl.edu.ec", "esteban.aguilar2005@hotmail.com"], body="Hola mundo")
-    return jsonify({"message": "Correo enviado correctamente"})
+
 
 @api.route('/mail', methods=['POST'])    
 def mail(): 
     data = request.json
     #sujeto, destinatario, cuerpo
-    enviado = MAIL().send_email(subject=data['subject'], recipient=[data['recipient']], body=data['body'])
+    #print(data)
+    if isinstance(data['recipient'], list):
+        enviado = MAIL().send_email(subject=data['subject'], recipient=data['recipient'], body=data['body'])
+    else:
+        enviado = MAIL().send_email(subject=data['subject'], recipient=[data['recipient']], body=data['body'])
+        
     if enviado:
-        return jsonify({"message": "Correo enviado correctamente"})
+       return jsonify({"message": "Correo enviado correctamente"})
     return jsonify({"message": "Error al enviar el correo"})
     
 
@@ -238,6 +240,28 @@ def check_document_exists():
     exists = os.path.exists(file_path)
     return jsonify({"exists": exists})
 
+def check_document_exists():
+    filename = request.args.get('filename')
+    if not filename:
+        return make_response(jsonify({"exists": False}), 400)
+
+    file_path = os.path.join(os.getcwd(), 'data', 'documents', filename)
+    exists = os.path.exists(file_path)
+    return jsonify({"exists": exists})
+
+@api.route('/documento/delete', methods=['DELETE'])
+def delete_document():
+    filename = request.args.get('filename')  # Corregido de .delete a .get
+    if not filename:
+        return make_response(jsonify({"delete": False}), 400)
+
+    file_path = os.path.join(os.getcwd(), 'data', 'documents', filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)  # Elimina el archivo si existe
+        return jsonify({"delete": True})
+    else:
+        return make_response(jsonify({"message": "File not found"}), 404)
+
 @api.route('/documento/<filename>', methods=['GET'])
 def get_document(filename):
     file_path = os.path.join(os.getcwd(), 'data', 'documents', filename)
@@ -313,7 +337,9 @@ def eliminar_cursa(estudiante, materia):
     cursa._lista.search_model(estudiante, '_estudianteCedula')
     cursa.lista.search_model(materia, '_materiaId', type=0)
     data = cursa.to_dict_list()
-    cursa.delete(data[0])
+    aux = cursa._cursa.deserialize(data=data[0])
+    cursa._cursa = aux
+    cursa.delete()
     
     return jsonify({"message": "Eliminado correctamente"})
 
@@ -411,33 +437,59 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
 
 # filtrar materias de primer ciclo, despues con el id de las materias buscarB
 #las materias en calificaciones, despues separar por unidad
-
+# PARA EL CLUSTER -------------------------------------
 @api.route('/promedios/materia/<int:materiaId>/unidad/<int:unidadId>')
 def promedios(materiaId, unidadId):
-    URL = 'http://localhost:5000/estudiantes/calificaciones/materia/'+str(materiaId)+'/unidad/'+str(unidadId)
-    response = requests.get(URL)
-    data = response.json()
-    listaCalificaciones = data['calificaciones']
-    listaEstudiantes = data['estudiantes']
+    URL = f'http://localhost:5000/estudiantes/calificaciones/materia/{materiaId}/unidad/{unidadId}'
     
-    promedios = []
-    estudiantes = []
-    j = 0
-    for nota in listaCalificaciones:
-        promedio = 0
-        for i in range(0, len(nota)):
-            promedio += float(nota[i]['valor'])
-        promedios.append(promedio)
-        listaEstudiantes[j]["promedio"] = round(promedio,2)
-        estudiantes.append(listaEstudiantes[j])
-        j+=1
-    promedios = np.array(promedios, dtype=float)
-    if promedios.size == 0:
-        return jsonify({"promedio_Materia": 0, "estudiantes": []})
-    promedio = round(np.mean(promedios), 2)
-    #print(estudiantes)
-    return jsonify({"promedio_Materia": promedio, "estudiantes": estudiantes})
+    try:
+        # Realiza la solicitud GET para obtener los datos
+        response = requests.get(URL)
+        response.raise_for_status()  # Verifica si la solicitud fue exitosa
+        data = response.json()
+    except requests.RequestException as e:
+        print(f"Error en la solicitud GET: {e}")
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        return None
+    except ValueError as e:
+        print(f"Error al decodificar JSON: {e}")
+        return None
+    
+    # URL para la solicitud POST
+    URL1 = 'http://192.168.1.2:5500/notas'
+    
+        # Envía los datos obtenidos a la ruta /notas usando POST
+    post_response = requests.post(URL1, json=data)
+    print(post_response.json())
+    return jsonify(post_response.json())
 
+# PARA EL SISTEMA -------------------------------------
+# @api.route('/promedios/materia/<int:materiaId>/unidad/<int:unidadId>')
+# def promedios(materiaId, unidadId):
+#     URL = 'http://localhost:5000/estudiantes/calificaciones/materia/'+str(materiaId)+'/unidad/'+str(unidadId)
+    
+#     response = requests.get(URL)
+#     data = response.json()    
+#     listaCalificaciones = data['calificaciones']
+#     listaEstudiantes = data['estudiantes']
+#     promedios = []
+#     estudiantes = []
+#     j = 0
+#     for nota in listaCalificaciones:
+#         promedio = 0
+#         for i in range(0, len(nota)):
+#             promedio += float(nota[i]['valor'])
+#         promedios.append(promedio)
+#         listaEstudiantes[j]["promedio"] = round(promedio,2)
+#         estudiantes.append(listaEstudiantes[j])
+#         j+=1
+#     promedios = np.array(promedios, dtype=float)
+#     if promedios.size == 0:
+#         return jsonify({"promedio_Materia": 0, "estudiantes": []})
+#     promedio = round(np.mean(promedios), 2)
+#     #print(estudiantes)
+#     return jsonify({"promedio_Materia": promedio, "estudiantes": estudiantes})
+    
 
 
 @api.route('/asignar/calificaciones/materia/<int:materiaId>/unidad/<int:unidadId>/nunidad/<int:nunidad>', methods=['POST'])
@@ -450,14 +502,13 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
     notas, columnsNotas = rdexel.readExel
     #para asignar las notas, llamamos al cursa
     cursa = CursaDaoControl()
-    cursa._lista.search_model(1, '_periodoAcademicoId')
+    cursa._lista.search_model(ultimo_periodoId(), '_periodoAcademicoId')
     cursa.lista.search_model(materiaId, '_materiaId', type=0, method=1)
     cursa.lista.sort_models('_id', 0)
     cursa = cursa.lista.toArray
     if len(cursa) != len(notas):
         print(len(cursa))
         print(len(notas))
-        print("ERROR MI AMIGASO")
         return jsonify({"message": "Error al asignar las calificaciones, no coinciden las notas con los estudiantes"})
     #1- Crear rubrica de calificacion en caso de que no exista, de paso almacenamos su identificador
     identificatorRub = []
@@ -536,7 +587,9 @@ def crear_unidad(materiaId):
     data = request.json
     print(data)
     unidad = UnidadDaoControl()
-    nunidad = unidad._lista.search_model(materiaId, '_materiaId')
+    nunidad = None
+    if unidad._lista.isEmpty != True:
+        nunidad = unidad._lista.search_model(materiaId, '_materiaId')
     
     if unidad._lista.isEmpty or nunidad is None:
         CreateModel().createUnidad(nombre=data['nombre'], materiaId=materiaId, nunidad=1)
@@ -652,13 +705,13 @@ def notas_materiasUnidad_docente(docente):
                 
                 for estudiante in data['estudiantes']:
                     if estudiante['promedio'] < 5:
-                        notas_0_5.append(estudiante)
+                        notas_0_5.append(estudiante['promedio'])
                     elif estudiante['promedio'] >= 5 and estudiante['promedio'] < 7:
-                        notas_5_7.append(estudiante)
+                        notas_5_7.append(estudiante['promedio'])
                     elif estudiante['promedio'] >= 7 and estudiante['promedio'] < 8.5:
-                        notas_7_85.append(estudiante)
+                        notas_7_85.append(estudiante['promedio'])
                     elif estudiante['promedio'] >= 8.5 and estudiante['promedio'] <= 10:
-                        notas_85_10.append(estudiante)
+                        notas_85_10.append(estudiante['promedio'])
                     
                 promedios[materias[i]['nombre']]["0 a 5"].append(len(notas_0_5))
                 promedios[materias[i]['nombre']]["5 a 7"].append(len(notas_5_7))

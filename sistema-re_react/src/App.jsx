@@ -19,6 +19,7 @@ import OLvidoContrasena from './pages/login/ovido_contrasena';
 import Pepito from './pages/examples/pepito';
 import { GrayscaleProvider, useGrayscale } from './components/GrayscaleContext';
 import { SnackbarProvider, useSnackbar } from 'notistack';
+/* import Chatbot from './Chatbot'; */
 
 const GrayscaleToggle = () => {
   const { isGrayscale, toggleGrayscale } = useGrayscale();
@@ -26,7 +27,7 @@ const GrayscaleToggle = () => {
 
 const AppContent = () => {
   const { isGrayscale } = useGrayscale();
-
+  
   return (
     <div className={isGrayscale ? 'grayscale' : ''}>
       <Router>
@@ -57,8 +58,10 @@ const AppContent = () => {
 
 function App() {
   return (
+    
     <GrayscaleProvider>
       <SnackbarProvider>
+        {/*<Chatbot />  */}
         <AppContent />
       </SnackbarProvider>
     </GrayscaleProvider>

@@ -51,3 +51,39 @@ def notas_materias_docente(docente):
                           "8.5 a 10": len([x for x in numeroEstudiantesPromedio[i] if x >= 8.5 and x <= 10])})
     print(promedios)
     return jsonify({"notasBajasMaterias": promedios})
+
+    public class NodoAVL { 
+ 
+    private Archivo archivo; 
+    private int fe; 
+ 
+    NodoAVL izdo, dcho; 
+ 
+    public NodoAVL(Archivo archivo) { 
+        this.archivo=archivo; 
+        this.fe = 0; 
+        this.izdo = dcho = null; 
+    } 
+ 
+    public NodoAVL(Archivo archivo, int vfe) { 
+        this.archivo=archivo; 
+        this.fe = vfe; 
+        this.izdo = dcho = null; 
+    } 
+ 
+    public NodoAVL(NodoAVL ramaIzdo, Archivo archivo, NodoAVL ramaDcho) { 
+        this.archivo=archivo; 
+6 
+        this.izdo = ramaIzdo; 
+        this.dcho = ramaDcho; 
+        this.fe = 0; 
+    } 
+ 
+    public NodoAVL(NodoAVL ramaIzdo, int vfe, Archivo archivo, NodoAVL ramaDcho) { 
+        this.archivo=archivo; 
+        this.izdo = ramaIzdo; 
+        this.dcho = ramaDcho; 
+        this.fe = vfe; 
+    } 
+ 
+}

@@ -56,6 +56,7 @@ const EstudianteCursa = ({ viewBotonStudent = true, viewBottonForm = true, ShowD
         throw new Error(`Network response was not ok: ${eliminar.statusText}`);
       }
       enqueueSnackbar('Estudiante eliminado de la materia', { variant: 'success' });
+      window.location.reload();
     } catch (error) {
       console.error('Error:', error);
       setError(error.message);

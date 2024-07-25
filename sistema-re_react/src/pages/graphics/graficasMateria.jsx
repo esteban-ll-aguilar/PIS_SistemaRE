@@ -6,7 +6,8 @@ const GraficasMateria = ({ materias }) => {
   const categories = ['0 a 5', '5 a 7', '7 a 8.5', '8.5 a 10'];
   const materiasKeys = Object.keys(materias[0]);
   const rendimiento = materiasKeys.reduce((acc, materia) => {
-    acc[materia] = categories.map(category => materias[0][materia][category].reduce((a, b) => a + b, 0));
+    //acc[materia] = categories.map(category => materias[0][materia][category].reduce((a, b) => a + b, 0)/materias[0][materia][category].length);
+    acc[materia] = categories.map(category => materias[0][materia][category].reduce((a, b) => a + b,0));
     return acc;
   }, {});
 

@@ -210,7 +210,7 @@ function InformeSeguimiento() {
                             <>
                                 <div className='items-center justify-center text-center'>
                                     <h1 className="text-3xl font-bold text-center dark:text-white mb-4">
-                                        Subir retroalimentación estudiantil
+                                        Subir plan de retroalimentación estudiantil
                                     </h1>
                                     <p className="text-justify text-lg dark:text-gray-300 mb-6">
                                         Aquí podrás subir el plan de retroalimentación que se realizó a los estudiantes con bajo rendimiento, el cual se adjuntará con el informe de desempeño estudiantil para obtener el informe completo.<br/>
@@ -234,7 +234,7 @@ function InformeSeguimiento() {
                         ) : (
                             <div className="text-center">
                                 <h1 className="text-3xl font-bold text-center dark:text-white mb-4">
-                                    Subir firmas para validez del informe de desempeño estudiantil
+                                    Subir firmas para validar el informe de desempeño estudiantil
                                 </h1>
                                 <p className="text-lg mb-4 text-justify">El informe ya está subido; solo falta firmar para validar este documento. Aquí podrás visualizar el informe subido. Solo sube las firmas y se generará el documento de manera automática.</p>
                                 <div className="mt-4">
