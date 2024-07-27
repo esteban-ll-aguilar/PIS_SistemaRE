@@ -438,57 +438,57 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
 # filtrar materias de primer ciclo, despues con el id de las materias buscarB
 #las materias en calificaciones, despues separar por unidad
 # PARA EL CLUSTER -------------------------------------
-@api.route('/promedios/materia/<int:materiaId>/unidad/<int:unidadId>')
-def promedios(materiaId, unidadId):
-    URL = f'http://localhost:5000/estudiantes/calificaciones/materia/{materiaId}/unidad/{unidadId}'
-    
-    try:
-        # Realiza la solicitud GET para obtener los datos
-        response = requests.get(URL)
-        response.raise_for_status()  # Verifica si la solicitud fue exitosa
-        data = response.json()
-    except requests.RequestException as e:
-        print(f"Error en la solicitud GET: {e}")
-        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-        return None
-    except ValueError as e:
-        print(f"Error al decodificar JSON: {e}")
-        return None
-    
-    # URL para la solicitud POST
-    URL1 = 'http://192.168.1.2:5500/notas'
-    
-        # Envía los datos obtenidos a la ruta /notas usando POST
-    post_response = requests.post(URL1, json=data)
-    print(post_response.json())
-    return jsonify(post_response.json())
-
-# PARA EL SISTEMA -------------------------------------
 # @api.route('/promedios/materia/<int:materiaId>/unidad/<int:unidadId>')
 # def promedios(materiaId, unidadId):
-#     URL = 'http://localhost:5000/estudiantes/calificaciones/materia/'+str(materiaId)+'/unidad/'+str(unidadId)
+#     URL = f'http://localhost:5000/estudiantes/calificaciones/materia/{materiaId}/unidad/{unidadId}'
     
-#     response = requests.get(URL)
-#     data = response.json()    
-#     listaCalificaciones = data['calificaciones']
-#     listaEstudiantes = data['estudiantes']
-#     promedios = []
-#     estudiantes = []
-#     j = 0
-#     for nota in listaCalificaciones:
-#         promedio = 0
-#         for i in range(0, len(nota)):
-#             promedio += float(nota[i]['valor'])
-#         promedios.append(promedio)
-#         listaEstudiantes[j]["promedio"] = round(promedio,2)
-#         estudiantes.append(listaEstudiantes[j])
-#         j+=1
-#     promedios = np.array(promedios, dtype=float)
-#     if promedios.size == 0:
-#         return jsonify({"promedio_Materia": 0, "estudiantes": []})
-#     promedio = round(np.mean(promedios), 2)
-#     #print(estudiantes)
-#     return jsonify({"promedio_Materia": promedio, "estudiantes": estudiantes})
+#     try:
+#         # Realiza la solicitud GET para obtener los datos
+#         response = requests.get(URL)
+#         response.raise_for_status()  # Verifica si la solicitud fue exitosa
+#         data = response.json()
+#     except requests.RequestException as e:
+#         print(f"Error en la solicitud GET: {e}")
+#         print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+#         return None
+#     except ValueError as e:
+#         print(f"Error al decodificar JSON: {e}")
+#         return None
+    
+#     # URL para la solicitud POST
+#     URL1 = 'http://192.168.1.2:5500/notas'
+    
+#         # Envía los datos obtenidos a la ruta /notas usando POST
+#     post_response = requests.post(URL1, json=data)
+#     print(post_response.json())
+#     return jsonify(post_response.json())
+
+# # PARA EL SISTEMA -------------------------------------
+@api.route('/promedios/materia/<int:materiaId>/unidad/<int:unidadId>')
+def promedios(materiaId, unidadId):
+    URL = 'http://localhost:5000/estudiantes/calificaciones/materia/'+str(materiaId)+'/unidad/'+str(unidadId)
+    
+    response = requests.get(URL)
+    data = response.json()    
+    listaCalificaciones = data['calificaciones']
+    listaEstudiantes = data['estudiantes']
+    promedios = []
+    estudiantes = []
+    j = 0
+    for nota in listaCalificaciones:
+        promedio = 0
+        for i in range(0, len(nota)):
+            promedio += float(nota[i]['valor'])
+        promedios.append(promedio)
+        listaEstudiantes[j]["promedio"] = round(promedio,2)
+        estudiantes.append(listaEstudiantes[j])
+        j+=1
+    promedios = np.array(promedios, dtype=float)
+    if promedios.size == 0:
+        return jsonify({"promedio_Materia": 0, "estudiantes": []})
+    promedio = round(np.mean(promedios), 2)
+    #print(estudiantes)
+    return jsonify({"promedio_Materia": promedio, "estudiantes": estudiantes})
     
 
 
@@ -509,7 +509,7 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
     if len(cursa) != len(notas):
         print(len(cursa))
         print(len(notas))
-        return jsonify({"message": "Error al asignar las calificaciones, no coinciden las notas con los estudiantes"})
+        return jsonify({"message": "Error al asignar las calificaciones, no coinciden las notas con los estudiantes"}, 400)
     #1- Crear rubrica de calificacion en caso de que no exista, de paso almacenamos su identificador
     identificatorRub = []
     for i in range(0, len(columnsNotas)):
@@ -748,7 +748,10 @@ def ciclo_rendimiento_materias():
             unidadesMateria = unidades.lista.search_model(materia._id, '_materiaId')
             promedios = []
             
-            rangoMateria[materia._nombre] = {"0 a 5": [], "5 a 7": [], "7 a 8.5": [], "8.5 a 10": []}
+            if unidadesMateria is None or len(unidadesMateria) == 0:
+                rendimientoMaterias[ciclo]["materias"].append({materia._nombre: {"0 a 5": [0,0,0], "5 a 7": [0,0,0], "7 a 8.5": [0,0,0], "8.5 a 10": [0,0,0]}})
+            else:
+                rangoMateria[materia._nombre] = {"0 a 5": [], "5 a 7": [], "7 a 8.5": [], "8.5 a 10": []}
             
             if unidadesMateria is not None:
                 notas_0_5 = []
@@ -783,7 +786,8 @@ def ciclo_rendimiento_materias():
                             
                 auxPromedios.append(round(sum(promedios)/len(promedios),2))
             unidades.lista.toList(listaUnidades)
-        rendimientoMaterias[ciclo]["materias"].append(rangoMateria)
+        if len(rangoMateria) != 0:
+            rendimientoMaterias[ciclo]["materias"].append(rangoMateria)
         if len(auxPromedios) != 0:
             rendimientoCiclos[ciclo]["promedioCiclo"] = sum(auxPromedios)/len(auxPromedios)
         materias.lista.toList(listaMaterias)
