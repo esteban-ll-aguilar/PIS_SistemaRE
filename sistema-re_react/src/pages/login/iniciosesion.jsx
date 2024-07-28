@@ -69,14 +69,15 @@ const handleLoginClick = async (e) => {
         if (responseData.funcion && responseData.funcion.length > 0) {
           for (let i = 0; i < responseData.funcion.length; i++) {
             let ruta = '';
-            if (responseData.funcion[i].descripcion === 'ENCARGADO SEG') {
+            if (responseData.funcion[i].descripcion === 'ADMINISTRADOR') {
               ruta = '/interfaz/admin/';
             } else if (responseData.funcion[i].descripcion === 'DOCENTE') {
               ruta = '/interfaz/docente/';
             } else if (responseData.funcion[i].descripcion === 'DIRECTOR') {
               ruta = '/interfaz/director/';
+            } else if (responseData.funcion[i].descripcion === 'ADMIN') {
+              ruta = '/interfaz/admin/';
             }
-    
             if (ruta) {
               navigate(ruta + responseData.funcion[i].docente_user_cedula, {
                 state: {
