@@ -5,10 +5,10 @@ class CrudCursa:
         self.__cur = self.__con.cursor()
         
         
-    def createCursa(self, estuduanteCedula, 
+    def createCursa(self, idCursa,estudianteCedula, 
                     materiaId, paralelo, docenteCedula, periodoAcademicoId):
         try:
-            self.__cur.callproc('CRUD_INSERT_CURSA', [estuduanteCedula, 
+            self.__cur.callproc('CRUD_CURSA', ['INSERT',idCursa,estudianteCedula, 
                                                     materiaId, paralelo, 
                                                     docenteCedula, periodoAcademicoId])
             self.__con.commit()
@@ -19,8 +19,7 @@ class CrudCursa:
     def deleteCursa(self, idCursa,estudianteCedula, 
                     materiaId, paralelo, docenteCedula, periodoAcademicoId):
         try:
-            self.__cur.callproc('CRUD_DELETE_CURSA',[
-                                                    idCursa,estudianteCedula, 
+            self.__cur.callproc('CRUD_CURSA',['DELETE',idCursa,estudianteCedula, 
                                                     materiaId, paralelo, 
                                                     docenteCedula, periodoAcademicoId])
             self.__con.commit()
@@ -31,7 +30,7 @@ class CrudCursa:
     def updateCursa(self, idCursa, estudianteCedula, 
                     materiaId, paralelo, docenteCedula, periodoAcademicoId):
         try:
-            self.__cur.callproc('CRUD_UPDATE_CURSA',[idCursa, estudianteCedula, 
+            self.__cur.callproc('CRUD_CURSA',['UPDATE',idCursa, estudianteCedula, 
                                                     materiaId, paralelo, 
                                                     docenteCedula, periodoAcademicoId])
             self.__con.commit()

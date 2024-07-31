@@ -28,10 +28,11 @@ class CalificacionDaoControl(DaoAdapter):
         # print("Guardando Calificacion")
         # self._save(self.__calificacion)
         try:
-            self.__crud.createCalificacion(self.__calificacion._valor,
-                                        self.__calificacion._rubricaCalificacionId,
-                                        self.__calificacion._unidadId,
-                                        self.__calificacion._cursaId)
+            self.__crud.createCalificacion(self.__calificacion._id,
+                                           self.__calificacion._valor,
+                                           self.__calificacion._rubricaCalificacionId,
+                                           self.__calificacion._unidadId,
+                                           self.__calificacion._cursaId)
         except Exception as e:
             print('Error: '+str(e))
             
@@ -40,7 +41,7 @@ class CalificacionDaoControl(DaoAdapter):
     def delete(self):
         self.__crud.deleteCalificacion(self.__calificacion._id,
                                         self.__calificacion._valor,
-                                        self.__calificacion.__rubricaCalificacionId,
+                                        self.__calificacion._rubricaCalificacionId,
                                         self.__calificacion._unidadId,
                                         self.__calificacion._cursaId)
         
@@ -48,7 +49,7 @@ class CalificacionDaoControl(DaoAdapter):
     def merge(self):
         self.__crud.updateCalificacion(self.__calificacion._id,
                                         self.__calificacion._valor,
-                                        self.__calificacion.__rubricaCalificacionId,
+                                        self.__calificacion._rubricaCalificacionId,
                                         self.__calificacion._unidadId,
                                         self.__calificacion._cursaId)
     

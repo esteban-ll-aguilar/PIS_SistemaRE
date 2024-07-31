@@ -8,9 +8,9 @@ class CrudCalificacion:
 # RUBRICACF_IDRCAL
 # UNIDAD_IDUNIDAD
 # CURSA_IDCURSA
-    def createCalificacion(self, valor, rubricaId, unidadId, cursaId):
+    def createCalificacion(self, idCalificacion,valor, rubricaId, unidadId, cursaId):
         try:
-            self.__cur.callproc('CRUD_INSERT_CALIFICACION', [valor, rubricaId, unidadId, cursaId])
+            self.__cur.callproc('CRUD_CALIFICACION', ['INSERT',idCalificacion,valor, rubricaId, unidadId, cursaId])
             self.__con.commit()
             print('Calificacion creada')
         except Exception as e:
@@ -18,7 +18,7 @@ class CrudCalificacion:
             
     def deleteCalificacion(self, idCalificacion, valor, rubricaId, unidadId, cursaId):
         try:
-            self.__cur.callproc('CRUD_DELETE_CALIFICACION',[self, idCalificacion, valor, rubricaId, unidadId, cursaId])
+            self.__cur.callproc('CRUD_CALIFICACION',['DELETE', idCalificacion, valor, rubricaId, unidadId, cursaId])
             self.__con.commit()
             print('Calificacion eliminada')
         except Exception as e:
@@ -26,7 +26,7 @@ class CrudCalificacion:
             
     def updateCalificacion(self, idCalificacion, valor, rubricaId, unidadId, cursaId):
         try:
-            self.__cur.callproc('CRUD_UPDATE_CALIFICACION',[idCalificacion, valor, rubricaId, unidadId, cursaId])
+            self.__cur.callproc('CRUD_CALIFICACION',['UPDATE',idCalificacion, valor, rubricaId, unidadId, cursaId])
             self.__con.commit()
             print('Calificacion actualizada')
         except Exception as e:

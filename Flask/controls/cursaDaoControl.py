@@ -25,7 +25,7 @@ class CursaDaoControl(DaoAdapter):
     def save(self):
         # print("Guardando Cursa")
         # self._save(self.__cursa)
-        self.__crud.createCursa(self.__cursa._estudianteCedula, 
+        self.__crud.createCursa(self.__cursa._id,self.__cursa._estudianteCedula, 
                           self.__cursa._materiaId, self.__cursa._paralelo, 
                           self.__cursa._docenteCedula, self.__cursa._periodoAcademicoId)
     def delete(self):
@@ -34,4 +34,6 @@ class CursaDaoControl(DaoAdapter):
                           self.__cursa._docenteCedula, self.__cursa._periodoAcademicoId)
     
     def merge(self):
-        self._merge(self.__cursa)
+        self.__crud.updateCursa(self._cursa._id,self.__cursa._estudianteCedula, 
+                          self.__cursa._materiaId, self.__cursa._paralelo, 
+                          self.__cursa._docenteCedula, self.__cursa._periodoAcademicoId)

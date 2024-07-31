@@ -1,10 +1,11 @@
 from models.docente import Docente
 from controls.dao.daoAdapter import DaoAdapter
-
+from controls.db.crud.crudDocente import CrudDocente
 class DocenteDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(Docente)
         self.__docente = None
+        self.__crud = CrudDocente()
 
     @property
     def _docente(self):
@@ -23,11 +24,14 @@ class DocenteDaoControl(DaoAdapter):
     @property
     def save(self):
         self.__docente._id = self._lista._length + 1
-        print("Guardando Docente")
-        self._save(self.__docente)
+        self._lista._length =  self._lista._length + 1
+        self.__crud.createDocente(self.__docente._id, self.__docente._cedula, 
+                                     self.__docente._cubiculo, self.__docente._experiencia)
         
     def delete(self):
-        self._delete(self.__docente)  
+        self.__crud.deleteDocente(self.__docente._id, self.__docente._cedula, 
+                                     self.__docente._cubiculo, self.__docente._experiencia)
         
     def merge(self):
-        self._merge(self.__docente)
+        self.__crud.updateDocente(self.__docente._id, self.__docente._cedula, 
+                                     self.__docente._cubiculo, self.__docente._experiencia)

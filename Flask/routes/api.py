@@ -22,6 +22,7 @@ from controls.functions.exelDocenteAsignate import ExelDocentesAsignate
 from controls.functions.exelCursaAsignate import ExelCursaAsignate
 from controls.functions.exelFormat import ExelFormat
 from config.DBConfig import DBConnection
+from controls.db.funtions.funtions import FuntionsDB
 import io # gráfica
 import base64 # gráfica 
 api = Blueprint('api', __name__)
@@ -33,18 +34,44 @@ api = Blueprint('api', __name__)
 
 @api.route('/mail', methods=['POST'])    
 def mail(): 
-    data = request.json
-    #sujeto, destinatario, cuerpo
-    #print(data)
-    if isinstance(data['recipient'], list):
-        enviado = MAIL().send_email(subject=data['subject'], recipient=data['recipient'], body=data['body'])
-    else:
-        enviado = MAIL().send_email(subject=data['subject'], recipient=[data['recipient']], body=data['body'])
+    try:
+        data = request.json
+        print(data)
+        if not data:
+            return jsonify({"message": "No JSON data provided"}), 400
+
+        if 'recipient' not in data or 'subject' not in data or 'body' not in data:
+            return jsonify({"message": "Missing required fields"}), 400
+
+        recipient = data['recipient']
+        if isinstance(recipient, list):
+            enviado = MAIL().send_email(subject=data['subject'], recipient=recipient, body=data['body'])
+        else:
+            enviado = MAIL().send_email(subject=data['subject'], recipient=[recipient], body=data['body'])
         
-    if enviado:
-       return jsonify({"message": "Correo enviado correctamente"})
-    return jsonify({"message": "Error al enviar el correo"})
+        if enviado:
+            return jsonify({"message": "Correo enviado correctamente"}), 200
+        return jsonify({"message": "Error al enviar el correo"}), 500
+
+    except Exception as e:
+        return jsonify({"message": "Error: " + str(e)}), 500
     
+
+@api.route('/trg-mail/docente/<string:idDocente>/estudiante/<string:idEstudiante>/materia/<int:idmateria>', methods=['GET'])
+def trg_mail(idDocente, idEstudiante, idmateria):
+    print(idDocente, idEstudiante)
+    estudiante = UsuarioDaoControl()._lista.search_model(idEstudiante, '_cedula')
+    docente = UsuarioDaoControl()._lista.search_model(idDocente, '_cedula')
+    materia = MateriaDaoControl()._lista.search_model(idmateria, '_id')
+    if not estudiante or not docente:
+        return jsonify({"message": "No se encontró el estudiante o el docente"}), 404
+    
+    body = f"Estimado/a {estudiante[0]._primerNombre} {estudiante[0]._primerApellido},\n\nEl docente {docente[0]._primerNombre} {docente[0]._primerApellido} ha subido o actualizado cambios en la materia de {materia[0]._nombre}.\n\nSaludos cordiales."
+    send = MAIL().send_email(subject="Calificación de desempeño", recipient=[estudiante[0]._correo], body=body)
+    if send:
+        return jsonify({"message": "Correo enviado correctamente"}), 200
+    return jsonify({"message": "Error al enviar el correo"}), 500
+
 
     
     
@@ -159,7 +186,7 @@ def ver_materias():
 
 
 @api.route('/actualizar/materia', methods=['PUT'])
-def materia():
+def actualizar_materia():
     materia = MateriaDaoControl()
     data = request.json
     materia._materia = materia._materia.deserialize(data=data)
@@ -373,6 +400,7 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
     calificacion = CalificacionDaoControl()
     rubrica = RubricaCalificacionDaoControl()
     m = MateriaDaoControl()
+    
     #buscamos la unidad y la materia
     unidad._lista.search_model(unidadId, '_id')  #<-- Utilizando métodos de búsqueda para encontrar las unidades y materias.
     m = m._lista.search_model(materiaId, '_id')
@@ -471,27 +499,32 @@ def estudiantes_calificaciones_materias_unidad(materiaId,unidadId):
 @api.route('/promedios/materia/<int:materiaId>/unidad/<int:unidadId>')
 def promedios(materiaId, unidadId):
     URL = 'http://localhost:5000/estudiantes/calificaciones/materia/'+str(materiaId)+'/unidad/'+str(unidadId)
-    
-    response = requests.get(URL)
-    data = response.json()    
-    listaCalificaciones = data['calificaciones']
-    listaEstudiantes = data['estudiantes']
-    promedios = []
-    estudiantes = []
-    j = 0
-    for nota in listaCalificaciones:
-        promedio = 0
-        for i in range(0, len(nota)):
-            promedio += float(nota[i]['valor'])
-        promedios.append(promedio)
-        listaEstudiantes[j]["promedio"] = round(promedio,2)
-        estudiantes.append(listaEstudiantes[j])
-        j+=1
-    promedios = np.array(promedios, dtype=float)
-    if promedios.size == 0:
-        return jsonify({"promedio_Materia": 0, "estudiantes": []})
-    promedio = round(np.mean(promedios), 2)
-    #print(estudiantes)
+    funcion = FuntionsDB().obtener_promedio_materia_json(materiaId, unidadId)
+    estudiantes = funcion
+    promedio = 0
+    for i in estudiantes:
+        promedio += i['promedio']
+    promedio = round(promedio/len(estudiantes), 2)
+    # response = requests.get(URL)
+    # data = response.json()    
+    # listaCalificaciones = data['calificaciones']
+    # listaEstudiantes = data['estudiantes']
+    # promedios = []
+    # estudiantes = []
+    # j = 0
+    # for nota in listaCalificaciones:
+    #     promedio = 0
+    #     for i in range(0, len(nota)):
+    #         promedio += float(nota[i]['valor'])
+    #     promedios.append(promedio)
+    #     listaEstudiantes[j]["promedio"] = round(promedio,2)
+    #     estudiantes.append(listaEstudiantes[j])
+    #     j+=1
+    # promedios = np.array(promedios, dtype=float)
+    # if promedios.size == 0:
+    #     return jsonify({"promedio_Materia": 0, "estudiantes": []})
+    # promedio = round(np.mean(promedios), 2)
+    # #print(estudiantes)
     return jsonify({"promedio_Materia": promedio, "estudiantes": estudiantes})
     
 
@@ -825,7 +858,7 @@ def crear_estudiantes_docentes():
     print(cumpleFEstudian)
     print(cumpleFDocente)
     if not cumpleFEstudian or not cumpleFDocente:
-        return jsonify({"message": "Formato de exel incorrecto"}, 404)
+        return abort(400)
     
     existPeriodo, periodoAcId, _ = PeriodoAcademicoDaoControl()._lista.__exist__(data['nombrePeriodo'])    
     if PeriodoAcademicoDaoControl()._lista.isEmpty or not existPeriodo:

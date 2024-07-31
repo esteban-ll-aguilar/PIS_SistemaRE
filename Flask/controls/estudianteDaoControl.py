@@ -1,11 +1,11 @@
 from models.estudiante import Estudiante
 from controls.dao.daoAdapter import DaoAdapter
-
+from controls.db.crud.crudEstudiante import CrudEstudiante
 class EstudianteDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(Estudiante)
         self.__estudiante = None
-
+        self.__crud = CrudEstudiante()
     @property
     def _estudiante(self):
         if self.__estudiante is None:
@@ -22,12 +22,18 @@ class EstudianteDaoControl(DaoAdapter):
     
     @property
     def save(self):
+        # self.__estudiante._id = self._lista._length + 1
+        # self._save(self.__estudiante)
         self.__estudiante._id = self._lista._length + 1
-        print("Guardando Estudiante")
-        self._save(self.__estudiante)
+        self._lista._length =  self._lista._length + 1
+        self.__crud.createEstudiante(self.__estudiante._id, self.__estudiante._cedula, 
+                                     self.__estudiante._becaEconomica, self.__estudiante._fechaNacimiento)
+        
     
     def delete(self):
-        self._delete(self.__estudiante)  
+        self.__crud.deleteEstudiante(self.__estudiante._id, self.__estudiante._cedula, 
+                                     self.__estudiante._becaEconomica, self.__estudiante._fechaNacimiento)  
         
     def merge(self):
-        self._merge(self.__estudiante)
+        self.__crud.updateEstudiante(self.__estudiante._id, self.__estudiante._cedula, 
+                                     self.__estudiante._becaEconomica, self.__estudiante._fechaNacimiento)

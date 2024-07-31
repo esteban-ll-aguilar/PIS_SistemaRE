@@ -18,7 +18,7 @@ import FormUnidad from './pages/interfaces/docente/formUnidad';
 import OLvidoContrasena from './pages/login/ovido_contrasena';
 import Pepito from './pages/examples/pepito';
 import { GrayscaleProvider, useGrayscale } from './components/GrayscaleContext';
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { SnackbarProvider } from 'notistack';
 /* import Chatbot from './Chatbot'; */
 
 const GrayscaleToggle = () => {
@@ -60,7 +60,13 @@ function App() {
   return (
     
     <GrayscaleProvider>
-      <SnackbarProvider>
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{
+        vertical: 'bottom', // Puedes ajustar vertical a 'top' si prefieres
+          horizontal: 'right' // Alinea los mensajes a la derecha
+        }}
+      >
         {/*<Chatbot />  */}
         <AppContent />
       </SnackbarProvider>

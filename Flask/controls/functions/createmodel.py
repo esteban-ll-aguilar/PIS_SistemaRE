@@ -56,6 +56,8 @@ class CreateModel:
     def createUsuario(self,data, estado=0):
         usuario = UsuarioDaoControl()
         nombres = data['Nombre'].strip().split()
+        if len(nombres) > 2:
+            nombres = [nombres[0], ' '.join(nombres[1:])]
         apellidos = data['Apellido'].strip().split()
         
         usuario._usuario._cedula = data['Cedula']
