@@ -543,9 +543,8 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
     cursa.lista.search_model(materiaId, '_materiaId', type=0, method=1)
     cursa.lista.sort_models('_id', 0)
     cursa = cursa.lista.toArray
+    print(len(cursa), len(notas))
     if len(cursa) != len(notas):
-        print(len(cursa))
-        print(len(notas))
         abort(400)
     #1- Crear rubrica de calificacion en caso de que no exista, de paso almacenamos su identificador
     identificatorRub = []
@@ -557,12 +556,32 @@ def asignar_calificacion(materiaId,unidadId, nunidad):
             CreateModel().createRubricaCalificacion(columnsNotas[i])
         else:
             identificatorRub.append(idrub)
+    aux = True
+    notas_cedulas = {nota['Cedula'] for nota in notas}
+    i = 0
+    for curso in cursa:
+        if curso._estudianteCedula in notas_cedulas:
+            print(curso._estudianteCedula)
+            i += 1
+        else:
+            abort(400)
+            
+    
+    print("total estudiantes", i)
+    
     #si las cedulas coninciden, es porque encontramos a nuestro estudiante por tanto asignamos la calificacion
     for i in range(0, len(cursa)):
-        if cursa[i]._estudianteCedula == notas[i]['Cedula']:
-            for j in range(0, len(columnsNotas)):
-                nota = notas[i][columnsNotas[j]]
-                CreateModel().createCalificacion(cursa[i]._id, identificatorRub[j], unidadId, "{:.2f}".format(nota))
+        for j in range(0, len(cursa)):
+            if cursa[i]._estudianteCedula == notas[j]['Cedula']:
+                for k in range(0, len(columnsNotas)):
+                    nota = notas[j][columnsNotas[k]]
+                    CreateModel().createCalificacion(cursa[i]._id, identificatorRub[k], unidadId, "{:.2f}".format(nota))
+    # for i in range(0, len(cursa)):
+    #     if cursa[i]._estudianteCedula == notas[i]['Cedula']:
+    #         print(cursa[i]._estudianteCedula, notas[i]['Cedula'])
+    #         for j in range(0, len(columnsNotas)):
+    #             nota = notas[i][columnsNotas[j]]
+    #             CreateModel().createCalificacion(cursa[i]._id, identificatorRub[j], unidadId, "{:.2f}".format(nota))
     
     return jsonify({"message": "Calificacion asignada correctamente"}) 
 

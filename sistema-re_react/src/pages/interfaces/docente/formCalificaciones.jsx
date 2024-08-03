@@ -52,7 +52,7 @@ const FormCalificaciones = ({ idMateria, idUnidad, nUnidad }) => {
   return (
     <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md w-full max-w-lg mx-auto">
       <h2 className="text-2xl font-bold mb-4 text-center dark:text-white">
-        Calificaciones Unidad {idUnidad}
+        Calificaciones Unidad {nUnidad}
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
