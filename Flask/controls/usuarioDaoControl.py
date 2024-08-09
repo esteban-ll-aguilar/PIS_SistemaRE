@@ -1,9 +1,11 @@
 from controls.dao.daoAdapter import DaoAdapter
 from models.usuario import Usuario
+from controls.db.crud.crudUsuario import CrudUsuario
 class UsuarioDaoControl(DaoAdapter):
     def __init__(self):
         super().__init__(Usuario)
         self.__usuario = None
+        self.__crud = CrudUsuario()
         
     @property
     def _usuario(self):
@@ -23,11 +25,24 @@ class UsuarioDaoControl(DaoAdapter):
     @property
     def save(self):
         self.__usuario._id = self._lista._length + 1
-        print("Guardando Usuario")
-        self._save(self.__usuario)
+        self._lista._length =  self._lista._length + 1
+        # print("Guardando Usuario")
+        self.__crud.createUsuario(self.__usuario._id, self.__usuario._cedula,
+                        self.__usuario._primerNombre, self.__usuario._segundoNombre,
+                        self.__usuario._primerApellido, self.__usuario._segundoApellido,
+                        self.__usuario._correo, self.__usuario._contrasena, self.__usuario._estado,
+                        self.__usuario._urlImagen, self.__usuario._nombreUsuario)
     
     def delete(self):
-        self._delete(self.__usuario)  
+        self.__crud.deleteUsuario(self.__usuario._id, self.__usuario._cedula,
+                        self.__usuario._primerNombre, self.__usuario._segundoNombre,
+                        self.__usuario._primerApellido, self.__usuario._segundoApellido,
+                        self.__usuario._correo, self.__usuario._contrasena, self.__usuario._estado,
+                        self.__usuario._urlImagen, self.__usuario._nombreUsuario)
         
     def merge(self):
-        self._merge(self.__usuario)
+        self.__crud.updateUsuario(self.__usuario._id, self.__usuario._cedula,
+                        self.__usuario._primerNombre, self.__usuario._segundoNombre,
+                        self.__usuario._primerApellido, self.__usuario._segundoApellido,
+                        self.__usuario._correo, self.__usuario._contrasena, self.__usuario._estado,
+                        self.__usuario._urlImagen, self.__usuario._nombreUsuario)

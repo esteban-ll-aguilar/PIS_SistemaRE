@@ -19,6 +19,7 @@ export const GraficasResponsable = () => {
                 }
                 const data = await response.json();
                 console.log(data.rendimientoCiclos);
+                console.log(data.rendimientoMaterias);
                 setRendimientoMaterias(data.rendimientoMaterias);
                 setRendimientoCiclo(data.rendimientoCiclos);
             } catch (error) {

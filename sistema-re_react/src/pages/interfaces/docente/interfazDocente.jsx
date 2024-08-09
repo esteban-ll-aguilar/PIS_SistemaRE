@@ -158,7 +158,7 @@ const InterfazDocente = () => {
                     <>
                         <h1 className='text-2xl font-bold text-center dark:text-white'>Formato de Notas</h1>
                         <div className='flex justify-center'>
-                            <iframe src="https://docs.google.com/spreadsheets/d/1gHq4lKDtaeOe3VmhYdwH77ss0Xaz_Urh/edit?usp=sharing&ouid=105616310271479743819&rtpof=true&sd=true/preview" width="840" height="580"></iframe>
+                            <iframe src="https://docs.google.com/spreadsheets/d/1gHq4lKDtaeOe3VmhYdwH77ss0Xaz_Urh/edit?usp=drive_link&ouid=105616310271479743819&rtpof=true&sd=true" width="840" height="580"></iframe>
                         </div>
                         
                     </>}

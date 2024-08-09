@@ -1,64 +1,286 @@
 import React from 'react';
-import ReactEcharts from 'echarts-for-react';
+import ReactECharts from 'echarts-for-react';
 
 const GraficasMateria = ({ materias }) => {
-  // Transformar los datos de materias en el formato requerido
-  const categories = ['0 a 5', '5 a 7', '7 a 8.5', '8.5 a 10'];
-  const materiasKeys = Object.keys(materias[0]);
-  const rendimiento = materiasKeys.reduce((acc, materia) => {
-    acc[materia] = categories.map(category => materias[0][materia][category].reduce((a, b) => a + b, 0));
-    return acc;
-  }, {});
+  // Obtener los nombres de todas las materias y asignaturas
+  const nombreMaterias = [];
+  const dataNumeroCategorias = {
+    'U1 de 0 a 5': [],
+    'U1 de 5 a 7': [],
+    'U1 de 7 a 8.5': [],
+    'U1 de 8.5 a 10': [],
+    'U2 de 0 a 5': [],
+    'U2 de 5 a 7': [],
+    'U2 de 7 a 8.5': [],
+    'U2 de 8.5 a 10': [],
+    'U3 de 0 a 5': [],
+    'U3 de 5 a 7': [],
+    'U3 de 7 a 8.5': [],
+    'U3 de 8.5 a 10': []
+  };
 
-  // Colores para cada categoría de notas
-  const colors = ['#FF0000', '#FFFC00', '#41FF00', '#0000FF'];
+  // Procesar las materias y asignaturas
+  materias.forEach(materia => {
+    Object.keys(materia).forEach(asignatura => {
+      nombreMaterias.push(asignatura);
+      const datosMateria = materia[asignatura];
+      
+      Object.keys(datosMateria).forEach(rango => {
+        const valores = datosMateria[rango];
+        const [u1, u2, u3] = valores;
 
-  // Configuración de las opciones para la gráfica
+        dataNumeroCategorias[`U1 de ${rango}`].push(u1);
+        dataNumeroCategorias[`U2 de ${rango}`].push(u2);
+        dataNumeroCategorias[`U3 de ${rango}`].push(u3);
+      });
+    });
+  });
+
+  // Configuración de la gráfica
   const option = {
-    color: colors, // Asigna los colores directamente en las opciones de la gráfica
-    tooltip: { // Configuración del tooltip al pasar el mouse sobre la gráfica
+    legend: {
+      data: [
+        'U1 de 0 a 5', 'U1 de 5 a 7', 'U1 de 7 a 8.5', 'U1 de 8.5 a 10',
+        'U2 de 0 a 5', 'U2 de 5 a 7', 'U2 de 7 a 8.5', 'U2 de 8.5 a 10',
+        'U3 de 0 a 5', 'U3 de 5 a 7', 'U3 de 7 a 8.5', 'U3 de 8.5 a 10'
+      ],
+      orient: 'horizontal',
+      top: '0%',
+      left: 'center',
+      textStyle: {
+        fontSize: 14,
+        color: '#333'
+      }
+    },
+    xAxis: {
+      type: 'category',
+      data: nombreMaterias,
+      axisLabel: {
+        rotate: 20,
+        fontSize: 9,
+        color: '#666'
+      },
+      axisLine: {
+        lineStyle: {
+          color: '#ccc'
+        }
+      },
+      axisTick: {
+        show: false
+      }
+    },
+    yAxis: {
+      type: 'value',
+      axisLabel: {
+        fontSize: 12,
+        color: '#666'
+      },
+      axisLine: {
+        lineStyle: {
+          color: '#ccc'
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: '#eee'
+        }
+      }
+    },
+    tooltip: {
       trigger: 'axis',
       axisPointer: {
         type: 'shadow'
+      },
+      formatter: (params) => {
+        let tooltipHtml = <div><strong>${params[0].name}</strong></div>;
+        params.forEach(param => {
+          tooltipHtml += `
+            <div>
+              <span style="background-color:${param.color};display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;"></span>
+              ${param.seriesName}: ${param.value}
+            </div>
+          `;
+        });
+        return tooltipHtml;
       }
     },
-    legend: { // Configuración de la leyenda (legend)
-      data: categories, // Las categorías como etiquetas de la leyenda
-    },
-    xAxis: { // Configuración del eje X (horizontal)
-      type: 'category', // Tipo de eje: categoría
-      data: materiasKeys, // Datos para las materias en el eje X
-      axisLabel: {
-        color: '#FF5733',
-        rotate: 45,
-        fontSize: 12,
+    series: [
+      {
+        data: dataNumeroCategorias['U1 de 0 a 5'],
+        type: 'bar',
+        stack: 'group1',
+        name: 'U1 de 0 a 5',
+        itemStyle: {
+          color: '#FF0000'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#FF6666'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U1 de 5 a 7'],
+        type: 'bar',
+        stack: 'group1',
+        name: 'U1 de 5 a 7',
+        itemStyle: {
+          color: '#FFFF00'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#FFFF66'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U1 de 7 a 8.5'],
+        type: 'bar',
+        stack: 'group1',
+        name: 'U1 de 7 a 8.5',
+        itemStyle: {
+          color: '#0000FF'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#6666FF'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U1 de 8.5 a 10'],
+        type: 'bar',
+        stack: 'group1',
+        name: 'U1 de 8.5 a 10',
+        itemStyle: {
+          color: '#00FF00'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#66FF66'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U2 de 0 a 5'],
+        type: 'bar',
+        stack: 'group2',
+        name: 'U2 de 0 a 5',
+        itemStyle: {
+          color: '#FF0000'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#FF6666'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U2 de 5 a 7'],
+        type: 'bar',
+        stack: 'group2',
+        name: 'U2 de 5 a 7',
+        itemStyle: {
+          color: '#FFFF00'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#FFFF66'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U2 de 7 a 8.5'],
+        type: 'bar',
+        stack: 'group2',
+        name: 'U2 de 7 a 8.5',
+        itemStyle: {
+          color: '#0000FF'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#6666FF'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U2 de 8.5 a 10'],
+        type: 'bar',
+        stack: 'group2',
+        name: 'U2 de 8.5 a 10',
+        itemStyle: {
+          color: '#00FF00'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#66FF66'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U3 de 0 a 5'],
+        type: 'bar',
+        stack: 'group3',
+        name: 'U3 de 0 a 5',
+        itemStyle: {
+          color: '#FF0000'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#FF6666'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U3 de 5 a 7'],
+        type: 'bar',
+        stack: 'group3',
+        name: 'U3 de 5 a 7',
+        itemStyle: {
+          color: '#FFFF00'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#FFFF66'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U3 de 7 a 8.5'],
+        type: 'bar',
+        stack: 'group3',
+        name: 'U3 de 7 a 8.5',
+        itemStyle: {
+          color: '#0000FF'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#6666FF'
+          }
+        }
+      },
+      {
+        data: dataNumeroCategorias['U3 de 8.5 a 10'],
+        type: 'bar',
+        stack: 'group3',
+        name: 'U3 de 8.5 a 10',
+        itemStyle: {
+          color: '#00FF00'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#66FF66'
+          }
+        }
       }
-    },
-    yAxis: { // Configuración del eje Y (vertical)
-      type: 'value',
-      name: 'Estudiantes'
-    },
-    series: categories.map((category, index) => ({ // Configuración de las series de datos
-      name: category, // Nombre de la serie
-      type: 'bar', // Tipo de gráfica: barras
-      stack: 'total', // Apilar las barras
-      emphasis: { // Efecto de énfasis al interactuar con la serie
-        focus: 'series'
-      },
-      itemStyle: {
-        color: colors[index] // Asigna un color a cada categoría de notas
-      },
-      data: materiasKeys.map(materia => rendimiento[materia][index]) // Datos de rendimiento por materia y categoría de notas
-    }))
+    ]
   };
 
   return (
-    <div className="dashboard grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-      <div className="card col-span-1 md:col-span-2 lg:col-span-3 px-4 ">
-        <ReactEcharts option={option} style={{ height: '370px', width: '90%' }} /> {/* Componente ReactEcharts con las opciones y estilo */}
-      </div>
+    <div style={{ width: '100%', height: '500px' }}>
+      <ReactECharts option={option} />
     </div>
   );
-}
+};
 
 export default GraficasMateria;

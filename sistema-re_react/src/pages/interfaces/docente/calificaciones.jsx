@@ -13,6 +13,17 @@ const Calificaciones = () => {
   const rubricaContain = ["Contacto Docente", "Aprendizaje Experimental", "Aprendizaje Autonomo", "Evaluación Unidad"]
   let totalUnidad = 0;
 
+  const getBackgroundColor = (value) => {
+    if (value >= 8.5) {
+      return 'bg-green-200 dark:bg-green-400'; // Verde para 8.5 a 10
+    } else if (value >= 7) {
+      return 'bg-blue-200 dark:bg-blue-400'; // Azul para 7 a 8.5
+    } else if (value >= 5) {
+      return 'bg-yellow-400 dark:bg-yellow-500'; // Amarillo para 5 a 7
+    } else {
+      return 'bg-red-200 dark:bg-red-500'; // Rojo para 0 a 5
+    }
+  };
   
   useEffect(() => {
     const fetchCursa = async () => {
@@ -89,7 +100,9 @@ const Calificaciones = () => {
                     </td>
                   );
                 })}
-                <td className={`py-2 px-4 text-center dark:text-black ${totalUnidad >= 7 ? 'bg-green-200 dark:bg-green-400 ' : 'bg-red-200 dark:bg-red-500'}`}>{totalUnidad.toFixed(2)}</td>
+                <td className={`py-2 px-4 text-center dark:text-black ${getBackgroundColor(totalUnidad)}`}>
+                  {totalUnidad.toFixed(2)}
+                </td>
               </tr>
             );
           })}

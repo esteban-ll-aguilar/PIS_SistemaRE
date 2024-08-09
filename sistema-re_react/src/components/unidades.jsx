@@ -16,6 +16,7 @@ const Unidades = ({ baseUrl, endpoint, idMateria, title, refresh }) => {
       }
 
       const data = await response.json();
+      console.log(data.unidades);
       setUnidades(data.unidades); // Actualiza el estado con la lista de unidades
     } catch (error) {
       console.error('Error fetching data:', error);

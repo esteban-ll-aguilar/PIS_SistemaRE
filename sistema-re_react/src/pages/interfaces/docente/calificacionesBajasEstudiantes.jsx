@@ -86,9 +86,9 @@ const CalificacionesBajasEstudiantes = ({ cedula }) => {
     };
 
     const handleSendToAll = async () => {
-        let correos = '';
+        let correos = [];
         for (const estudiante of selectedEstudiantes) {
-            correos += `${estudiante.user_correo}, `;
+            correos.push(estudiante.user_correo);
         }
         correos = correos.slice(0, -2); // Eliminar la última coma
         console.log('Correos enviados:', correos);

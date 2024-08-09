@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import CargandoBottonAnimation from '../../../components/funtions/cargandoBottonAnimation';
 
 
 const FormEstudianteDocente = ({ id }) => {
@@ -11,7 +12,7 @@ const FormEstudianteDocente = ({ id }) => {
     const [fechaInicio, setFechaInicio] = useState(new Date().toISOString().split('T')[0]);
     const [fechaFin, setFechaFin] = useState('');
     const { enqueueSnackbar } = useSnackbar(); // Obtener enqueueSnackbar aquí
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const handleEstudianteFileChange = (event) => {
         setEstudianteFile(event.target.files[0]);
@@ -38,6 +39,7 @@ const FormEstudianteDocente = ({ id }) => {
         formData.append('id', id);
 
         try {
+            setLoading(true);
             const response = await axios.post('http://127.0.0.1:5000/crear_estudiantes_docentes', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -47,13 +49,17 @@ const FormEstudianteDocente = ({ id }) => {
             if (response.status === 200) {
                 enqueueSnackbar('Archivos cargados exitosamente', { variant: 'success' });
                 setLoading(false);
+                window.location.reload();
             } else {
                 enqueueSnackbar('Error al cargar los archivos', { variant: 'error' });
             }
         } catch (error) {
             console.error('Error en la solicitud:', error);
-            enqueueSnackbar('Error al enviar los archivos', { variant: 'error' });
+            enqueueSnackbar('Error al enviar los archivos, verifique que el formato de los datos sea el correcto', { variant: 'error' });
+        } finally {
+            setLoading(false);
         }
+
 
     };
 
@@ -182,12 +188,7 @@ const FormEstudianteDocente = ({ id }) => {
                             </p>
                         </>
                     </div>
-                    <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none items-center focus:shadow-outline"
-                        type="submit"
-                    >
-                        {loading ? 'Cargar Archivos' : 'Cargando....'}
-                    </button>
+                    <CargandoBottonAnimation loading={loading} textload='Subiendo' textunload='Subir Archivos' />
                 </form>
             </div>
         </div>
